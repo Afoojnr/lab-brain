@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn ts-check)",
+      "Bash(yarn lint)",
+      "Bash(yarn lint *)",
+      "Bash(yarn format:check)",
+      "Bash(yarn format:fix)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ]
+  }
+}
