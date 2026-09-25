@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "Lab Brain",
+    "appDescription": "A connected workspace for experimental research.",
+    "tryAgain": "Try again"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "dashboard": {
+    "title": "Projects",
+    "description": "Every project holds its own tree of experiments.",
+    "placeholder": "Your projects will appear here."
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Appearance and language for this workspace.",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Choose how Lab Brain looks. System follows your device.",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "title": "Language",
+      "description": "The language used for menus, labels and messages."
+    }
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "description": "This page could not be loaded.",
+    "unexpected": "Something went wrong. Please try again."
+  }
+}

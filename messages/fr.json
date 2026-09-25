@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "Lab Brain",
+    "appDescription": "Un espace de travail connecté pour la recherche expérimentale.",
+    "tryAgain": "Réessayer"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "toggleSidebar": "Afficher ou masquer la barre latérale"
+  },
+  "dashboard": {
+    "title": "Projets",
+    "description": "Chaque projet contient sa propre arborescence d'expériences.",
+    "placeholder": "Vos projets apparaîtront ici."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Apparence et langue de cet espace de travail.",
+    "appearance": {
+      "title": "Apparence",
+      "description": "Choisissez l'apparence de Lab Brain. Système suit votre appareil.",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "language": {
+      "title": "Langue",
+      "description": "La langue utilisée pour les menus, les libellés et les messages."
+    }
+  },
+  "errors": {
+    "title": "Une erreur est survenue",
+    "description": "Cette page n'a pas pu être chargée.",
+    "unexpected": "Une erreur est survenue. Veuillez réessayer."
+  }
+}
