@@ -78,7 +78,7 @@ features/<name>/ one folder per feature, self-contained:
   components/    components used only by this feature
   hooks/         hooks used only by this feature, including TanStack Query
                  hooks; each hook's query key is defined in the same file
-  types.ts       Zod schemas + inferred types (single source of truth)
+  types.ts       Zod schemas for forms and payloads + inferred types (only where needed)
   index.ts       public API, client-safe exports only
   server.ts      public server API (actions, data); never imported by client code
 hooks/  lib/ (db/, storage/)  types/  utils/     shared code
@@ -134,12 +134,13 @@ on you following the rule.
 ## Single source of truth
 
 - Drizzle schema defines database shape; infer types with `$inferSelect`/`$inferInsert`.
-- Each feature defines Zod schemas once in its `types.ts`; derive types with
-  `z.infer`. Forms use React Hook Form with that same schema via `zodResolver`.
+- Use Zod where it pays off, mostly forms and object payloads (field-level
+  errors). Define each schema once in the feature's `types.ts`, derive types with
+  `z.infer`, and share it with React Hook Form via `zodResolver`.
 - Cross-feature types live in `types/`. Grep before creating a new type, schema,
   component, hook or utility.
 
 ## Errors
 
-Thrown errors carry a human-readable message plus a code
-(e.g. `IMPORT_DUPLICATE_ID`, `STORAGE_READ_FAILED`).
+Show errors to the user as a toast, with the message translated in
+`messages/*.json` (English and French).
