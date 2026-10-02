@@ -54,6 +54,10 @@ export default defineConfig(
     'next-env.d.ts',
     'node_modules',
     'public',
-    'next.config.ts'
+    'next.config.ts',
+    // Playwright's own generated output, not source code.
+    'playwright-report/**',
+    'test-results/**',
+    'blob-report/**'
   ])
 );
