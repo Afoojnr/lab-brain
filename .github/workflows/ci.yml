@@ -18,6 +18,7 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --frozen-lockfile
+      - run: npx next typegen
       - run: yarn ts-check
       - run: yarn lint
       - run: yarn test
