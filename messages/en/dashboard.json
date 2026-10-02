@@ -1,0 +1,9 @@
+{
+  "title": "Projects",
+  "description": "Every project holds its own tree of experiments.",
+  "newProject": "New project",
+  "empty": {
+    "title": "No projects yet",
+    "description": "Create a project to start recording experiments."
+  }
+}

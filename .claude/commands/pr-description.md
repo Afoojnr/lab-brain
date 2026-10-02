@@ -33,17 +33,15 @@ If there are no commits and the diff is empty, describe the staged changes inste
 
 ## Template to Populate
 
-## Description
+## Summary
 
-## What was done?
+2-7 bullets: what changed and why, combined per bullet. Skip a separate "why"
+section unless the reasoning genuinely needs more than a clause to explain.
 
-## Why did you do this?
+## Testing
 
-## How did you test this?
-
-Base "How did you test this?" only on what the diff shows (tests added, commands
-run). If nothing shows how it was verified, write "Not tested yet" instead of
-inventing steps.
+Base this only on what the diff shows (tests added, commands run). If nothing
+shows how it was verified, write "Not tested yet" instead of inventing steps.
 
 ## Instructions
 
@@ -52,3 +50,4 @@ inventing steps.
 3. Omit low-level details (utility functions, minor validations, internal helpers)
 4. Output a **single markdown block** ready to paste into a PR
 5. Optimize for **review speed**, not completeness
+6. Two sections only (`Summary`, `Testing`)

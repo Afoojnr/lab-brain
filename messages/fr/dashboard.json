@@ -1,0 +1,9 @@
+{
+  "title": "Projets",
+  "description": "Chaque projet contient sa propre arborescence d'expériences.",
+  "newProject": "Nouveau projet",
+  "empty": {
+    "title": "Aucun projet pour l'instant",
+    "description": "Créez un projet pour commencer à enregistrer des expériences."
+  }
+}

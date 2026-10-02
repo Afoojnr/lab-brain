@@ -1,0 +1,15 @@
+{
+  "title": "Settings",
+  "description": "Appearance and language for this workspace.",
+  "appearance": {
+    "title": "Appearance",
+    "description": "Choose how Lab Brain looks. System follows your device.",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "title": "Language",
+    "description": "The language used for menus, labels and messages."
+  }
+}

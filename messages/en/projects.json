@@ -1,0 +1,23 @@
+{
+  "form": {
+    "title": "New project",
+    "description": "A project holds its own tree of experiments.",
+    "nameLabel": "Name",
+    "codePrefixLabel": "Code prefix",
+    "codePrefixHint": "2 to 6 letters or digits, starting with a letter, e.g. EXP. Experiment codes will start with it.",
+    "protocolLabel": "Default protocol",
+    "protocolHint": "Optional. The method new experiments in this project start from.",
+    "cancel": "Cancel",
+    "submit": "Create project",
+    "errors": {
+      "nameRequired": "Enter a name for the project.",
+      "nameTooLong": "Use 80 characters or fewer.",
+      "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
+      "protocolTooLong": "Use 500 characters or fewer."
+    }
+  },
+  "created": "Project {name} created",
+  "card": {
+    "noProtocol": "No default protocol"
+  }
+}

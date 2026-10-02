@@ -21,6 +21,8 @@ Plus `NotebookEntry` (markdown, attached to any record) and `Reference` (a paper
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
 SheetJS (`xlsx`), `papaparse` (later), charts `TBD: Recharts or Chart.js`.
+Testing: Vitest + Testing Library (unit/component), Playwright (the critical
+flows) — see `.claude/rules/testing.md`.
 
 ## Commands
 
@@ -29,14 +31,18 @@ yarn dev                  # dev server
 yarn ts-check             # typecheck
 yarn lint / lint:fix      # ESLint (also enforces file size, nesting, import boundaries)
 yarn format:fix           # Prettier
+yarn test                 # Vitest: unit + component tests
+yarn test:e2e             # Playwright: critical end-to-end flows
 npx drizzle-kit generate  # migrations from schema changes (once Drizzle is added)
 ```
 
 ## Verification
 
-Work is done when `yarn ts-check` and `yarn lint` pass with no errors. Show the
-output rather than claiming success. Fix root causes; never add `@ts-ignore` or
-disable a lint rule to get green.
+Work is done when `yarn ts-check` and `yarn lint` pass with no errors, **and**
+the relevant tests pass (`yarn test`, plus `yarn test:e2e` if the change
+touches a critical flow) — see `.claude/rules/testing.md` for what to test and
+what to skip. Show the output rather than claiming success. Fix root causes;
+never add `@ts-ignore` or disable a lint rule to get green.
 
 ## Tooling gotchas
 
@@ -64,8 +70,6 @@ disable a lint rule to get green.
 - Whole words only: `experiment` not `exp`, `configuration` not `cfg`.
 - Booleans are prefixed `is`/`has`/`can`/`should`/`did` (e.g. `isImporting`).
 - Constants and env vars: UPPER_SNAKE_CASE.
-- Scientific quantities carry their unit in the name when not obvious:
-  `temperatureCelsius`, `plasmaPulseSeconds`, `thicknessNanometers`.
 
 ## Project structure
 
@@ -78,14 +82,15 @@ features/<name>/ one folder per feature, self-contained:
   components/    components used only by this feature
   hooks/         hooks used only by this feature, including TanStack Query
                  hooks; each hook's query key is defined in the same file
-  types.ts       Zod schemas for forms and payloads + inferred types (only where needed)
+  types.ts       hand-written types (Project, Experiment, ...)
+  schemas.ts     Zod schemas for forms and payloads + inferred types (only where needed)
   index.ts       public API, client-safe exports only
   server.ts      public server API (actions, data); never imported by client code
 hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 ```
 
 - Create folders only when they get a first real file; do not scaffold empty ones.
-- Planned features: `experiments` (experiments, syntheses, samples),
+- Planned features: `experiments` (projects, experiments, syntheses, samples),
   `characterization` (datasets, analyses, one subfolder per technique), `import`,
   `notebook`, `references`, later `assistant`.
 
@@ -135,7 +140,7 @@ on you following the rule.
 
 - Drizzle schema defines database shape; infer types with `$inferSelect`/`$inferInsert`.
 - Use Zod where it pays off, mostly forms and object payloads (field-level
-  errors). Define each schema once in the feature's `types.ts`, derive types with
+  errors). Define each schema once in the feature's `schemas.ts`, derive types with
   `z.infer`, and share it with React Hook Form via `zodResolver`.
 - Cross-feature types live in `types/`. Grep before creating a new type, schema,
   component, hook or utility.
@@ -143,4 +148,4 @@ on you following the rule.
 ## Errors
 
 Show errors to the user as a toast, with the message translated in
-`messages/*.json` (English and French).
+`messages/<locale>/` (English and French).

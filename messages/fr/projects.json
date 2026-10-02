@@ -1,0 +1,23 @@
+{
+  "form": {
+    "title": "Nouveau projet",
+    "description": "Un projet contient sa propre arborescence d'expériences.",
+    "nameLabel": "Nom",
+    "codePrefixLabel": "Préfixe de code",
+    "codePrefixHint": "2 à 6 lettres ou chiffres, en commençant par une lettre, p. ex. EXP. Les codes d'expérience commenceront par ce préfixe.",
+    "protocolLabel": "Protocole par défaut",
+    "protocolHint": "Facultatif. La méthode dont partent les nouvelles expériences de ce projet.",
+    "cancel": "Annuler",
+    "submit": "Créer le projet",
+    "errors": {
+      "nameRequired": "Saisissez un nom pour le projet.",
+      "nameTooLong": "Utilisez 80 caractères ou moins.",
+      "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
+      "protocolTooLong": "Utilisez 500 caractères ou moins."
+    }
+  },
+  "created": "Projet {name} créé",
+  "card": {
+    "noProtocol": "Aucun protocole par défaut"
+  }
+}

@@ -24,6 +24,7 @@ If the diff above is empty, reply only: "Nothing is staged."
 ## Constraints
 
 - **Format**: `type(scope): description`
+- Use the feature or folder as the scope (e.g., `experiments`, `settings`, `i18n`, `ci`, `ui`)
 - **Case**: lowercase only
 - **Length**: max 100 characters
 - **Mode**: suggestion only (do not commit, stage, or change any files)
@@ -49,5 +50,4 @@ If the diff above is empty, reply only: "Nothing is staged."
 3. Suggest alternatives only if:
    - the change could reasonably be split, or
    - the scope/type is ambiguous
-4. Use the feature or folder as the scope (e.g., import, notebook, storage, db, ui, config)
-5. Output **only the commit messages** as a bullet list
+4. Output **only the commit messages** as a bullet list

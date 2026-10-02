@@ -1,0 +1,15 @@
+{
+  "title": "Paramètres",
+  "description": "Apparence et langue de cet espace de travail.",
+  "appearance": {
+    "title": "Apparence",
+    "description": "Choisissez l'apparence de Lab Brain. Système suit votre appareil.",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "language": {
+    "title": "Langue",
+    "description": "La langue utilisée pour les menus, les libellés et les messages."
+  }
+}
