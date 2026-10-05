@@ -12,21 +12,19 @@ describe('createProjectAction', () => {
   it('stores a valid project and refreshes the dashboard', async () => {
     await createProjectAction({
       name: '  Alpha  ',
-      codePrefix: 'EXP',
-      protocol: ''
+      description: ''
     });
 
     expect(createProject).toHaveBeenCalledTimes(1);
     expect(createProject).toHaveBeenCalledWith({
       name: 'Alpha',
-      codePrefix: 'EXP',
-      protocol: ''
+      description: ''
     });
     expect(revalidatePath).toHaveBeenCalledWith('/');
   });
 
   it('ignores invalid input', async () => {
-    await createProjectAction({ name: '', codePrefix: 'x', protocol: '' });
+    await createProjectAction({ name: '', description: '' });
 
     expect(createProject).not.toHaveBeenCalled();
     expect(revalidatePath).not.toHaveBeenCalled();
@@ -46,7 +44,7 @@ describe('createProjectAction', () => {
     vi.mocked(createProject).mockRejectedValueOnce(new Error('storage down'));
 
     await expect(
-      createProjectAction({ name: 'Alpha', codePrefix: 'EXP', protocol: '' })
+      createProjectAction({ name: 'Alpha', description: '' })
     ).rejects.toThrow('storage down');
 
     expect(revalidatePath).not.toHaveBeenCalled();

@@ -13,10 +13,14 @@ everything, and (later) ask an AI assistant about it.
 - Read both before proposing new features or changing the data model.
 
 **Core records** (use these exact names in code):
-`Project` → `Experiment` (nested via `parentId`, e.g. `ALD001 → ALD001_1 → ALD001_1_1`)
-→ `Synthesis` (a batch run) → `Sample` (per-sample parameter overrides) → `Dataset`
-(raw characterization file) → `Analysis` (computed result/plot).
-Plus `NotebookEntry` (markdown, attached to any record) and `Reference` (a paper).
+`Project` → `Experiment` (one sheet of a spreadsheet: its own columns, a code
+prefix and a base protocol, e.g. "Deposition" ALD, "Paschen law" PSL) → `Sample`
+(one row, e.g. `ALD023`; values per column, empty = not recorded; one note; derived
+samples like `ALD023_Annealing`). `Study` is an optional named group of samples
+inside one experiment (a sample can be in several). Then `Characterization`
+(technique + date), `Dataset` (raw characterization file), `Analysis` (computed
+result/plot). Plus `NotebookEntry` (markdown, attached to any record) and
+`Reference` (a paper).
 
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
@@ -90,7 +94,7 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 ```
 
 - Create folders only when they get a first real file; do not scaffold empty ones.
-- Planned features: `experiments` (projects, experiments, syntheses, samples),
+- Planned features: `experiments` (projects, experiments, studies, samples),
   `characterization` (datasets, analyses, one subfolder per technique), `import`,
   `notebook`, `references`, later `assistant`.
 

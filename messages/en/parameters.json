@@ -1,0 +1,51 @@
+{
+  "panel": {
+    "title": "Parameters",
+    "description": "The columns of this experiment. Samples recorded before a column was added simply have no value for it.",
+    "empty": "No columns yet. Add the settings you vary or record, such as a temperature or a duration.",
+    "add": "Add parameter",
+    "edit": "Edit {name}",
+    "delete": "Delete {name}",
+    "inUse": "Samples hold values for this parameter, so it cannot be deleted.",
+    "noUnit": "No unit",
+    "columns": {
+      "name": "Name",
+      "unit": "Unit",
+      "kind": "Type",
+      "actions": "Actions",
+      "default": "Default"
+    },
+    "noDefault": "None"
+  },
+  "kinds": {
+    "number": "Number",
+    "text": "Text"
+  },
+  "form": {
+    "addTitle": "Add parameter",
+    "editTitle": "Edit parameter {name}",
+    "description": "Columns belong to this experiment. Samples recorded earlier keep their values and show a new column empty.",
+    "nameLabel": "Name",
+    "unitLabel": "Unit",
+    "unitHint": "Optional, for example W, s or °C.",
+    "kindLabel": "Type",
+    "kindLocked": "The type cannot change once samples hold values for this parameter.",
+    "cancel": "Cancel",
+    "submit": "Add parameter",
+    "save": "Save changes",
+    "errors": {
+      "nameRequired": "Enter a name for the parameter.",
+      "nameTooLong": "Use 60 characters or fewer.",
+      "nameDuplicate": "This experiment already has a parameter with that name.",
+      "unitTooLong": "Use 20 characters or fewer.",
+      "kindInvalid": "Choose number or text.",
+      "defaultNotANumber": "Enter a number, for example 1.5, or leave it empty.",
+      "defaultTooLong": "Use 200 characters or fewer."
+    },
+    "defaultLabel": "Default value",
+    "defaultHint": "Optional. Prefills this parameter in each new sample. Samples already recorded keep their own values."
+  },
+  "added": "Parameter {name} added",
+  "updated": "Parameter {name} updated",
+  "deleted": "Parameter {name} deleted"
+}

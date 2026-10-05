@@ -1,9 +1,9 @@
 {
   "title": "Projets",
-  "description": "Chaque projet contient sa propre arborescence d'expériences.",
+  "description": "Chaque projet contient des expériences d'échantillons, chacune avec ses propres colonnes.",
   "newProject": "Nouveau projet",
   "empty": {
     "title": "Aucun projet pour l'instant",
-    "description": "Créez un projet pour commencer à enregistrer des expériences."
+    "description": "Créez un projet pour commencer à enregistrer des échantillons."
   }
 }

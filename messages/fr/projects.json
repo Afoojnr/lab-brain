@@ -1,23 +1,26 @@
 {
   "form": {
     "title": "Nouveau projet",
-    "description": "Un projet contient sa propre arborescence d'expériences.",
+    "description": "Un projet contient ses expériences, chacune avec ses propres colonnes et sa propre numérotation d'échantillons.",
     "nameLabel": "Nom",
-    "codePrefixLabel": "Préfixe de code",
-    "codePrefixHint": "2 à 6 lettres ou chiffres, en commençant par une lettre, p. ex. EXP. Les codes d'expérience commenceront par ce préfixe.",
-    "protocolLabel": "Protocole par défaut",
-    "protocolHint": "Facultatif. La méthode dont partent les nouvelles expériences de ce projet.",
+    "descriptionLabel": "Description",
+    "descriptionHint": "Facultatif. De quoi parle ce projet.",
     "cancel": "Annuler",
     "submit": "Créer le projet",
     "errors": {
       "nameRequired": "Saisissez un nom pour le projet.",
       "nameTooLong": "Utilisez 80 caractères ou moins.",
-      "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
-      "protocolTooLong": "Utilisez 500 caractères ou moins."
-    }
+      "descriptionTooLong": "Utilisez 1000 caractères ou moins."
+    },
+    "editTrigger": "Modifier le projet",
+    "editTitle": "Modifier {name}",
+    "editDescription": "Modifiez le nom ou la description du projet. Ses expériences ne sont pas touchées.",
+    "saveSubmit": "Enregistrer les modifications"
   },
   "created": "Projet {name} créé",
   "card": {
-    "noProtocol": "Aucun protocole par défaut"
-  }
+    "experiment": "{count, plural, =0 {Aucune expérience} one {# expérience} other {# expériences}}",
+    "noDescription": "Aucune description pour l'instant"
+  },
+  "updated": "Projet {name} mis à jour"
 }

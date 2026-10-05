@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -18,27 +18,37 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
 import { createProjectAction } from '../actions/create-project';
+import { updateProjectAction } from '../actions/update-project';
 import { isProjectFormError, projectFormSchema } from '../schemas';
 import type { ProjectFormValues } from '../schemas';
+import type { Project } from '../types';
 
 type ProjectFormProps = {
+  /** When set, the form edits this project instead of adding one. */
+  project?: Pick<Project, 'id' | 'name' | 'description'>;
   onCancel: () => void;
-  onCreated: () => void;
+  onSaved: () => void;
 };
 
-/** New project form: validated in the browser with the same schema the action re-checks. */
-export const ProjectForm = ({ onCancel, onCreated }: ProjectFormProps) => {
+/** New or edit project form: validated in the browser with the same schema the actions re-check. */
+export const ProjectForm = ({
+  project,
+  onCancel,
+  onSaved
+}: ProjectFormProps) => {
   const t = useTranslations('projects');
   const tErrors = useTranslations('errors');
   const [isPending, startTransition] = useTransition();
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors }
   } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues: { name: '', codePrefix: '', protocol: '' }
+    defaultValues: {
+      name: project?.name ?? '',
+      description: project?.description ?? ''
+    }
   });
 
   const errorText = (message: string | undefined) =>
@@ -47,9 +57,19 @@ export const ProjectForm = ({ onCancel, onCreated }: ProjectFormProps) => {
   const submit = handleSubmit(values =>
     startTransition(async () => {
       try {
-        await createProjectAction(values);
-        toast.success(t('created', { name: values.name }));
-        onCreated();
+        if (project) {
+          const isSaved = await updateProjectAction(project.id, values);
+          if (!isSaved) {
+            toast.error(tErrors('unexpected'));
+            return;
+          }
+
+          toast.success(t('updated', { name: values.name }));
+        } else {
+          await createProjectAction(values);
+          toast.success(t('created', { name: values.name }));
+        }
+        onSaved();
       } catch {
         toast.error(tErrors('unexpected'));
       }
@@ -69,42 +89,18 @@ export const ProjectForm = ({ onCancel, onCreated }: ProjectFormProps) => {
           />
           <FieldError>{errorText(errors.name?.message)}</FieldError>
         </Field>
-        <Field data-invalid={Boolean(errors.codePrefix)}>
-          <FieldLabel htmlFor="project-code-prefix">
-            {t('form.codePrefixLabel')}
-          </FieldLabel>
-          <Controller
-            name="codePrefix"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                id="project-code-prefix"
-                autoComplete="off"
-                maxLength={6}
-                className="font-mono"
-                aria-invalid={Boolean(errors.codePrefix)}
-                onChange={event =>
-                  field.onChange(event.target.value.toUpperCase())
-                }
-              />
-            )}
-          />
-          <FieldDescription>{t('form.codePrefixHint')}</FieldDescription>
-          <FieldError>{errorText(errors.codePrefix?.message)}</FieldError>
-        </Field>
-        <Field data-invalid={Boolean(errors.protocol)}>
-          <FieldLabel htmlFor="project-protocol">
-            {t('form.protocolLabel')}
+        <Field data-invalid={Boolean(errors.description)}>
+          <FieldLabel htmlFor="project-description">
+            {t('form.descriptionLabel')}
           </FieldLabel>
           <Textarea
-            id="project-protocol"
+            id="project-description"
             rows={3}
-            aria-invalid={Boolean(errors.protocol)}
-            {...register('protocol')}
+            aria-invalid={Boolean(errors.description)}
+            {...register('description')}
           />
-          <FieldDescription>{t('form.protocolHint')}</FieldDescription>
-          <FieldError>{errorText(errors.protocol?.message)}</FieldError>
+          <FieldDescription>{t('form.descriptionHint')}</FieldDescription>
+          <FieldError>{errorText(errors.description?.message)}</FieldError>
         </Field>
       </FieldGroup>
       <div className="flex justify-end gap-2">
@@ -112,7 +108,7 @@ export const ProjectForm = ({ onCancel, onCreated }: ProjectFormProps) => {
           {t('form.cancel')}
         </Button>
         <Button type="submit" disabled={isPending}>
-          {t('form.submit')}
+          {project ? t('form.saveSubmit') : t('form.submit')}
         </Button>
       </div>
     </form>
