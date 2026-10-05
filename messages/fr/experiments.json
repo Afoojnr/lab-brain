@@ -1,0 +1,49 @@
+{
+  "tabs": {
+    "label": "Expériences de ce projet"
+  },
+  "project": {
+    "breadcrumbDashboard": "Projets",
+    "title": "Expériences",
+    "description": "Chaque expérience ressemble à une feuille de votre tableur, avec ses propres colonnes et sa propre numérotation d'échantillons.",
+    "new": "Nouvelle expérience",
+    "samples": "{count, plural, one {# échantillon} other {# échantillons}}",
+    "columns": "{count, plural, one {# colonne} other {# colonnes}}",
+    "empty": {
+      "title": "Aucune expérience pour l'instant",
+      "description": "Ajoutez une expérience, par exemple un dépôt avec son propre préfixe, pour commencer à enregistrer des échantillons."
+    },
+    "noDescription": "Aucune description pour l'instant"
+  },
+  "form": {
+    "title": "Nouvelle expérience",
+    "description": "Une expérience a ses propres colonnes et numérote ses échantillons à partir de son préfixe.",
+    "nameLabel": "Nom",
+    "codePrefixLabel": "Préfixe de code",
+    "codePrefixHint": "2 à 6 lettres ou chiffres, en commençant par une lettre, p. ex. ALD. Les codes d'échantillon commencent par ce préfixe.",
+    "protocolLabel": "Protocole de base",
+    "protocolHint": "Facultatif. La méthode que suivent tous les échantillons de cette expérience ; chaque échantillon n'enregistre ensuite que ce qui diffère.",
+    "cancel": "Annuler",
+    "submit": "Créer l'expérience",
+    "errors": {
+      "nameRequired": "Saisissez un nom pour l'expérience.",
+      "nameTooLong": "Utilisez 80 caractères ou moins.",
+      "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
+      "codePrefixDuplicate": "Une autre expérience de ce projet utilise déjà ce préfixe.",
+      "protocolTooLong": "Utilisez 1000 caractères ou moins."
+    },
+    "editTrigger": "Modifier l'expérience",
+    "editTitle": "Modifier {name}",
+    "editDescription": "Les codes d'échantillon existants ne changent pas ; le préfixe ne s'applique qu'aux nouveaux échantillons.",
+    "saveSubmit": "Enregistrer les modifications"
+  },
+  "created": "Expérience {name} créée",
+  "page": {
+    "facts": {
+      "project": "Projet",
+      "prefix": "Préfixe",
+      "samples": "Échantillons"
+    }
+  },
+  "updated": "Expérience {name} mise à jour"
+}

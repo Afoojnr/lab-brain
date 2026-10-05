@@ -1,0 +1,47 @@
+{
+  "panel": {
+    "title": "Études",
+    "description": "Noms facultatifs d'études au sein de cette expérience. Un échantillon peut appartenir à plusieurs.",
+    "empty": "Aucune étude pour l'instant. Créez-en une, puis affectez-lui des échantillons.",
+    "samples": "{count, plural, one {# échantillon} other {# échantillons}}",
+    "show": "Afficher les échantillons de {name}",
+    "add": "Nouvelle étude",
+    "edit": "Modifier {name}"
+  },
+  "form": {
+    "title": "Nouvelle étude",
+    "description": "Une étude nommée au sein de cette expérience, par exemple un balayage de paramètre. Elle regroupe des échantillons ; elle n'a pas de colonnes propres.",
+    "nameLabel": "Nom",
+    "descriptionLabel": "Description",
+    "descriptionHint": "Facultatif. Toutes vos notes sur cette étude.",
+    "cancel": "Annuler",
+    "submit": "Créer l'étude",
+    "errors": {
+      "nameRequired": "Saisissez un nom pour l'étude.",
+      "nameTooLong": "Utilisez 60 caractères ou moins.",
+      "nameDuplicate": "Une autre étude de cette expérience porte déjà ce nom.",
+      "descriptionTooLong": "Utilisez 1000 caractères ou moins."
+    },
+    "editTitle": "Modifier {name}",
+    "editDescription": "Modifiez le nom ou la description de l'étude. Les échantillons qui y appartiennent ne sont pas touchés.",
+    "saveSubmit": "Enregistrer les modifications"
+  },
+  "created": "Étude {name} créée",
+  "filter": {
+    "label": "Filtrer les échantillons",
+    "searchLabel": "Rechercher des échantillons",
+    "searchHint": "Recherche dans le code, l'implémentation, l'observation et les notes",
+    "search": "Rechercher",
+    "all": "Tous les échantillons",
+    "clear": "Effacer les filtres"
+  },
+  "assign": {
+    "selectRow": "Sélectionner {code}",
+    "selectAll": "Sélectionner tous les échantillons",
+    "selected": "{count, plural, one {# échantillon sélectionné} other {# échantillons sélectionnés}}",
+    "assignTo": "Affecter à {name}",
+    "done": "{count, plural, one {# échantillon affecté} other {# échantillons affectés}} à {name}",
+    "tags": "Études"
+  },
+  "updated": "Étude {name} mise à jour"
+}

@@ -12,9 +12,13 @@ const STAGGER_SECONDS = 0.05;
  * Responsive grid of projects. Cards ease in one after another on first load,
  * and a newly created card enters while the others slide to make room (`layout`).
  */
-export const ProjectGrid = ({ projects }: { projects: Project[] }) => (
+export const ProjectGrid = ({
+  projects
+}: {
+  projects: { project: Project; experimentCount: number }[];
+}) => (
   <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {projects.map((project, index) => (
+    {projects.map(({ project, experimentCount }, index) => (
       <motion.li
         key={project.id}
         layout
@@ -27,7 +31,7 @@ export const ProjectGrid = ({ projects }: { projects: Project[] }) => (
           delay: Math.min(index, MAX_STAGGERED_ITEMS) * STAGGER_SECONDS
         }}
       >
-        <ProjectCard project={project} />
+        <ProjectCard project={project} experimentCount={experimentCount} />
       </motion.li>
     ))}
   </ul>

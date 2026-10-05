@@ -1,5 +1,7 @@
 {
   "appName": "Lab Brain",
   "appDescription": "Un espace de travail connecté pour la recherche expérimentale.",
-  "tryAgain": "Réessayer"
+  "tryAgain": "Réessayer",
+  "showMore": "Voir plus",
+  "showLess": "Voir moins"
 }

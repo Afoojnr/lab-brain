@@ -1,0 +1,49 @@
+{
+  "tabs": {
+    "label": "Experiments in this project"
+  },
+  "project": {
+    "breadcrumbDashboard": "Projects",
+    "title": "Experiments",
+    "description": "Each experiment is like one sheet of your spreadsheet, with its own columns and sample numbering.",
+    "new": "New experiment",
+    "samples": "{count, plural, one {# sample} other {# samples}}",
+    "columns": "{count, plural, one {# column} other {# columns}}",
+    "empty": {
+      "title": "No experiments yet",
+      "description": "Add an experiment, such as a deposition with its own prefix, to start recording samples."
+    },
+    "noDescription": "No description yet"
+  },
+  "form": {
+    "title": "New experiment",
+    "description": "An experiment has its own columns and numbers its samples from its prefix.",
+    "nameLabel": "Name",
+    "codePrefixLabel": "Code prefix",
+    "codePrefixHint": "2 to 6 letters or digits, starting with a letter, e.g. ALD. Sample codes start with it.",
+    "protocolLabel": "Base protocol",
+    "protocolHint": "Optional. The method every sample in this experiment follows; each sample then only records what differs.",
+    "cancel": "Cancel",
+    "submit": "Create experiment",
+    "errors": {
+      "nameRequired": "Enter a name for the experiment.",
+      "nameTooLong": "Use 80 characters or fewer.",
+      "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
+      "codePrefixDuplicate": "Another experiment in this project already uses this prefix.",
+      "protocolTooLong": "Use 1000 characters or fewer."
+    },
+    "editTrigger": "Edit experiment",
+    "editTitle": "Edit {name}",
+    "editDescription": "Existing sample codes do not change; the prefix only applies to new samples.",
+    "saveSubmit": "Save changes"
+  },
+  "created": "Experiment {name} created",
+  "page": {
+    "facts": {
+      "project": "Project",
+      "prefix": "Prefix",
+      "samples": "Samples"
+    }
+  },
+  "updated": "Experiment {name} updated"
+}

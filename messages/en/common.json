@@ -1,5 +1,7 @@
 {
   "appName": "Lab Brain",
   "appDescription": "A connected workspace for experimental research.",
-  "tryAgain": "Try again"
+  "tryAgain": "Try again",
+  "showMore": "Show more",
+  "showLess": "Show less"
 }

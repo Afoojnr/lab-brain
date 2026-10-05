@@ -277,11 +277,14 @@ Project detail → Ask tab → chat → response with labeled, clickable citatio
 
 ## Design principles for v1
 
-- **Every record detail view looks the same shape**: header (ID, type, date), a
-  metadata panel, a "linked records" panel, and a "notebook entries" panel. One
-  layout, many record types — keeps v1 UI work small. This applies to `Experiment`
-  too, despite its tree nesting — the tree is just how you _navigate to_ one, not a
-  different detail layout.
+- **Every record detail view looks the same shape**: a header (the record's code,
+  a one-sentence lead such as an experiment's objective, and a strip of key facts:
+  project, date, parent), a main column of raised panels for the work you do and
+  read most (for an experiment: synthesis runs and parameters), and a quiet rail
+  of flat sections for context (sub-experiments, linked datasets, notebook). One
+  layout, many record types — keeps v1 UI work small. Each record type chooses
+  what is primary. This applies to `Experiment` too, despite its tree nesting —
+  the tree is just how you _navigate to_ one, not a different detail layout.
 - **No dead ends.** Every creation flow ends on a detail view with an obvious next
   action (add dataset, run analysis, add note), not back on a list.
 - **Provenance is one button away, always**, in both directions (backward to origin,

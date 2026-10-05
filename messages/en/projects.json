@@ -1,23 +1,26 @@
 {
   "form": {
     "title": "New project",
-    "description": "A project holds its own tree of experiments.",
+    "description": "A project holds its experiments, each with its own columns and sample numbering.",
     "nameLabel": "Name",
-    "codePrefixLabel": "Code prefix",
-    "codePrefixHint": "2 to 6 letters or digits, starting with a letter, e.g. EXP. Experiment codes will start with it.",
-    "protocolLabel": "Default protocol",
-    "protocolHint": "Optional. The method new experiments in this project start from.",
+    "descriptionLabel": "Description",
+    "descriptionHint": "Optional. What this project is about.",
     "cancel": "Cancel",
     "submit": "Create project",
     "errors": {
       "nameRequired": "Enter a name for the project.",
       "nameTooLong": "Use 80 characters or fewer.",
-      "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
-      "protocolTooLong": "Use 500 characters or fewer."
-    }
+      "descriptionTooLong": "Use 1000 characters or fewer."
+    },
+    "editTrigger": "Edit project",
+    "editTitle": "Edit {name}",
+    "editDescription": "Change the project's name or description. Its experiments are not affected.",
+    "saveSubmit": "Save changes"
   },
   "created": "Project {name} created",
   "card": {
-    "noProtocol": "No default protocol"
-  }
+    "experiment": "{count, plural, =0 {No experiments yet} one {# experiment} other {# experiments}}",
+    "noDescription": "No description yet"
+  },
+  "updated": "Project {name} updated"
 }

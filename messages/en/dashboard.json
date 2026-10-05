@@ -1,9 +1,9 @@
 {
   "title": "Projects",
-  "description": "Every project holds its own tree of experiments.",
+  "description": "Every project holds experiments of samples, each with its own columns.",
   "newProject": "New project",
   "empty": {
     "title": "No projects yet",
-    "description": "Create a project to start recording experiments."
+    "description": "Create a project to start recording samples."
   }
 }

@@ -1,0 +1,86 @@
+{
+  "list": {
+    "title": "Samples",
+    "add": "Add sample",
+    "empty": "No samples yet. Use Add sample to record the first one.",
+    "notRecorded": "Not recorded",
+    "columns": {
+      "code": "Code",
+      "date": "Date",
+      "implementation": "Implementation",
+      "observation": "Observation"
+    },
+    "noMatch": "No samples match these filters.",
+    "noteLabel": "Note"
+  },
+  "new": {
+    "title": "Add sample",
+    "description": "Values are prefilled from each column's default, or from the previous sample. Change only what is different.",
+    "duplicateTitle": "Duplicate {code}",
+    "duplicateDescription": "A copy of {code} with a new code. Change only what is different."
+  },
+  "edit": {
+    "title": "Edit {code}",
+    "description": "Changes apply to this sample only."
+  },
+  "form": {
+    "codeLabel": "Sample code",
+    "codeHint": "Suggested from the experiment prefix. You can change it.",
+    "dateLabel": "Date performed",
+    "dateHint": "Optional.",
+    "valuesTitle": "Values",
+    "valuesHint": "Leave a value empty if it was not recorded.",
+    "noColumns": "This experiment has no columns yet. You can add them from the experiment page.",
+    "implementationLabel": "Implementation",
+    "implementationHint": "Why this sample was made.",
+    "observationLabel": "Observation",
+    "cancel": "Cancel",
+    "submit": "Save sample",
+    "errors": {
+      "codeRequired": "Enter a sample code.",
+      "codeTooLong": "Use 40 characters or fewer.",
+      "codeDuplicate": "Another sample in this project already has this code.",
+      "dateInvalid": "Enter a valid date.",
+      "implementationTooLong": "Use 2000 characters or fewer.",
+      "observationTooLong": "Use 2000 characters or fewer.",
+      "valueNotANumber": "Enter a number, for example 1.5.",
+      "valueTooLong": "Use 200 characters or fewer.",
+      "noteTooLong": "Use 500 characters or fewer."
+    },
+    "noteLabel": "Note",
+    "noteHint": "Optional. One short comment on the whole sample, such as why a setting or column changed.",
+    "studiesLabel": "Studies",
+    "studiesHint": "Optional. Pick the studies this sample belongs to; it can be in several.",
+    "studiesPlaceholder": "Search studies",
+    "studiesNoMatch": "No study matches."
+  },
+  "created": "Sample {code} saved",
+  "updated": "Sample {code} updated",
+  "detail": {
+    "facts": {
+      "experiment": "Experiment",
+      "studies": "Studies",
+      "date": "Performed"
+    },
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "parameters": {
+      "title": "Parameters",
+      "name": "Parameter",
+      "value": "Value",
+      "notRecorded": "Not recorded",
+      "empty": "This experiment has no columns yet."
+    },
+    "observation": {
+      "title": "Observation",
+      "empty": "No observation recorded."
+    },
+    "notebook": {
+      "title": "Notebook",
+      "placeholder": "Notebook entries will appear here once notebooks are available."
+    },
+    "note": {
+      "title": "Note"
+    }
+  }
+}

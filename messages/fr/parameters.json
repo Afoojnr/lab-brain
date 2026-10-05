@@ -1,0 +1,51 @@
+{
+  "panel": {
+    "title": "Paramètres",
+    "description": "Les colonnes de cette expérience. Les échantillons enregistrés avant l'ajout d'une colonne n'ont simplement pas de valeur pour elle.",
+    "empty": "Aucune colonne pour l'instant. Ajoutez les réglages que vous faites varier ou enregistrez, comme une température ou une durée.",
+    "add": "Ajouter un paramètre",
+    "edit": "Modifier {name}",
+    "delete": "Supprimer {name}",
+    "inUse": "Des échantillons contiennent des valeurs pour ce paramètre, il ne peut donc pas être supprimé.",
+    "noUnit": "Sans unité",
+    "columns": {
+      "name": "Nom",
+      "unit": "Unité",
+      "kind": "Type",
+      "actions": "Actions",
+      "default": "Par défaut"
+    },
+    "noDefault": "Aucune"
+  },
+  "kinds": {
+    "number": "Nombre",
+    "text": "Texte"
+  },
+  "form": {
+    "addTitle": "Ajouter un paramètre",
+    "editTitle": "Modifier le paramètre {name}",
+    "description": "Les colonnes appartiennent à cette expérience. Les échantillons déjà enregistrés gardent leurs valeurs et affichent une nouvelle colonne vide.",
+    "nameLabel": "Nom",
+    "unitLabel": "Unité",
+    "unitHint": "Facultatif, par exemple W, s ou °C.",
+    "kindLabel": "Type",
+    "kindLocked": "Le type ne peut plus changer dès que des échantillons contiennent des valeurs pour ce paramètre.",
+    "cancel": "Annuler",
+    "submit": "Ajouter le paramètre",
+    "save": "Enregistrer",
+    "errors": {
+      "nameRequired": "Saisissez un nom pour le paramètre.",
+      "nameTooLong": "Utilisez 60 caractères ou moins.",
+      "nameDuplicate": "Cette expérience a déjà un paramètre portant ce nom.",
+      "unitTooLong": "Utilisez 20 caractères ou moins.",
+      "kindInvalid": "Choisissez nombre ou texte.",
+      "defaultNotANumber": "Saisissez un nombre, par exemple 1,5, ou laissez vide.",
+      "defaultTooLong": "Utilisez 200 caractères ou moins."
+    },
+    "defaultLabel": "Valeur par défaut",
+    "defaultHint": "Facultatif. Préremplit ce paramètre dans chaque nouvel échantillon. Les échantillons déjà enregistrés gardent leurs propres valeurs."
+  },
+  "added": "Paramètre {name} ajouté",
+  "updated": "Paramètre {name} mis à jour",
+  "deleted": "Paramètre {name} supprimé"
+}

@@ -1,0 +1,47 @@
+{
+  "panel": {
+    "title": "Studies",
+    "description": "Optional names for studies inside this experiment. A sample can belong to several.",
+    "empty": "No studies yet. Create one, then assign samples to it.",
+    "samples": "{count, plural, one {# sample} other {# samples}}",
+    "show": "Show samples of {name}",
+    "add": "New study",
+    "edit": "Edit {name}"
+  },
+  "form": {
+    "title": "New study",
+    "description": "A named study inside this experiment, such as a parameter sweep. It groups samples; it has no columns of its own.",
+    "nameLabel": "Name",
+    "descriptionLabel": "Description",
+    "descriptionHint": "Optional. Any notes about this study.",
+    "cancel": "Cancel",
+    "submit": "Create study",
+    "errors": {
+      "nameRequired": "Enter a name for the study.",
+      "nameTooLong": "Use 60 characters or fewer.",
+      "nameDuplicate": "Another study in this experiment already has this name.",
+      "descriptionTooLong": "Use 1000 characters or fewer."
+    },
+    "editTitle": "Edit {name}",
+    "editDescription": "Change the study's name or description. Which samples belong to it is not affected.",
+    "saveSubmit": "Save changes"
+  },
+  "created": "Study {name} created",
+  "filter": {
+    "label": "Filter samples",
+    "searchLabel": "Search samples",
+    "searchHint": "Searches code, implementation, observation and notes",
+    "search": "Search",
+    "all": "All samples",
+    "clear": "Clear filters"
+  },
+  "assign": {
+    "selectRow": "Select {code}",
+    "selectAll": "Select all samples",
+    "selected": "{count, plural, one {# sample selected} other {# samples selected}}",
+    "assignTo": "Assign to {name}",
+    "done": "{count, plural, one {# sample} other {# samples}} assigned to {name}",
+    "tags": "Studies"
+  },
+  "updated": "Study {name} updated"
+}

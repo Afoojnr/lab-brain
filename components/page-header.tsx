@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import type { ReactNode } from 'react';
 
+import { ExpandableText } from '@/components/expandable-text';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,14 +22,17 @@ type PageHeaderProps = {
   description?: string;
   breadcrumbs?: Crumb[];
   actions?: ReactNode;
+  /** Extra content under the title, e.g. a record's lead sentence and facts. */
+  children?: ReactNode;
 };
 
-/** Shared top of every page: breadcrumbs, title, description and primary actions. */
+/** Shared top of every page: breadcrumbs, title, description, primary actions and optional extra content. */
 export const PageHeader = ({
   title,
   description,
   breadcrumbs,
-  actions
+  actions,
+  children
 }: PageHeaderProps) => (
   <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
     <div className="space-y-2">
@@ -59,8 +63,11 @@ export const PageHeader = ({
         {title}
       </h1>
       {description && (
-        <p className="text-muted-foreground max-w-prose">{description}</p>
+        <ExpandableText className="text-muted-foreground max-w-prose">
+          {description}
+        </ExpandableText>
       )}
+      {children}
     </div>
     {actions && <div className="flex shrink-0 gap-2">{actions}</div>}
   </header>

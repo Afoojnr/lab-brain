@@ -35,7 +35,7 @@ export const NewProjectDialog = () => {
         {/* Remounts on each open, so a cancelled form never keeps old values. */}
         <ProjectForm
           onCancel={() => setIsOpen(false)}
-          onCreated={() => setIsOpen(false)}
+          onSaved={() => setIsOpen(false)}
         />
       </DialogContent>
     </Dialog>

@@ -1,0 +1,86 @@
+{
+  "list": {
+    "title": "Échantillons",
+    "add": "Ajouter un échantillon",
+    "empty": "Aucun échantillon pour l'instant. Utilisez Ajouter un échantillon pour enregistrer le premier.",
+    "notRecorded": "Non renseigné",
+    "columns": {
+      "code": "Code",
+      "date": "Date",
+      "implementation": "Mise en œuvre",
+      "observation": "Observation"
+    },
+    "noMatch": "Aucun échantillon ne correspond à ces filtres.",
+    "noteLabel": "Note"
+  },
+  "new": {
+    "title": "Ajouter un échantillon",
+    "description": "Les valeurs sont préremplies avec la valeur par défaut de chaque colonne, ou avec l'échantillon précédent. Ne changez que ce qui diffère.",
+    "duplicateTitle": "Dupliquer {code}",
+    "duplicateDescription": "Une copie de {code} avec un nouveau code. Ne changez que ce qui diffère."
+  },
+  "edit": {
+    "title": "Modifier {code}",
+    "description": "Les changements s'appliquent à cet échantillon uniquement."
+  },
+  "form": {
+    "codeLabel": "Code de l'échantillon",
+    "codeHint": "Proposé à partir du préfixe de l'expérience. Vous pouvez le changer.",
+    "dateLabel": "Date de réalisation",
+    "dateHint": "Facultatif.",
+    "valuesTitle": "Valeurs",
+    "valuesHint": "Laissez une valeur vide si elle n'a pas été enregistrée.",
+    "noColumns": "Cette expérience n'a pas encore de colonnes. Vous pouvez les ajouter depuis la page de l'expérience.",
+    "implementationLabel": "Mise en œuvre",
+    "implementationHint": "Pourquoi cet échantillon a été réalisé.",
+    "observationLabel": "Observation",
+    "cancel": "Annuler",
+    "submit": "Enregistrer l'échantillon",
+    "errors": {
+      "codeRequired": "Saisissez un code d'échantillon.",
+      "codeTooLong": "Utilisez 40 caractères ou moins.",
+      "codeDuplicate": "Un autre échantillon de ce projet porte déjà ce code.",
+      "dateInvalid": "Saisissez une date valide.",
+      "implementationTooLong": "Utilisez 2000 caractères ou moins.",
+      "observationTooLong": "Utilisez 2000 caractères ou moins.",
+      "valueNotANumber": "Saisissez un nombre, par exemple 1,5.",
+      "valueTooLong": "Utilisez 200 caractères ou moins.",
+      "noteTooLong": "Utilisez 500 caractères ou moins."
+    },
+    "noteLabel": "Note",
+    "noteHint": "Facultatif. Un court commentaire sur l'échantillon entier, par exemple pourquoi un réglage ou une colonne a changé.",
+    "studiesLabel": "Études",
+    "studiesHint": "Facultatif. Choisissez les études auxquelles appartient cet échantillon ; il peut être dans plusieurs.",
+    "studiesPlaceholder": "Rechercher des études",
+    "studiesNoMatch": "Aucune étude ne correspond."
+  },
+  "created": "Échantillon {code} enregistré",
+  "updated": "Échantillon {code} mis à jour",
+  "detail": {
+    "facts": {
+      "experiment": "Expérience",
+      "studies": "Études",
+      "date": "Réalisé le"
+    },
+    "edit": "Modifier",
+    "duplicate": "Dupliquer",
+    "parameters": {
+      "title": "Paramètres",
+      "name": "Paramètre",
+      "value": "Valeur",
+      "notRecorded": "Non renseigné",
+      "empty": "Cette expérience n'a pas encore de colonnes."
+    },
+    "observation": {
+      "title": "Observation",
+      "empty": "Aucune observation enregistrée."
+    },
+    "notebook": {
+      "title": "Carnet",
+      "placeholder": "Les entrées du carnet apparaîtront ici dès que les carnets seront disponibles."
+    },
+    "note": {
+      "title": "Note"
+    }
+  }
+}
