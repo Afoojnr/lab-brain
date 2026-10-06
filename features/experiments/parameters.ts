@@ -67,6 +67,17 @@ export const parseParameterInputs = (
 };
 
 /** Format options for a stored calendar date: read in UTC so it never shifts a day. */
+/**
+ * Whether a `YYYY-MM-DD` string is a real calendar date, so "2026-02-30" is
+ * rejected instead of silently rolling over to March.
+ *
+ * @param value - The text to check.
+ */
+export const isCalendarDate = (value: string): boolean => {
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
+};
+
 export const CALENDAR_DATE_FORMAT = {
   dateStyle: 'medium',
   timeZone: 'UTC'

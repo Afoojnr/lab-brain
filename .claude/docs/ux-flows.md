@@ -58,24 +58,28 @@ re-entering everything by hand — for a brand-new experiment or to add rows to 
 that already exists. (One spreadsheet sheet becomes one experiment.)
 
 1. From `Project page` → "Import from spreadsheet", or from an existing
-   `Experiment page` → "Import rows into this experiment".
-2. Upload the file → `Column mapping` screen: the app shows your spreadsheet's actual
-   column headers next to a dropdown for each, mapping them to sample code, date,
-   implementation, observation, or a parameter or result column (existing, or new
-   with a unit) — since every spreadsheet is laid out differently, this step isn't
-   skippable.
-3. `Validation` screen — flags, before anything is saved:
-   - rows whose sample code already exists in the project (choose: update, skip, or
-     add as new for each conflict);
-   - cells that don't match their column's type (e.g. text in a numeric column),
-     shown inline against the offending row and column. Empty cells stay "not
-     recorded", never zero.
-4. `Import preview` — shows the samples and columns it will create or update once
-   conflicts and type issues are resolved.
-5. Confirm → rows appear in the experiment's samples table, already linked.
+   `Experiment page` → "Import rows" (that experiment is preselected).
+2. **File**: an Excel (.xlsx, .xls) or CSV file, read in the browser (never uploaded).
+3. **Sheet**: pick the sheet (one is imported at a time), the header row (a title line
+   above the table is skipped) and whether the row under it holds units.
+4. **Experiment**: a new one (name from the sheet, prefix suggested from the codes) or
+   an existing one.
+5. **Columns**: each source column shows examples and a choice of what it becomes: the
+   sample code (required), date, implementation, observation, note, studies
+   (separated by `;`), an existing column, a new column (name, unit, number/text,
+   parameter/result) or ignore. Suggested from the headers. If dates are written as
+   text, say how to read them (year-month-day, day/month/year or month/day/year).
+6. **Preview**, before anything is saved: counts of new, existing-code, problem and
+   empty rows. A cell that does not fit its column (text in a number column) is
+   flagged on its exact row and column; a row without a code or a code repeated in
+   the file is a problem too. For a code that already exists choose, per row or for
+   all: skip (the default), update (only inside the same experiment; empty cells never
+   erase) or add as new under another code. Rows with problems can be skipped as a
+   group. Excel cell comments become lines of the sample's note.
+7. **Done**: how many were added, updated and skipped, with a link to the experiment.
 
 ```
-Project page (or Experiment page) → Import → Upload → Column mapping → Validation → Preview → Confirm → samples created/updated
+Project page (or Experiment page) → Import → File → Sheet → Experiment → Columns → Preview → Import → samples created/updated
 ```
 
 ---

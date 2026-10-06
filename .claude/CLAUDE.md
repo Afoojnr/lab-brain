@@ -25,7 +25,7 @@ sample can be in several). `Characterization` records that a measurement (SEM, E
 
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
-SheetJS (`xlsx`), `papaparse` (later), charts `TBD: Recharts or Chart.js`.
+SheetJS (`xlsx`), `papaparse`, charts `TBD: Recharts or Chart.js`.
 Testing: Vitest + Testing Library (unit/component), Playwright (the critical
 flows) — see `.claude/rules/testing.md`.
 
@@ -89,8 +89,10 @@ features/<name>/ one folder per feature, self-contained:
                  hooks; each hook's query key is defined in the same file
   types.ts       hand-written types (Project, Experiment, ...)
   schemas.ts     Zod schemas for forms and payloads + inferred types (only where needed)
-  index.ts       public API, client-safe exports only
-  server.ts      public server API (actions, data); never imported by client code
+  index.ts       public API (components and types); may export server components,
+                 so client code of another feature cannot import it
+  shared.ts      pure, client-safe API for other features (schemas, parsing, types)
+  server.ts      public server API (data functions); never imported by client code
 hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 ```
 
@@ -104,8 +106,8 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 - Absolute imports with `@/` across folders; `./` or `../` only inside one feature.
 - Imports at the top: dependencies first, then local.
 - Flow is one way: `shared (lib, utils, hooks, components) → features → app`.
-- Features may import another feature only through its public `index.ts` or
-  `server.ts`, never its inner files, and never in a cycle.
+- Features may import another feature only through its public `index.ts`,
+  `shared.ts` or `server.ts`, never its inner files, and never in a cycle.
 - Allowed direction: `experiments` imports no other feature. `characterization`,
   `import` and `assistant` may import `experiments`. `import` may also import
   `characterization`. `notebook` and `references` import no feature (a notebook

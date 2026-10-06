@@ -96,7 +96,7 @@ literature — not generic or hallucinated advice.
   adapter is active is the only change needed — nothing else in the app touches
   storage directly. Nextcloud's own client handles device sync once files are there.
 
-### 3. Import from existing spreadsheets (Excel first, CSV later)
+### 3. Import from existing spreadsheets (Excel and CSV, built)
 
 - You already have real PhD data recorded in Excel — the app should read that in and
   autofill `Experiment`, column and `Sample` records instead of forcing re-entry from
@@ -118,9 +118,15 @@ literature — not generic or hallucinated advice.
     specific row+cell rather than failing the whole import.
   - Nothing is committed until these are resolved or explicitly acknowledged.
 - Built as a small `ImportParser` interface (`parse(file) → rows[]`), same pattern as
-  the storage adapter: an `ExcelParser` (via `SheetJS`/`xlsx`) first, a `CsvParser`
-  (via `papaparse`) added later with zero change to the mapping/validation/preview
-  logic around it — only the file-reading step differs per format.
+  the storage adapter: an `ExcelParser` (via `SheetJS`/`xlsx`) and a `CsvParser` (via
+  `papaparse`, delimiter detected, so `;` files with decimal commas work). Mapping,
+  validation and preview never know the source format.
+- **As built:** the file is read in the browser (max 10 MB, 5,000 rows, one sheet per
+  import). Excel cell comments are added to the sample's note as `Header: comment`
+  lines (the cell colour cannot be read). An update only changes cells that have a
+  value, so an empty cell never erases a stored one. The server validates the whole
+  import again before writing, so a preview that went stale writes nothing. Until the
+  database step, imported data lives in memory like everything else.
 - The mapping step is what makes this reusable beyond your own spreadsheet layout —
   worth building once, generically, rather than hard-coding your specific columns.
 
@@ -242,8 +248,8 @@ answer.
 1. Data model (`Project`, `Experiment`, `Study`, `Sample`, `Characterization`) +
    Drizzle schema. The interface is built first against in-memory demo data, then
    the database replaces it (Step 6 of the build log below). Use it on real data.
-2. Excel import (mapping → preview → confirm) to bootstrap your existing spreadsheet
-   data — this is also the fastest way to get real records in without hand-entry.
+2. Excel and CSV import (mapping → preview → confirm) to bootstrap your existing
+   spreadsheet data. **Built** on demo data; real data waits for the database.
 3. One characterization module end-to-end (parse → calculate → plot).
 4. Notebook entries + export to static document.
 5. Deploy to Vercel — this is the "show a recruiter" milestone.
@@ -281,6 +287,27 @@ in this order:
    columns (parameters or results), and plot (library still to be chosen).
 5. **Notebook**, with one shared markdown editor that also formats long protocols and
    descriptions (bullets, bold), instead of plain text.
+
+---
+
+## Tables so far
+
+The records below are the future database tables (today they are in-memory stores in
+`features/experiments/data/`). The import adds **no table**: it writes the same
+records through the same functions.
+
+| Record                | Key fields                                                                                          |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
+| `Project`             | name, description                                                                                   |
+| `Experiment`          | project, name, code prefix, protocol                                                                |
+| `ParameterDefinition` | experiment, name, unit, kind (number/text), role (parameter/result), default, position              |
+| `Study`               | experiment, name, description                                                                       |
+| `Sample`              | experiment, code, date, values (by column; empty = not recorded), implementation, observation, note |
+| `Sample` ↔ `Study`    | many to many (a sample can be in several studies of its experiment)                                 |
+| `Characterization`    | sample, technique, date, note (repeatable)                                                          |
+
+Later tables: file records on characterizations, analyses, notebook entries,
+references.
 
 ---
 

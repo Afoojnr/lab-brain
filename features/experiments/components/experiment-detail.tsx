@@ -1,4 +1,4 @@
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, UploadIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
@@ -44,9 +44,10 @@ export const ExperimentDetail = async ({
   studyId,
   query
 }: ExperimentDetailProps) => {
-  const [t, tSamples, tParameters, tStudies, project, experiment] =
+  const [t, tImport, tSamples, tParameters, tStudies, project, experiment] =
     await Promise.all([
       getTranslations('experiments'),
+      getTranslations('import.entry'),
       getTranslations('samples'),
       getTranslations('parameters'),
       getTranslations('studies'),
@@ -116,6 +117,13 @@ export const ExperimentDetail = async ({
                 .filter(other => other.id !== experiment.id)
                 .map(other => other.codePrefix)}
             />
+            <Link
+              href={`/projects/${project.id}/import?experiment=${experiment.id}`}
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              <UploadIcon aria-hidden />
+              {tImport('experiment')}
+            </Link>
             <Link
               href={`${experimentPath}/samples/new`}
               className={buttonVariants()}
