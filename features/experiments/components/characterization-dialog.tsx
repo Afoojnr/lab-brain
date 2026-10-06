@@ -14,42 +14,40 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 
-import type { ParameterDefinition } from '../types';
-import { ParameterForm } from './parameter-form';
+import type { Characterization } from '../types';
+import { CharacterizationForm } from './characterization-form';
 
-type ParameterDialogProps = {
+type CharacterizationDialogProps = {
   projectId: string;
   experimentId: string;
-  /** Names of the experiment's other parameters. */
-  otherNames: string[];
-  /** Set to edit this parameter (a small pencil on its row); omit to add one. */
-  parameter?: Pick<
-    ParameterDefinition,
-    'id' | 'name' | 'unit' | 'kind' | 'role' | 'defaultValue'
+  sampleId: string;
+  knownTechniques: string[];
+  /** Set to edit this record (a pencil on its row); omit to add one. */
+  characterization?: Pick<
+    Characterization,
+    'id' | 'technique' | 'measuredOn' | 'note'
   >;
-  isKindLocked?: boolean;
 };
 
-/** Opens the Add parameter form, or the Edit form for one parameter, in a dialog. */
-export const ParameterDialog = ({
-  projectId,
-  experimentId,
-  otherNames,
-  parameter,
-  isKindLocked
-}: ParameterDialogProps) => {
-  const t = useTranslations('parameters');
+/** Opens the Add characterization form, or the Edit form for one record, in a dialog. */
+export const CharacterizationDialog = ({
+  characterization,
+  ...formProps
+}: CharacterizationDialogProps) => {
+  const t = useTranslations('characterizations');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {parameter ? (
+      {characterization ? (
         <DialogTrigger
           render={
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label={t('panel.edit', { name: parameter.name })}
+              aria-label={t('panel.edit', {
+                technique: characterization.technique
+              })}
             />
           }
         >
@@ -64,18 +62,16 @@ export const ParameterDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {parameter
-              ? t('form.editTitle', { name: parameter.name })
+            {characterization
+              ? t('form.editTitle', { technique: characterization.technique })
               : t('form.addTitle')}
           </DialogTitle>
           <DialogDescription>{t('form.description')}</DialogDescription>
         </DialogHeader>
-        <ParameterForm
-          projectId={projectId}
-          experimentId={experimentId}
-          otherNames={otherNames}
-          parameter={parameter}
-          isKindLocked={isKindLocked}
+        {/* Remounts on each open, so a cancelled form never keeps old values. */}
+        <CharacterizationForm
+          {...formProps}
+          characterization={characterization}
           onCancel={() => setIsOpen(false)}
           onSaved={() => setIsOpen(false)}
         />

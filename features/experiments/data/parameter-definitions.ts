@@ -6,7 +6,8 @@ import { DEMO_PARAMETER_DEFINITIONS } from './demo-parameters';
 const definitions: ParameterDefinition[] = [...DEMO_PARAMETER_DEFINITIONS];
 
 /**
- * An experiment's parameters (its columns), in display order.
+ * An experiment's columns in display order: parameters first, then results,
+ * each in the order they were added.
  *
  * @param experimentId - Owning experiment's id.
  * @returns A copy of the list, so callers cannot mutate storage.
@@ -16,7 +17,11 @@ export const listParameterDefinitions = async (
 ): Promise<ParameterDefinition[]> =>
   definitions
     .filter(definition => definition.experimentId === experimentId)
-    .sort((a, b) => a.position - b.position);
+    .sort(
+      (a, b) =>
+        Number(a.role === 'result') - Number(b.role === 'result') ||
+        a.position - b.position
+    );
 
 /**
  * Adds a parameter at the end of an experiment's columns. Input must already be
@@ -38,6 +43,7 @@ export const createParameterDefinition = async (
     name: input.name,
     unit: input.unit === '' ? null : input.unit,
     kind: input.kind,
+    role: input.role,
     defaultValue: input.defaultValue,
     position:
       existing.length === 0
@@ -50,7 +56,7 @@ export const createParameterDefinition = async (
 };
 
 /**
- * Changes a parameter's name, unit, kind or default value.
+ * Changes a parameter's name, unit, kind, role or default value.
  *
  * @param experimentId - Owning experiment's id.
  * @param id - The parameter to change.
@@ -74,6 +80,7 @@ export const updateParameterDefinition = async (
     name: input.name,
     unit: input.unit === '' ? null : input.unit,
     kind: input.kind,
+    role: input.role,
     defaultValue: input.defaultValue
   };
   definitions[index] = updated;

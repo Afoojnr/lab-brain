@@ -6,6 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { RecordDetail } from '@/components/record-detail';
 import { buttonVariants } from '@/components/ui/button';
 
+import { listCharacterizationsByExperiment } from '../data/characterizations';
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
@@ -34,10 +35,8 @@ type ExperimentDetailProps = {
 };
 
 /**
- * One experiment: its samples as a spreadsheet-like table, then its columns. Tabs
- * above switch between the project's experiment.
- *
- * TODO: a derive action on the samples.
+ * One experiment: its samples as a spreadsheet-like table, then its columns and
+ * studies. Tabs above switch between the project's experiments.
  */
 export const ExperimentDetail = async ({
   projectId,
@@ -57,12 +56,14 @@ export const ExperimentDetail = async ({
   if (!project || !experiment || experiment.projectId !== project.id)
     notFound();
 
-  const [allExperiments, definitions, allSamples, studies] = await Promise.all([
-    listExperimentsByProject(project.id),
-    listParameterDefinitions(experiment.id),
-    listSamplesByExperiment(experiment.id),
-    listStudiesByExperiment(experiment.id)
-  ]);
+  const [allExperiments, definitions, allSamples, studies, characterizations] =
+    await Promise.all([
+      listExperimentsByProject(project.id),
+      listParameterDefinitions(experiment.id),
+      listSamplesByExperiment(experiment.id),
+      listStudiesByExperiment(experiment.id),
+      listCharacterizationsByExperiment(experiment.id)
+    ]);
   // A study id from the URL that is not in this experiment is ignored.
   const activeStudyId = studies.find(study => study.id === studyId)?.id;
   const samples = filterSamples(allSamples, {
@@ -142,6 +143,7 @@ export const ExperimentDetail = async ({
                   definitions={definitions}
                   samples={samples}
                   studies={studies}
+                  characterizations={characterizations}
                   isFiltered={Boolean(activeStudyId ?? query)}
                 />
               </>

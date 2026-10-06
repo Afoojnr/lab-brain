@@ -35,12 +35,12 @@ test('builds an experiment with columns and records, duplicates and edits sample
     ['Plasma power', 'W', '100'],
     ['Pulse', 's', '10']
   ]) {
-    await page.getByRole('button', { name: 'Add parameter' }).click();
+    await page.getByRole('button', { name: 'Add column' }).click();
     const dialog = page.getByRole('dialog');
     await dialog.getByLabel('Name').fill(name);
     await dialog.getByLabel('Unit').fill(unit);
     await dialog.getByLabel('Default value').fill(defaultValue);
-    await dialog.getByRole('button', { name: 'Add parameter' }).click();
+    await dialog.getByRole('button', { name: 'Add column' }).click();
     await expect(page.getByRole('cell', { name, exact: true })).toBeVisible();
     // Wait for the dialog to finish closing: its submit button shares the
     // trigger's name while it animates out.
@@ -125,10 +125,10 @@ test('builds an experiment with columns and records, duplicates and edits sample
   ).toContainText('15');
 
   // A column added later: older samples show it empty, nothing is back-filled.
-  await page.getByRole('button', { name: 'Add parameter' }).click();
+  await page.getByRole('button', { name: 'Add column' }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name').fill('Cycles');
-  await dialog.getByRole('button', { name: 'Add parameter' }).click();
+  await dialog.getByRole('button', { name: 'Add column' }).click();
   await expect(
     page.getByRole('columnheader', { name: 'Cycles' })
   ).toBeVisible();

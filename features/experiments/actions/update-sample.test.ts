@@ -39,6 +39,7 @@ const POWER: ParameterDefinition = {
   name: 'Power',
   unit: 'W',
   kind: 'number',
+  role: 'parameter',
   defaultValue: null,
   position: 0
 };
@@ -51,7 +52,6 @@ const CURRENT: Sample = {
   note: null,
   implementation: null,
   observation: null,
-  derivedFromId: null,
   studyIds: [],
   createdAt: new Date()
 };

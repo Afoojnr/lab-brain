@@ -11,6 +11,7 @@ const definitions: ParameterDefinition[] = [
     name: 'Power',
     unit: 'W',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 0
   },
@@ -20,6 +21,7 @@ const definitions: ParameterDefinition[] = [
     name: 'Gas',
     unit: null,
     kind: 'text',
+    role: 'parameter',
     defaultValue: null,
     position: 1
   }
@@ -95,7 +97,7 @@ describe('buildSampleFormSchema', () => {
     ]);
   });
 
-  it('accepts a derived-style code such as an annealing sample', () => {
+  it('accepts a code with a suffix, such as an annealing sample', () => {
     expect(issuesFor({ ...validSample, code: 'ALD023_Annealing' })).toEqual([]);
   });
 

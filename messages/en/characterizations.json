@@ -1,0 +1,52 @@
+{
+  "panel": {
+    "title": "Characterizations",
+    "description": "Measurements done on this sample. Files and results will attach to these later.",
+    "empty": "No characterizations yet. Record the first one, for example SEM or EDX.",
+    "add": "Add characterization",
+    "edit": "Edit {technique}",
+    "delete": "Delete {technique}",
+    "columns": {
+      "technique": "Technique",
+      "date": "Date",
+      "note": "Note",
+      "actions": "Actions"
+    },
+    "noDate": "No date"
+  },
+  "form": {
+    "addTitle": "Add characterization",
+    "editTitle": "Edit {technique}",
+    "description": "Record that a measurement was done on this sample. The same technique can be recorded more than once.",
+    "techniqueLabel": "Technique",
+    "techniqueHint": "For example SEM, EDX or ellipsometry. Use the names you already use.",
+    "knownTechniques": "Used in this project",
+    "useTechnique": "Use {technique}",
+    "dateLabel": "Date measured",
+    "dateHint": "Optional.",
+    "noteLabel": "Note",
+    "noteHint": "Optional. For example the area measured or the instrument settings.",
+    "cancel": "Cancel",
+    "submit": "Add characterization",
+    "save": "Save changes",
+    "errors": {
+      "techniqueRequired": "Enter the technique.",
+      "techniqueTooLong": "Use 60 characters or fewer.",
+      "dateInvalid": "Enter a valid date.",
+      "noteTooLong": "Use 500 characters or fewer."
+    }
+  },
+  "delete": {
+    "title": "Delete {technique}?",
+    "description": "This removes the record of this measurement from the sample. It cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "added": "Characterization {technique} added",
+  "updated": "Characterization {technique} updated",
+  "deleted": "Characterization {technique} deleted",
+  "column": {
+    "title": "Characterizations",
+    "times": "{technique} ×{count}"
+  }
+}

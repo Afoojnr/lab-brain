@@ -28,6 +28,7 @@ const DEFINITIONS: ParameterDefinition[] = [
     name: 'Power',
     unit: 'W',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 0
   },
@@ -37,6 +38,7 @@ const DEFINITIONS: ParameterDefinition[] = [
     name: 'Gas',
     unit: null,
     kind: 'text',
+    role: 'parameter',
     defaultValue: null,
     position: 1
   }

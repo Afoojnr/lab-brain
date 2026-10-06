@@ -121,7 +121,8 @@ export const PARAMETER_FORM_ERRORS = [
   'unitTooLong',
   'kindInvalid',
   'defaultNotANumber',
-  'defaultTooLong'
+  'defaultTooLong',
+  'resultHasDefault'
 ] as const;
 
 export type ParameterFormError = (typeof PARAMETER_FORM_ERRORS)[number];
@@ -162,10 +163,20 @@ export const buildParameterFormSchema = (otherNames: string[]) =>
       kind: z.enum(['number', 'text'], {
         error: 'kindInvalid' satisfies ParameterFormError
       }),
+      role: z.enum(['parameter', 'result']),
       /** Typed in; empty means no default. Checked against `kind` below. */
       defaultValue: z.string().trim()
     })
     .superRefine((values, context) => {
+      if (values.role === 'result' && values.defaultValue !== '') {
+        context.addIssue({
+          code: 'custom',
+          path: ['defaultValue'],
+          message: 'resultHasDefault' satisfies ParameterFormError
+        });
+        return;
+      }
+
       const parsed = parseParameterInput(values.defaultValue, values.kind);
       const message: ParameterFormError | undefined = !parsed.isValid
         ? 'defaultNotANumber'
@@ -194,7 +205,8 @@ export const isParameterFormError = (
 
 /**
  * Converts a form that already passed {@link buildParameterFormSchema} into
- * what is stored: the default as a number or text, or null when left empty.
+ * what is stored: the default as a number or text, or null when left empty
+ * (and always null for a result).
  *
  * @param values - The validated form values.
  */
@@ -207,7 +219,11 @@ export const toParameterInput = (
     name: values.name,
     unit: values.unit,
     kind: values.kind,
-    defaultValue: parsed.isValid ? (parsed.value ?? null) : null
+    role: values.role,
+    defaultValue:
+      values.role === 'result' || !parsed.isValid
+        ? null
+        : (parsed.value ?? null)
   };
 };
 
@@ -417,3 +433,54 @@ export const isStudyFormError = (
   message: string | undefined
 ): message is StudyFormError =>
   STUDY_FORM_ERRORS.some(error => error === message);
+
+/** Keys under `characterizations.form.errors` in `messages/<locale>/characterizations.json`. */
+export const CHARACTERIZATION_FORM_ERRORS = [
+  'techniqueRequired',
+  'techniqueTooLong',
+  'dateInvalid',
+  'noteTooLong'
+] as const;
+
+export type CharacterizationFormError =
+  (typeof CHARACTERIZATION_FORM_ERRORS)[number];
+
+const TECHNIQUE_MAX_LENGTH = 60;
+const CHARACTERIZATION_NOTE_MAX_LENGTH = 500;
+
+export const characterizationFormSchema = z.object({
+  technique: z
+    .string()
+    .trim()
+    .min(1, { error: 'techniqueRequired' satisfies CharacterizationFormError })
+    .max(TECHNIQUE_MAX_LENGTH, {
+      error: 'techniqueTooLong' satisfies CharacterizationFormError
+    }),
+  /** Empty means not recorded. */
+  measuredOn: z
+    .string()
+    .trim()
+    .refine(value => value === '' || isCalendarDate(value), {
+      error: 'dateInvalid' satisfies CharacterizationFormError
+    }),
+  note: z
+    .string()
+    .trim()
+    .max(CHARACTERIZATION_NOTE_MAX_LENGTH, {
+      error: 'noteTooLong' satisfies CharacterizationFormError
+    })
+});
+
+export type CharacterizationFormValues = z.infer<
+  typeof characterizationFormSchema
+>;
+
+/**
+ * Narrows a Zod error message to a known translation key.
+ *
+ * @param message - Message reported by {@link characterizationFormSchema}.
+ */
+export const isCharacterizationFormError = (
+  message: string | undefined
+): message is CharacterizationFormError =>
+  CHARACTERIZATION_FORM_ERRORS.some(error => error === message);

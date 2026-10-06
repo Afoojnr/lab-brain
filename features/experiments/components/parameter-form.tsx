@@ -37,7 +37,7 @@ type ParameterFormProps = {
   /** When set, the form edits this parameter instead of adding one. */
   parameter?: Pick<
     ParameterDefinition,
-    'id' | 'name' | 'unit' | 'kind' | 'defaultValue'
+    'id' | 'name' | 'unit' | 'kind' | 'role' | 'defaultValue'
   >;
   /** True once samples hold values for the parameter, so its type cannot change. */
   isKindLocked?: boolean;
@@ -65,6 +65,7 @@ export const ParameterForm = ({
   const {
     register,
     control,
+    setValue,
     handleSubmit,
     formState: { errors }
   } = useForm<ParameterFormValues>({
@@ -73,6 +74,7 @@ export const ParameterForm = ({
       name: parameter?.name ?? '',
       unit: parameter?.unit ?? '',
       kind: parameter?.kind ?? 'number',
+      role: parameter?.role ?? 'parameter',
       defaultValue:
         parameter?.defaultValue === null ||
         parameter?.defaultValue === undefined
@@ -81,10 +83,16 @@ export const ParameterForm = ({
     }
   });
   const kind = useWatch({ control, name: 'kind' });
+  const role = useWatch({ control, name: 'role' });
 
   const kindItems = [
     { value: 'number', label: t('kinds.number') },
     { value: 'text', label: t('kinds.text') }
+  ];
+
+  const roleItems = [
+    { value: 'parameter', label: t('roles.parameter') },
+    { value: 'result', label: t('roles.result') }
   ];
 
   const errorText = (message: string | undefined) =>
@@ -149,6 +157,38 @@ export const ParameterForm = ({
           <FieldDescription>{t('form.unitHint')}</FieldDescription>
           <FieldError>{errorText(errors.unit?.message)}</FieldError>
         </Field>
+        <Field>
+          <FieldLabel htmlFor="parameter-role">
+            {t('form.roleLabel')}
+          </FieldLabel>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <Select
+                items={roleItems}
+                value={field.value}
+                onValueChange={value => {
+                  field.onChange(value);
+                  // A result is never prefilled, so drop any typed default.
+                  if (value === 'result') setValue('defaultValue', '');
+                }}
+              >
+                <SelectTrigger id="parameter-role" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {roleItems.map(item => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <FieldDescription>{t(`form.roleHint.${role}`)}</FieldDescription>
+        </Field>
         <Field data-invalid={Boolean(errors.kind)}>
           <FieldLabel htmlFor="parameter-kind">
             {t('form.kindLabel')}
@@ -181,20 +221,22 @@ export const ParameterForm = ({
           )}
           <FieldError>{errorText(errors.kind?.message)}</FieldError>
         </Field>
-        <Field data-invalid={Boolean(errors.defaultValue)}>
-          <FieldLabel htmlFor="parameter-default">
-            {t('form.defaultLabel')}
-          </FieldLabel>
-          <Input
-            id="parameter-default"
-            autoComplete="off"
-            inputMode={kind === 'number' ? 'decimal' : 'text'}
-            aria-invalid={Boolean(errors.defaultValue)}
-            {...register('defaultValue')}
-          />
-          <FieldDescription>{t('form.defaultHint')}</FieldDescription>
-          <FieldError>{errorText(errors.defaultValue?.message)}</FieldError>
-        </Field>
+        {role === 'parameter' && (
+          <Field data-invalid={Boolean(errors.defaultValue)}>
+            <FieldLabel htmlFor="parameter-default">
+              {t('form.defaultLabel')}
+            </FieldLabel>
+            <Input
+              id="parameter-default"
+              autoComplete="off"
+              inputMode={kind === 'number' ? 'decimal' : 'text'}
+              aria-invalid={Boolean(errors.defaultValue)}
+              {...register('defaultValue')}
+            />
+            <FieldDescription>{t('form.defaultHint')}</FieldDescription>
+            <FieldError>{errorText(errors.defaultValue?.message)}</FieldError>
+          </Field>
+        )}
       </FieldGroup>
       <div className="flex justify-end gap-2">
         <Button type="button" variant="ghost" onClick={onCancel}>

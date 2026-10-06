@@ -55,9 +55,15 @@ describe('ParameterForm', () => {
     expect(createParameterDefinitionAction).toHaveBeenCalledWith(
       'project-1',
       'experiment-1',
-      { name: 'Temperature', unit: '°C', kind: 'number', defaultValue: '' }
+      {
+        name: 'Temperature',
+        unit: '°C',
+        kind: 'number',
+        role: 'parameter',
+        defaultValue: ''
+      }
     );
-    expect(toast.success).toHaveBeenCalledWith('Parameter Temperature added');
+    expect(toast.success).toHaveBeenCalledWith('Column Temperature added');
   });
 
   it('rejects a name another parameter already has, before calling the server', async () => {
@@ -88,6 +94,7 @@ describe('ParameterForm', () => {
         name: 'Power',
         unit: 'W',
         kind: 'number',
+        role: 'parameter',
         defaultValue: null
       }
     });
@@ -103,7 +110,13 @@ describe('ParameterForm', () => {
       'project-1',
       'experiment-1',
       'power',
-      { name: 'Power', unit: 'Watt', kind: 'number', defaultValue: '' }
+      {
+        name: 'Power',
+        unit: 'Watt',
+        kind: 'number',
+        role: 'parameter',
+        defaultValue: ''
+      }
     );
     expect(createParameterDefinitionAction).not.toHaveBeenCalled();
   });
@@ -115,6 +128,7 @@ describe('ParameterForm', () => {
         name: 'Power',
         unit: 'W',
         kind: 'number',
+        role: 'parameter',
         defaultValue: null
       },
       isKindLocked: true
@@ -150,7 +164,13 @@ describe('ParameterForm', () => {
       expect(createParameterDefinitionAction).toHaveBeenCalledWith(
         'project-1',
         'experiment-1',
-        { name: 'Temperature', unit: '', kind: 'number', defaultValue: '200' }
+        {
+          name: 'Temperature',
+          unit: '',
+          kind: 'number',
+          role: 'parameter',
+          defaultValue: '200'
+        }
       );
     });
 
@@ -176,6 +196,7 @@ describe('ParameterForm', () => {
           name: 'Power',
           unit: 'W',
           kind: 'number',
+          role: 'parameter',
           defaultValue: 100
         }
       });
@@ -192,11 +213,33 @@ describe('ParameterForm', () => {
           name: 'Power',
           unit: 'W',
           kind: 'number',
+          role: 'parameter',
           defaultValue: null
         }
       });
 
       expect(screen.getByLabelText(form.defaultLabel)).toHaveValue('');
     });
+  });
+
+  it('hides the default value for a result and saves it without one', async () => {
+    vi.mocked(createParameterDefinitionAction).mockResolvedValueOnce(true);
+    const { user } = renderForm();
+    await user.type(screen.getByLabelText(form.nameLabel), 'Thickness');
+    await user.type(screen.getByLabelText(form.defaultLabel), '40');
+
+    await user.click(screen.getByLabelText(form.roleLabel));
+    await user.click(await screen.findByRole('option', { name: 'Result' }));
+
+    expect(screen.queryByLabelText(form.defaultLabel)).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: form.submit }));
+
+    await waitFor(() =>
+      expect(createParameterDefinitionAction).toHaveBeenCalledWith(
+        'project-1',
+        'experiment-1',
+        expect.objectContaining({ role: 'result', defaultValue: '' })
+      )
+    );
   });
 });

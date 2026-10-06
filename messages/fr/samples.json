@@ -11,7 +11,11 @@
       "observation": "Observation"
     },
     "noMatch": "Aucun échantillon ne correspond à ces filtres.",
-    "noteLabel": "Note"
+    "noteLabel": "Note",
+    "groups": {
+      "parameters": "Paramètres",
+      "results": "Résultats"
+    }
   },
   "new": {
     "title": "Ajouter un échantillon",
@@ -28,8 +32,8 @@
     "codeHint": "Proposé à partir du préfixe de l'expérience. Vous pouvez le changer.",
     "dateLabel": "Date de réalisation",
     "dateHint": "Facultatif.",
-    "valuesTitle": "Valeurs",
-    "valuesHint": "Laissez une valeur vide si elle n'a pas été enregistrée.",
+    "valuesTitle": "Paramètres",
+    "valuesHint": "Réglages choisis pour l'échantillon. Laissez une valeur vide si elle n'a pas été enregistrée.",
     "noColumns": "Cette expérience n'a pas encore de colonnes. Vous pouvez les ajouter depuis la page de l'expérience.",
     "implementationLabel": "Mise en œuvre",
     "implementationHint": "Pourquoi cet échantillon a été réalisé.",
@@ -52,7 +56,9 @@
     "studiesLabel": "Études",
     "studiesHint": "Facultatif. Choisissez les études auxquelles appartient cet échantillon ; il peut être dans plusieurs.",
     "studiesPlaceholder": "Rechercher des études",
-    "studiesNoMatch": "Aucune étude ne correspond."
+    "studiesNoMatch": "Aucune étude ne correspond.",
+    "resultsTitle": "Résultats",
+    "resultsHint": "Mesurés ensuite. Laissez une valeur vide tant que vous n'avez pas la mesure."
   },
   "created": "Échantillon {code} enregistré",
   "updated": "Échantillon {code} mis à jour",
@@ -69,7 +75,7 @@
       "name": "Paramètre",
       "value": "Valeur",
       "notRecorded": "Non renseigné",
-      "empty": "Cette expérience n'a pas encore de colonnes."
+      "empty": "Cette expérience n'a pas encore de colonnes de paramètres."
     },
     "observation": {
       "title": "Observation",
@@ -81,6 +87,9 @@
     },
     "note": {
       "title": "Note"
+    },
+    "results": {
+      "title": "Résultats"
     }
   }
 }

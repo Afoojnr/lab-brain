@@ -3,7 +3,7 @@
 ## Overview
 
 A web-based research workspace for experimental materials science, built around a
-structured, linked data model: synthesis → characterization → analysis → conclusion.
+structured, linked data model: sample → characterization → analysis → conclusion.
 It replaces the current fragmented setup (folders, spreadsheets, PowerPoint, personal
 notes) with one connected system that lets you collect data, retrieve it later, run
 simple characterization calculations, and export the whole chain for a future reader.
@@ -55,18 +55,30 @@ literature — not generic or hallucinated advice.
 
 ### 1. Data & provenance layer (foundation)
 
-- Structured records for `Project`, `Experiment`, `Synthesis`, `Sample`, and `Dataset`,
-  each with a unique ID.
-- `Project` is the top-level container (e.g. "ALD", "CVD"), each with its own default
-  protocol/method. A project holds many independent `Experiment` trees.
-- `Experiment` is hierarchical, not flat: an experiment can have sub-experiments
-  (trials, sub-trials — e.g. `ALD001 → ALD001_1 → ALD001_1_1`), via a self-referencing
-  parent link.
-- `Synthesis` is a batch run producing one or more `Sample`s, each with per-sample
-  parameter overrides where they differ from the batch default.
-- Explicit links between records (synthesis → characterization run → analysis →
-  figure), forming a traceable provenance chain — plus a _forward_ link from an
-  experiment's "next steps" conclusion to the objective of the experiment it led to.
+- Structured records for `Project`, `Experiment`, `Study`, `Sample`,
+  `Characterization`, `Dataset` and `Analysis`, each with a unique ID. The model
+  mirrors how the data is already kept in Excel: one sheet per kind of sample.
+- `Project` is the top-level container (e.g. "ALD of BxC", "CVD of borophene") with a
+  free-text description.
+- `Experiment` is one sheet of the spreadsheet (e.g. "Deposition" with prefix `ALD`,
+  "Paschen law" with prefix `PSL`). It owns its **columns**, its code prefix and a
+  base protocol. Experiments never nest.
+- **Columns** belong to an experiment and are either a **parameter** (what you set:
+  temperature, plasma power) or a **result** (what you measured: thickness, B/C
+  ratio). Each has a unit and a number or text type, and may be added at any time;
+  older samples simply have no value for it. A parameter can have a default that is
+  copied into a new sample when saved; a result is never prefilled.
+- `Sample` is one row (e.g. `ALD023`, unique within the project): a value per column
+  (an empty value means "not recorded", never zero), an optional date, an
+  implementation (why it was made), an observation, and one short note. A
+  treated sample such as an annealing is just another sample with its own code.
+- `Study` is an optional named group of samples inside one experiment (e.g. "Plasma
+  pulse study"). A sample can be in several studies; a study never spans experiments.
+- `Characterization` records that a measurement was done on a sample (technique, date,
+  note). The same technique can be recorded many times. Technique names are typed by
+  the user, never a fixed list, and respelled to the project's existing spelling.
+- Explicit links between records (sample → characterization → dataset → analysis →
+  figure), forming a traceable provenance chain.
 - Metadata (records + links) lives in a database (SQLite via Drizzle ORM to start —
   file-based, zero setup, easy to inspect — with a clean path to Postgres later if
   ever needed). Raw files are _referenced_, never duplicated into the database.
@@ -87,15 +99,15 @@ literature — not generic or hallucinated advice.
 ### 3. Import from existing spreadsheets (Excel first, CSV later)
 
 - You already have real PhD data recorded in Excel — the app should read that in and
-  autofill `Experiment`/`Synthesis`/`Sample` records instead of forcing re-entry from
+  autofill `Experiment`, column and `Sample` records instead of forcing re-entry from
   scratch.
-- Works both ways: **create new records** from a fresh import, or **add points to an
-  existing experiment** (new samples/rows appended to something already in the app).
+- Works both ways: **create new records** from a fresh import (one spreadsheet sheet
+  becomes one experiment), or **add rows to an existing experiment**.
 - Flow: upload a file → **column-mapping step** (map your existing column headers —
   temperature, cycles, plasma pulse, sample ID, etc. — to the app's fields, since
   every spreadsheet is laid out differently) → **validation step** → preview the rows
-  it will create → confirm → records are created and linked (e.g. rows sharing a
-  batch/date become samples under one `Synthesis`).
+  it will create → confirm → records are created and linked (each row becomes a
+  sample, each mapped column a parameter or result column).
 - **Validation, before anything is written**:
   - **Duplicate sample/experiment IDs**: if an ID in the spreadsheet already exists in
     the target experiment (or elsewhere in the project), flag it as a warning —
@@ -168,9 +180,9 @@ parse the raw export format, compute a derived value, and hand off to a chart.
 
 **Stage 1 — the core loop (build first):**
 
-- Next.js app: data model (`Project`, `Experiment` with nesting, `Synthesis`,
-  `Sample`, `Dataset`) via Drizzle/SQLite, linking/provenance logic (backward +
-  forward), local-file `StorageAdapter`.
+- Next.js app: data model (`Project`, `Experiment`, `Study`, `Sample`,
+  `Characterization`, `Dataset`) via Drizzle/SQLite, linking/provenance logic, and a
+  local-file `StorageAdapter`.
 - Excel import (column-mapping → preview → confirm) to bootstrap real existing data
   instead of manual re-entry — CSV support added later behind the same interface.
 - Notebook entries (markdown, linked to records).
@@ -196,7 +208,7 @@ parse the raw export format, compute a derived value, and hand off to a chart.
   overlapping-peak analysis — would be an isolated module, not a stack change).
 
 The MVP succeeds if you can, on your own real PhD data: register a sample, link its
-synthesis and characterization run, get a computed value/plot from a characterization
+characterization run, get a computed value/plot from a characterization
 module, export the whole chain to something a labmate could read, and ask the
 assistant a question about your own experiment history and get a grounded, sourced
 answer.
@@ -227,8 +239,9 @@ answer.
 
 ## Build Order
 
-1. Data model (`Project`, `Experiment` nesting, `Synthesis`, `Sample`, `Dataset`) +
-   Drizzle schema + local `StorageAdapter`. Use it on real data.
+1. Data model (`Project`, `Experiment`, `Study`, `Sample`, `Characterization`) +
+   Drizzle schema. The interface is built first against in-memory demo data, then
+   the database replaces it (Step 6 of the build log below). Use it on real data.
 2. Excel import (mapping → preview → confirm) to bootstrap your existing spreadsheet
    data — this is also the fastest way to get real records in without hand-entry.
 3. One characterization module end-to-end (parse → calculate → plot).
@@ -238,6 +251,36 @@ answer.
    then live literature search.
 7. Everything else (Nextcloud sync, CSV import, more techniques, multi-user, "suggest
    next steps") — only once the above is solid and in daily use.
+
+---
+
+## Roadmap after the database (agreed with the owner)
+
+The interface for projects, experiments, columns (parameters and results),
+samples, studies and characterization records is built first on in-memory demo
+data (`features/experiments/data/`); Drizzle + SQLite then replaces it. After that,
+in this order:
+
+1. **Storage and files on characterizations.** The app copies files into its own
+   storage through the `StorageAdapter` (never referencing paths on the user's disk).
+   Layout is one folder per sample, then per technique:
+   `project/experiment/ALD001/EDX/2026-09-14_<file>`. The date lives on the record and
+   in the file name, not as a folder; the user may split instrument date folders per
+   sample with their own script before importing. A file that covers several samples
+   is stored once and shown under each sample (details decided in this step). SEM and
+   AFM images show inline, with their stored location.
+2. **Parsers per technique** (EDX, ellipsometry, FTIR, UV-Vis, ...): read the raw file,
+   show the location and a plot, including a treated version. Raw files are never
+   changed; a treated plot is saved separately with its settings.
+3. **Technique tabs that fill result columns.** Load files, run the calculation, then
+   preview the numbers ("ALD012 thickness: 41.2 → 43.0 nm") and confirm update or
+   skip per row, so a value typed by hand is never silently overwritten. Typing a
+   result by hand always remains possible. Formulas and constants are written with
+   the owner, never guessed.
+4. **Plotting selected rows**: pick samples in the table, choose X and Y from the
+   columns (parameters or results), and plot (library still to be chosen).
+5. **Notebook**, with one shared markdown editor that also formats long protocols and
+   descriptions (bullets, bold), instead of plain text.
 
 ---
 

@@ -2,7 +2,8 @@ import type { Sample } from '../types';
 
 // TODO: demo data, replace with Drizzle in Step 6.
 //
-// EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS: every number and text below is
+// EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS (thickness and B/C ratio on the
+// first samples are placeholders too): every number and text below is
 // a placeholder to show the layout. Only the four plasma pulse durations (5,
 // 10, 15, 20 s) come from the owner's own spec example. Cycles is left empty
 // on the first two samples to show a column that was added later.
@@ -21,14 +22,15 @@ export const DEMO_SAMPLES: Sample[] = [
       'demo-parameter-11': 0.5,
       'demo-parameter-12': 2,
       'demo-parameter-13': 30,
-      'demo-parameter-14': 'Example: silicon wafer, native oxide'
+      'demo-parameter-14': 'Example: silicon wafer, native oxide',
+      'demo-parameter-15': 40.5,
+      'demo-parameter-16': 1.8
     },
     note: null,
     implementation:
       'Example, long text to test the table: plasma pulse study, first sample. Goal is to see how the film thickness changes with plasma pulse duration while every other setting stays the same. The reactor was pumped down overnight, the substrate was loaded after a short nitrogen purge, and the line was conditioned with ten dummy cycles before starting. This sentence only exists to make the cell wrap over several lines.',
     observation:
       'Example, long text to test the table: the film looked uniform across most of the wafer, with a faint colour change near one edge that may come from the holder. No visible particles. To be checked with ellipsometry and XPS before comparing with the next sample in the experiment. This sentence only exists to make the cell wrap over several lines.',
-    derivedFromId: null,
     studyIds: ['demo-study-1'],
     createdAt: new Date('2026-09-04T10:00:00Z')
   },
@@ -46,12 +48,13 @@ export const DEMO_SAMPLES: Sample[] = [
       'demo-parameter-11': 0.5,
       'demo-parameter-12': 2,
       'demo-parameter-13': 30,
-      'demo-parameter-14': 'Example: silicon wafer, native oxide'
+      'demo-parameter-14': 'Example: silicon wafer, native oxide',
+      'demo-parameter-15': 43.2,
+      'demo-parameter-16': 1.9
     },
     note: null,
     implementation: 'Example: second sample of the plasma pulse study.',
     observation: null,
-    derivedFromId: null,
     studyIds: ['demo-study-1'],
     createdAt: new Date('2026-09-05T10:00:00Z')
   },
@@ -70,14 +73,14 @@ export const DEMO_SAMPLES: Sample[] = [
       'demo-parameter-11': 0.6,
       'demo-parameter-12': 2,
       'demo-parameter-13': 45,
-      'demo-parameter-14': 'Example: silicon wafer, native oxide'
+      'demo-parameter-14': 'Example: silicon wafer, native oxide',
+      'demo-parameter-15': 47.8
     },
     note: 'Example note: pulse changed after reactor service.',
     implementation:
       'Example, long text to test the table: plasma pulse study, third sample, longer pulse. Goal is to see how the film thickness changes with plasma pulse duration while every other setting stays the same. The reactor was pumped down overnight, the substrate was loaded after a short nitrogen purge, and the line was conditioned with ten dummy cycles before starting. This sentence only exists to make the cell wrap over several lines.',
     observation:
       'Example, long text to test the table: the film looked uniform across most of the wafer, with a faint colour change near one edge that may come from the holder. No visible particles. To be checked with ellipsometry and XPS before comparing with the next sample in the experiment. This sentence only exists to make the cell wrap over several lines.',
-    derivedFromId: null,
     studyIds: ['demo-study-1'],
     createdAt: new Date('2026-09-08T10:00:00Z')
   },
@@ -101,7 +104,6 @@ export const DEMO_SAMPLES: Sample[] = [
     note: null,
     implementation: 'Example: last sample of the plasma pulse study.',
     observation: null,
-    derivedFromId: null,
     studyIds: ['demo-study-1', 'demo-study-2'],
     createdAt: new Date('2026-09-09T10:00:00Z')
   },
@@ -125,7 +127,6 @@ export const DEMO_SAMPLES: Sample[] = [
     note: null,
     implementation: 'Example: reuses earlier settings for the TEB study.',
     observation: null,
-    derivedFromId: null,
     studyIds: ['demo-study-2'],
     createdAt: new Date('2026-09-10T10:00:00Z')
   },
@@ -144,14 +145,14 @@ export const DEMO_SAMPLES: Sample[] = [
       'demo-parameter-11': 0.5,
       'demo-parameter-12': 2,
       'demo-parameter-13': 30,
-      'demo-parameter-14': 'Example: silicon wafer, native oxide'
+      'demo-parameter-14': 'Example: silicon wafer, native oxide',
+      'demo-parameter-15': 52.1
     },
     note: null,
     implementation:
       'Example, long text to test the table: reference run after a break. Goal is to see how the film thickness changes with plasma pulse duration while every other setting stays the same. The reactor was pumped down overnight, the substrate was loaded after a short nitrogen purge, and the line was conditioned with ten dummy cycles before starting. This sentence only exists to make the cell wrap over several lines.',
     observation:
       'Example, long text to test the table: the film looked uniform across most of the wafer, with a faint colour change near one edge that may come from the holder. No visible particles. To be checked with ellipsometry and XPS before comparing with the next sample in the experiment. This sentence only exists to make the cell wrap over several lines.',
-    derivedFromId: null,
     studyIds: ['demo-study-3'],
     createdAt: new Date('2026-09-14T10:00:00Z')
   },
@@ -165,7 +166,6 @@ export const DEMO_SAMPLES: Sample[] = [
     implementation:
       'Example: annealing of ALD003. The treatment is described here.',
     observation: null,
-    derivedFromId: 'demo-sample-3',
     studyIds: [],
     createdAt: new Date('2026-09-12T10:00:00Z')
   },
@@ -178,7 +178,6 @@ export const DEMO_SAMPLES: Sample[] = [
     note: null,
     implementation: 'Example: first Paschen law measurement.',
     observation: null,
-    derivedFromId: null,
     studyIds: [],
     createdAt: new Date('2026-09-06T10:00:00Z')
   },
@@ -191,7 +190,6 @@ export const DEMO_SAMPLES: Sample[] = [
     note: null,
     implementation: 'Example: second Paschen law measurement.',
     observation: null,
-    derivedFromId: null,
     studyIds: [],
     createdAt: new Date('2026-09-06T11:00:00Z')
   },
@@ -204,7 +202,6 @@ export const DEMO_SAMPLES: Sample[] = [
     note: null,
     implementation: 'Example: first temperature calibration.',
     observation: null,
-    derivedFromId: null,
     studyIds: [],
     createdAt: new Date('2026-09-13T10:00:00Z')
   }

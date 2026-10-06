@@ -14,7 +14,7 @@ import {
 import { getExperimentById } from '../data/experiments';
 import {
   defaultSampleInputs,
-  sampleToInputs,
+  duplicateSampleInputs,
   suggestNextSampleCode
 } from '../parameters';
 import { SampleForm } from './sample-form';
@@ -87,7 +87,7 @@ export const NewSample = async ({
             code: suggestNextSampleCode(experiment.codePrefix, codes),
             performedOn: source?.performedOn ?? '',
             values: source
-              ? sampleToInputs(definitions, source)
+              ? duplicateSampleInputs(definitions, source)
               : defaultSampleInputs(definitions, samples.at(-1)),
             studyIds: source?.studyIds ?? [],
             implementation: source?.implementation ?? '',

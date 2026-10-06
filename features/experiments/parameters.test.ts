@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   CALENDAR_DATE_FORMAT,
   defaultSampleInputs,
+  duplicateSampleInputs,
   emptyInputs,
   parseParameterInput,
   parseParameterInputs,
@@ -20,6 +21,7 @@ const definition = (
   name: 'Parameter',
   unit: null,
   kind: 'number',
+  role: 'parameter',
   defaultValue: null,
   position: 0,
   ...overrides
@@ -120,7 +122,7 @@ describe('suggestNextSampleCode', () => {
     expect(suggestNextSampleCode('ALD', ['ALD999'])).toBe('ALD1000');
   });
 
-  it('ignores derived codes such as an annealing sample', () => {
+  it('ignores codes that are not exactly prefix + digits, such as a hand-typed annealing code', () => {
     expect(
       suggestNextSampleCode('ALD', [
         'ALD023',
@@ -175,6 +177,31 @@ describe('defaultSampleInputs', () => {
 
   it('starts empty when there is neither a default nor an earlier sample', () => {
     expect(defaultSampleInputs([POWER], undefined)).toEqual({ power: '' });
+  });
+});
+
+describe('results are never prefilled', () => {
+  const THICKNESS = definition({
+    id: 'thickness',
+    name: 'Thickness',
+    role: 'result',
+    position: 5
+  });
+
+  it('leaves a result empty on a new sample, even when the previous sample has one', () => {
+    expect(
+      defaultSampleInputs([POWER, THICKNESS], {
+        values: { power: 250, thickness: 41.2 }
+      })
+    ).toEqual({ power: '250', thickness: '' });
+  });
+
+  it('copies parameters but not results when duplicating a sample', () => {
+    expect(
+      duplicateSampleInputs([POWER, THICKNESS], {
+        values: { power: 250, thickness: 41.2 }
+      })
+    ).toEqual({ power: '250', thickness: '' });
   });
 });
 

@@ -1,19 +1,20 @@
 {
   "panel": {
-    "title": "Paramètres",
-    "description": "Les colonnes de cette expérience. Les échantillons enregistrés avant l'ajout d'une colonne n'ont simplement pas de valeur pour elle.",
-    "empty": "Aucune colonne pour l'instant. Ajoutez les réglages que vous faites varier ou enregistrez, comme une température ou une durée.",
-    "add": "Ajouter un paramètre",
+    "title": "Colonnes",
+    "description": "Les colonnes de cette expérience : les paramètres que vous réglez et les résultats que vous mesurez. Les échantillons enregistrés avant l'ajout d'une colonne n'ont simplement pas de valeur pour elle.",
+    "empty": "Aucune colonne pour l'instant. Ajoutez les réglages que vous faites varier ou les résultats que vous mesurez, comme une température ou une épaisseur.",
+    "add": "Ajouter une colonne",
     "edit": "Modifier {name}",
     "delete": "Supprimer {name}",
-    "inUse": "Des échantillons contiennent des valeurs pour ce paramètre, il ne peut donc pas être supprimé.",
+    "inUse": "Des échantillons ont une valeur pour cette colonne ; elle ne peut donc pas être supprimée.",
     "noUnit": "Sans unité",
     "columns": {
       "name": "Nom",
       "unit": "Unité",
       "kind": "Type",
       "actions": "Actions",
-      "default": "Par défaut"
+      "default": "Par défaut",
+      "role": "Catégorie"
     },
     "noDefault": "Aucune"
   },
@@ -22,30 +23,40 @@
     "text": "Texte"
   },
   "form": {
-    "addTitle": "Ajouter un paramètre",
-    "editTitle": "Modifier le paramètre {name}",
+    "addTitle": "Ajouter une colonne",
+    "editTitle": "Modifier la colonne {name}",
     "description": "Les colonnes appartiennent à cette expérience. Les échantillons déjà enregistrés gardent leurs valeurs et affichent une nouvelle colonne vide.",
     "nameLabel": "Nom",
     "unitLabel": "Unité",
     "unitHint": "Facultatif, par exemple W, s ou °C.",
     "kindLabel": "Type",
-    "kindLocked": "Le type ne peut plus changer dès que des échantillons contiennent des valeurs pour ce paramètre.",
+    "kindLocked": "Le type ne peut plus changer dès que des échantillons ont une valeur pour cette colonne.",
     "cancel": "Annuler",
-    "submit": "Ajouter le paramètre",
+    "submit": "Ajouter la colonne",
     "save": "Enregistrer",
     "errors": {
-      "nameRequired": "Saisissez un nom pour le paramètre.",
+      "nameRequired": "Saisissez un nom pour la colonne.",
       "nameTooLong": "Utilisez 60 caractères ou moins.",
-      "nameDuplicate": "Cette expérience a déjà un paramètre portant ce nom.",
+      "nameDuplicate": "Cette expérience a déjà une colonne portant ce nom.",
       "unitTooLong": "Utilisez 20 caractères ou moins.",
       "kindInvalid": "Choisissez nombre ou texte.",
       "defaultNotANumber": "Saisissez un nombre, par exemple 1,5, ou laissez vide.",
-      "defaultTooLong": "Utilisez 200 caractères ou moins."
+      "defaultTooLong": "Utilisez 200 caractères ou moins.",
+      "resultHasDefault": "Un résultat ne peut pas avoir de valeur par défaut."
     },
     "defaultLabel": "Valeur par défaut",
-    "defaultHint": "Facultatif. Préremplit ce paramètre dans chaque nouvel échantillon. Les échantillons déjà enregistrés gardent leurs propres valeurs."
+    "defaultHint": "Facultatif. Préremplit ce paramètre dans chaque nouvel échantillon. Les échantillons déjà enregistrés gardent leurs propres valeurs.",
+    "roleLabel": "Catégorie",
+    "roleHint": {
+      "parameter": "Un réglage que vous choisissez pour l'échantillon, comme une température ou une durée.",
+      "result": "Ce que vous mesurez ensuite sur l'échantillon, comme une épaisseur. Il n'est jamais prérempli."
+    }
   },
-  "added": "Paramètre {name} ajouté",
-  "updated": "Paramètre {name} mis à jour",
-  "deleted": "Paramètre {name} supprimé"
+  "added": "Colonne {name} ajoutée",
+  "updated": "Colonne {name} mise à jour",
+  "deleted": "Colonne {name} supprimée",
+  "roles": {
+    "parameter": "Paramètre",
+    "result": "Résultat"
+  }
 }
