@@ -11,7 +11,11 @@
       "observation": "Observation"
     },
     "noMatch": "No samples match these filters.",
-    "noteLabel": "Note"
+    "noteLabel": "Note",
+    "groups": {
+      "parameters": "Parameters",
+      "results": "Results"
+    }
   },
   "new": {
     "title": "Add sample",
@@ -28,8 +32,8 @@
     "codeHint": "Suggested from the experiment prefix. You can change it.",
     "dateLabel": "Date performed",
     "dateHint": "Optional.",
-    "valuesTitle": "Values",
-    "valuesHint": "Leave a value empty if it was not recorded.",
+    "valuesTitle": "Parameters",
+    "valuesHint": "Settings you chose for the sample. Leave a value empty if it was not recorded.",
     "noColumns": "This experiment has no columns yet. You can add them from the experiment page.",
     "implementationLabel": "Implementation",
     "implementationHint": "Why this sample was made.",
@@ -52,7 +56,9 @@
     "studiesLabel": "Studies",
     "studiesHint": "Optional. Pick the studies this sample belongs to; it can be in several.",
     "studiesPlaceholder": "Search studies",
-    "studiesNoMatch": "No study matches."
+    "studiesNoMatch": "No study matches.",
+    "resultsTitle": "Results",
+    "resultsHint": "Measured afterwards. Leave a value empty until you have the measurement."
   },
   "created": "Sample {code} saved",
   "updated": "Sample {code} updated",
@@ -69,7 +75,7 @@
       "name": "Parameter",
       "value": "Value",
       "notRecorded": "Not recorded",
-      "empty": "This experiment has no columns yet."
+      "empty": "This experiment has no parameter columns yet."
     },
     "observation": {
       "title": "Observation",
@@ -81,6 +87,9 @@
     },
     "note": {
       "title": "Note"
+    },
+    "results": {
+      "title": "Results"
     }
   }
 }

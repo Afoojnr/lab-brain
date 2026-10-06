@@ -6,23 +6,21 @@ import { getFormatter, getTranslations } from 'next-intl/server';
 import { RecordDetail } from '@/components/record-detail';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table';
 
+import {
+  listCharacterizationsBySample,
+  listTechniquesByProject
+} from '../data/characterizations';
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { getSampleById } from '../data/samples';
 import { getExperimentById } from '../data/experiments';
 import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
-import { formatParameterValue } from './format-parameter-value';
+import { CharacterizationDialog } from './characterization-dialog';
+import { CharacterizationsTable } from './characterizations-table';
 import { RecordLink } from './record-link';
+import { SampleValuesTable } from './sample-values-table';
 
 type SampleDetailProps = {
   projectId: string;
@@ -34,22 +32,30 @@ type SampleDetailProps = {
  * One sample on the shared record layout: its implementation leads the page,
  * and its recorded values and observation are the main content.
  *
- * TODO: lineage (derived samples) and characterizations (next), then the notebook (a later feature).
+ * TODO: the notebook (a later feature).
  */
 export const SampleDetail = async ({
   projectId,
   experimentId,
   sampleId
 }: SampleDetailProps) => {
-  const [t, tExperiments, format, project, experiment, sample] =
-    await Promise.all([
-      getTranslations('samples'),
-      getTranslations('experiments'),
-      getFormatter(),
-      getProjectById(projectId),
-      getExperimentById(experimentId),
-      getSampleById(sampleId)
-    ]);
+  const [
+    t,
+    tExperiments,
+    tCharacterizations,
+    format,
+    project,
+    experiment,
+    sample
+  ] = await Promise.all([
+    getTranslations('samples'),
+    getTranslations('experiments'),
+    getTranslations('characterizations'),
+    getFormatter(),
+    getProjectById(projectId),
+    getExperimentById(experimentId),
+    getSampleById(sampleId)
+  ]);
   if (
     !project ||
     !experiment ||
@@ -60,10 +66,19 @@ export const SampleDetail = async ({
     notFound();
   }
 
-  const [definitions, studies] = await Promise.all([
-    listParameterDefinitions(experiment.id),
-    listStudiesByExperiment(experiment.id)
-  ]);
+  const [definitions, studies, characterizations, knownTechniques] =
+    await Promise.all([
+      listParameterDefinitions(experiment.id),
+      listStudiesByExperiment(experiment.id),
+      listCharacterizationsBySample(sample.id),
+      listTechniquesByProject(project.id)
+    ]);
+  const parameters = definitions.filter(
+    definition => definition.role === 'parameter'
+  );
+  const results = definitions.filter(
+    definition => definition.role === 'result'
+  );
   const sampleStudies = studies.filter(study =>
     sample.studyIds.includes(study.id)
   );
@@ -136,42 +151,44 @@ export const SampleDetail = async ({
         {
           title: t('detail.parameters.title'),
           content:
-            definitions.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>{t('detail.parameters.name')}</TableHead>
-                    <TableHead>{t('detail.parameters.value')}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {definitions.map(definition => {
-                    const value = sample.values[definition.id];
-
-                    return (
-                      <TableRow key={definition.id}>
-                        <TableCell className="font-medium">
-                          {definition.name}
-                        </TableCell>
-                        <TableCell>
-                          {value === undefined ? (
-                            <span className="text-muted-foreground">
-                              {t('detail.parameters.notRecorded')}
-                            </span>
-                          ) : (
-                            `${formatParameterValue(format, value)}${definition.unit ? ` ${definition.unit}` : ''}`
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+            parameters.length > 0 ? (
+              <SampleValuesTable definitions={parameters} sample={sample} />
             ) : (
               <p className="text-muted-foreground text-sm">
                 {t('detail.parameters.empty')}
               </p>
             )
+        },
+        ...(results.length > 0
+          ? [
+              {
+                title: t('detail.results.title'),
+                content: (
+                  <SampleValuesTable definitions={results} sample={sample} />
+                )
+              }
+            ]
+          : []),
+        {
+          title: tCharacterizations('panel.title'),
+          description: tCharacterizations('panel.description'),
+          actions: (
+            <CharacterizationDialog
+              projectId={project.id}
+              experimentId={experiment.id}
+              sampleId={sample.id}
+              knownTechniques={knownTechniques}
+            />
+          ),
+          content: (
+            <CharacterizationsTable
+              projectId={project.id}
+              experimentId={experiment.id}
+              sampleId={sample.id}
+              characterizations={characterizations}
+              knownTechniques={knownTechniques}
+            />
+          )
         },
         {
           title: t('detail.observation.title'),

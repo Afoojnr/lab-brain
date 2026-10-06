@@ -10,7 +10,7 @@ test("lists a project's experiments with how many samples and columns each has",
   const deposition = page.getByRole('link', { name: /Deposition/ });
   await expect(deposition).toContainText('ALD');
   await expect(deposition).toContainText('7 samples');
-  await expect(deposition).toContainText('10 columns');
+  await expect(deposition).toContainText('12 columns');
   await expect(page.getByRole('link', { name: /Paschen law/ })).toContainText(
     '2 samples'
   );

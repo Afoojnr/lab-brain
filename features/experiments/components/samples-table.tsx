@@ -20,8 +20,14 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 
+import { summarizeTechniques } from '../characterizations';
 import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
-import type { Study, ParameterDefinition, Sample } from '../types';
+import type {
+  Characterization,
+  ParameterDefinition,
+  Sample,
+  Study
+} from '../types';
 import { AssignStudyBar } from './assign-study-bar';
 import { formatParameterValue } from './format-parameter-value';
 import { ParameterLabel } from './parameter-label';
@@ -33,6 +39,8 @@ type SamplesTableProps = {
   definitions: ParameterDefinition[];
   samples: Sample[];
   studies: Study[];
+  /** Every characterization of these samples, for the techniques column. */
+  characterizations: Characterization[];
   /** True when a tag or search is hiding samples, so an empty table says so. */
   isFiltered: boolean;
 };
@@ -49,10 +57,12 @@ export const SamplesTable = ({
   definitions,
   samples,
   studies,
+  characterizations,
   isFiltered
 }: SamplesTableProps) => {
   const t = useTranslations('samples.list');
   const tAssign = useTranslations('studies.assign');
+  const tCharacterizations = useTranslations('characterizations');
   const format = useFormatter();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -64,6 +74,14 @@ export const SamplesTable = ({
     );
   }
 
+  const techniquesBySample = new Map(
+    samples.map(sample => [
+      sample.id,
+      summarizeTechniques(
+        characterizations.filter(item => item.sampleId === sample.id)
+      )
+    ])
+  );
   const studyNames = new Map(studies.map(study => [study.id, study.name]));
   // A selection can outlive a filter change; only visible rows count.
   const visibleSelectedIds = samples
@@ -77,6 +95,13 @@ export const SamplesTable = ({
         ? [...selectedIds, sampleId]
         : selectedIds.filter(id => id !== sampleId)
     );
+
+  const parameters = definitions.filter(
+    definition => definition.role === 'parameter'
+  );
+  const results = definitions.filter(
+    definition => definition.role === 'result'
+  );
 
   const notRecorded = (
     <>
@@ -98,6 +123,24 @@ export const SamplesTable = ({
       )}
       <Table>
         <TableHeader>
+          {results.length > 0 && (
+            <TableRow>
+              <TableHead colSpan={4} />
+              <TableHead
+                colSpan={parameters.length}
+                className="border-l font-semibold"
+              >
+                {t('groups.parameters')}
+              </TableHead>
+              <TableHead
+                colSpan={results.length}
+                className="border-l font-semibold"
+              >
+                {t('groups.results')}
+              </TableHead>
+              <TableHead colSpan={3} className="border-l" />
+            </TableRow>
+          )}
           <TableRow>
             <TableHead className="w-8">
               <Checkbox
@@ -119,6 +162,7 @@ export const SamplesTable = ({
                 <ParameterLabel definition={definition} />
               </TableHead>
             ))}
+            <TableHead>{tCharacterizations('column.title')}</TableHead>
             <TableHead>{t('columns.implementation')}</TableHead>
             <TableHead>{t('columns.observation')}</TableHead>
           </TableRow>
@@ -194,6 +238,35 @@ export const SamplesTable = ({
                   </TableCell>
                 );
               })}
+              <TableCell>
+                {(techniquesBySample.get(sample.id) ?? []).length === 0 ? (
+                  notRecorded
+                ) : (
+                  <span className="flex flex-wrap gap-1">
+                    {(techniquesBySample.get(sample.id) ?? []).map(summary => (
+                      <Badge
+                        key={summary.technique}
+                        variant="outline"
+                        title={summary.dates
+                          .map(date =>
+                            format.dateTime(
+                              toCalendarDate(date),
+                              CALENDAR_DATE_FORMAT
+                            )
+                          )
+                          .join(', ')}
+                      >
+                        {summary.count > 1
+                          ? tCharacterizations('column.times', {
+                              technique: summary.technique,
+                              count: summary.count
+                            })
+                          : summary.technique}
+                      </Badge>
+                    ))}
+                  </span>
+                )}
+              </TableCell>
               {[sample.implementation, sample.observation].map(
                 (text, index) => (
                   <TableCell

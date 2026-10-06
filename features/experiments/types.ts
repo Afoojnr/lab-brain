@@ -30,6 +30,13 @@ export type Experiment = {
 export type ParameterKind = 'number' | 'text';
 
 /**
+ * Whether a column is something you set (a `parameter`, e.g. a temperature) or
+ * something you measured afterwards (a `result`, e.g. a thickness). Only the
+ * grouping and prefill differ; both hold raw values with a unit.
+ */
+export type ParameterRole = 'parameter' | 'result';
+
+/**
  * One column of an experiment (e.g. a temperature in °C). Columns can be added at
  * any time; samples recorded before it simply have no value for it. The unit
  * lives here, never inside a stored value.
@@ -41,9 +48,11 @@ export type ParameterDefinition = {
   /** Null when the parameter has no unit. */
   unit: string | null;
   kind: ParameterKind;
+  role: ParameterRole;
   /**
-   * Optional starting value. It prefills a new sample's form and is copied into
-   * the sample when saved, so editing it later never changes recorded samples.
+   * Optional starting value. It prefills a new sample's form and is copied
+   * into the sample when saved, so editing it later never changes recorded
+   * samples. Always null for a result, which is never prefilled.
    */
   defaultValue: ParameterValue | null;
   /** Display order within the experiment. */
@@ -56,6 +65,7 @@ export type ParameterInput = {
   /** Empty means no unit. */
   unit: string;
   kind: ParameterKind;
+  role: ParameterRole;
   defaultValue: ParameterValue | null;
 };
 
@@ -93,18 +103,23 @@ export type Sample = {
   observation: string | null;
   /** One short comment on the whole sample, e.g. why a setting or column changed; null when none. */
   note: string | null;
-  /** The sample this one was made from, e.g. `ALD023` for `ALD023_Annealing`. */
-  derivedFromId: string | null;
   studyIds: string[];
   createdAt: Date;
 };
 
-/** A measurement of a sample, tracked by technique and date so its files can be found. */
+/**
+ * A measurement done on a sample (SEM, EDX, ellipsometry, ...), tracked by
+ * technique and date. It only records that the measurement happened; the raw
+ * files and results attach to it later. A technique can be recorded many times
+ * on one sample.
+ */
 export type Characterization = {
   id: string;
   sampleId: string;
+  /** Typed by the user; the app never assumes a list of techniques. */
   technique: string;
-  /** Calendar date as `YYYY-MM-DD`. */
-  measuredOn: string;
+  /** Calendar date as `YYYY-MM-DD`, or null when not recorded. */
+  measuredOn: string | null;
   note: string | null;
+  createdAt: Date;
 };

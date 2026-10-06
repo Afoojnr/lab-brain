@@ -8,6 +8,7 @@ describe('buildParameterFormSchema', () => {
       name,
       unit: '',
       kind: 'number',
+      role: 'parameter',
       defaultValue: ''
     });
 
@@ -36,6 +37,7 @@ describe('parameter default values', () => {
       name: 'Parameter',
       unit: '',
       kind,
+      role: 'parameter',
       defaultValue
     });
 
@@ -68,9 +70,55 @@ describe('parameter default values', () => {
   });
 });
 
+describe('result columns', () => {
+  const parseResult = (defaultValue: string) =>
+    buildParameterFormSchema([]).safeParse({
+      name: 'Thickness',
+      unit: 'nm',
+      kind: 'number',
+      role: 'result',
+      defaultValue
+    });
+
+  it('accepts a result without a default', () => {
+    expect(parseResult('').success).toBe(true);
+  });
+
+  it('rejects a default on a result, on the default field', () => {
+    const result = parseResult('40');
+
+    expect(result.error?.issues[0]?.path).toEqual(['defaultValue']);
+    expect(result.error?.issues[0]?.message).toBe('resultHasDefault');
+  });
+
+  it('stores no default for a result and keeps its role', () => {
+    expect(
+      toParameterInput({
+        name: 'Thickness',
+        unit: 'nm',
+        kind: 'number',
+        role: 'result',
+        defaultValue: ''
+      })
+    ).toEqual({
+      name: 'Thickness',
+      unit: 'nm',
+      kind: 'number',
+      role: 'result',
+      defaultValue: null
+    });
+  });
+});
+
 describe('toParameterInput', () => {
   const convert = (kind: 'number' | 'text', defaultValue: string) =>
-    toParameterInput({ name: 'Parameter', unit: 'W', kind, defaultValue });
+    toParameterInput({
+      name: 'Parameter',
+      unit: 'W',
+      kind,
+      role: 'parameter',
+      defaultValue
+    });
 
   it('stores a number default as a number', () => {
     expect(convert('number', '1,5').defaultValue).toBe(1.5);

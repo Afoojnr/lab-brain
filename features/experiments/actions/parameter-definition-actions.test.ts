@@ -39,6 +39,7 @@ const POWER: ParameterDefinition = {
   name: 'Power',
   unit: 'W',
   kind: 'number',
+  role: 'parameter',
   defaultValue: null,
   position: 0
 };
@@ -62,13 +63,20 @@ describe('createParameterDefinitionAction', () => {
     const wasAdded = await createParameterDefinitionAction(
       'project-1',
       'experiment-1',
-      { name: '  Temperature  ', unit: '°C', kind: 'number', defaultValue: '' }
+      {
+        name: '  Temperature  ',
+        unit: '°C',
+        kind: 'number',
+        role: 'parameter',
+        defaultValue: ''
+      }
     );
 
     expect(createParameterDefinition).toHaveBeenCalledWith('experiment-1', {
       name: 'Temperature',
       unit: '°C',
       kind: 'number',
+      role: 'parameter',
       defaultValue: null
     });
     expect(revalidatePath).toHaveBeenCalledWith(PAGE);
@@ -81,7 +89,13 @@ describe('createParameterDefinitionAction', () => {
     const wasAdded = await createParameterDefinitionAction(
       'project-1',
       'experiment-1',
-      { name: 'power', unit: '', kind: 'number', defaultValue: '' }
+      {
+        name: 'power',
+        unit: '',
+        kind: 'number',
+        role: 'parameter',
+        defaultValue: ''
+      }
     );
 
     expect(wasAdded).toBe(false);
@@ -112,6 +126,7 @@ describe('createParameterDefinitionAction', () => {
         name: 'Temperature',
         unit: '',
         kind: 'number',
+        role: 'parameter',
         defaultValue: ''
       })
     ).toBe(false);
@@ -124,6 +139,7 @@ describe('updateParameterDefinitionAction', () => {
     name: 'Plasma power',
     unit: 'W',
     kind: 'number',
+    role: 'parameter',
     defaultValue: ''
   };
   const renameStored = { ...rename, defaultValue: null };
@@ -187,7 +203,8 @@ describe('updateParameterDefinitionAction', () => {
         'power',
         {
           ...rename,
-          kind: 'text'
+          kind: 'text',
+          role: 'parameter'
         }
       )
     ).toBe(false);
@@ -274,11 +291,46 @@ describe('deleteParameterDefinitionAction', () => {
   });
 });
 
+describe('result columns through the actions', () => {
+  it('adds a result column with its role', async () => {
+    withStoredParameters();
+
+    await createParameterDefinitionAction('project-1', 'experiment-1', {
+      name: 'Thickness',
+      unit: 'nm',
+      kind: 'number',
+      role: 'result',
+      defaultValue: ''
+    });
+
+    expect(createParameterDefinition).toHaveBeenCalledWith(
+      'experiment-1',
+      expect.objectContaining({ role: 'result', defaultValue: null })
+    );
+  });
+
+  it('ignores a result that was given a default, whatever the browser checked', async () => {
+    withStoredParameters();
+
+    expect(
+      await createParameterDefinitionAction('project-1', 'experiment-1', {
+        name: 'Thickness',
+        unit: 'nm',
+        kind: 'number',
+        role: 'result',
+        defaultValue: '40'
+      })
+    ).toBe(false);
+    expect(createParameterDefinition).not.toHaveBeenCalled();
+  });
+});
+
 describe('default values through the actions', () => {
   const withDefault = (kind: string, defaultValue: string) => ({
     name: 'Temperature',
     unit: '°C',
     kind,
+    role: 'parameter',
     defaultValue
   });
 
@@ -318,7 +370,13 @@ describe('default values through the actions', () => {
       'project-1',
       'experiment-1',
       'power',
-      { name: 'Power', unit: 'W', kind: 'number', defaultValue: '120' }
+      {
+        name: 'Power',
+        unit: 'W',
+        kind: 'number',
+        role: 'parameter',
+        defaultValue: '120'
+      }
     );
 
     expect(wasSaved).toBe(true);
@@ -341,6 +399,7 @@ describe('default values through the actions', () => {
         name: 'Power',
         unit: 'W',
         kind: 'number',
+        role: 'parameter',
         defaultValue: ''
       }
     );

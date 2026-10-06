@@ -10,7 +10,8 @@ import type { ParameterDefinition } from '../types';
 // EXAMPLE VALUES ONLY, NOT REAL SETTINGS: the ALD defaults below are
 // placeholders matching the demo samples in demo-samples.ts, to show prefilled
 // forms. The five extra ALD columns (Carrier flow to Substrate) and their sample
-// values exist only to test a wide table; they have no defaults.
+// values exist only to test a wide table; they have no defaults. Thickness and
+// B/C ratio are the two ALD result columns: measured afterwards, never prefilled.
 export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
   {
     id: 'demo-parameter-1',
@@ -18,6 +19,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Plasma power',
     unit: 'W',
     kind: 'number',
+    role: 'parameter',
     defaultValue: 100,
     position: 0
   },
@@ -27,6 +29,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Plasma pulse',
     unit: 's',
     kind: 'number',
+    role: 'parameter',
     defaultValue: 10,
     position: 1
   },
@@ -36,6 +39,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Purge',
     unit: 's',
     kind: 'number',
+    role: 'parameter',
     defaultValue: 10,
     position: 2
   },
@@ -45,6 +49,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Temperature',
     unit: '°C',
     kind: 'number',
+    role: 'parameter',
     defaultValue: 200,
     position: 3
   },
@@ -54,6 +59,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Cycles',
     unit: null,
     kind: 'number',
+    role: 'parameter',
     defaultValue: 50,
     position: 4
   },
@@ -63,6 +69,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Pressure',
     unit: null,
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 0
   },
@@ -72,6 +79,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Flow rate',
     unit: null,
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 1
   },
@@ -81,6 +89,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Time',
     unit: null,
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 0
   },
@@ -90,6 +99,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Temperature',
     unit: null,
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 1
   },
@@ -99,6 +109,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Carrier flow',
     unit: 'sccm',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 5
   },
@@ -108,6 +119,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Chamber pressure',
     unit: 'mbar',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 6
   },
@@ -117,6 +129,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'TEB pulse',
     unit: 's',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 7
   },
@@ -126,6 +139,7 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Pump down',
     unit: 'min',
     kind: 'number',
+    role: 'parameter',
     defaultValue: null,
     position: 8
   },
@@ -135,7 +149,28 @@ export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
     name: 'Substrate',
     unit: null,
     kind: 'text',
+    role: 'parameter',
     defaultValue: null,
     position: 9
+  },
+  {
+    id: 'demo-parameter-15',
+    experimentId: 'demo-experiment-1',
+    name: 'Thickness',
+    unit: 'nm',
+    kind: 'number',
+    role: 'result',
+    defaultValue: null,
+    position: 10
+  },
+  {
+    id: 'demo-parameter-16',
+    experimentId: 'demo-experiment-1',
+    name: 'B/C ratio',
+    unit: null,
+    kind: 'number',
+    role: 'result',
+    defaultValue: null,
+    position: 11
   }
 ];

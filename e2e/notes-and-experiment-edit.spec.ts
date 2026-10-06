@@ -52,11 +52,11 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   await expect(page.getByText('Clean, pump down, run cycles.')).toBeVisible();
 
   // A column, then a sample with a note.
-  await page.getByRole('button', { name: 'Add parameter' }).click();
+  await page.getByRole('button', { name: 'Add column' }).click();
   const parameterDialog = page.getByRole('dialog');
   await parameterDialog.getByLabel('Name').fill('Pulse');
   await parameterDialog.getByLabel('Unit').fill('s');
-  await parameterDialog.getByRole('button', { name: 'Add parameter' }).click();
+  await parameterDialog.getByRole('button', { name: 'Add column' }).click();
   await expect(parameterDialog).toBeHidden();
 
   await page.getByRole('link', { name: 'Add sample' }).click();

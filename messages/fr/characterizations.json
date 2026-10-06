@@ -1,0 +1,52 @@
+{
+  "panel": {
+    "title": "Caractérisations",
+    "description": "Les mesures faites sur cet échantillon. Les fichiers et les résultats s'y rattacheront plus tard.",
+    "empty": "Aucune caractérisation pour l'instant. Enregistrez la première, par exemple MEB ou EDX.",
+    "add": "Ajouter une caractérisation",
+    "edit": "Modifier {technique}",
+    "delete": "Supprimer {technique}",
+    "columns": {
+      "technique": "Technique",
+      "date": "Date",
+      "note": "Note",
+      "actions": "Actions"
+    },
+    "noDate": "Sans date"
+  },
+  "form": {
+    "addTitle": "Ajouter une caractérisation",
+    "editTitle": "Modifier {technique}",
+    "description": "Enregistrez qu'une mesure a été faite sur cet échantillon. La même technique peut être enregistrée plusieurs fois.",
+    "techniqueLabel": "Technique",
+    "techniqueHint": "Par exemple MEB, EDX ou ellipsométrie. Utilisez les noms que vous employez déjà.",
+    "knownTechniques": "Utilisées dans ce projet",
+    "useTechnique": "Utiliser {technique}",
+    "dateLabel": "Date de la mesure",
+    "dateHint": "Facultatif.",
+    "noteLabel": "Note",
+    "noteHint": "Facultatif. Par exemple la zone mesurée ou les réglages de l'instrument.",
+    "cancel": "Annuler",
+    "submit": "Ajouter la caractérisation",
+    "save": "Enregistrer les modifications",
+    "errors": {
+      "techniqueRequired": "Saisissez la technique.",
+      "techniqueTooLong": "Utilisez 60 caractères ou moins.",
+      "dateInvalid": "Saisissez une date valide.",
+      "noteTooLong": "Utilisez 500 caractères ou moins."
+    }
+  },
+  "delete": {
+    "title": "Supprimer {technique} ?",
+    "description": "Cela supprime l'enregistrement de cette mesure de l'échantillon. Cette action est irréversible.",
+    "confirm": "Supprimer",
+    "cancel": "Annuler"
+  },
+  "added": "Caractérisation {technique} ajoutée",
+  "updated": "Caractérisation {technique} mise à jour",
+  "deleted": "Caractérisation {technique} supprimée",
+  "column": {
+    "title": "Caractérisations",
+    "times": "{technique} ×{count}"
+  }
+}

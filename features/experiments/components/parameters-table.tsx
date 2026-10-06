@@ -45,6 +45,9 @@ export const ParametersTable = async ({
           <TableHead>{t('panel.columns.name')}</TableHead>
           <TableHead>{t('panel.columns.unit')}</TableHead>
           <TableHead className="hidden sm:table-cell">
+            {t('panel.columns.role')}
+          </TableHead>
+          <TableHead className="hidden sm:table-cell">
             {t('panel.columns.kind')}
           </TableHead>
           <TableHead>{t('panel.columns.default')}</TableHead>
@@ -64,10 +67,17 @@ export const ParametersTable = async ({
                 {definition.unit ?? t('panel.noUnit')}
               </TableCell>
               <TableCell className="hidden sm:table-cell">
+                {t(`roles.${definition.role}`)}
+              </TableCell>
+              <TableCell className="hidden sm:table-cell">
                 {t(`kinds.${definition.kind}`)}
               </TableCell>
               <TableCell>
-                {definition.defaultValue === null ? (
+                {definition.role === 'result' ? (
+                  <span className="text-muted-foreground">
+                    {t('panel.noDefault')}
+                  </span>
+                ) : definition.defaultValue === null ? (
                   <span className="text-muted-foreground">
                     {t('panel.noDefault')}
                   </span>

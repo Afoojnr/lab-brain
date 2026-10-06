@@ -1,19 +1,20 @@
 {
   "panel": {
-    "title": "Parameters",
-    "description": "The columns of this experiment. Samples recorded before a column was added simply have no value for it.",
-    "empty": "No columns yet. Add the settings you vary or record, such as a temperature or a duration.",
-    "add": "Add parameter",
+    "title": "Columns",
+    "description": "The columns of this experiment: parameters you set and results you measure. Samples recorded before a column was added simply have no value for it.",
+    "empty": "No columns yet. Add the settings you vary or the results you measure, such as a temperature or a thickness.",
+    "add": "Add column",
     "edit": "Edit {name}",
     "delete": "Delete {name}",
-    "inUse": "Samples hold values for this parameter, so it cannot be deleted.",
+    "inUse": "Samples hold values for this column, so it cannot be deleted.",
     "noUnit": "No unit",
     "columns": {
       "name": "Name",
       "unit": "Unit",
       "kind": "Type",
       "actions": "Actions",
-      "default": "Default"
+      "default": "Default",
+      "role": "Category"
     },
     "noDefault": "None"
   },
@@ -22,30 +23,40 @@
     "text": "Text"
   },
   "form": {
-    "addTitle": "Add parameter",
-    "editTitle": "Edit parameter {name}",
+    "addTitle": "Add column",
+    "editTitle": "Edit column {name}",
     "description": "Columns belong to this experiment. Samples recorded earlier keep their values and show a new column empty.",
     "nameLabel": "Name",
     "unitLabel": "Unit",
     "unitHint": "Optional, for example W, s or °C.",
     "kindLabel": "Type",
-    "kindLocked": "The type cannot change once samples hold values for this parameter.",
+    "kindLocked": "The type cannot change once samples hold values for this column.",
     "cancel": "Cancel",
-    "submit": "Add parameter",
+    "submit": "Add column",
     "save": "Save changes",
     "errors": {
-      "nameRequired": "Enter a name for the parameter.",
+      "nameRequired": "Enter a name for the column.",
       "nameTooLong": "Use 60 characters or fewer.",
-      "nameDuplicate": "This experiment already has a parameter with that name.",
+      "nameDuplicate": "This experiment already has a column with that name.",
       "unitTooLong": "Use 20 characters or fewer.",
       "kindInvalid": "Choose number or text.",
       "defaultNotANumber": "Enter a number, for example 1.5, or leave it empty.",
-      "defaultTooLong": "Use 200 characters or fewer."
+      "defaultTooLong": "Use 200 characters or fewer.",
+      "resultHasDefault": "A result cannot have a default value."
     },
     "defaultLabel": "Default value",
-    "defaultHint": "Optional. Prefills this parameter in each new sample. Samples already recorded keep their own values."
+    "defaultHint": "Optional. Prefills this parameter in each new sample. Samples already recorded keep their own values.",
+    "roleLabel": "Category",
+    "roleHint": {
+      "parameter": "A setting you choose for the sample, such as a temperature or a duration.",
+      "result": "Something you measure on the sample afterwards, such as a thickness. It is never prefilled."
+    }
   },
-  "added": "Parameter {name} added",
-  "updated": "Parameter {name} updated",
-  "deleted": "Parameter {name} deleted"
+  "added": "Column {name} added",
+  "updated": "Column {name} updated",
+  "deleted": "Column {name} deleted",
+  "roles": {
+    "parameter": "Parameter",
+    "result": "Result"
+  }
 }

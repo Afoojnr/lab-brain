@@ -13,7 +13,12 @@ vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 import { toast } from 'sonner';
 
 import { assignStudyAction } from '../actions/assign-study';
-import type { Study, Sample } from '../types';
+import type {
+  Characterization,
+  ParameterDefinition,
+  Sample,
+  Study
+} from '../types';
 import { SamplesTable } from './samples-table';
 
 const sample = (code: string, studyIds: string[] = []): Sample => ({
@@ -25,7 +30,6 @@ const sample = (code: string, studyIds: string[] = []): Sample => ({
   note: null,
   implementation: null,
   observation: null,
-  derivedFromId: null,
   studyIds,
   createdAt: new Date()
 });
@@ -39,16 +43,22 @@ const PULSE: Study = {
 const SAMPLES = [sample('ALD001', ['pulse']), sample('ALD002')];
 
 const renderTable = (
-  props: { samples?: Sample[]; isFiltered?: boolean } = {}
+  props: {
+    samples?: Sample[];
+    isFiltered?: boolean;
+    definitions?: ParameterDefinition[];
+    characterizations?: Characterization[];
+  } = {}
 ) => {
   render(
     <NextIntlClientProvider locale="en" messages={en}>
       <SamplesTable
         projectId="project-1"
         experimentId="experiment-1"
-        definitions={[]}
+        definitions={props.definitions ?? []}
         samples={props.samples ?? SAMPLES}
         studies={[PULSE]}
+        characterizations={props.characterizations ?? []}
         isFiltered={props.isFiltered ?? false}
       />
     </NextIntlClientProvider>
@@ -129,5 +139,65 @@ describe('SamplesTable', () => {
       expect(toast.error).toHaveBeenCalledWith(en.errors.unexpected)
     );
     expect(screen.getByText('1 sample selected')).toBeVisible();
+  });
+
+  it('groups the columns under Parameters and Results when there are results', () => {
+    const column = (
+      id: string,
+      role: ParameterDefinition['role'],
+      position: number
+    ): ParameterDefinition => ({
+      id,
+      experimentId: 'experiment-1',
+      name: id,
+      unit: null,
+      kind: 'number',
+      role,
+      defaultValue: null,
+      position
+    });
+    renderTable({
+      definitions: [
+        column('Power', 'parameter', 0),
+        column('Thickness', 'result', 1)
+      ]
+    });
+
+    expect(
+      screen.getByRole('columnheader', { name: 'Parameters' })
+    ).toHaveAttribute('colspan', '1');
+    expect(screen.getByRole('columnheader', { name: 'Results' })).toBeVisible();
+  });
+
+  it('shows no group row when the experiment has no result columns', () => {
+    renderTable();
+
+    expect(
+      screen.queryByRole('columnheader', { name: 'Results' })
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows one badge per technique done on a sample, with a count when repeated', () => {
+    const measured = (technique: string, date: string, id: string) => ({
+      id,
+      sampleId: 'id-ALD001',
+      technique,
+      measuredOn: date,
+      note: null,
+      createdAt: new Date()
+    });
+    renderTable({
+      characterizations: [
+        measured('SEM', '2026-09-15', 'c1'),
+        measured('EDX', '2026-09-18', 'c2'),
+        measured('EDX', '2026-09-25', 'c3')
+      ]
+    });
+
+    const row = screen.getByRole('row', { name: /ALD001/ });
+    expect(within(row).getByText('SEM')).toBeVisible();
+    expect(within(row).getByText('EDX ×2')).toBeVisible();
+    const other = screen.getByRole('row', { name: /ALD002/ });
+    expect(within(other).queryByText('SEM')).not.toBeInTheDocument();
   });
 });

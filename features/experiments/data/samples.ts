@@ -77,7 +77,6 @@ export const createSample = async (
     implementation: input.implementation,
     observation: input.observation,
     note: input.note,
-    derivedFromId: null,
     studyIds: input.studyIds,
     createdAt: new Date()
   };

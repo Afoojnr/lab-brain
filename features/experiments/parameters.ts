@@ -85,7 +85,7 @@ export const toCalendarDate = (value: string): Date =>
 /**
  * The next sample code in an experiment: the prefix plus one more than the highest
  * number already used, zero-padded to 3 digits (ALD251 after ALD250). Codes
- * that are not exactly prefix + digits, like `ALD023_Annealing`, are ignored.
+ * that are not exactly prefix + digits, like `ALD023_Annealing` typed by hand, are ignored.
  *
  * @param codePrefix - The experiment's prefix, e.g. `ALD`.
  * @param existingCodes - Sample codes already in the project.
@@ -111,7 +111,8 @@ export const emptyInputs = (
   Object.fromEntries(definitions.map(definition => [definition.id, '']));
 
 /**
- * Prefills a new sample's value inputs. Each parameter's own default wins,
+ * Prefills a new sample's value inputs. Results are always left empty, since a
+ * measurement belongs to the sample it was measured on. Each parameter's own default wins,
  * since it is the standard setting the user chose; without one, the previous
  * sample's value is used, because consecutive samples usually share most
  * settings. The values are copied into the sample when saved, so editing a
@@ -126,9 +127,32 @@ export const defaultSampleInputs = (
 ): Record<string, string> =>
   Object.fromEntries(
     definitions.map(definition => {
-      const value = definition.defaultValue ?? previous?.values[definition.id];
+      const value =
+        definition.role === 'result'
+          ? undefined
+          : (definition.defaultValue ?? previous?.values[definition.id]);
       return [definition.id, value === undefined ? '' : String(value)];
     })
+  );
+
+/**
+ * Typed-in inputs for duplicating a sample: its parameters are copied, but its
+ * results are left empty, because they were measured on the original.
+ *
+ * @param definitions - The experiment's columns.
+ * @param sample - The sample being copied.
+ */
+export const duplicateSampleInputs = (
+  definitions: ParameterDefinition[],
+  sample: Pick<Sample, 'values'>
+): Record<string, string> =>
+  Object.fromEntries(
+    Object.entries(sampleToInputs(definitions, sample)).map(([id, text]) => [
+      id,
+      definitions.find(definition => definition.id === id)?.role === 'result'
+        ? ''
+        : text
+    ])
   );
 
 /**

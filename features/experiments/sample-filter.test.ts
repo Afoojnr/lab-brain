@@ -11,7 +11,6 @@ const sample = (overrides: Partial<Sample> & Pick<Sample, 'code'>): Sample => ({
   note: null,
   implementation: null,
   observation: null,
-  derivedFromId: null,
   studyIds: [],
   createdAt: new Date(),
   ...overrides

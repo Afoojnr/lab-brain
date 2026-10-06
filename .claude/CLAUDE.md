@@ -15,12 +15,13 @@ everything, and (later) ask an AI assistant about it.
 **Core records** (use these exact names in code):
 `Project` → `Experiment` (one sheet of a spreadsheet: its own columns, a code
 prefix and a base protocol, e.g. "Deposition" ALD, "Paschen law" PSL) → `Sample`
-(one row, e.g. `ALD023`; values per column, empty = not recorded; one note; derived
-samples like `ALD023_Annealing`). `Study` is an optional named group of samples
-inside one experiment (a sample can be in several). Then `Characterization`
-(technique + date), `Dataset` (raw characterization file), `Analysis` (computed
-result/plot). Plus `NotebookEntry` (markdown, attached to any record) and
-`Reference` (a paper).
+(one row, e.g. `ALD023`; a value per column, empty = not recorded; one note).
+Columns are either a parameter (what you set) or a result (what you measure; never
+prefilled). `Study` is an optional named group of samples inside one experiment (a
+sample can be in several). `Characterization` records that a measurement (SEM, EDX,
+...) was done on a sample: technique + date + note, repeatable. Later: `Dataset`
+(raw characterization file), `Analysis` (computed result/plot). Plus
+`NotebookEntry` (markdown, attached to any record) and `Reference` (a paper).
 
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
