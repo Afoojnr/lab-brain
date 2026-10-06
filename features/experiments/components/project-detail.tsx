@@ -1,9 +1,11 @@
-import { LayersIcon } from 'lucide-react';
+import { LayersIcon, UploadIcon } from 'lucide-react';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
 import { PageHeader } from '@/components/page-header';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Empty,
   EmptyContent,
@@ -23,8 +25,9 @@ import { ExperimentCard } from './experiment-card';
 
 /** One project: its experiment as cards (like the sheets of a spreadsheet), or an empty state to add the first. */
 export const ProjectDetail = async ({ projectId }: { projectId: string }) => {
-  const [t, project] = await Promise.all([
+  const [t, tImport, project] = await Promise.all([
     getTranslations('experiments.project'),
+    getTranslations('import.entry'),
     getProjectById(projectId)
   ]);
   if (!project) notFound();
@@ -59,6 +62,13 @@ export const ProjectDetail = async ({ projectId }: { projectId: string }) => {
         actions={
           <>
             <EditProjectDialog project={project} />
+            <Link
+              href={`/projects/${project.id}/import`}
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              <UploadIcon aria-hidden />
+              {tImport('project')}
+            </Link>
             {hasExperiments && (
               <NewExperimentDialog
                 projectId={project.id}

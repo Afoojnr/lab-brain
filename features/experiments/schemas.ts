@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
-import { parseParameterInput, parseParameterInputs } from './parameters';
+import {
+  isCalendarDate,
+  parseParameterInput,
+  parseParameterInputs
+} from './parameters';
 import type {
   ParameterDefinition,
   ParameterInput,
@@ -245,11 +249,6 @@ export type SampleFormError = (typeof SAMPLE_FORM_ERRORS)[number];
 const SAMPLE_CODE_MAX_LENGTH = 40;
 const LONG_TEXT_MAX_LENGTH = 2000;
 const NOTE_MAX_LENGTH = 500;
-
-const isCalendarDate = (value: string) => {
-  const date = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
-};
 
 /**
  * The Add/Edit sample form's schema, built from the experiment's own columns: a

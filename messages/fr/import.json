@@ -1,0 +1,170 @@
+{
+  "page": {
+    "title": "Importer depuis un tableur",
+    "description": "Reprenez les échantillons déjà notés dans Excel ou un fichier CSV. Rien n'est enregistré avant que vous confirmiez l'aperçu.",
+    "breadcrumbDashboard": "Projets"
+  },
+  "entry": {
+    "project": "Importer depuis un tableur",
+    "experiment": "Importer des lignes"
+  },
+  "steps": {
+    "upload": "Fichier",
+    "layout": "Feuille",
+    "target": "Expérience",
+    "mapping": "Colonnes",
+    "preview": "Aperçu",
+    "done": "Terminé",
+    "goTo": "Revenir à : {step}"
+  },
+  "nav": {
+    "back": "Retour",
+    "next": "Continuer"
+  },
+  "upload": {
+    "title": "Choisir un fichier",
+    "description": "Un fichier Excel (.xlsx, .xls) ou CSV, jusqu'à 10 Mo et 5 000 lignes. Une feuille est importée à la fois. Le fichier est lu dans votre navigateur et n'est jamais envoyé.",
+    "fileLabel": "Fichier de tableur",
+    "reading": "Lecture du fichier…",
+    "dropTitle": "Déposez votre fichier ici",
+    "dropBrowse": "ou cliquez pour parcourir",
+    "dropHint": "Excel (.xlsx, .xls) ou CSV"
+  },
+  "errors": {
+    "unsupportedType": "Ce type de fichier n'est pas pris en charge. Utilisez .xlsx, .xls ou .csv.",
+    "tooLarge": "Ce fichier dépasse 10 Mo.",
+    "tooManyRows": "Une feuille a plus de 5 000 lignes. Découpez-la et importez les parties une par une.",
+    "unreadable": "Ce fichier n'a pas pu être lu. Est-il abîmé ou protégé par un mot de passe ?",
+    "noRows": "Cette feuille ne contient aucune ligne à importer.",
+    "changed": "Le projet a changé depuis l'aperçu. Vérifiez l'aperçu mis à jour et réessayez."
+  },
+  "layout": {
+    "title": "Repérer le tableau",
+    "description": "Indiquez à l'import où se trouvent les en-têtes de colonnes.",
+    "sheetLabel": "Feuille",
+    "headerRowLabel": "Ligne d'en-tête",
+    "headerRowHint": "Le numéro de ligne tel que le tableur l'affiche. Une ligne de titre au-dessus du tableau est ignorée.",
+    "unitsLabel": "La ligne sous les en-têtes contient les unités",
+    "unitsHint": "Par exemple W, nm ou °C. Sinon, une unité écrite dans un en-tête, comme « Power (W) », est utilisée.",
+    "previewTitle": "Premières lignes",
+    "rowNumber": "Ligne",
+    "headerRowInvalid": "Saisissez un numéro de ligne qui existe dans cette feuille."
+  },
+  "target": {
+    "title": "Où vont les échantillons ?",
+    "description": "Chaque feuille devient une expérience, ou ajoute des lignes à une expérience existante.",
+    "newOption": "Nouvelle expérience",
+    "existingOption": "Expérience existante",
+    "nameLabel": "Nom",
+    "prefixLabel": "Préfixe de code",
+    "prefixHint": "2 à 6 lettres ou chiffres, en commençant par une lettre, p. ex. ALD.",
+    "protocolLabel": "Protocole de base",
+    "experimentLabel": "Expérience",
+    "noExperiments": "Ce projet n'a pas encore d'expérience. Créez-en une nouvelle."
+  },
+  "mapping": {
+    "title": "Associer les colonnes",
+    "description": "Choisissez ce que devient chaque colonne de votre feuille. Regardez les exemples à droite.",
+    "columnHeader": "Votre colonne",
+    "examplesHeader": "Exemples",
+    "targetHeader": "Devient",
+    "noHeader": "(sans en-tête)",
+    "noExamples": "vide",
+    "targets": {
+      "ignore": "Ignorer",
+      "code": "Code d'échantillon",
+      "date": "Date",
+      "implementation": "Mise en œuvre",
+      "observation": "Observation",
+      "note": "Note",
+      "studies": "Études (séparées par ;)",
+      "newColumn": "Nouvelle colonne",
+      "existingColumn": "Colonne : {name}"
+    },
+    "newColumn": {
+      "name": "Nom de la colonne",
+      "unit": "Unité",
+      "kind": "Type",
+      "role": "Genre",
+      "number": "Nombre",
+      "text": "Texte",
+      "parameter": "Paramètre (ce que vous réglez)",
+      "result": "Résultat (ce que vous mesurez)"
+    },
+    "dateFormat": {
+      "label": "Les dates de votre feuille sont écrites",
+      "iso": "2026-09-04 (année-mois-jour)",
+      "dmy": "04/09/2026 (jour/mois/année)",
+      "mdy": "09/04/2026 (mois/jour/année)"
+    }
+  },
+  "preview": {
+    "title": "Vérifier avant d'importer",
+    "description": "Rien n'est encore enregistré. Corrigez ce qui est signalé, ou choisissez quoi en faire.",
+    "counts": {
+      "new": "{count, plural, one {# nouvel échantillon} other {# nouveaux échantillons}}",
+      "conflict": "{count, plural, one {# code existe déjà} other {# codes existent déjà}}",
+      "error": "{count, plural, one {# ligne avec un problème} other {# lignes avec des problèmes}}",
+      "empty": "{count, plural, one {# ligne vide ignorée} other {# lignes vides ignorées}}"
+    },
+    "skipErrors": "Ignorer les lignes avec des problèmes",
+    "applyAll": "Pour chaque code existant",
+    "applyAllPlaceholder": "Choisir…",
+    "attention": "Lignes à vérifier",
+    "nothingToReview": "Toutes les lignes sont nouvelles et valides.",
+    "table": {
+      "row": "Ligne",
+      "code": "Code",
+      "status": "Statut",
+      "details": "Détails"
+    },
+    "status": {
+      "new": "Nouveau",
+      "conflict": "Existe",
+      "error": "Problème",
+      "empty": "Vide"
+    },
+    "choice": {
+      "skip": "Ignorer",
+      "update": "Mettre à jour l'échantillon existant",
+      "addAsNew": "Ajouter comme nouveau avec un autre code",
+      "newCode": "Nouveau code",
+      "changes": "{count, plural, one {# valeur change} other {# valeurs changent}}"
+    },
+    "submit": "Importer",
+    "submitting": "Import en cours…",
+    "cannotImport": "Corrigez les problèmes ci-dessus, ou ignorez les lignes concernées, pour importer."
+  },
+  "issues": {
+    "codeRequired": "Saisissez un code d'échantillon.",
+    "codeTooLong": "Le code est trop long (40 caractères au maximum).",
+    "codeDuplicate": "Ce code existe déjà dans le projet.",
+    "dateInvalid": "Ce n'est pas une vraie date dans le format choisi.",
+    "implementationTooLong": "Utilisez 2000 caractères ou moins.",
+    "observationTooLong": "Utilisez 2000 caractères ou moins.",
+    "valueNotANumber": "Saisissez un nombre. Le texte n'est pas accepté dans une colonne numérique.",
+    "valueTooLong": "Utilisez 200 caractères ou moins.",
+    "noteTooLong": "La note, avec les commentaires de cellules ajoutés, dépasse 500 caractères.",
+    "duplicateInFile": "Ce code apparaît plusieurs fois dans le fichier.",
+    "updateNotAllowed": "Ce code appartient à une autre expérience, il ne peut donc pas être mis à jour ici.",
+    "studyNameInvalid": "Un nom d'étude est vide ou trop long.",
+    "codeNotMapped": "Choisissez la colonne qui contient le code d'échantillon.",
+    "targetUsedTwice": "Chaque champ, et chaque colonne existante, ne peut être utilisé qu'une fois.",
+    "unknownColumn": "Une colonne choisie n'existe plus dans cette expérience.",
+    "nameRequired": "Saisissez un nom.",
+    "nameTooLong": "Le nom est trop long.",
+    "nameDuplicate": "Une autre colonne porte déjà ce nom.",
+    "unitTooLong": "L'unité est trop longue (20 caractères au maximum).",
+    "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
+    "codePrefixDuplicate": "Une autre expérience de ce projet utilise déjà ce préfixe.",
+    "protocolTooLong": "Utilisez 1000 caractères ou moins.",
+    "unknown": "Ce n'est pas valide."
+  },
+  "done": {
+    "title": "Import terminé",
+    "summary": "{created, plural, one {# échantillon ajouté} other {# échantillons ajoutés}}, {updated} mis à jour, {skipped} ignorés.",
+    "open": "Ouvrir l'expérience",
+    "again": "Importer un autre fichier",
+    "reminder": "Tant que la base de données n'est pas connectée, les données importées restent en mémoire et sont perdues au redémarrage du serveur."
+  }
+}

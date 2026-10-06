@@ -1,0 +1,170 @@
+{
+  "page": {
+    "title": "Import from a spreadsheet",
+    "description": "Bring in the samples you already recorded in Excel or a CSV file. Nothing is saved until you confirm the preview.",
+    "breadcrumbDashboard": "Projects"
+  },
+  "entry": {
+    "project": "Import from spreadsheet",
+    "experiment": "Import rows"
+  },
+  "steps": {
+    "upload": "File",
+    "layout": "Sheet",
+    "target": "Experiment",
+    "mapping": "Columns",
+    "preview": "Preview",
+    "done": "Done",
+    "goTo": "Go back to: {step}"
+  },
+  "nav": {
+    "back": "Back",
+    "next": "Continue"
+  },
+  "upload": {
+    "title": "Choose a file",
+    "description": "An Excel (.xlsx, .xls) or CSV file, up to 10 MB and 5,000 rows. One sheet is imported at a time. The file is read in your browser and never uploaded.",
+    "fileLabel": "Spreadsheet file",
+    "reading": "Reading the file…",
+    "dropTitle": "Drop your file here",
+    "dropBrowse": "or click to browse",
+    "dropHint": "Excel (.xlsx, .xls) or CSV"
+  },
+  "errors": {
+    "unsupportedType": "This file type is not supported. Use .xlsx, .xls or .csv.",
+    "tooLarge": "This file is larger than 10 MB.",
+    "tooManyRows": "A sheet has more than 5,000 rows. Split it and import the parts one by one.",
+    "unreadable": "This file could not be read. Is it damaged or password protected?",
+    "noRows": "This sheet has no rows to import.",
+    "changed": "The project changed since the preview. Check the updated preview and try again."
+  },
+  "layout": {
+    "title": "Find the table",
+    "description": "Tell the import where the column headers are.",
+    "sheetLabel": "Sheet",
+    "headerRowLabel": "Header row",
+    "headerRowHint": "The row number as the spreadsheet shows it. A title line above the table is skipped.",
+    "unitsLabel": "The row under the headers holds units",
+    "unitsHint": "For example W, nm or °C. Otherwise a unit written in a header, like “Power (W)”, is used.",
+    "previewTitle": "First rows",
+    "rowNumber": "Row",
+    "headerRowInvalid": "Enter a row number that exists in this sheet."
+  },
+  "target": {
+    "title": "Where do the samples go?",
+    "description": "Each sheet becomes one experiment, or adds rows to an existing one.",
+    "newOption": "New experiment",
+    "existingOption": "Existing experiment",
+    "nameLabel": "Name",
+    "prefixLabel": "Code prefix",
+    "prefixHint": "2 to 6 letters or digits, starting with a letter, e.g. ALD.",
+    "protocolLabel": "Base protocol",
+    "experimentLabel": "Experiment",
+    "noExperiments": "This project has no experiments yet. Create a new one."
+  },
+  "mapping": {
+    "title": "Match the columns",
+    "description": "Choose what each column of your sheet becomes. Check the examples on the right.",
+    "columnHeader": "Your column",
+    "examplesHeader": "Examples",
+    "targetHeader": "Becomes",
+    "noHeader": "(no header)",
+    "noExamples": "empty",
+    "targets": {
+      "ignore": "Ignore",
+      "code": "Sample code",
+      "date": "Date",
+      "implementation": "Implementation",
+      "observation": "Observation",
+      "note": "Note",
+      "studies": "Studies (separated by ;)",
+      "newColumn": "New column",
+      "existingColumn": "Column: {name}"
+    },
+    "newColumn": {
+      "name": "Column name",
+      "unit": "Unit",
+      "kind": "Type",
+      "role": "Kind",
+      "number": "Number",
+      "text": "Text",
+      "parameter": "Parameter (what you set)",
+      "result": "Result (what you measure)"
+    },
+    "dateFormat": {
+      "label": "Dates in your sheet are written as",
+      "iso": "2026-09-04 (year-month-day)",
+      "dmy": "04/09/2026 (day/month/year)",
+      "mdy": "09/04/2026 (month/day/year)"
+    }
+  },
+  "preview": {
+    "title": "Check before importing",
+    "description": "Nothing is saved yet. Fix what is flagged, or choose what to do with it.",
+    "counts": {
+      "new": "{count, plural, one {# new sample} other {# new samples}}",
+      "conflict": "{count, plural, one {# code already exists} other {# codes already exist}}",
+      "error": "{count, plural, one {# row with a problem} other {# rows with problems}}",
+      "empty": "{count, plural, one {# empty row ignored} other {# empty rows ignored}}"
+    },
+    "skipErrors": "Skip rows with problems",
+    "applyAll": "For every existing code",
+    "applyAllPlaceholder": "Choose…",
+    "attention": "Rows that need a look",
+    "nothingToReview": "Every row is new and valid.",
+    "table": {
+      "row": "Row",
+      "code": "Code",
+      "status": "Status",
+      "details": "Details"
+    },
+    "status": {
+      "new": "New",
+      "conflict": "Exists",
+      "error": "Problem",
+      "empty": "Empty"
+    },
+    "choice": {
+      "skip": "Skip",
+      "update": "Update the existing sample",
+      "addAsNew": "Add as new with another code",
+      "newCode": "New code",
+      "changes": "{count, plural, one {# value changes} other {# values change}}"
+    },
+    "submit": "Import",
+    "submitting": "Importing…",
+    "cannotImport": "Fix the problems above, or skip the rows that have them, to import."
+  },
+  "issues": {
+    "codeRequired": "Enter a sample code.",
+    "codeTooLong": "The code is too long (40 characters at most).",
+    "codeDuplicate": "This code already exists in the project.",
+    "dateInvalid": "This is not a real date in the chosen format.",
+    "implementationTooLong": "Use 2000 characters or fewer.",
+    "observationTooLong": "Use 2000 characters or fewer.",
+    "valueNotANumber": "Enter a number. Text is not accepted in a number column.",
+    "valueTooLong": "Use 200 characters or fewer.",
+    "noteTooLong": "The note, with the cell comments added, is over 500 characters.",
+    "duplicateInFile": "This code appears more than once in the file.",
+    "updateNotAllowed": "This code belongs to another experiment, so it cannot be updated here.",
+    "studyNameInvalid": "A study name is empty or too long.",
+    "codeNotMapped": "Choose which column holds the sample code.",
+    "targetUsedTwice": "Each field, and each existing column, can only be used once.",
+    "unknownColumn": "A chosen column no longer exists in this experiment.",
+    "nameRequired": "Enter a name.",
+    "nameTooLong": "The name is too long.",
+    "nameDuplicate": "Another column already has this name.",
+    "unitTooLong": "The unit is too long (20 characters at most).",
+    "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
+    "codePrefixDuplicate": "Another experiment in this project already uses this prefix.",
+    "protocolTooLong": "Use 1000 characters or fewer.",
+    "unknown": "This is not valid."
+  },
+  "done": {
+    "title": "Import finished",
+    "summary": "{created, plural, one {# sample added} other {# samples added}}, {updated} updated, {skipped} skipped.",
+    "open": "Open the experiment",
+    "again": "Import another file",
+    "reminder": "Until the database is connected, imported data lives in memory and is lost when the server restarts."
+  }
+}

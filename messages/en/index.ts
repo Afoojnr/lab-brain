@@ -3,6 +3,7 @@ import common from './common.json';
 import dashboard from './dashboard.json';
 import errors from './errors.json';
 import experiments from './experiments.json';
+import importer from './import.json';
 import navigation from './navigation.json';
 import parameters from './parameters.json';
 import projects from './projects.json';
@@ -17,6 +18,7 @@ export const en = {
   dashboard,
   errors,
   experiments,
+  import: importer,
   navigation,
   parameters,
   projects,

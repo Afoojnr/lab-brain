@@ -37,7 +37,18 @@ export default defineConfig(
         { argsIgnorePattern: '^_', args: 'after-used' }
       ],
       'no-console': 'warn',
-      'no-restricted-imports': ['error', { patterns: ['@/features/*/*'] }]
+      'no-restricted-imports': [
+        'error',
+        {
+          // Another feature is reached only through its public entries:
+          // index (components), shared (pure, client-safe) or server (data).
+          patterns: [
+            '@/features/*/*',
+            '!@/features/*/shared',
+            '!@/features/*/server'
+          ]
+        }
+      ]
     }
   },
   {
