@@ -118,9 +118,11 @@ Experiment page → Add sample → Sample form → Save → Sample page
    recorded again.
 3. The sample page lists them (edit, delete after confirming) and the samples
    table shows one badge per technique, "EDX ×2" when repeated.
-4. Later (storage step): files attach to a characterization. They are copied into the
-   app's storage under `project/experiment/sample/technique/`, images show inline,
-   and the file location is shown.
+4. Attach files with the paperclip on a characterization (drop or browse, several at
+   once, up to 50 MB each, any type). They are copied into the app's storage under
+   `project/experiment/sample/technique/`; images show as thumbnails, other files as a
+   download link, each with its size and stored location. A file can be removed after
+   confirming, and deleting a characterization removes its files too.
 
 ```
 Sample page → Add characterization → technique + date + note → listed on the sample, badge in the table

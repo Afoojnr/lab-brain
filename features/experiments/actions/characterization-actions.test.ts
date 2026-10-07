@@ -3,6 +3,11 @@ import { describe, expect, it, vi } from 'vitest';
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
 vi.mock('../data/experiments', () => ({ getExperimentInProject: vi.fn() }));
 vi.mock('../data/samples', () => ({ getSampleById: vi.fn() }));
+vi.mock('@/lib/storage', () => ({ getStorage: vi.fn() }));
+vi.mock('../data/datasets', () => ({
+  deleteDataset: vi.fn(),
+  listDatasetsByCharacterization: vi.fn()
+}));
 vi.mock('../data/characterizations', () => ({
   createCharacterization: vi.fn(),
   updateCharacterization: vi.fn(),
@@ -13,6 +18,8 @@ vi.mock('../data/characterizations', () => ({
 
 import { revalidatePath } from 'next/cache';
 
+import { getStorage } from '@/lib/storage';
+
 import {
   createCharacterization,
   deleteCharacterization,
@@ -20,6 +27,10 @@ import {
   listTechniquesByProject,
   updateCharacterization
 } from '../data/characterizations';
+import {
+  deleteDataset,
+  listDatasetsByCharacterization
+} from '../data/datasets';
 import { getExperimentInProject } from '../data/experiments';
 import { getSampleById } from '../data/samples';
 import { createCharacterizationAction } from './create-characterization';
@@ -58,6 +69,8 @@ const FORM = { technique: '  eds ', measuredOn: '2026-09-15', note: ' Top ' };
 const PAGE = '/projects/project-1/experiments/experiment-1';
 
 const withStoredRecords = () => {
+  vi.mocked(listDatasetsByCharacterization).mockResolvedValue([]);
+  vi.mocked(getStorage).mockReturnValue({ delete: vi.fn() } as never);
   vi.mocked(getExperimentInProject).mockResolvedValue(EXPERIMENT);
   vi.mocked(getSampleById).mockResolvedValue(SAMPLE);
   vi.mocked(getCharacterizationOfSample).mockResolvedValue(RECORD);
@@ -176,6 +189,30 @@ describe('deleteCharacterizationAction', () => {
     expect(await run()).toBe(true);
     expect(deleteCharacterization).toHaveBeenCalledWith('sample-1', 'record-1');
     expect(revalidatePath).toHaveBeenCalledWith(`${PAGE}/samples/sample-1`);
+  });
+
+  it('removes the files attached to it, from storage and from the records', async () => {
+    withStoredRecords();
+    vi.mocked(deleteCharacterization).mockResolvedValueOnce(true);
+    vi.mocked(listDatasetsByCharacterization).mockResolvedValueOnce([
+      { id: 'd1', storagePath: 'a/one.txt' },
+      { id: 'd2', storagePath: 'a/two.png' }
+    ] as never);
+    const storageDelete = vi.fn().mockResolvedValue(true);
+    vi.mocked(getStorage).mockReturnValue({ delete: storageDelete } as never);
+
+    expect(await run()).toBe(true);
+    expect(storageDelete.mock.calls).toEqual([['a/one.txt'], ['a/two.png']]);
+    expect(deleteDataset).toHaveBeenCalledWith('d1');
+    expect(deleteDataset).toHaveBeenCalledWith('d2');
+  });
+
+  it('removes no file when the record was not found', async () => {
+    withStoredRecords();
+    vi.mocked(deleteCharacterization).mockResolvedValueOnce(false);
+
+    expect(await run()).toBe(false);
+    expect(listDatasetsByCharacterization).not.toHaveBeenCalled();
   });
 
   it('refreshes nothing when there was no such record', async () => {

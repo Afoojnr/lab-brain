@@ -2,12 +2,18 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { getStorage } from '@/lib/storage';
+
 import { deleteCharacterization } from '../data/characterizations';
+import {
+  deleteDataset,
+  listDatasetsByCharacterization
+} from '../data/datasets';
 import { getExperimentInProject } from '../data/experiments';
 import { getSampleById } from '../data/samples';
 
 /**
- * Removes a characterization, then refreshes the sample and experiment pages.
+ * Removes a characterization and the files attached to it, then refreshes the sample and experiment pages.
  *
  * @param projectId - The project the caller says owns the experiment.
  * @param experimentId - The experiment the caller says owns the sample.
@@ -28,6 +34,14 @@ export const deleteCharacterizationAction = async (
 
   const wasDeleted = await deleteCharacterization(sampleId, characterizationId);
   if (!wasDeleted) return false;
+
+  // Its files go with it: the record, then the file in storage.
+  for (const dataset of await listDatasetsByCharacterization(
+    characterizationId
+  )) {
+    await getStorage().delete(dataset.storagePath);
+    await deleteDataset(dataset.id);
+  }
 
   revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
   revalidatePath(

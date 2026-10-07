@@ -18,3 +18,11 @@ export {
   updateSample
 } from './data/samples';
 export { createStudy, listStudiesByExperiment } from './data/studies';
+export {
+  createDataset,
+  deleteDataset,
+  getDatasetById,
+  listDatasetsByCharacterization,
+  listDatasetsBySample
+} from './data/datasets';
+export { datasetResponse } from './datasets-file';

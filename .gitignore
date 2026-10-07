@@ -40,6 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local file storage (attached characterization files); only the demo files are kept
+/storage/*
+!/storage/demo/
+
 # Playwright
 node_modules/
 /test-results/

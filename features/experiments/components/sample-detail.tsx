@@ -11,6 +11,7 @@ import {
   listCharacterizationsBySample,
   listTechniquesByProject
 } from '../data/characterizations';
+import { listDatasetsBySample } from '../data/datasets';
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
@@ -66,11 +67,12 @@ export const SampleDetail = async ({
     notFound();
   }
 
-  const [definitions, studies, characterizations, knownTechniques] =
+  const [definitions, studies, characterizations, datasets, knownTechniques] =
     await Promise.all([
       listParameterDefinitions(experiment.id),
       listStudiesByExperiment(experiment.id),
       listCharacterizationsBySample(sample.id),
+      listDatasetsBySample(sample.id),
       listTechniquesByProject(project.id)
     ]);
   const parameters = definitions.filter(
@@ -186,6 +188,7 @@ export const SampleDetail = async ({
               experimentId={experiment.id}
               sampleId={sample.id}
               characterizations={characterizations}
+              datasets={datasets}
               knownTechniques={knownTechniques}
             />
           )
