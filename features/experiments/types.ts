@@ -123,3 +123,20 @@ export type Characterization = {
   note: string | null;
   createdAt: Date;
 };
+
+/**
+ * A raw file attached to one characterization (an EDX export, an SEM image).
+ * The bytes live in storage, never in the database; this record keeps where.
+ * A file belongs to exactly one characterization of one sample.
+ */
+export type Dataset = {
+  id: string;
+  characterizationId: string;
+  /** The name the user's file had. */
+  fileName: string;
+  /** Where the file is in storage, relative to the storage root. */
+  storagePath: string;
+  contentType: string;
+  sizeBytes: number;
+  uploadedAt: Date;
+};

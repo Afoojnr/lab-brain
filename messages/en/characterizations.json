@@ -1,7 +1,7 @@
 {
   "panel": {
     "title": "Characterizations",
-    "description": "Measurements done on this sample. Files and results will attach to these later.",
+    "description": "Measurements done on this sample, with their raw files.",
     "empty": "No characterizations yet. Record the first one, for example SEM or EDX.",
     "add": "Add characterization",
     "edit": "Edit {technique}",
@@ -38,7 +38,7 @@
   },
   "delete": {
     "title": "Delete {technique}?",
-    "description": "This removes the record of this measurement from the sample. It cannot be undone.",
+    "description": "This removes the record of this measurement and the files attached to it. It cannot be undone.",
     "confirm": "Delete",
     "cancel": "Cancel"
   },
@@ -48,5 +48,29 @@
   "column": {
     "title": "Characterizations",
     "times": "{technique} ×{count}"
+  },
+  "files": {
+    "attach": "Attach files to {technique}",
+    "dialogTitle": "Attach files to {technique}",
+    "dialogDescription": "Files are copied into the app's storage, under this sample. Up to 50 MB each, any type.",
+    "dropTitle": "Drop files here",
+    "dropBrowse": "or click to browse",
+    "dropHint": "Any file type, up to 50 MB each",
+    "fileInputLabel": "Files to attach",
+    "uploading": "Uploading {current} of {total}…",
+    "uploaded": "{count, plural, one {# file attached} other {# files attached}}",
+    "storedAt": "Stored at {path}",
+    "open": "Open {name}",
+    "download": "Download {name}",
+    "remove": "Remove {name}",
+    "removeTitle": "Remove {name}?",
+    "removeDescription": "The file is deleted from storage. This cannot be undone.",
+    "removeConfirm": "Remove",
+    "removeCancel": "Cancel",
+    "removed": "{name} removed",
+    "errors": {
+      "tooLarge": "{name} is larger than 50 MB and was not attached.",
+      "uploadFailed": "{name} could not be attached."
+    }
   }
 }

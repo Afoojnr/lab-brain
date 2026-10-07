@@ -88,8 +88,14 @@ literature — not generic or hallucinated advice.
 - A single `StorageAdapter` interface (`upload`, `download`, `list`, `delete`) is the
   only thing the rest of the app talks to for file I/O — no raw file paths hard-coded
   into components, API routes, or parsing logic.
-- **v1 implementation**: local filesystem — save to a file path (e.g. your existing
-  Nextcloud-synced folder on disk), read back for parsing/plotting.
+- **v1 implementation (built)**: local filesystem under one storage folder
+  (`LAB_BRAIN_STORAGE_DIR`, default `./storage`; point it at a Nextcloud-synced folder
+  if you like). Files are stored as `project/experiment/sample/technique/<date>_<name>`.
+  A `Dataset` record keeps only the path, type and size, never the bytes. Every path is
+  checked to stay inside the folder. One file belongs to one characterization of one
+  sample (a repeat measurement is another characterization). Up to 50 MB each, any
+  type; PNG/JPEG/GIF/WebP show inline, everything else is a download. Files are served
+  by `/api/datasets/<id>` and removed with their characterization.
 - **Later, additive only**: a `NextcloudAdapter` implementing the same interface via
   WebDAV (the `webdav` npm package, authenticated with a Nextcloud app-password,
   called from a Next.js API route so credentials stay server-side). Swapping which
@@ -305,8 +311,9 @@ records through the same functions.
 | `Sample`              | experiment, code, date, values (by column; empty = not recorded), implementation, observation, note |
 | `Sample` ↔ `Study`    | many to many (a sample can be in several studies of its experiment)                                 |
 | `Characterization`    | sample, technique, date, note (repeatable)                                                          |
+| `Dataset`             | characterization, file name, storage path, content type, size (the file itself is in storage)       |
 
-Later tables: file records on characterizations, analyses, notebook entries,
+Later tables: analyses, notebook entries,
 references.
 
 ---

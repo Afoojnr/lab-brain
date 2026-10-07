@@ -1,7 +1,7 @@
 {
   "panel": {
     "title": "Caractérisations",
-    "description": "Les mesures faites sur cet échantillon. Les fichiers et les résultats s'y rattacheront plus tard.",
+    "description": "Mesures faites sur cet échantillon, avec leurs fichiers bruts.",
     "empty": "Aucune caractérisation pour l'instant. Enregistrez la première, par exemple MEB ou EDX.",
     "add": "Ajouter une caractérisation",
     "edit": "Modifier {technique}",
@@ -38,7 +38,7 @@
   },
   "delete": {
     "title": "Supprimer {technique} ?",
-    "description": "Cela supprime l'enregistrement de cette mesure de l'échantillon. Cette action est irréversible.",
+    "description": "Cela supprime l'enregistrement de cette mesure et les fichiers qui y sont joints. Cette action est irréversible.",
     "confirm": "Supprimer",
     "cancel": "Annuler"
   },
@@ -48,5 +48,29 @@
   "column": {
     "title": "Caractérisations",
     "times": "{technique} ×{count}"
+  },
+  "files": {
+    "attach": "Joindre des fichiers à {technique}",
+    "dialogTitle": "Joindre des fichiers à {technique}",
+    "dialogDescription": "Les fichiers sont copiés dans le stockage de l'application, sous cet échantillon. Jusqu'à 50 Mo chacun, tout type.",
+    "dropTitle": "Déposez les fichiers ici",
+    "dropBrowse": "ou cliquez pour parcourir",
+    "dropHint": "Tout type de fichier, jusqu'à 50 Mo chacun",
+    "fileInputLabel": "Fichiers à joindre",
+    "uploading": "Envoi de {current} sur {total}…",
+    "uploaded": "{count, plural, one {# fichier joint} other {# fichiers joints}}",
+    "storedAt": "Stocké dans {path}",
+    "open": "Ouvrir {name}",
+    "download": "Télécharger {name}",
+    "remove": "Retirer {name}",
+    "removeTitle": "Retirer {name} ?",
+    "removeDescription": "Le fichier est supprimé du stockage. Cette action est irréversible.",
+    "removeConfirm": "Retirer",
+    "removeCancel": "Annuler",
+    "removed": "{name} retiré",
+    "errors": {
+      "tooLarge": "{name} dépasse 50 Mo et n'a pas été joint.",
+      "uploadFailed": "{name} n'a pas pu être joint."
+    }
   }
 }

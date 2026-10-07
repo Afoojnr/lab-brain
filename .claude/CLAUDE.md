@@ -41,6 +41,11 @@ yarn test:e2e             # Playwright: critical end-to-end flows
 npx drizzle-kit generate  # migrations from schema changes (once Drizzle is added)
 ```
 
+## Storage
+
+Attached files live in `LAB_BRAIN_STORAGE_DIR` (default `./storage`, git-ignored except
+`storage/demo/`). Only `lib/storage/local-adapter.ts` touches `fs`.
+
 ## Verification
 
 Work is done when `yarn ts-check` and `yarn lint` pass with no errors, **and**

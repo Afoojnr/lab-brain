@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
 
 import {
@@ -10,7 +11,9 @@ import {
 } from '@/components/ui/table';
 
 import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
-import type { Characterization } from '../types';
+import type { Characterization, Dataset } from '../types';
+import { AttachFilesDialog } from './attach-files-dialog';
+import { DatasetList } from './dataset-list';
 import { CharacterizationDialog } from './characterization-dialog';
 import { DeleteCharacterizationDialog } from './delete-characterization-dialog';
 
@@ -19,6 +22,8 @@ type CharacterizationsTableProps = {
   experimentId: string;
   sampleId: string;
   characterizations: Characterization[];
+  /** The files of all the sample's characterizations. */
+  datasets: Dataset[];
   knownTechniques: string[];
 };
 
@@ -28,6 +33,7 @@ export const CharacterizationsTable = async ({
   experimentId,
   sampleId,
   characterizations,
+  datasets,
   knownTechniques
 }: CharacterizationsTableProps) => {
   const [t, format] = await Promise.all([
@@ -46,45 +52,74 @@ export const CharacterizationsTable = async ({
           <TableHead>{t('columns.technique')}</TableHead>
           <TableHead>{t('columns.date')}</TableHead>
           <TableHead>{t('columns.note')}</TableHead>
-          <TableHead className="w-20">
+          <TableHead className="w-28">
             <span className="sr-only">{t('columns.actions')}</span>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {characterizations.map(item => (
-          <TableRow key={item.id}>
-            <TableCell className="font-medium">{item.technique}</TableCell>
-            <TableCell>
-              {item.measuredOn ? (
-                format.dateTime(
-                  toCalendarDate(item.measuredOn),
-                  CALENDAR_DATE_FORMAT
-                )
-              ) : (
-                <span className="text-muted-foreground">{t('noDate')}</span>
+        {characterizations.map(item => {
+          const files = datasets.filter(
+            dataset => dataset.characterizationId === item.id
+          );
+
+          return (
+            <Fragment key={item.id}>
+              <TableRow>
+                <TableCell className="font-medium">{item.technique}</TableCell>
+                <TableCell>
+                  {item.measuredOn ? (
+                    format.dateTime(
+                      toCalendarDate(item.measuredOn),
+                      CALENDAR_DATE_FORMAT
+                    )
+                  ) : (
+                    <span className="text-muted-foreground">{t('noDate')}</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {item.note}
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-end gap-1">
+                    <AttachFilesDialog
+                      projectId={projectId}
+                      experimentId={experimentId}
+                      sampleId={sampleId}
+                      characterization={item}
+                    />
+                    <CharacterizationDialog
+                      projectId={projectId}
+                      experimentId={experimentId}
+                      sampleId={sampleId}
+                      knownTechniques={knownTechniques}
+                      characterization={item}
+                    />
+                    <DeleteCharacterizationDialog
+                      projectId={projectId}
+                      experimentId={experimentId}
+                      sampleId={sampleId}
+                      characterization={item}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+              {files.length > 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} className="whitespace-normal">
+                    <DatasetList
+                      projectId={projectId}
+                      experimentId={experimentId}
+                      sampleId={sampleId}
+                      characterizationId={item.id}
+                      datasets={files}
+                    />
+                  </TableCell>
+                </TableRow>
               )}
-            </TableCell>
-            <TableCell className="text-muted-foreground">{item.note}</TableCell>
-            <TableCell>
-              <div className="flex justify-end gap-1">
-                <CharacterizationDialog
-                  projectId={projectId}
-                  experimentId={experimentId}
-                  sampleId={sampleId}
-                  knownTechniques={knownTechniques}
-                  characterization={item}
-                />
-                <DeleteCharacterizationDialog
-                  projectId={projectId}
-                  experimentId={experimentId}
-                  sampleId={sampleId}
-                  characterization={item}
-                />
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
+            </Fragment>
+          );
+        })}
       </TableBody>
     </Table>
   );
