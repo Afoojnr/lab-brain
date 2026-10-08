@@ -10,6 +10,8 @@ const INLINE_IMAGE_TYPES: Record<string, string> = {
 };
 
 const OTHER_TYPES: Record<string, string> = {
+  tif: 'image/tiff',
+  tiff: 'image/tiff',
   txt: 'text/plain',
   csv: 'text/csv'
 };
@@ -42,6 +44,15 @@ export const contentTypeFor = (fileName: string): string => {
  */
 export const isInlineImage = (contentType: string): boolean =>
   Object.values(INLINE_IMAGE_TYPES).includes(contentType);
+
+/**
+ * Whether this is a TIFF: browsers cannot show it, so the app serves a PNG
+ * copy for display and keeps the original for download.
+ *
+ * @param contentType - A type from {@link contentTypeFor}.
+ */
+export const isTiff = (contentType: string): boolean =>
+  contentType === 'image/tiff';
 
 /**
  * A file size for people: "3 KB", "1.4 MB".

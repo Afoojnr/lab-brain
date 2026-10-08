@@ -58,7 +58,15 @@ export const getDatasetById = async (
  */
 export const createDataset = async (
   characterizationId: string,
-  file: Pick<Dataset, 'fileName' | 'storagePath' | 'contentType' | 'sizeBytes'>
+  file: Pick<
+    Dataset,
+    | 'fileName'
+    | 'folder'
+    | 'relativePath'
+    | 'storagePath'
+    | 'contentType'
+    | 'sizeBytes'
+  >
 ): Promise<Dataset> => {
   const dataset: Dataset = {
     id: crypto.randomUUID(),

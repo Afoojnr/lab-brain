@@ -130,27 +130,38 @@ Sample page → Add characterization → technique + date + note → listed on t
 
 ---
 
-## Flow 3 — Turn a measurement into results and plots (later)
+## Flow 3 — Turn a measurement into results (EDX and ellipsometry built, per sample)
 
 **Goal:** stop copying numbers by hand from instrument files, while keeping hand
 entry possible.
 
-1. Open a technique tab (e.g. EDX or Ellipsometry) → load the files (raw files are
-   never changed).
-2. See the data plotted, including a treated version; settings of any treatment are
-   saved with it.
-3. Run the calculation (e.g. B/C ratio, thickness) → a **preview** of each sample's
-   new value next to the existing one → choose update or skip per row. A value typed
-   by hand is never overwritten silently.
-4. Select samples in the table and choose X and Y from the columns to plot them
-   against each other (e.g. thickness vs plasma pulse).
+1. On the `Sample page`, click a characterization's technique to open its own page:
+   its files (attach a single file, several, or a whole folder with its subfolders)
+   and its analysis. Images, CSV/Excel tables and text open in a viewer in the page;
+   TIFF images are shown through a PNG copy. The analysis is chosen from the
+   technique name (EDX/EDS, ellipsometry) or picked by hand.
+2. **EDX**: every `quantification.csv` is one spot. Untick bad spots (their files are
+   never changed); the composition is averaged over the rest, with error bars, and
+   the spectra are overlaid. An element missing from a spot counts as 0 and the
+   standard deviation divides by N, as in the lab notebook. Pick the ratio (B/N,
+   B/C, C/O, any two elements).
+3. **Ellipsometry**: the thickness and n, each with its standard deviation, are read
+   from the `Average` and `StdDeviation` rows of the attached fit export.
+4. **Send to results**: tick the values (defaults: the ratio, B, N, C, O and the
+   substrate for EDX; thickness and n for ellipsometry, each with its std), choose
+   for each an existing result column or a new one, and see the value it replaces.
+   Nothing is written until the button is pressed. A ratio that cannot be computed
+   (no denominator element) is 0 and says so. The server recomputes every number
+   from the stored files; only the chosen columns change.
+5. Later: an experiment-wide view to do this for many samples at once, and plotting
+   selected rows against each other (e.g. thickness vs plasma pulse).
 
 _Formulas and constants are agreed with the owner for each technique, never
 guessed._
 
 ```
-Technique tab → load files → plot → calculate → preview (update / skip) → result columns filled
-Samples table → select rows → choose X and Y → plot
+Sample page → technique → files + analysis → untick spots / pick ratio → send to results → result columns filled
+Samples table → select rows → choose X and Y → plot (later)
 ```
 
 ---

@@ -7,6 +7,7 @@ describe('contentTypeFor', () => {
     ['photo.PNG', 'image/png'],
     ['a.jpeg', 'image/jpeg'],
     ['data.csv', 'text/csv'],
+    ['Image 1.tiff', 'image/tiff'],
     ['spectrum.spx', 'application/octet-stream'],
     ['noextension', 'application/octet-stream'],
     ['evil.html', 'application/octet-stream'],

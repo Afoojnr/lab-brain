@@ -1,0 +1,78 @@
+{
+  "page": {
+    "filesTitle": "Files",
+    "filesDescription": "The raw files of this measurement. They are never changed.",
+    "analysisTitle": "Analysis",
+    "analysisDescription": "Compute values from the files and send them to this sample's result columns.",
+    "breadcrumbDashboard": "Projects",
+    "noDate": "No date",
+    "open": "Open analysis",
+    "backToSample": "Back to the sample",
+    "factSample": "Sample",
+    "factDate": "Measured",
+    "noFiles": "No files attached yet. Use the paperclip to attach the files of this measurement."
+  },
+  "chooser": {
+    "title": "What kind of measurement is this?",
+    "description": "The analysis is chosen from the technique name. Pick one if the name does not say.",
+    "edx": "EDX / EDS",
+    "ellipsometry": "Ellipsometry"
+  },
+  "edx": {
+    "ratioTitle": "Ratio",
+    "numerator": "Element on top",
+    "denominator": "Element below",
+    "spotsTitle": "Measurement spots",
+    "spotsDescription": "Untick a spot to leave it out of the averages. Its files are never changed.",
+    "spot": "Spot",
+    "include": "Include {name}",
+    "included": "{included} of {total} spots in the averages",
+    "noSpots": "No quantification.csv found. Attach the sample's folder, the export folder from the microscope, with the paperclip.",
+    "allExcluded": "Every spot is left out. Tick at least one.",
+    "problems": "These files could not be read:",
+    "reasons": {
+      "missingColumns": "missing the Element symbol or Atomic concentration columns",
+      "invalidNumber": "a concentration is not a number",
+      "empty": "no elements listed",
+      "unreadable": "the file could not be read"
+    },
+    "compositionTitle": "Composition (mean ± std, atomic %)",
+    "spectraTitle": "Spectra of the included spots",
+    "spectraAxisX": "Energy (keV)",
+    "spectraAxisY": "Counts",
+    "noSpectra": "No spectrum.emsa found next to the quantification files.",
+    "mean": "Mean",
+    "std": "Std"
+  },
+  "ellipsometry": {
+    "fileLabel": "Fit file",
+    "noFile": "Attach the fit export, a .csv such as AAA159_seqfit.csv, with the paperclip.",
+    "unreadable": "This CSV is not a fit export, or a number in its summary is missing.",
+    "summaryTitle": "Summary from the file",
+    "thickness": "Thickness",
+    "n": "n",
+    "pointsTitle": "Thickness at each fitted point",
+    "point": "Point",
+    "notice": "These are the Average and StdDeviation rows of the file, as the instrument software wrote them."
+  },
+  "results": {
+    "title": "Send to results",
+    "description": "Tick the values to put in this sample's result columns. Nothing is saved until you press the button.",
+    "value": "Value",
+    "current": "Now",
+    "target": "Result column",
+    "newColumn": "New column",
+    "newName": "New column name",
+    "newUnit": "Unit",
+    "unavailable": "not computable (no {denominator} measured), shown as 0",
+    "noChange": "no change",
+    "apply": "Send {count, plural, one {# value} other {# values}} to results",
+    "save": "Save choices",
+    "saved": "Choices saved",
+    "applied": "{count, plural, one {# value} other {# values}} sent to the results",
+    "failed": "The values could not be sent. Check the columns and names.",
+    "noneSelected": "Tick at least one value.",
+    "columnTaken": "Each result column can only receive one value.",
+    "nameMissing": "Give each new column a name."
+  }
+}

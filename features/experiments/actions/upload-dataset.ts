@@ -5,7 +5,11 @@ import path from 'node:path';
 import { revalidatePath } from 'next/cache';
 
 import { getStorage } from '@/lib/storage';
-import { datasetPath, withoutCollision } from '@/lib/storage/paths';
+import {
+  datasetPath,
+  safeSubPath,
+  withoutCollision
+} from '@/lib/storage/paths';
 
 import { contentTypeFor, MAX_DATASET_BYTES } from '../datasets';
 import { getCharacterizationOfSample } from '../data/characterizations';
@@ -26,7 +30,9 @@ import { getSampleById } from '../data/samples';
  * @param experimentId - The experiment the caller says owns the sample.
  * @param sampleId - The sample the characterization belongs to.
  * @param characterizationId - The characterization the file is attached to.
- * @param formData - Holds the file under `file`.
+ * @param formData - Holds the file under `file`. A file from an uploaded folder
+ *   also has `folder` (the reserved folder name) and `relativePath` (its path
+ *   inside it). `refresh` = `0` skips re-rendering the pages (set on every file of a batch but the last).
  * @returns The new dataset's id, or null when ignored.
  */
 export const uploadDatasetAction = async (
@@ -49,6 +55,17 @@ export const uploadDatasetAction = async (
   if (!project || !experiment || !characterization) return null;
   if (sample?.experimentId !== experimentId) return null;
 
+  const folderField = formData.get('folder');
+  const pathField = formData.get('relativePath');
+  const folder =
+    typeof folderField === 'string' && folderField.trim() !== ''
+      ? folderField.trim()
+      : null;
+  // A path without a folder, or one that is empty or too deep, is not accepted.
+  const relativePath =
+    folder && typeof pathField === 'string' ? pathField : null;
+  if (folder && (!relativePath || !safeSubPath(relativePath))) return null;
+
   const storage = getStorage();
   const wanted = datasetPath({
     projectName: project.name,
@@ -56,7 +73,9 @@ export const uploadDatasetAction = async (
     sampleCode: sample.code,
     technique: characterization.technique,
     measuredOn: characterization.measuredOn,
-    fileName: file.name
+    fileName: file.name,
+    folder,
+    relativePath
   });
   const storagePath = withoutCollision(
     wanted,
@@ -66,14 +85,21 @@ export const uploadDatasetAction = async (
   await storage.upload(storagePath, new Uint8Array(await file.arrayBuffer()));
   const dataset = await createDataset(characterization.id, {
     fileName: file.name,
+    folder,
+    relativePath,
     storagePath,
     contentType: contentTypeFor(file.name),
     sizeBytes: file.size
   });
-  revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
-  revalidatePath(
-    `/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}`
-  );
+  if (formData.get('refresh') !== '0') {
+    revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
+    revalidatePath(
+      `/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}`
+    );
+    revalidatePath(
+      `/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}/characterizations/${characterizationId}`
+    );
+  }
 
   return dataset.id;
 };

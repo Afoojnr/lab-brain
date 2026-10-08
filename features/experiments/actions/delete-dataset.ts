@@ -45,6 +45,9 @@ export const deleteDatasetAction = async (
   revalidatePath(
     `/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}`
   );
+  revalidatePath(
+    `/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}/characterizations/${characterizationId}`
+  );
 
   return true;
 };

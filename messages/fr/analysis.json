@@ -1,0 +1,78 @@
+{
+  "page": {
+    "filesTitle": "Fichiers",
+    "filesDescription": "Les fichiers bruts de cette mesure. Ils ne sont jamais modifiés.",
+    "analysisTitle": "Analyse",
+    "analysisDescription": "Calculez des valeurs à partir des fichiers et envoyez-les dans les colonnes de résultat de cet échantillon.",
+    "breadcrumbDashboard": "Projets",
+    "noDate": "Sans date",
+    "open": "Ouvrir l'analyse",
+    "backToSample": "Retour à l'échantillon",
+    "factSample": "Échantillon",
+    "factDate": "Mesuré",
+    "noFiles": "Aucun fichier joint pour l'instant. Utilisez le trombone pour joindre les fichiers de cette mesure."
+  },
+  "chooser": {
+    "title": "De quel type de mesure s'agit-il ?",
+    "description": "L'analyse est choisie d'après le nom de la technique. Choisissez-en une si le nom ne le dit pas.",
+    "edx": "EDX / EDS",
+    "ellipsometry": "Ellipsométrie"
+  },
+  "edx": {
+    "ratioTitle": "Rapport",
+    "numerator": "Élément au numérateur",
+    "denominator": "Élément au dénominateur",
+    "spotsTitle": "Points de mesure",
+    "spotsDescription": "Décochez un point pour l'écarter des moyennes. Ses fichiers ne sont jamais modifiés.",
+    "spot": "Point",
+    "include": "Inclure {name}",
+    "included": "{included} points sur {total} dans les moyennes",
+    "noSpots": "Aucun quantification.csv trouvé. Joignez le dossier de l'échantillon, le dossier d'export du microscope, avec le trombone.",
+    "allExcluded": "Tous les points sont écartés. Cochez-en au moins un.",
+    "problems": "Ces fichiers n'ont pas pu être lus :",
+    "reasons": {
+      "missingColumns": "colonnes Element symbol ou Atomic concentration absentes",
+      "invalidNumber": "une concentration n'est pas un nombre",
+      "empty": "aucun élément listé",
+      "unreadable": "le fichier n'a pas pu être lu"
+    },
+    "compositionTitle": "Composition (moyenne ± écart-type, % atomique)",
+    "spectraTitle": "Spectres des points inclus",
+    "spectraAxisX": "Énergie (keV)",
+    "spectraAxisY": "Coups",
+    "noSpectra": "Aucun spectrum.emsa trouvé à côté des fichiers de quantification.",
+    "mean": "Moyenne",
+    "std": "Écart-type"
+  },
+  "ellipsometry": {
+    "fileLabel": "Fichier d'ajustement",
+    "noFile": "Joignez l'export d'ajustement, un .csv comme AAA159_seqfit.csv, avec le trombone.",
+    "unreadable": "Ce CSV n'est pas un export d'ajustement, ou un nombre de son résumé manque.",
+    "summaryTitle": "Résumé du fichier",
+    "thickness": "Épaisseur",
+    "n": "n",
+    "pointsTitle": "Épaisseur à chaque point ajusté",
+    "point": "Point",
+    "notice": "Ce sont les lignes Average et StdDeviation du fichier, telles que le logiciel de l'instrument les a écrites."
+  },
+  "results": {
+    "title": "Envoyer vers les résultats",
+    "description": "Cochez les valeurs à mettre dans les colonnes de résultat de cet échantillon. Rien n'est enregistré avant d'appuyer sur le bouton.",
+    "value": "Valeur",
+    "current": "Actuel",
+    "target": "Colonne de résultat",
+    "newColumn": "Nouvelle colonne",
+    "newName": "Nom de la nouvelle colonne",
+    "newUnit": "Unité",
+    "unavailable": "non calculable (aucun {denominator} mesuré), affiché comme 0",
+    "noChange": "aucun changement",
+    "apply": "Envoyer {count, plural, one {# valeur} other {# valeurs}} vers les résultats",
+    "save": "Enregistrer les choix",
+    "saved": "Choix enregistrés",
+    "applied": "{count, plural, one {# valeur envoyée} other {# valeurs envoyées}} vers les résultats",
+    "failed": "Les valeurs n'ont pas pu être envoyées. Vérifiez les colonnes et les noms.",
+    "noneSelected": "Cochez au moins une valeur.",
+    "columnTaken": "Chaque colonne de résultat ne peut recevoir qu'une valeur.",
+    "nameMissing": "Donnez un nom à chaque nouvelle colonne."
+  }
+}

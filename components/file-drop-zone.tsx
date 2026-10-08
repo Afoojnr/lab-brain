@@ -4,9 +4,14 @@ import { UploadIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 
+import { isHiddenName, readDroppedEntries } from './read-dropped-entries';
+import type { PickedFile } from './read-dropped-entries';
+
 type FileDropZoneProps = {
-  /** Called with the chosen or dropped files. */
-  onFiles: (files: File[]) => void;
+  /** Called with the chosen or dropped files, each with its path inside a folder. */
+  onFiles: (files: PickedFile[]) => void;
+  /** Pick or drop a whole folder (its subfolders are kept in each file's path). */
+  isFolder?: boolean;
   /** Extensions to offer in the picker, e.g. `.xlsx,.csv`; omit for any file. */
   accept?: string;
   isMultiple?: boolean;
@@ -25,6 +30,7 @@ type FileDropZoneProps = {
 export const FileDropZone = ({
   onFiles,
   accept,
+  isFolder = false,
   isMultiple = false,
   isDisabled = false,
   inputLabel,
@@ -35,19 +41,31 @@ export const FileDropZone = ({
   const [isDragging, setIsDragging] = useState(false);
 
   const choose = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files ?? []);
+    const files = Array.from(event.target.files ?? [])
+      .filter(file => !isHiddenName(file.name))
+      .map(file => ({ file, path: file.webkitRelativePath || file.name }));
     if (files.length > 0) onFiles(files);
     // So choosing the same file again after an error still fires.
     event.target.value = '';
   };
 
-  const drop = (event: DragEvent<HTMLLabelElement>) => {
+  const drop = async (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     setIsDragging(false);
     if (isDisabled) return;
 
-    const files = Array.from(event.dataTransfer.files);
-    if (files.length > 0) onFiles(isMultiple ? files : files.slice(0, 1));
+    const entries = Array.from(event.dataTransfer.items ?? [])
+      .map(item => item.webkitGetAsEntry?.())
+      .filter(entry => entry != null);
+    const picked: PickedFile[] =
+      isFolder && entries.length > 0
+        ? await readDroppedEntries(entries)
+        : Array.from(event.dataTransfer.files)
+            .filter(file => !isHiddenName(file.name))
+            .map(file => ({ file, path: file.name }));
+    if (picked.length > 0) {
+      onFiles(isMultiple || isFolder ? picked : picked.slice(0, 1));
+    }
   };
 
   return (
@@ -59,7 +77,7 @@ export const FileDropZone = ({
         setIsDragging(true);
       }}
       onDragLeave={() => setIsDragging(false)}
-      onDrop={drop}
+      onDrop={event => void drop(event)}
     >
       <UploadIcon aria-hidden className="text-muted-foreground size-8" />
       <span className="font-medium">{title}</span>
@@ -69,6 +87,7 @@ export const FileDropZone = ({
         type="file"
         accept={accept}
         multiple={isMultiple}
+        {...(isFolder ? { webkitdirectory: '' } : {})}
         aria-label={inputLabel}
         disabled={isDisabled}
         className="sr-only"
