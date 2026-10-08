@@ -13,10 +13,15 @@ export { getProjectById } from './data/projects';
 export {
   assignSamplesToStudy,
   createSample,
+  getSampleById,
   listSampleCodesByProject,
   listSamplesByExperiment,
   updateSample
 } from './data/samples';
+export {
+  getCharacterizationOfSample,
+  listCharacterizationsByExperiment
+} from './data/characterizations';
 export { createStudy, listStudiesByExperiment } from './data/studies';
 export {
   createDataset,
@@ -25,4 +30,4 @@ export {
   listDatasetsByCharacterization,
   listDatasetsBySample
 } from './data/datasets';
-export { datasetResponse } from './datasets-file';
+export { datasetBytes, datasetResponse } from './datasets-file';

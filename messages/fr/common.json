@@ -3,5 +3,18 @@
   "appDescription": "Un espace de travail connecté pour la recherche expérimentale.",
   "tryAgain": "Réessayer",
   "showMore": "Voir plus",
-  "showLess": "Voir moins"
+  "showLess": "Voir moins",
+  "fileViewer": {
+    "previous": "Fichier précédent",
+    "next": "Fichier suivant",
+    "download": "Télécharger l'original",
+    "position": "{current} sur {total}",
+    "loading": "Chargement…",
+    "loadFailed": "Ce fichier n'a pas pu être affiché. Vous pouvez toujours le télécharger.",
+    "empty": "Ce fichier est vide.",
+    "rows": "Affichage des {shown} premières lignes sur {total}",
+    "lines": "Affichage des {shown} premières lignes sur {total}",
+    "sheet": "Feuille {name}",
+    "dialogDescription": "Un aperçu rapide. Le fichier original n'est jamais modifié."
+  }
 }

@@ -3,5 +3,18 @@
   "appDescription": "A connected workspace for experimental research.",
   "tryAgain": "Try again",
   "showMore": "Show more",
-  "showLess": "Show less"
+  "showLess": "Show less",
+  "fileViewer": {
+    "previous": "Previous file",
+    "next": "Next file",
+    "download": "Download original",
+    "position": "{current} of {total}",
+    "loading": "Loading…",
+    "loadFailed": "This file could not be shown. You can still download it.",
+    "empty": "This file is empty.",
+    "rows": "Showing the first {shown} of {total} rows",
+    "lines": "Showing the first {shown} of {total} lines",
+    "sheet": "Sheet {name}",
+    "dialogDescription": "A quick look. The original file is never changed."
+  }
 }

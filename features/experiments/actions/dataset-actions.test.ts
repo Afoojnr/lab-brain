@@ -26,6 +26,7 @@ import { getProjectById } from '../data/projects';
 import { getSampleById } from '../data/samples';
 import { MAX_DATASET_BYTES } from '../datasets';
 import { deleteDatasetAction } from './delete-dataset';
+import { reserveDatasetFolderAction } from './reserve-dataset-folder';
 import { uploadDatasetAction } from './upload-dataset';
 
 const PROJECT = { id: 'project-1', name: 'Alpha' };
@@ -84,12 +85,18 @@ describe('uploadDatasetAction', () => {
     );
     expect(createDataset).toHaveBeenCalledWith('record-1', {
       fileName: 'spectrum.txt',
+      folder: null,
+      relativePath: null,
       storagePath: 'Alpha/ALD/ALD001/EDX/2026-09-14_spectrum.txt',
       contentType: 'text/plain',
       sizeBytes: 5
     });
     expect(revalidatePath).toHaveBeenCalledWith(
       '/projects/project-1/experiments/experiment-1/samples/sample-1'
+    );
+    // The characterization's own page shows its files, so it must refresh too.
+    expect(revalidatePath).toHaveBeenCalledWith(
+      '/projects/project-1/experiments/experiment-1/samples/sample-1/characterizations/record-1'
     );
   });
 
@@ -159,6 +166,92 @@ describe('uploadDatasetAction', () => {
 
     expect(await run(formWith(FILE))).toBeNull();
     expect(storage.upload).not.toHaveBeenCalled();
+  });
+});
+
+describe('uploadDatasetAction with a folder', () => {
+  const run = (form: FormData) =>
+    uploadDatasetAction(
+      'project-1',
+      'experiment-1',
+      'sample-1',
+      'record-1',
+      form
+    );
+  const folderForm = (
+    relativePath: string,
+    extra: Record<string, string> = {}
+  ) => {
+    const form = formWith(FILE);
+    form.set('folder', 'ABC130');
+    form.set('relativePath', relativePath);
+    for (const [key, value] of Object.entries(extra)) form.set(key, value);
+    return form;
+  };
+
+  it('stores the file inside its folder and records where it sat', async () => {
+    await run(folderForm('export/spot 1/quantification.csv'));
+
+    expect(storage.upload.mock.calls[0]?.[0]).toBe(
+      'Alpha/ALD/ALD001/EDX/2026-09-14_ABC130/export/spot 1/quantification.csv'
+    );
+    expect(vi.mocked(createDataset).mock.calls[0]?.[1]).toMatchObject({
+      folder: 'ABC130',
+      relativePath: 'export/spot 1/quantification.csv'
+    });
+  });
+
+  it('cannot be steered out of the folder by the relative path', async () => {
+    await run(folderForm('../../../outside.txt'));
+
+    const stored = String(storage.upload.mock.calls[0]?.[0]);
+    expect(stored.split('/')).not.toContain('..');
+    expect(stored.startsWith('Alpha/ALD/ALD001/EDX/2026-09-14_ABC130/')).toBe(
+      true
+    );
+  });
+
+  it.each(['', '/', Array(30).fill('x').join('/')])(
+    'ignores an empty or too deep relative path %j',
+    async relativePath => {
+      expect(await run(folderForm(relativePath))).toBeNull();
+      expect(storage.upload).not.toHaveBeenCalled();
+    }
+  );
+
+  it('skips re-rendering the pages when told, for all but the last file', async () => {
+    await run(folderForm('a.txt', { refresh: '0' }));
+    expect(revalidatePath).not.toHaveBeenCalled();
+
+    await run(folderForm('b.txt'));
+    expect(revalidatePath).toHaveBeenCalled();
+  });
+});
+
+describe('reserveDatasetFolderAction', () => {
+  const run = (name: string) =>
+    reserveDatasetFolderAction(
+      'project-1',
+      'experiment-1',
+      'sample-1',
+      'record-1',
+      name
+    );
+
+  it('gives a folder its own name, or a numbered one when already uploaded', async () => {
+    expect(await run('ABC130')).toBe('ABC130');
+
+    storage.list.mockResolvedValue([
+      'Alpha/ALD/ALD001/EDX/2026-09-14_ABC130/export/a.csv'
+    ]);
+    expect(await run('ABC130')).toBe('ABC130-2');
+  });
+
+  it('ignores ids that do not belong together and empty names', async () => {
+    expect(await run('  ')).toBeNull();
+
+    vi.mocked(getCharacterizationOfSample).mockResolvedValue(undefined);
+    expect(await run('ABC130')).toBeNull();
   });
 });
 

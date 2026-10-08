@@ -71,6 +71,12 @@
     "errors": {
       "tooLarge": "{name} dépasse 50 Mo et n'a pas été joint.",
       "uploadFailed": "{name} n'a pas pu être joint."
-    }
+    },
+    "modeFiles": "Fichiers",
+    "modeFolder": "Un dossier",
+    "dropFolderTitle": "Déposez un dossier ici",
+    "dropFolderHint": "Tout le dossier de l'échantillon, avec ses sous-dossiers. Chaque fichier jusqu'à 50 Mo",
+    "folderInputLabel": "Dossier à joindre",
+    "folderSummary": "{name} · {count, plural, one {# fichier} other {# fichiers}}"
   }
 }

@@ -281,10 +281,14 @@ in this order:
    sample with their own script before importing. A file that covers several samples
    is stored once and shown under each sample (details decided in this step). SEM and
    AFM images show inline, with their stored location.
-2. **Parsers per technique** (EDX, ellipsometry, FTIR, UV-Vis, ...): read the raw file,
-   show the location and a plot, including a treated version. Raw files are never
-   changed; a treated plot is saved separately with its settings.
-3. **Technique tabs that fill result columns.** Load files, run the calculation, then
+2. **Parsers per technique** (EDX and ellipsometry built; FTIR, UV-Vis, ... next): read
+   the raw file, show the location and a plot. Raw files are never changed. EDX
+   follows the lab notebook (missing element = 0, std divided by N, ratio of means
+   with propagated std, bad spots unticked not deleted); ellipsometry reads the
+   summary rows of the fit export. A treated (smoothed/normalised) plot is still to
+   come, with its settings saved separately.
+3. **Technique pages that fill result columns** (built per sample; an experiment-wide
+   batch view is next). Load files, run the calculation, then
    preview the numbers ("ALD012 thickness: 41.2 → 43.0 nm") and confirm update or
    skip per row, so a value typed by hand is never silently overwritten. Typing a
    result by hand always remains possible. Formulas and constants are written with
@@ -302,16 +306,17 @@ The records below are the future database tables (today they are in-memory store
 `features/experiments/data/`). The import adds **no table**: it writes the same
 records through the same functions.
 
-| Record                | Key fields                                                                                          |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `Project`             | name, description                                                                                   |
-| `Experiment`          | project, name, code prefix, protocol                                                                |
-| `ParameterDefinition` | experiment, name, unit, kind (number/text), role (parameter/result), default, position              |
-| `Study`               | experiment, name, description                                                                       |
-| `Sample`              | experiment, code, date, values (by column; empty = not recorded), implementation, observation, note |
-| `Sample` ↔ `Study`    | many to many (a sample can be in several studies of its experiment)                                 |
-| `Characterization`    | sample, technique, date, note (repeatable)                                                          |
-| `Dataset`             | characterization, file name, storage path, content type, size (the file itself is in storage)       |
+| Record                | Key fields                                                                                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Project`             | name, description                                                                                                                                              |
+| `Experiment`          | project, name, code prefix, protocol                                                                                                                           |
+| `ParameterDefinition` | experiment, name, unit, kind (number/text), role (parameter/result), default, position                                                                         |
+| `Study`               | experiment, name, description                                                                                                                                  |
+| `Sample`              | experiment, code, date, values (by column; empty = not recorded), implementation, observation, note                                                            |
+| `Sample` ↔ `Study`    | many to many (a sample can be in several studies of its experiment)                                                                                            |
+| `Characterization`    | sample, technique, date, note (repeatable)                                                                                                                     |
+| `Dataset`             | characterization, file name, folder, path inside it, storage path, content type, size (the file is in storage)                                                 |
+| `Analysis`            | characterization, kind (edx/ellipsometry), settings (spots left out, ratio pair, chosen values and their columns); results are never stored, always recomputed |
 
 Later tables: analyses, notebook entries,
 references.

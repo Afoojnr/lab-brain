@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Fragment } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
 
@@ -66,7 +67,14 @@ export const CharacterizationsTable = async ({
           return (
             <Fragment key={item.id}>
               <TableRow>
-                <TableCell className="font-medium">{item.technique}</TableCell>
+                <TableCell className="font-medium">
+                  <Link
+                    href={`/projects/${projectId}/experiments/${experimentId}/samples/${sampleId}/characterizations/${item.id}`}
+                    className="underline-offset-4 hover:underline"
+                  >
+                    {item.technique}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   {item.measuredOn ? (
                     format.dateTime(

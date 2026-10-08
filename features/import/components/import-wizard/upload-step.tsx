@@ -47,7 +47,7 @@ export const UploadStep = ({ onParsed }: UploadStepProps) => {
         browse={t('upload.dropBrowse')}
         hint={t('upload.dropHint')}
         onFiles={files => {
-          const [file] = files;
+          const file = files[0]?.file;
           if (file) void read(file);
         }}
       />

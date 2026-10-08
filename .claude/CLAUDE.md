@@ -102,9 +102,9 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 ```
 
 - Create folders only when they get a first real file; do not scaffold empty ones.
-- Planned features: `experiments` (projects, experiments, studies, samples),
-  `characterization` (datasets, analyses, one subfolder per technique), `import`,
-  `notebook`, `references`, later `assistant`.
+- Features: `experiments` (projects, experiments, studies, samples, attached files),
+  `import`, `characterization` (analyses per technique under `techniques/`: EDX,
+  ellipsometry). Planned: `notebook`, `references`, later `assistant`.
 
 ## Imports and exports
 

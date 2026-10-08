@@ -15,6 +15,8 @@ export {
 } from './schemas';
 export type { SampleInput } from './schemas';
 export type {
+  Characterization,
+  Dataset,
   Experiment,
   ParameterDefinition,
   ParameterKind,

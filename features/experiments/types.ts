@@ -134,6 +134,10 @@ export type Dataset = {
   characterizationId: string;
   /** The name the user's file had. */
   fileName: string;
+  /** For a file from an uploaded folder, the folder's name (as stored); else null. */
+  folder: string | null;
+  /** For a file from an uploaded folder, its path inside it (`export/spot 1/quantification.csv`); else null. */
+  relativePath: string | null;
   /** Where the file is in storage, relative to the storage root. */
   storagePath: string;
   contentType: string;

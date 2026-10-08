@@ -71,6 +71,12 @@
     "errors": {
       "tooLarge": "{name} is larger than 50 MB and was not attached.",
       "uploadFailed": "{name} could not be attached."
-    }
+    },
+    "modeFiles": "Files",
+    "modeFolder": "A folder",
+    "dropFolderTitle": "Drop a folder here",
+    "dropFolderHint": "The whole sample folder, with its subfolders. Each file up to 50 MB",
+    "folderInputLabel": "Folder to attach",
+    "folderSummary": "{name} · {count, plural, one {# file} other {# files}}"
   }
 }
