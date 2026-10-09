@@ -4,7 +4,7 @@
     "filesDescription": "The raw files of this measurement. They are never changed.",
     "analysisTitle": "Analysis",
     "analysisDescription": "Compute values from the files and send them to this sample's result columns.",
-    "breadcrumbDashboard": "Projects",
+    "breadcrumbProjects": "Projects",
     "noDate": "No date",
     "open": "Open analysis",
     "backToSample": "Back to the sample",
@@ -74,5 +74,76 @@
     "noneSelected": "Tick at least one value.",
     "columnTaken": "Each result column can only receive one value.",
     "nameMissing": "Give each new column a name."
+  },
+  "workspace": {
+    "description": "Analyse raw files from the instrument, or the samples of an experiment.",
+    "tabs": {
+      "upload": "Upload files",
+      "experiment": "From an experiment"
+    },
+    "upload": {
+      "edxDescription": "Drop a sample's folder from the microscope, or several. Nothing is uploaded or saved: the files are read in your browser.",
+      "ellipsometryDescription": "Drop one or more fit exports (.csv). Nothing is uploaded or saved: the files are read in your browser.",
+      "dropTitle": "Drop folders here",
+      "dropTitleFiles": "Drop files here",
+      "dropBrowse": "or click to browse",
+      "dropHint": "quantification.csv and spectrum.emsa are read; the other files are ignored",
+      "dropHintFiles": "Fit exports as .csv files",
+      "folderInputLabel": "Folders to analyse",
+      "fileInputLabel": "Fit files to analyse",
+      "levelLabel": "What did you drop?",
+      "levelSample": "Each folder is a sample",
+      "levelDate": "A folder holding several samples (a date folder)",
+      "noFiles": "No quantification.csv was found in what you dropped.",
+      "noCsv": "No .csv file was found in what you dropped.",
+      "itemsTitle": "Samples",
+      "spotsOf": "{included} of {total} spots",
+      "spotsToggle": "Show the spots of {id}",
+      "spotsHide": "Hide the spots of {id}",
+      "download": "Download Excel",
+      "startOver": "Start over",
+      "problems": "These files could not be read:",
+      "reasons": {
+        "notSeqfit": "not an ellipsometer fit export",
+        "invalidNumber": "a number in the summary is missing"
+      },
+      "count": "{count, plural, one {# sample} other {# samples}}"
+    },
+    "experiment": {
+      "projectLabel": "Project",
+      "experimentLabel": "Experiment",
+      "chooseProject": "Choose a project",
+      "chooseExperiment": "Choose an experiment",
+      "pickHint": "Choose a project and an experiment to analyse its samples.",
+      "noProjects": "There are no projects yet.",
+      "noExperiments": "This project has no experiments yet.",
+      "noRows": "This experiment has no {technique} measurements yet. Record one on a sample and attach its files.",
+      "valuesTitle": "Values to send",
+      "valuesDescription": "Choose once what goes to the result columns. It applies to every sample you tick.",
+      "rowsTitle": "Measurements",
+      "rowsDescription": "Tick the samples to work on. Open one to leave out bad spots. A sample that would replace a different value is skipped unless you tick Update.",
+      "sample": "Sample",
+      "spots": "Spots",
+      "update": "Update",
+      "tick": "Select {sample}",
+      "updateRow": "Update {sample}",
+      "noReadable": "nothing to compute from",
+      "spotsOf": "{included} of {total}",
+      "filesUnreadable": "{count, plural, one {# file} other {# files}} could not be read",
+      "fillCell": "{next}",
+      "sameCell": "{next} (unchanged)",
+      "replaceCell": "{current} → {next}",
+      "apply": "Apply to {count, plural, one {# sample} other {# samples}}",
+      "applied": "{count, plural, one {# sample} other {# samples}} updated",
+      "failed": "The values could not be sent. Check the columns and names.",
+      "pickSamples": "Tick at least one sample to update.",
+      "details": "Show the details of {sample}",
+      "hideDetails": "Hide the details of {sample}",
+      "reasons": {
+        "noFile": "no fit file attached",
+        "notSeqfit": "not an ellipsometer fit export"
+      },
+      "orUpload": "Or upload files"
+    }
   }
 }

@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache';
 
 import {
-  createParameterDefinition,
   getCharacterizationOfSample,
   getExperimentInProject,
   getSampleById,
@@ -11,10 +10,10 @@ import {
   listParameterDefinitions,
   updateSample
 } from '@/features/experiments/server';
-import { buildParameterFormSchema } from '@/features/experiments/shared';
 import type { ParameterValues } from '@/features/experiments/shared';
 
 import { saveAnalysis } from '../data/analyses';
+import { createPlannedColumns, numbersFor, planTargets } from './apply-core';
 import { computeAnalysisValues } from '../load';
 import { analysisKindSchema, analysisSettingsSchema } from '../schemas';
 
@@ -63,66 +62,25 @@ export const applyAnalysisAction = async (
     datasets,
     settings
   );
-  if (!values || settings.selectedValueIds.length === 0) return null;
+  if (!values) return null;
 
-  // Check every target before anything is written.
-  const names = definitions.map(definition => definition.name);
-  const plan: {
-    valueId: string;
-    columnId?: string;
-    newColumn?: { name: string; unit: string };
-  }[] = [];
-  const usedColumns = new Set<string>();
-  for (const valueId of settings.selectedValueIds) {
-    const target = settings.targets[valueId];
-    if (!values.some(value => value.id === valueId) || !target) return null;
+  // Check every target and number before anything is written.
+  const plan = planTargets(
+    settings.selectedValueIds,
+    settings.targets,
+    values.map(value => value.id),
+    definitions
+  );
+  const numbers = plan ? numbersFor(plan, values) : null;
+  if (!plan || !numbers) return null;
 
-    if (target.type === 'column') {
-      const column = definitions.find(
-        definition => definition.id === target.columnId
-      );
-      if (!column || column.role !== 'result' || column.kind !== 'number')
-        return null;
-      if (usedColumns.has(column.id)) return null;
-      usedColumns.add(column.id);
-      plan.push({ valueId, columnId: column.id });
-      continue;
-    }
-
-    const form = buildParameterFormSchema(names).safeParse({
-      name: target.name,
-      unit: target.unit,
-      kind: 'number',
-      role: 'result',
-      defaultValue: ''
-    });
-    if (!form.success) return null;
-    names.push(form.data.name);
-    plan.push({
-      valueId,
-      newColumn: { name: form.data.name, unit: form.data.unit }
-    });
-  }
-
+  const columnIds = await createPlannedColumns(experimentId, plan);
   const merged: ParameterValues = { ...sample.values };
   for (const item of plan) {
-    const value = values.find(
-      candidate => candidate.id === item.valueId
-    )?.value;
-    if (value === undefined || !Number.isFinite(value)) return null;
-
-    const columnId =
-      item.columnId ??
-      (
-        await createParameterDefinition(experimentId, {
-          name: item.newColumn?.name ?? '',
-          unit: item.newColumn?.unit ?? '',
-          kind: 'number',
-          role: 'result',
-          defaultValue: null
-        })
-      ).id;
-    merged[columnId] = value;
+    const columnId = columnIds.get(item.valueId);
+    const number = numbers.get(item.valueId);
+    if (columnId !== undefined && number !== undefined)
+      merged[columnId] = number;
   }
 
   await updateSample(experimentId, sampleId, {

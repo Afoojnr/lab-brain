@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
@@ -9,10 +10,15 @@ import { NewProjectDialog } from './new-project-dialog';
 import { ProjectGrid } from './project-grid';
 import { ProjectsEmpty } from './projects-empty';
 
-/** The landing screen: every project as a card with its experiment count, or an empty state to create the first one. */
-export const Dashboard = async () => {
+/**
+ * The home page: every project as a card with its experiment count, or, on a
+ * first run, a welcome with the way to create the first one. `emptyExtra` is
+ * extra content for that welcome (the app puts links to the raw-files
+ * workspaces there, because this feature cannot import another).
+ */
+export const Home = async ({ emptyExtra }: { emptyExtra?: ReactNode }) => {
   const [t, projects] = await Promise.all([
-    getTranslations('dashboard'),
+    getTranslations('home'),
     listProjects()
   ]);
   const projectsWithCounts = await Promise.all(
@@ -34,7 +40,7 @@ export const Dashboard = async () => {
         {hasProjects ? (
           <ProjectGrid projects={projectsWithCounts} />
         ) : (
-          <ProjectsEmpty />
+          <ProjectsEmpty>{emptyExtra}</ProjectsEmpty>
         )}
       </div>
     </FadeIn>

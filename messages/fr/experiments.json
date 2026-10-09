@@ -3,7 +3,7 @@
     "label": "Expériences de ce projet"
   },
   "project": {
-    "breadcrumbDashboard": "Projets",
+    "breadcrumbProjects": "Projets",
     "title": "Expériences",
     "description": "Chaque expérience ressemble à une feuille de votre tableur, avec ses propres colonnes et sa propre numérotation d'échantillons.",
     "new": "Nouvelle expérience",
@@ -11,7 +11,8 @@
     "columns": "{count, plural, one {# colonne} other {# colonnes}}",
     "empty": {
       "title": "Aucune expérience pour l'instant",
-      "description": "Ajoutez une expérience, par exemple un dépôt avec son propre préfixe, pour commencer à enregistrer des échantillons."
+      "description": "Une expérience correspond à une feuille de votre tableur, avec ses propres colonnes et codes d'échantillons.",
+      "import": "Transformer un tableur en expérience"
     },
     "noDescription": "Aucune description pour l'instant"
   },
@@ -45,5 +46,19 @@
       "samples": "Échantillons"
     }
   },
-  "updated": "Expérience {name} mise à jour"
+  "updated": "Expérience {name} mise à jour",
+  "checklist": {
+    "title": "Pour commencer",
+    "description": "Deux étapes et vous pouvez commencer à enregistrer.",
+    "step1Title": "Ajouter les colonnes",
+    "step1Text": "Ce que vous réglez (paramètres) et ce que vous mesurez (résultats). Utilisez le panneau Colonnes plus bas.",
+    "step1Action": "Aller aux colonnes",
+    "step2Title": "Ajouter les échantillons",
+    "step2Text": "Enregistrez-les un par un, ou importez des lignes depuis un tableur.",
+    "step2Add": "Enregistrer le premier échantillon",
+    "step2Import": "Importer des échantillons depuis un tableur",
+    "done": "Fait",
+    "todo": "À faire",
+    "later": "Plus tard, joignez les fichiers des instruments à la mesure d'un échantillon pour les analyser."
+  }
 }

@@ -4,7 +4,7 @@
     "filesDescription": "Les fichiers bruts de cette mesure. Ils ne sont jamais modifiés.",
     "analysisTitle": "Analyse",
     "analysisDescription": "Calculez des valeurs à partir des fichiers et envoyez-les dans les colonnes de résultat de cet échantillon.",
-    "breadcrumbDashboard": "Projets",
+    "breadcrumbProjects": "Projets",
     "noDate": "Sans date",
     "open": "Ouvrir l'analyse",
     "backToSample": "Retour à l'échantillon",
@@ -74,5 +74,76 @@
     "noneSelected": "Cochez au moins une valeur.",
     "columnTaken": "Chaque colonne de résultat ne peut recevoir qu'une valeur.",
     "nameMissing": "Donnez un nom à chaque nouvelle colonne."
+  },
+  "workspace": {
+    "description": "Analysez des fichiers bruts de l'instrument, ou les échantillons d'une expérience.",
+    "tabs": {
+      "upload": "Téléverser des fichiers",
+      "experiment": "Depuis une expérience"
+    },
+    "upload": {
+      "edxDescription": "Déposez le dossier d'un échantillon issu du microscope, ou plusieurs. Rien n'est envoyé ni enregistré : les fichiers sont lus dans votre navigateur.",
+      "ellipsometryDescription": "Déposez un ou plusieurs exports d'ajustement (.csv). Rien n'est envoyé ni enregistré : les fichiers sont lus dans votre navigateur.",
+      "dropTitle": "Déposez des dossiers ici",
+      "dropTitleFiles": "Déposez des fichiers ici",
+      "dropBrowse": "ou cliquez pour parcourir",
+      "dropHint": "quantification.csv et spectrum.emsa sont lus ; les autres fichiers sont ignorés",
+      "dropHintFiles": "Exports d'ajustement au format .csv",
+      "folderInputLabel": "Dossiers à analyser",
+      "fileInputLabel": "Fichiers d'ajustement à analyser",
+      "levelLabel": "Qu'avez-vous déposé ?",
+      "levelSample": "Chaque dossier est un échantillon",
+      "levelDate": "Un dossier contenant plusieurs échantillons (dossier de date)",
+      "noFiles": "Aucun quantification.csv trouvé dans ce que vous avez déposé.",
+      "noCsv": "Aucun fichier .csv trouvé dans ce que vous avez déposé.",
+      "itemsTitle": "Échantillons",
+      "spotsOf": "{included} points sur {total}",
+      "spotsToggle": "Afficher les points de {id}",
+      "spotsHide": "Masquer les points de {id}",
+      "download": "Télécharger l'Excel",
+      "startOver": "Recommencer",
+      "problems": "Ces fichiers n'ont pas pu être lus :",
+      "reasons": {
+        "notSeqfit": "pas un export d'ajustement d'ellipsomètre",
+        "invalidNumber": "un nombre du résumé est manquant"
+      },
+      "count": "{count, plural, one {# échantillon} other {# échantillons}}"
+    },
+    "experiment": {
+      "projectLabel": "Projet",
+      "experimentLabel": "Expérience",
+      "chooseProject": "Choisir un projet",
+      "chooseExperiment": "Choisir une expérience",
+      "pickHint": "Choisissez un projet et une expérience pour analyser ses échantillons.",
+      "noProjects": "Il n'y a pas encore de projet.",
+      "noExperiments": "Ce projet n'a pas encore d'expérience.",
+      "noRows": "Cette expérience n'a pas encore de mesure {technique}. Enregistrez-en une sur un échantillon et joignez ses fichiers.",
+      "valuesTitle": "Valeurs à envoyer",
+      "valuesDescription": "Choisissez une fois ce qui va dans les colonnes de résultat. Cela s'applique à chaque échantillon coché.",
+      "rowsTitle": "Mesures",
+      "rowsDescription": "Cochez les échantillons à traiter. Ouvrez-en un pour écarter de mauvais points. Un échantillon qui remplacerait une valeur différente est ignoré, sauf si vous cochez Mettre à jour.",
+      "sample": "Échantillon",
+      "spots": "Points",
+      "update": "Mettre à jour",
+      "tick": "Sélectionner {sample}",
+      "updateRow": "Mettre à jour {sample}",
+      "noReadable": "rien à calculer",
+      "spotsOf": "{included} sur {total}",
+      "filesUnreadable": "{count, plural, one {# fichier n'a pas pu être lu} other {# fichiers n'ont pas pu être lus}}",
+      "fillCell": "{next}",
+      "sameCell": "{next} (inchangé)",
+      "replaceCell": "{current} → {next}",
+      "apply": "Appliquer à {count, plural, one {# échantillon} other {# échantillons}}",
+      "applied": "{count, plural, one {# échantillon mis à jour} other {# échantillons mis à jour}}",
+      "failed": "Les valeurs n'ont pas pu être envoyées. Vérifiez les colonnes et les noms.",
+      "pickSamples": "Cochez au moins un échantillon à mettre à jour.",
+      "details": "Afficher les détails de {sample}",
+      "hideDetails": "Masquer les détails de {sample}",
+      "reasons": {
+        "noFile": "aucun fichier d'ajustement joint",
+        "notSeqfit": "pas un export d'ajustement d'ellipsomètre"
+      },
+      "orUpload": "Ou téléverser des fichiers"
+    }
   }
 }

@@ -13,6 +13,12 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e',
+  /*
+   * The dev server compiles each page the first time it is visited, and the
+   * flows are long, so wait longer than the 5 s / 30 s defaults.
+   */
+  timeout: 60_000,
+  expect: { timeout: 15_000 },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

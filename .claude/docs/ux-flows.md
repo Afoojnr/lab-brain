@@ -9,7 +9,7 @@ This is meant to drive the information architecture, not final visual design.
 ## Information Architecture (top-level navigation)
 
 ```
-Dashboard (list of Projects: ALD of BxC, CVD of borophene, ...)
+Projects (the home page: every project as a card: ALD of BxC, CVD of borophene, ...)
 └── Project page (name, description, edit)
     └── Experiments (tabs, like the sheets of a spreadsheet: Deposition ALD, Paschen law PSL, ...)
         └── Experiment page
@@ -19,6 +19,13 @@ Dashboard (list of Projects: ALD of BxC, CVD of borophene, ...)
             └── Sample page     (values, characterizations, observation, note; later files and plots)
 Notebook / References / Ask / Export   (later: attached to any record, or project-wide)
 ```
+
+**Sidebar** (always visible; an icon rail when collapsed, a sheet on a phone):
+**Projects** (its label is the way home, the all-projects page; a chevron collapses
+the plain list of every project, newest first) · **Characterizations** (one collapsible header over the techniques the
+app can analyse, today EDX and Ellipsometry, each opening its workspace) · Settings.
+Only those two headers collapse; what you opened or closed is remembered, and the page
+you are on is highlighted.
 
 You land on a list of **Projects** first, not a flat global list — this keeps ALD and
 CVD data from mixing in every view. Inside a project each **experiment** is one
@@ -34,19 +41,24 @@ screen.
 
 **Goal:** get into the right context (ALD vs CVD) before doing anything else.
 
-1. `Dashboard` → pick an existing project or "New project" (name, optional
-   description such as "PE ALD, TEB + H2 plasma, Ar carrier"). A project can be
-   edited later.
+1. `Projects` (home: the logo, the Projects label or `/`) → pick an existing project
+   or "New project" with the button on that page (name, optional description such as "PE ALD, TEB + H2 plasma, Ar carrier"). A project can
+   be edited later. On a first run there are no projects: a welcome offers "Create
+   your first project", and "Or analyse raw files without a project" (the EDX and
+   Ellipsometry workspaces work without any project).
 2. `Project page` → experiments shown as cards (name, prefix, how many samples and
-   columns), or an empty state to add the first.
+   columns), or an empty state that explains an experiment is one sheet of your
+   spreadsheet, with New experiment and "Turn a spreadsheet into an experiment".
 3. "New experiment" asks for a name (e.g. "Deposition"), a code prefix (e.g. `ALD`,
    which numbers its samples) and an optional base protocol. An experiment can be
    edited later; changing the prefix never renames existing sample codes.
-4. Opening an experiment shows its samples table (Flow 1). Tabs above switch
-   between the project's experiments.
+4. Opening an experiment shows its samples table (Flow 1), or, while it has no
+   samples, a "Getting started" checklist: ① add the columns (ticked once there are
+   any), ② record the first sample or import samples from a spreadsheet. Tabs above
+   switch between the project's experiments.
 
 ```
-Dashboard → select/create Project → Project page → open an Experiment → Samples table
+Projects → select/create Project → Project page → open an Experiment → Samples table
 ```
 
 ---
@@ -108,6 +120,31 @@ Experiment page → Add sample → Sample form → Save → Sample page
 
 ---
 
+## Flow 1b — Add a calculated column
+
+**Goal:** have a value worked out for every sample instead of computing it by hand,
+e.g. GPC (Å/cycle) = Thickness (nm) × 10 ÷ Cycles.
+
+1. On the `Experiment page`, in the "Calculated columns" panel → "Add calculated
+   column".
+2. Give it a name, a unit (typed; the app never converts units, so the factor, like
+   × 10 for nm to Å, goes in the formula) and a formula written with `[Column name]`,
+   numbers, `+ - * /` and parentheses. The entered number columns are offered as
+   buttons; a preview shows the result on the first samples as you type; a mistake is
+   named (unknown column, a text column, where it went wrong).
+3. The column appears after the others in the samples table (marked ƒ) and on each
+   sample page under "Calculated". It is never typed and never stored: it is worked out
+   when shown, so it follows the columns it uses. If an input is not recorded, or it
+   would divide by 0, the cell is empty ("not recorded"), never 0.
+4. A column used by a formula cannot be deleted or turned into text; renaming it is
+   fine, because formulas are stored by column id.
+
+```
+Experiment page → Calculated columns → Add → name + unit + formula (preview) → column in the table
+```
+
+---
+
 ## Flow 2 — Record a characterization
 
 **Goal:** note which measurements were done on a sample and when.
@@ -153,14 +190,27 @@ entry possible.
    Nothing is written until the button is pressed. A ratio that cannot be computed
    (no denominator element) is 0 and says so. The server recomputes every number
    from the stored files; only the chosen columns change.
-5. Later: an experiment-wide view to do this for many samples at once, and plotting
-   selected rows against each other (e.g. thickness vs plasma pulse).
+5. **Technique workspace** (sidebar → Characterizations → EDX or Ellipsometry), with
+   two ways in:
+   - **Upload files**: drop raw files or folders that are not in any experiment (one or
+     more sample folders, or a day's folder holding them; or several fit exports). They
+     are read in the browser, nothing is uploaded or saved. See each sample's values
+     like the lab notebook's summary, untick bad spots, and **download the table as
+     Excel** (`EDS_summary.xlsx`).
+   - **From an experiment**: choose a project and an experiment (one at a time), tick
+     the samples to work on (a repeat is its own row; one per sample at a time), open a
+     row to untick spots, choose once which values go to which result columns, and see
+     per sample what it would change. A sample that would replace a different value is
+     skipped unless you tick Update. The server recomputes every number from the stored
+     files and writes nothing if anything is not allowed.
+6. Later: plotting selected rows against each other (e.g. thickness vs plasma pulse).
 
 _Formulas and constants are agreed with the owner for each technique, never
 guessed._
 
 ```
 Sample page → technique → files + analysis → untick spots / pick ratio → send to results → result columns filled
+Sidebar → technique → Upload files (Excel download) or From an experiment (tick samples → preview → apply)
 Samples table → select rows → choose X and Y → plot (later)
 ```
 
@@ -285,7 +335,7 @@ Project page → Ask tab → chat → response with labeled, clickable citations
 
 | Screen                                     | Purpose                                                                   |
 | ------------------------------------------ | ------------------------------------------------------------------------- |
-| Dashboard (Project list)                   | Entry point — pick or create a Project (ALD, CVD, ...)                    |
+| Projects (home)                            | Entry point — pick or create a Project (ALD, CVD, ...); first-run welcome |
 | Project page                               | The project's experiments as cards; edit the project                      |
 | Import (upload / column mapping / preview) | Bootstrap records from an existing spreadsheet                            |
 | Experiment page                            | Samples table (filter, search, bulk assign), columns, studies             |

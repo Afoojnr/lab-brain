@@ -7,7 +7,7 @@ import { DEMO_PROJECTS } from './demo-projects';
 const projects: Project[] = [...DEMO_PROJECTS];
 
 /**
- * All projects, newest first, for the dashboard grid.
+ * All projects, newest first, for the projects page and the sidebar.
  *
  * @returns A copy of the list, so callers cannot mutate storage.
  */

@@ -16,8 +16,11 @@ import {
 
 import { ProjectForm } from './project-form';
 
-/** Button that opens the New project form in a dialog. Closes itself once the project is created. */
-export const NewProjectDialog = () => {
+/**
+ * Button that opens the New project form in a dialog. Closes itself once the
+ * project is created. `label` replaces the default "New project" text.
+ */
+export const NewProjectDialog = ({ label }: { label?: string }) => {
   const t = useTranslations('projects.form');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,7 +28,7 @@ export const NewProjectDialog = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger render={<Button />}>
         <PlusIcon aria-hidden />
-        {t('title')}
+        {label ?? t('title')}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

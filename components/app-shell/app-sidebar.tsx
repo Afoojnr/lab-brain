@@ -21,9 +21,12 @@ import {
 } from '@/components/ui/sidebar';
 
 import { isNavItemActive, NAV_ITEMS } from './nav-items';
+import { NavProjects } from './nav-projects';
+import { NavTechniques } from './nav-techniques';
 import type { NavItem } from './nav-items';
+import type { NavigationData } from '@/types/navigation';
 
-const [DASHBOARD_ITEM, SETTINGS_ITEM] = NAV_ITEMS;
+const [SETTINGS_ITEM] = NAV_ITEMS;
 
 /** Highlight that slides between items, so the eye follows where you went. */
 const ActivePill = () => (
@@ -59,7 +62,14 @@ const NavLink = ({ item }: { item: NavItem }) => {
 };
 
 /** Primary navigation. Collapses to an icon rail on desktop, a sheet on mobile. */
-export const AppSidebar = () => {
+export const AppSidebar = ({
+  navigation,
+  techniques
+}: {
+  navigation: NavigationData;
+  /** The techniques the app can analyse. */
+  techniques: readonly { kind: 'edx' | 'ellipsometry' }[];
+}) => {
   const t = useTranslations('common');
   const { setOpenMobile } = useSidebar();
 
@@ -87,7 +97,8 @@ export const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <NavLink item={DASHBOARD_ITEM} />
+              <NavProjects projects={navigation.projects} />
+              <NavTechniques techniques={techniques} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -1,5 +1,6 @@
 import { FolderPlusIcon } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
+import type { ReactNode } from 'react';
 
 import {
   Empty,
@@ -12,9 +13,12 @@ import {
 
 import { NewProjectDialog } from './new-project-dialog';
 
-/** Shown when there are no projects yet, with the same create action as the header. */
-export const ProjectsEmpty = async () => {
-  const t = await getTranslations('dashboard.empty');
+/**
+ * Shown on a first run, when there are no projects: a welcome, the create
+ * button, and whatever the app adds under it (children).
+ */
+export const ProjectsEmpty = ({ children }: { children?: ReactNode }) => {
+  const t = useTranslations('home.empty');
 
   return (
     <Empty className="border border-dashed">
@@ -26,7 +30,8 @@ export const ProjectsEmpty = async () => {
         <EmptyDescription>{t('description')}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <NewProjectDialog />
+        <NewProjectDialog label={t('create')} />
+        {children}
       </EmptyContent>
     </Empty>
   );

@@ -28,3 +28,22 @@ export const analysisSettingsSchema: z.ZodType<AnalysisSettings> = z.object({
   selectedValueIds: z.array(z.string().max(60)).max(200),
   targets: z.record(z.string().max(60), targetSchema)
 });
+
+/**
+ * The shape of a batch sent to the server: the shared choices (ratio, values,
+ * where they go) and the characterizations to apply them to, each with the
+ * spots left out. The server recomputes every number itself.
+ */
+export const batchPayloadSchema = z.object({
+  settings: analysisSettingsSchema,
+  rows: z
+    .array(
+      z.object({
+        characterizationId: z.string().max(100),
+        excludedSpots: z.array(z.string().max(500)).max(1000)
+      })
+    )
+    .max(500)
+});
+
+export type BatchPayload = z.infer<typeof batchPayloadSchema>;

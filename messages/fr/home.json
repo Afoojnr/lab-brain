@@ -1,0 +1,11 @@
+{
+  "title": "Projets",
+  "description": "Chaque projet contient des expériences d'échantillons, chacune avec ses propres colonnes.",
+  "newProject": "Nouveau projet",
+  "empty": {
+    "title": "Bienvenue dans Lab Brain",
+    "description": "Enregistrez vos expériences, importez vos tableurs, joignez les fichiers des instruments et laissez l'application calculer les valeurs. Commencez par un projet : il regroupe les expériences d'une même ligne de travail.",
+    "create": "Créer votre premier projet",
+    "rawFiles": "Ou analysez des fichiers bruts sans projet :"
+  }
+}

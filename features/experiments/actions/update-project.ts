@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { revalidateNavigation } from '../revalidate-navigation';
+
 import { updateProject } from '../data/projects';
 import { projectFormSchema } from '../schemas';
 
@@ -22,6 +24,8 @@ export const updateProjectAction = async (
 
   const project = await updateProject(projectId, parsed.data);
   if (!project) return false;
+
+  revalidateNavigation();
 
   revalidatePath('/');
   revalidatePath(`/projects/${projectId}`);

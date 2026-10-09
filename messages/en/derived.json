@@ -1,0 +1,63 @@
+{
+  "panel": {
+    "title": "Calculated columns",
+    "description": "Columns worked out from your other columns for every sample, such as GPC. They are never typed and follow the columns they use.",
+    "add": "Add calculated column",
+    "empty": "No calculated columns yet. Add one, for example GPC from the thickness and the number of cycles.",
+    "edit": "Edit {name}",
+    "delete": "Delete {name}",
+    "columns": {
+      "name": "Name",
+      "unit": "Unit",
+      "formula": "Formula",
+      "actions": "Actions"
+    },
+    "noUnit": "No unit"
+  },
+  "form": {
+    "addTitle": "Add a calculated column",
+    "editTitle": "Edit {name}",
+    "description": "The value is calculated for each sample from its own columns. If a column it needs is not recorded, the result stays empty.",
+    "nameLabel": "Name",
+    "unitLabel": "Unit",
+    "unitHint": "The unit of the result, for example Å/cycle. The app does not convert units: put the factor in the formula (× 10 for nm to Å).",
+    "formulaLabel": "Formula",
+    "formulaHint": "Use [Column name], numbers, + - * / and parentheses. Example: [Thickness] * 10 / [Cycles]",
+    "insertColumn": "Insert a column",
+    "previewTitle": "Preview",
+    "previewNoSamples": "Add samples to see a preview.",
+    "previewInvalid": "Fix the formula to see a preview.",
+    "previewEmpty": "not recorded",
+    "cancel": "Cancel",
+    "submit": "Add column",
+    "save": "Save changes",
+    "errors": {
+      "nameRequired": "Enter a name for the column.",
+      "nameTooLong": "Use 60 characters or fewer.",
+      "nameDuplicate": "Another column in this experiment already has this name.",
+      "unitTooLong": "Use 20 characters or fewer.",
+      "formulaEmpty": "Enter a formula.",
+      "formulaSyntax": "The formula is not valid near character {position}.",
+      "formulaUnknownColumn": "There is no column called {name}.",
+      "formulaNotANumber": "{name} is not a number column, so it cannot be used."
+    }
+  },
+  "delete": {
+    "title": "Delete {name}?",
+    "description": "Only the formula is removed. No sample data is lost.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "added": "Calculated column {name} added",
+  "updated": "Calculated column {name} updated",
+  "deleted": "Calculated column {name} deleted",
+  "sample": {
+    "title": "Calculated",
+    "description": "Worked out from this sample's other columns.",
+    "notRecorded": "Not recorded",
+    "value": "Value"
+  },
+  "table": {
+    "calculated": "calculated"
+  }
+}

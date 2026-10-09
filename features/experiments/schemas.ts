@@ -5,7 +5,9 @@ import {
   parseParameterInput,
   parseParameterInputs
 } from './parameters';
+import { parseFormula } from './formula';
 import type {
+  DerivedColumnInput,
   ParameterDefinition,
   ParameterInput,
   ParameterValues,
@@ -483,3 +485,110 @@ export const isCharacterizationFormError = (
   message: string | undefined
 ): message is CharacterizationFormError =>
   CHARACTERIZATION_FORM_ERRORS.some(error => error === message);
+
+/** Keys under `derived.form.errors` in `messages/<locale>/derived.json`. */
+export const DERIVED_FORM_ERRORS = [
+  'nameRequired',
+  'nameTooLong',
+  'nameDuplicate',
+  'unitTooLong',
+  'formulaEmpty',
+  'formulaSyntax',
+  'formulaUnknownColumn',
+  'formulaNotANumber'
+] as const;
+
+export type DerivedFormError = (typeof DERIVED_FORM_ERRORS)[number];
+
+const FORMULA_MAX_LENGTH = 500;
+
+const FORMULA_ERROR_KEYS = {
+  empty: 'formulaEmpty',
+  syntax: 'formulaSyntax',
+  unknownColumn: 'formulaUnknownColumn',
+  notANumberColumn: 'formulaNotANumber'
+} as const satisfies Record<string, DerivedFormError>;
+
+/**
+ * The Add/Edit calculated-column form's schema. The name must be unique among
+ * all the experiment's columns, and the formula must parse against its number
+ * columns (the server rebuilds this from stored columns, so a forged formula
+ * naming a missing or text column is refused).
+ *
+ * @param columns - The experiment's entered columns.
+ * @param otherNames - Names of every other column, entered or calculated.
+ */
+export const buildDerivedColumnFormSchema = (
+  columns: ParameterDefinition[],
+  otherNames: string[]
+) =>
+  z
+    .object({
+      name: z
+        .string()
+        .trim()
+        .min(1, { error: 'nameRequired' satisfies DerivedFormError })
+        .max(PARAMETER_NAME_MAX_LENGTH, {
+          error: 'nameTooLong' satisfies DerivedFormError
+        })
+        .refine(
+          name =>
+            !otherNames.some(
+              other => other.toLowerCase() === name.toLowerCase()
+            ),
+          { error: 'nameDuplicate' satisfies DerivedFormError }
+        ),
+      unit: z
+        .string()
+        .trim()
+        .max(PARAMETER_UNIT_MAX_LENGTH, {
+          error: 'unitTooLong' satisfies DerivedFormError
+        }),
+      formula: z.string().max(FORMULA_MAX_LENGTH, {
+        error: 'formulaSyntax' satisfies DerivedFormError
+      })
+    })
+    .superRefine((values, context) => {
+      const parsed = parseFormula(values.formula, columns);
+      if (!parsed.isOk) {
+        context.addIssue({
+          code: 'custom',
+          path: ['formula'],
+          message: FORMULA_ERROR_KEYS[parsed.error]
+        });
+      }
+    });
+
+export type DerivedColumnFormValues = z.infer<
+  ReturnType<typeof buildDerivedColumnFormSchema>
+>;
+
+/**
+ * Narrows a Zod error message to a known translation key.
+ *
+ * @param message - Message reported by {@link buildDerivedColumnFormSchema}.
+ */
+export const isDerivedFormError = (
+  message: string | undefined
+): message is DerivedFormError =>
+  DERIVED_FORM_ERRORS.some(error => error === message);
+
+/**
+ * Converts a form that already passed {@link buildDerivedColumnFormSchema} into
+ * what is stored: the formula with its columns written by id.
+ *
+ * @param columns - The same columns the schema was built from.
+ * @param values - The validated form values.
+ */
+export const toDerivedColumnInput = (
+  columns: ParameterDefinition[],
+  values: DerivedColumnFormValues
+): DerivedColumnInput => {
+  const parsed = parseFormula(values.formula, columns);
+
+  return {
+    name: values.name,
+    unit: values.unit,
+    formula: parsed.isOk ? parsed.stored : values.formula
+  };
+};

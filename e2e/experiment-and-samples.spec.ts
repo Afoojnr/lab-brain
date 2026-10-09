@@ -11,24 +11,33 @@ test('builds an experiment with columns and records, duplicates and edits sample
 
   // A project, then its first experiment.
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
-  // Wait for the project page before asserting: the dashboard cards also say
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
+  // Wait for the project page before asserting: the project cards also say
   // "No experiments yet".
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
-  await expect(page.getByText('No experiments yet')).toBeVisible();
+  await expect(
+    page.getByRole('main').getByText('No experiments yet')
+  ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await expect(
     page.getByRole('heading', { name: 'Deposition', exact: true })
   ).toBeVisible();
-  await expect(page.getByText('No samples yet.')).toBeVisible();
+  // A new experiment says how to start: columns first, then samples.
+  await expect(page.getByText('Getting started')).toBeVisible();
+  await expect(page.getByText('(To do)', { exact: false })).toHaveCount(2);
 
   // Two columns, each with a default.
   for (const [name, unit, defaultValue] of [
@@ -37,7 +46,7 @@ test('builds an experiment with columns and records, duplicates and edits sample
   ]) {
     await page.getByRole('button', { name: 'Add column' }).click();
     const dialog = page.getByRole('dialog');
-    await dialog.getByLabel('Name').fill(name);
+    await dialog.getByLabel('Name', { exact: true }).fill(name);
     await dialog.getByLabel('Unit').fill(unit);
     await dialog.getByLabel('Default value').fill(defaultValue);
     await dialog.getByRole('button', { name: 'Add column' }).click();
@@ -46,6 +55,8 @@ test('builds an experiment with columns and records, duplicates and edits sample
     // trigger's name while it animates out.
     await expect(dialog).toBeHidden();
   }
+  // Once it has columns, the first step is ticked.
+  await expect(page.getByText('(Done)', { exact: false })).toHaveCount(1);
 
   // Add a sample: the next code and the defaults are prefilled.
   await page.getByRole('link', { name: 'Add sample' }).click();
@@ -105,7 +116,7 @@ test('builds an experiment with columns and records, duplicates and edits sample
   ).toBeVisible();
 
   // Edit: record an observation.
-  await page.getByRole('link', { name: 'Edit' }).click();
+  await page.getByRole('link', { name: 'Edit', exact: true }).click();
   await page.getByLabel('Observation').fill('Looks uniform.');
   await page.getByRole('button', { name: 'Save sample' }).click();
   await expect(page.getByText('Looks uniform.', { exact: true })).toBeVisible();
@@ -118,6 +129,8 @@ test('builds an experiment with columns and records, duplicates and edits sample
   await expect(
     page.getByRole('heading', { name: 'Deposition', exact: true })
   ).toBeVisible();
+  // The getting-started checklist is gone once there are samples.
+  await expect(page.getByText('Getting started')).toBeHidden();
   const firstRow = page.getByRole('row').filter({ hasText: 'ABC001' });
   await expect(firstRow).toContainText('First sample of the study.');
   await expect(
@@ -127,7 +140,7 @@ test('builds an experiment with columns and records, duplicates and edits sample
   // A column added later: older samples show it empty, nothing is back-filled.
   await page.getByRole('button', { name: 'Add column' }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByLabel('Name').fill('Cycles');
+  await dialog.getByLabel('Name', { exact: true }).fill('Cycles');
   await dialog.getByRole('button', { name: 'Add column' }).click();
   await expect(
     page.getByRole('columnheader', { name: 'Cycles' })

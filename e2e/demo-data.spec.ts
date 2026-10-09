@@ -7,13 +7,15 @@ test("lists a project's experiments with how many samples and columns each has",
 }) => {
   await page.goto('/projects/demo-project-1');
 
-  const deposition = page.getByRole('link', { name: /Deposition/ });
+  const deposition = page
+    .getByRole('main')
+    .getByRole('link', { name: /Deposition/ });
   await expect(deposition).toContainText('ALD');
   await expect(deposition).toContainText('7 samples');
   await expect(deposition).toContainText('12 columns');
-  await expect(page.getByRole('link', { name: /Paschen law/ })).toContainText(
-    '2 samples'
-  );
+  await expect(
+    page.getByRole('main').getByRole('link', { name: /Paschen law/ })
+  ).toContainText('2 samples');
 });
 
 test('shows an experiment like a spreadsheet, with columns added later left empty', async ({

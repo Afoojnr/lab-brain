@@ -7,15 +7,20 @@ test('places a sample in several studies from the form and changes them on edit'
   const projectName = `Studies Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await expect(
@@ -26,7 +31,7 @@ test('places a sample in several studies from the form and changes them on edit'
   for (const name of ['Pulse study', 'TEB study']) {
     await page.getByRole('button', { name: 'New study' }).click();
     const dialog = page.getByRole('dialog');
-    await dialog.getByLabel('Name').fill(name);
+    await dialog.getByLabel('Name', { exact: true }).fill(name);
     await dialog.getByRole('button', { name: 'Create study' }).click();
     await expect(dialog).toBeHidden();
   }
@@ -34,7 +39,7 @@ test('places a sample in several studies from the form and changes them on edit'
   // Edit a study: rename it and add free notes as its description.
   await page.getByRole('button', { name: 'Edit TEB study' }).click();
   const editDialog = page.getByRole('dialog');
-  await editDialog.getByLabel('Name').fill('TEB dose study');
+  await editDialog.getByLabel('Name', { exact: true }).fill('TEB dose study');
   await editDialog
     .getByLabel('Description')
     .fill('Just some notes, not a purpose.');

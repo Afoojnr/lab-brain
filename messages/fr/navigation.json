@@ -1,5 +1,10 @@
 {
-  "dashboard": "Tableau de bord",
   "settings": "Paramètres",
-  "toggleSidebar": "Afficher ou masquer la barre latérale"
+  "toggleSidebar": "Afficher ou masquer la barre latérale",
+  "projects": "Projets",
+  "characterizations": "Caractérisations",
+  "noProjects": "Aucun projet pour l'instant",
+  "edx": "EDX",
+  "ellipsometry": "Ellipsométrie",
+  "toggle": "Afficher ou masquer {name}"
 }

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { listDerivedColumnsUsing } from '../data/derived-columns';
 import {
   listParameterDefinitions,
   updateParameterDefinition
@@ -43,6 +44,13 @@ export const updateParameterDefinitionAction = async (
   if (
     parsed.data.kind !== current.kind &&
     (await isParameterInUse(definitionId))
+  ) {
+    return false;
+  }
+  // A calculated column's formula needs a number column.
+  if (
+    parsed.data.kind === 'text' &&
+    (await listDerivedColumnsUsing(experimentId, definitionId)).length > 0
   ) {
     return false;
   }

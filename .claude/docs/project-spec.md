@@ -311,6 +311,7 @@ records through the same functions.
 | `Project`             | name, description                                                                                                                                              |
 | `Experiment`          | project, name, code prefix, protocol                                                                                                                           |
 | `ParameterDefinition` | experiment, name, unit, kind (number/text), role (parameter/result), default, position                                                                         |
+| `DerivedColumn`       | experiment, name, unit, formula (columns by id); values are never stored, always calculated                                                                    |
 | `Study`               | experiment, name, description                                                                                                                                  |
 | `Sample`              | experiment, code, date, values (by column; empty = not recorded), implementation, observation, note                                                            |
 | `Sample` ↔ `Study`    | many to many (a sample can be in several studies of its experiment)                                                                                            |

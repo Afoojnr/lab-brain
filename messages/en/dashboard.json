@@ -1,9 +1,0 @@
-{
-  "title": "Projects",
-  "description": "Every project holds experiments of samples, each with its own columns.",
-  "newProject": "New project",
-  "empty": {
-    "title": "No projects yet",
-    "description": "Create a project to start recording samples."
-  }
-}

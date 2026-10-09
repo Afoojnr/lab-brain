@@ -69,7 +69,7 @@ export const NewSample = async ({
             : t('new.description')
         }
         breadcrumbs={[
-          { label: tExperiments('project.breadcrumbDashboard'), href: '/' },
+          { label: tExperiments('project.breadcrumbProjects'), href: '/' },
           { label: project.name, href: `/projects/${project.id}` },
           { label: experiment.name, href: experimentPath },
           { label: t('list.add') }

@@ -3,7 +3,7 @@
     "label": "Experiments in this project"
   },
   "project": {
-    "breadcrumbDashboard": "Projects",
+    "breadcrumbProjects": "Projects",
     "title": "Experiments",
     "description": "Each experiment is like one sheet of your spreadsheet, with its own columns and sample numbering.",
     "new": "New experiment",
@@ -11,7 +11,8 @@
     "columns": "{count, plural, one {# column} other {# columns}}",
     "empty": {
       "title": "No experiments yet",
-      "description": "Add an experiment, such as a deposition with its own prefix, to start recording samples."
+      "description": "An experiment is one sheet of your spreadsheet, with its own columns and sample codes.",
+      "import": "Turn a spreadsheet into an experiment"
     },
     "noDescription": "No description yet"
   },
@@ -45,5 +46,19 @@
       "samples": "Samples"
     }
   },
-  "updated": "Experiment {name} updated"
+  "updated": "Experiment {name} updated",
+  "checklist": {
+    "title": "Getting started",
+    "description": "Two steps and you can start recording.",
+    "step1Title": "Add the columns",
+    "step1Text": "What you set (parameters) and what you measure (results). Use the Columns panel below.",
+    "step1Action": "Go to the columns",
+    "step2Title": "Add the samples",
+    "step2Text": "Record them one by one, or bring in rows from a spreadsheet.",
+    "step2Add": "Record the first sample",
+    "step2Import": "Import samples from a spreadsheet",
+    "done": "Done",
+    "todo": "To do",
+    "later": "Later, attach the instrument files to a sample's measurement to analyse them."
+  }
 }

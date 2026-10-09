@@ -6,7 +6,7 @@
     "add": "Add column",
     "edit": "Edit {name}",
     "delete": "Delete {name}",
-    "inUse": "Samples hold values for this column, so it cannot be deleted.",
+    "inUse": "Samples hold values for this column, or a calculated column uses it, so it cannot be deleted.",
     "noUnit": "No unit",
     "columns": {
       "name": "Name",

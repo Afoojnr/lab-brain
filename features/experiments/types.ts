@@ -144,3 +144,30 @@ export type Dataset = {
   sizeBytes: number;
   uploadedAt: Date;
 };
+
+/**
+ * A column calculated for each sample from its other columns, for example GPC
+ * (Å/cycle) = Thickness (nm) × 10 ÷ Cycles. It is never typed and never stored
+ * per sample: the value is computed whenever it is shown, so it follows the
+ * columns it uses. Only entered number columns can be used (no derived column
+ * of a derived column).
+ */
+export type DerivedColumn = {
+  id: string;
+  experimentId: string;
+  name: string;
+  /** Null when it has no unit. The app never converts units: the factor is in the formula. */
+  unit: string | null;
+  /** The formula with each column written by id, e.g. `[#abc] * 10 / [#def]`. */
+  formula: string;
+  /** Display order after the experiment's results. */
+  position: number;
+};
+
+/** What the Add/Edit calculated-column form produces once validated. */
+export type DerivedColumnInput = {
+  name: string;
+  /** Empty means no unit. */
+  unit: string;
+  formula: string;
+};

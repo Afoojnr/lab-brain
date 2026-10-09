@@ -1,12 +1,17 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Dashboard } from '@/features/experiments';
+import { RawFilesLinks } from '@/features/characterization';
+import { Home } from '@/features/experiments';
 
 export const generateMetadata = async () => {
-  const t = await getTranslations('dashboard');
+  const t = await getTranslations('home');
   return { title: t('title') };
 };
 
-const DashboardPage = () => <Dashboard />;
+const HomePage = async () => {
+  const t = await getTranslations('home.empty');
 
-export default DashboardPage;
+  return <Home emptyExtra={<RawFilesLinks intro={t('rawFiles')} />} />;
+};
+
+export default HomePage;
