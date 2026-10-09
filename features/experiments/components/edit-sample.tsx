@@ -55,7 +55,7 @@ export const EditSample = async ({
         title={t('edit.title', { code: sample.code })}
         description={t('edit.description')}
         breadcrumbs={[
-          { label: tExperiments('project.breadcrumbDashboard'), href: '/' },
+          { label: tExperiments('project.breadcrumbProjects'), href: '/' },
           { label: project.name, href: `/projects/${project.id}` },
           { label: experiment.name, href: experimentPath },
           { label: sample.code, href: samplePath },

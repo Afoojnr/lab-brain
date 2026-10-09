@@ -2,11 +2,13 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { revalidateNavigation } from '../revalidate-navigation';
+
 import { createProject } from '../data/projects';
 import { projectFormSchema } from '../schemas';
 
 /**
- * Creates a project from the New project form, then refreshes the dashboard.
+ * Creates a project from the New project form, then refreshes the projects page and the sidebar.
  * The form validates first; invalid input here only comes from a direct call,
  * so it is ignored.
  *
@@ -20,5 +22,6 @@ export const createProjectAction = async (input: unknown): Promise<void> => {
   console.log('[createProject]', JSON.stringify(parsed.data));
 
   await createProject(parsed.data);
+  revalidateNavigation();
   revalidatePath('/');
 };

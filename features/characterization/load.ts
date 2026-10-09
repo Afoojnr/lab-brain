@@ -38,9 +38,11 @@ export type SpotProblem = { file: string; reason: string };
  * read is reported, not skipped silently.
  *
  * @param datasets - The characterization's attached files.
+ * @param options - `withSpectra: false` skips the spectra, to keep a list of many samples light.
  */
 export const loadEdxSpots = async (
-  datasets: Dataset[]
+  datasets: Dataset[],
+  options: { withSpectra?: boolean } = {}
 ): Promise<{ spots: Spot[]; problems: SpotProblem[] }> => {
   const spectra = new Map(
     datasets
@@ -64,7 +66,8 @@ export const loadEdxSpots = async (
     }
 
     const id = spotIdOf(dataset);
-    const spectrumFile = spectra.get(id);
+    const spectrumFile =
+      options.withSpectra === false ? undefined : spectra.get(id);
     const spectrumBytes = spectrumFile
       ? await datasetBytes(spectrumFile.id)
       : null;

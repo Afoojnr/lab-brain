@@ -56,7 +56,7 @@ export const ProjectDetail = async ({ projectId }: { projectId: string }) => {
         title={project.name}
         description={project.description ?? t('noDescription')}
         breadcrumbs={[
-          { label: t('breadcrumbDashboard'), href: '/' },
+          { label: t('breadcrumbProjects'), href: '/' },
           { label: project.name }
         ]}
         actions={
@@ -97,10 +97,18 @@ export const ProjectDetail = async ({ projectId }: { projectId: string }) => {
               <EmptyDescription>{t('empty.description')}</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
-              <NewExperimentDialog
-                projectId={project.id}
-                otherPrefixes={otherPrefixes}
-              />
+              <div className="flex flex-wrap justify-center gap-2">
+                <NewExperimentDialog
+                  projectId={project.id}
+                  otherPrefixes={otherPrefixes}
+                />
+                <Link
+                  href={`/projects/${project.id}/import`}
+                  className={buttonVariants({ variant: 'outline' })}
+                >
+                  {t('empty.import')}
+                </Link>
+              </div>
             </EmptyContent>
           </Empty>
         )}

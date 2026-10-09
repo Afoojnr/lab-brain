@@ -15,15 +15,20 @@ test('attaches files to a characterization, serves them and removes one', async 
   const projectName = `Files Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await page.getByRole('link', { name: 'Add sample' }).click();

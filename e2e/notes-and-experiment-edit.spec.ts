@@ -22,15 +22,20 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   const projectName = `Edit Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await expect(
@@ -40,7 +45,7 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   // Edit the experiment: a new name and a base protocol, shown under the title.
   await page.getByRole('button', { name: 'Edit experiment' }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByLabel('Name').fill('Plasma deposition');
+  await dialog.getByLabel('Name', { exact: true }).fill('Plasma deposition');
   await dialog
     .getByLabel('Base protocol')
     .fill('Clean, pump down, run cycles.');
@@ -54,7 +59,7 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   // A column, then a sample with a note.
   await page.getByRole('button', { name: 'Add column' }).click();
   const parameterDialog = page.getByRole('dialog');
-  await parameterDialog.getByLabel('Name').fill('Pulse');
+  await parameterDialog.getByLabel('Name', { exact: true }).fill('Pulse');
   await parameterDialog.getByLabel('Unit').fill('s');
   await parameterDialog.getByRole('button', { name: 'Add column' }).click();
   await expect(parameterDialog).toBeHidden();

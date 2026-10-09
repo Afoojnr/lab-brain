@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { listDerivedColumnsUsing } from '../data/derived-columns';
 import { deleteParameterDefinition } from '../data/parameter-definitions';
 import { isParameterInUse } from '../data/samples';
 import { getExperimentInProject } from '../data/experiments';
@@ -23,6 +24,10 @@ export const deleteParameterDefinitionAction = async (
 ): Promise<boolean> => {
   if (!(await getExperimentInProject(projectId, experimentId))) return false;
   if (await isParameterInUse(definitionId)) return false;
+  // A calculated column's formula uses it: delete that column or change its formula first.
+  if ((await listDerivedColumnsUsing(experimentId, definitionId)).length > 0) {
+    return false;
+  }
 
   const wasDeleted = await deleteParameterDefinition(
     experimentId,

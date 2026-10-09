@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { assignStudyAction } from '../actions/assign-study';
 import type {
   Characterization,
+  DerivedColumn,
   ParameterDefinition,
   Sample,
   Study
@@ -48,6 +49,8 @@ const renderTable = (
     isFiltered?: boolean;
     definitions?: ParameterDefinition[];
     characterizations?: Characterization[];
+    derivedColumns?: DerivedColumn[];
+    derivedValues?: Record<string, Record<string, number | null>>;
   } = {}
 ) => {
   render(
@@ -59,6 +62,8 @@ const renderTable = (
         samples={props.samples ?? SAMPLES}
         studies={[PULSE]}
         characterizations={props.characterizations ?? []}
+        derivedColumns={props.derivedColumns ?? []}
+        derivedValues={props.derivedValues ?? {}}
         isFiltered={props.isFiltered ?? false}
       />
     </NextIntlClientProvider>
@@ -85,6 +90,50 @@ describe('SamplesTable', () => {
     expect(
       screen.getByText('Note: Pulse changed after service')
     ).toBeInTheDocument();
+  });
+
+  describe('calculated columns', () => {
+    const GPC: DerivedColumn = {
+      id: 'gpc',
+      experimentId: 'experiment-1',
+      name: 'GPC',
+      unit: 'Å/cycle',
+      formula: '[#a] / [#b]',
+      position: 0
+    };
+
+    it('shows the calculated value of each sample, and an empty cell when it cannot be calculated', () => {
+      renderTable({
+        derivedColumns: [GPC],
+        derivedValues: {
+          'id-ALD001': { gpc: 8.100000000000001 },
+          'id-ALD002': { gpc: null }
+        }
+      });
+
+      expect(
+        screen.getByRole('columnheader', { name: /calculated:\s*GPC/i })
+      ).toBeVisible();
+      // Floating-point noise never shows.
+      expect(
+        within(screen.getByRole('row', { name: /ALD001/ })).getByText('8.1')
+      ).toBeVisible();
+      expect(
+        within(screen.getByRole('row', { name: /ALD002/ })).getAllByText(
+          en.samples.list.notRecorded
+        ).length
+      ).toBeGreaterThan(0);
+    });
+
+    it('heads the group "Calculated" even when there are no result columns', () => {
+      renderTable({ derivedColumns: [GPC], derivedValues: {} });
+
+      expect(
+        screen.getByRole('columnheader', {
+          name: en.samples.list.groups.calculated
+        })
+      ).toBeVisible();
+    });
   });
 
   it('says when a filter hides every sample, instead of claiming there are none', () => {

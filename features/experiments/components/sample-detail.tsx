@@ -11,6 +11,7 @@ import {
   listCharacterizationsBySample,
   listTechniquesByProject
 } from '../data/characterizations';
+import { listDerivedColumns } from '../data/derived-columns';
 import { listDatasetsBySample } from '../data/datasets';
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';
@@ -21,6 +22,7 @@ import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
 import { CharacterizationDialog } from './characterization-dialog';
 import { CharacterizationsTable } from './characterizations-table';
 import { RecordLink } from './record-link';
+import { DerivedValuesTable } from './derived-values-table';
 import { SampleValuesTable } from './sample-values-table';
 
 type SampleDetailProps = {
@@ -44,6 +46,7 @@ export const SampleDetail = async ({
     t,
     tExperiments,
     tCharacterizations,
+    tDerived,
     format,
     project,
     experiment,
@@ -52,6 +55,7 @@ export const SampleDetail = async ({
     getTranslations('samples'),
     getTranslations('experiments'),
     getTranslations('characterizations'),
+    getTranslations('derived'),
     getFormatter(),
     getProjectById(projectId),
     getExperimentById(experimentId),
@@ -67,14 +71,21 @@ export const SampleDetail = async ({
     notFound();
   }
 
-  const [definitions, studies, characterizations, datasets, knownTechniques] =
-    await Promise.all([
-      listParameterDefinitions(experiment.id),
-      listStudiesByExperiment(experiment.id),
-      listCharacterizationsBySample(sample.id),
-      listDatasetsBySample(sample.id),
-      listTechniquesByProject(project.id)
-    ]);
+  const [
+    definitions,
+    derivedColumns,
+    studies,
+    characterizations,
+    datasets,
+    knownTechniques
+  ] = await Promise.all([
+    listParameterDefinitions(experiment.id),
+    listDerivedColumns(experiment.id),
+    listStudiesByExperiment(experiment.id),
+    listCharacterizationsBySample(sample.id),
+    listDatasetsBySample(sample.id),
+    listTechniquesByProject(project.id)
+  ]);
   const parameters = definitions.filter(
     definition => definition.role === 'parameter'
   );
@@ -90,7 +101,7 @@ export const SampleDetail = async ({
   return (
     <RecordDetail
       breadcrumbs={[
-        { label: tExperiments('project.breadcrumbDashboard'), href: '/' },
+        { label: tExperiments('project.breadcrumbProjects'), href: '/' },
         { label: project.name, href: `/projects/${project.id}` },
         { label: experiment.name, href: experimentPath },
         { label: sample.code }
@@ -167,6 +178,21 @@ export const SampleDetail = async ({
                 title: t('detail.results.title'),
                 content: (
                   <SampleValuesTable definitions={results} sample={sample} />
+                )
+              }
+            ]
+          : []),
+        ...(derivedColumns.length > 0
+          ? [
+              {
+                title: tDerived('sample.title'),
+                description: tDerived('sample.description'),
+                content: (
+                  <DerivedValuesTable
+                    derivedColumns={derivedColumns}
+                    columns={definitions}
+                    sample={sample}
+                  />
                 )
               }
             ]

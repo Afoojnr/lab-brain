@@ -10,7 +10,7 @@ test('tags samples with a new study, filters by it and searches the table', asyn
   await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
 
   await page.getByRole('button', { name: 'New study' }).click();
-  await page.getByLabel('Name').fill(name);
+  await page.getByLabel('Name', { exact: true }).fill(name);
   await page.getByRole('button', { name: 'Create study' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(

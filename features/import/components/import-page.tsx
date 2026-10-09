@@ -65,7 +65,7 @@ export const ImportPage = async ({
         title={t('title')}
         description={t('description')}
         breadcrumbs={[
-          { label: t('breadcrumbDashboard'), href: '/' },
+          { label: t('breadcrumbProjects'), href: '/' },
           { label: project.name, href: `/projects/${project.id}` },
           { label: t('title') }
         ]}

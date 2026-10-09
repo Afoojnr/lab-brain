@@ -21,6 +21,8 @@ describe('createProjectAction', () => {
       description: ''
     });
     expect(revalidatePath).toHaveBeenCalledWith('/');
+    // The sidebar lists the projects, and lives in the layout.
+    expect(revalidatePath).toHaveBeenCalledWith('/', 'layout');
   });
 
   it('ignores invalid input', async () => {

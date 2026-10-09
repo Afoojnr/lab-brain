@@ -25,10 +25,15 @@ test('imports a spreadsheet as a new experiment, then updates one row from a CSV
   const projectName = `Import Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();

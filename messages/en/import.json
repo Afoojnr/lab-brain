@@ -2,7 +2,7 @@
   "page": {
     "title": "Import from a spreadsheet",
     "description": "Bring in the samples you already recorded in Excel or a CSV file. Nothing is saved until you confirm the preview.",
-    "breadcrumbDashboard": "Projects"
+    "breadcrumbProjects": "Projects"
   },
   "entry": {
     "project": "Import from spreadsheet",

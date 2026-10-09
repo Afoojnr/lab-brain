@@ -6,7 +6,7 @@
     "add": "Ajouter une colonne",
     "edit": "Modifier {name}",
     "delete": "Supprimer {name}",
-    "inUse": "Des échantillons ont une valeur pour cette colonne ; elle ne peut donc pas être supprimée.",
+    "inUse": "Des échantillons ont des valeurs pour cette colonne, ou une colonne calculée l'utilise : elle ne peut pas être supprimée.",
     "noUnit": "Sans unité",
     "columns": {
       "name": "Nom",

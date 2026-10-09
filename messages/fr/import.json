@@ -2,7 +2,7 @@
   "page": {
     "title": "Importer depuis un tableur",
     "description": "Reprenez les échantillons déjà notés dans Excel ou un fichier CSV. Rien n'est enregistré avant que vous confirmiez l'aperçu.",
-    "breadcrumbDashboard": "Projets"
+    "breadcrumbProjects": "Projets"
   },
   "entry": {
     "project": "Importer depuis un tableur",

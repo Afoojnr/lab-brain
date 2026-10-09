@@ -8,15 +8,20 @@ test('records a measured result in its own column and leaves it empty on a dupli
   const projectName = `Results Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await expect(
@@ -26,7 +31,7 @@ test('records a measured result in its own column and leaves it empty on a dupli
   // A parameter you set, then a result you measure (no default for a result).
   await page.getByRole('button', { name: 'Add column' }).click();
   let dialog = page.getByRole('dialog');
-  await dialog.getByLabel('Name').fill('Pulse');
+  await dialog.getByLabel('Name', { exact: true }).fill('Pulse');
   await dialog.getByLabel('Unit').fill('s');
   await dialog.getByLabel('Default value').fill('10');
   await dialog.getByRole('button', { name: 'Add column' }).click();
@@ -34,7 +39,7 @@ test('records a measured result in its own column and leaves it empty on a dupli
 
   await page.getByRole('button', { name: 'Add column' }).click();
   dialog = page.getByRole('dialog');
-  await dialog.getByLabel('Name').fill('Thickness');
+  await dialog.getByLabel('Name', { exact: true }).fill('Thickness');
   await dialog.getByLabel('Unit').fill('nm');
   await dialog.getByLabel('Category').click();
   await page.getByRole('option', { name: 'Result' }).click();

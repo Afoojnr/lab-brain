@@ -20,3 +20,14 @@ export const formatParameterValue = (
   typeof value === 'number'
     ? format.number(value, NUMBER_FORMAT_OPTIONS)
     : value;
+
+/**
+ * A calculated value as display text: six significant digits in the reader's
+ * locale, so floating-point noise such as 8.100000000000001 never shows. It is
+ * only a display; the exact value is always recomputed from the stored ones.
+ *
+ * @param format - next-intl's formatter.
+ * @param value - A value from `evaluateFormula`.
+ */
+export const formatDerivedValue = (format: Formatter, value: number): string =>
+  format.number(value, { maximumSignificantDigits: 6 });

@@ -14,7 +14,8 @@
     "noteLabel": "Note",
     "groups": {
       "parameters": "Parameters",
-      "results": "Results"
+      "results": "Results",
+      "calculated": "Calculated"
     }
   },
   "new": {

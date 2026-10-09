@@ -58,15 +58,20 @@ test('analyses an EDX folder and an ellipsometry fit and fills the result column
   const projectName = `Analysis Project ${Date.now().toString().slice(-6)}`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
   await page.getByRole('button', { name: 'New experiment' }).click();
-  await page.getByLabel('Name').fill('Deposition');
+  await page.getByLabel('Name', { exact: true }).fill('Deposition');
   await page.getByLabel('Code prefix').fill('abc');
   await page.getByRole('button', { name: 'Create experiment' }).click();
   await page.getByRole('link', { name: 'Add sample' }).click();
@@ -87,7 +92,11 @@ test('analyses an EDX folder and an ellipsometry fit and fills the result column
   await addCharacterization('Ellipsometry', '2026-09-15');
 
   // EDX: attach the whole folder, with its subfolders.
-  await page.getByRole('link', { name: 'EDX', exact: true }).click();
+  // The technique in the page, not the sidebar's link to the EDX workspace.
+  await page
+    .getByRole('main')
+    .getByRole('link', { name: 'EDX', exact: true })
+    .click();
   // Wait for the characterization page: the sample page has a paperclip too.
   await expect(
     page.getByRole('heading', { name: 'EDX', level: 1 })
@@ -125,7 +134,10 @@ test('analyses an EDX folder and an ellipsometry fit and fills the result column
   await page.getByRole('button', { name: 'Send 12 values to results' }).click();
   await expect(page.getByText('12 values sent to the results')).toBeVisible();
 
-  await page.getByRole('link', { name: 'Deposition', exact: true }).click();
+  await page
+    .getByRole('navigation', { name: 'breadcrumb' })
+    .getByRole('link', { name: 'Deposition', exact: true })
+    .click();
   const table = page.getByRole('table').first();
   await expect(
     table.getByRole('columnheader', { name: 'B/N', exact: true })
@@ -137,7 +149,10 @@ test('analyses an EDX folder and an ellipsometry fit and fills the result column
 
   // Ellipsometry: attach the fit export, read its summary rows.
   await page.getByRole('link', { name: 'ABC001', exact: true }).click();
-  await page.getByRole('link', { name: 'Ellipsometry', exact: true }).click();
+  await page
+    .getByRole('main')
+    .getByRole('link', { name: 'Ellipsometry', exact: true })
+    .click();
   await expect(
     page.getByRole('heading', { name: 'Ellipsometry', level: 1 })
   ).toBeVisible();
@@ -184,7 +199,10 @@ test('analyses an EDX folder and an ellipsometry fit and fills the result column
   // Thickness and n go to result columns; the EDX ones are offered by name.
   await page.getByRole('button', { name: 'Send 4 values to results' }).click();
   await expect(page.getByText('4 values sent to the results')).toBeVisible();
-  await page.getByRole('link', { name: 'Deposition', exact: true }).click();
+  await page
+    .getByRole('navigation', { name: 'breadcrumb' })
+    .getByRole('link', { name: 'Deposition', exact: true })
+    .click();
   await expect(
     page
       .getByRole('table')

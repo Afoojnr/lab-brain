@@ -1,0 +1,11 @@
+{
+  "title": "Projects",
+  "description": "Every project holds experiments of samples, each with its own columns.",
+  "newProject": "New project",
+  "empty": {
+    "title": "Welcome to Lab Brain",
+    "description": "Record your experiments, import your spreadsheets, attach instrument files and let the app work out the numbers. Start with a project: it holds the experiments of one line of work.",
+    "create": "Create your first project",
+    "rawFiles": "Or analyse raw files without a project:"
+  }
+}

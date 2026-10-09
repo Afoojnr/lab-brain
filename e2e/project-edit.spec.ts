@@ -8,17 +8,22 @@ test('edits a project and folds a long description behind Show more', async ({
   const renamed = `${projectName} renamed`;
 
   await page.goto('/');
-  await page.getByRole('button', { name: 'New project' }).click();
-  await page.getByLabel('Name').fill(projectName);
+  // The page's button.
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'New project' })
+    .click();
+  await page.getByLabel('Name', { exact: true }).fill(projectName);
   await page.getByRole('button', { name: 'Create project' }).click();
-  await page.getByText(projectName, { exact: true }).click();
+  // The project card in the page, not the same name in the sidebar.
+  await page.getByRole('main').getByText(projectName, { exact: true }).click();
   await expect(
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
 
-  await page.getByRole('button', { name: 'Edit project' }).click();
+  await page.getByRole('button', { name: 'Edit project', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByLabel('Name').fill(renamed);
+  await dialog.getByLabel('Name', { exact: true }).fill(renamed);
   await dialog
     .getByLabel('Description')
     .fill('A long description line that wraps over the page. '.repeat(12));

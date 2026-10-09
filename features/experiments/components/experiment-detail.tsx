@@ -8,6 +8,8 @@ import { buttonVariants } from '@/components/ui/button';
 
 import { listCharacterizationsByExperiment } from '../data/characterizations';
 import { listStudiesByExperiment } from '../data/studies';
+import { listDerivedColumns } from '../data/derived-columns';
+import { evaluateFormula, parseFormula } from '../formula';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { isParameterInUse, listSamplesByExperiment } from '../data/samples';
@@ -17,8 +19,11 @@ import {
 } from '../data/experiments';
 import { filterSamples } from '../sample-filter';
 import { EditExperimentDialog } from './edit-experiment-dialog';
+import { ExperimentChecklist } from './experiment-checklist';
 import { StudiesList } from './studies-list';
 import { NewStudyDialog } from './new-study-dialog';
+import { DerivedColumnDialog } from './derived-column-dialog';
+import { DerivedColumnsTable } from './derived-columns-table';
 import { ParameterDialog } from './parameter-dialog';
 import { ParametersTable } from './parameters-table';
 import { SamplesFilter } from './samples-filter';
@@ -44,16 +49,25 @@ export const ExperimentDetail = async ({
   studyId,
   query
 }: ExperimentDetailProps) => {
-  const [t, tImport, tSamples, tParameters, tStudies, project, experiment] =
-    await Promise.all([
-      getTranslations('experiments'),
-      getTranslations('import.entry'),
-      getTranslations('samples'),
-      getTranslations('parameters'),
-      getTranslations('studies'),
-      getProjectById(projectId),
-      getExperimentById(experimentId)
-    ]);
+  const [
+    t,
+    tImport,
+    tSamples,
+    tParameters,
+    tDerived,
+    tStudies,
+    project,
+    experiment
+  ] = await Promise.all([
+    getTranslations('experiments'),
+    getTranslations('import.entry'),
+    getTranslations('samples'),
+    getTranslations('parameters'),
+    getTranslations('derived'),
+    getTranslations('studies'),
+    getProjectById(projectId),
+    getExperimentById(experimentId)
+  ]);
   if (!project || !experiment || experiment.projectId !== project.id)
     notFound();
 
@@ -77,12 +91,40 @@ export const ExperimentDetail = async ({
       allSamples.filter(sample => sample.studyIds.includes(study.id)).length
     ])
   );
+  const derivedColumns = await listDerivedColumns(experiment.id);
   const usedFlags = await Promise.all(
     definitions.map(definition => isParameterInUse(definition.id))
   );
+  // Used by samples, or by a calculated column's formula: neither can be deleted.
   const usedIds = definitions
-    .filter((_definition, index) => usedFlags[index])
+    .filter(
+      (definition, index) =>
+        usedFlags[index] ||
+        derivedColumns.some(derived =>
+          derived.formula.includes(`[#${definition.id}]`)
+        )
+    )
     .map(definition => definition.id);
+  // Calculated values are worked out here for every sample, never stored.
+  const parsedFormulas = derivedColumns.map(derived => ({
+    derived,
+    parsed: parseFormula(derived.formula, definitions)
+  }));
+  const derivedValues = Object.fromEntries(
+    samples.map(sample => [
+      sample.id,
+      Object.fromEntries(
+        parsedFormulas.map(({ derived, parsed }) => [
+          derived.id,
+          parsed.isOk ? evaluateFormula(parsed.ast, sample.values) : null
+        ])
+      )
+    ])
+  );
+  const previewSamples = allSamples
+    .slice(0, 3)
+    .map(({ id, code, values }) => ({ id, code, values }));
+  const derivedNames = derivedColumns.map(derived => derived.name);
   const experimentPath = `/projects/${project.id}/experiments/${experiment.id}`;
 
   return (
@@ -94,7 +136,7 @@ export const ExperimentDetail = async ({
       />
       <RecordDetail
         breadcrumbs={[
-          { label: t('project.breadcrumbDashboard'), href: '/' },
+          { label: t('project.breadcrumbProjects'), href: '/' },
           { label: project.name, href: `/projects/${project.id}` },
           { label: experiment.name }
         ]}
@@ -137,25 +179,34 @@ export const ExperimentDetail = async ({
           {
             id: 'samples',
             title: tSamples('list.title'),
-            content: (
-              <>
-                <SamplesFilter
-                  experimentPath={experimentPath}
-                  studies={studies}
-                  studyId={activeStudyId}
-                  query={query}
-                />
-                <SamplesTable
+            content:
+              allSamples.length === 0 ? (
+                <ExperimentChecklist
                   projectId={project.id}
                   experimentId={experiment.id}
-                  definitions={definitions}
-                  samples={samples}
-                  studies={studies}
-                  characterizations={characterizations}
-                  isFiltered={Boolean(activeStudyId ?? query)}
+                  hasColumns={definitions.length > 0}
                 />
-              </>
-            )
+              ) : (
+                <>
+                  <SamplesFilter
+                    experimentPath={experimentPath}
+                    studies={studies}
+                    studyId={activeStudyId}
+                    query={query}
+                  />
+                  <SamplesTable
+                    projectId={project.id}
+                    experimentId={experiment.id}
+                    definitions={definitions}
+                    samples={samples}
+                    studies={studies}
+                    characterizations={characterizations}
+                    derivedColumns={derivedColumns}
+                    derivedValues={derivedValues}
+                    isFiltered={Boolean(activeStudyId ?? query)}
+                  />
+                </>
+              )
           },
           {
             id: 'parameters',
@@ -174,6 +225,32 @@ export const ExperimentDetail = async ({
                 experimentId={experiment.id}
                 definitions={definitions}
                 usedIds={usedIds}
+              />
+            )
+          },
+          {
+            id: 'derived',
+            title: tDerived('panel.title'),
+            description: tDerived('panel.description'),
+            actions: (
+              <DerivedColumnDialog
+                projectId={project.id}
+                experimentId={experiment.id}
+                columns={definitions}
+                otherNames={[
+                  ...definitions.map(definition => definition.name),
+                  ...derivedNames
+                ]}
+                previewSamples={previewSamples}
+              />
+            ),
+            content: (
+              <DerivedColumnsTable
+                projectId={project.id}
+                experimentId={experiment.id}
+                columns={definitions}
+                derivedColumns={derivedColumns}
+                previewSamples={previewSamples}
               />
             )
           }

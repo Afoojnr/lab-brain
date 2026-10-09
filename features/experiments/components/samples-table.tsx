@@ -24,12 +24,16 @@ import { summarizeTechniques } from '../characterizations';
 import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
 import type {
   Characterization,
+  DerivedColumn,
   ParameterDefinition,
   Sample,
   Study
 } from '../types';
 import { AssignStudyBar } from './assign-study-bar';
-import { formatParameterValue } from './format-parameter-value';
+import {
+  formatDerivedValue,
+  formatParameterValue
+} from './format-parameter-value';
 import { ParameterLabel } from './parameter-label';
 import { RecordLink } from './record-link';
 
@@ -41,6 +45,10 @@ type SamplesTableProps = {
   studies: Study[];
   /** Every characterization of these samples, for the techniques column. */
   characterizations: Characterization[];
+  /** The experiment's calculated columns, shown after the entered ones. */
+  derivedColumns: DerivedColumn[];
+  /** Each sample's calculated values: sample id → column id → value, null when it cannot be calculated. */
+  derivedValues: Record<string, Record<string, number | null>>;
   /** True when a tag or search is hiding samples, so an empty table says so. */
   isFiltered: boolean;
 };
@@ -58,11 +66,14 @@ export const SamplesTable = ({
   samples,
   studies,
   characterizations,
+  derivedColumns,
+  derivedValues,
   isFiltered
 }: SamplesTableProps) => {
   const t = useTranslations('samples.list');
   const tAssign = useTranslations('studies.assign');
   const tCharacterizations = useTranslations('characterizations');
+  const tDerived = useTranslations('derived');
   const format = useFormatter();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -123,7 +134,7 @@ export const SamplesTable = ({
       )}
       <Table>
         <TableHeader>
-          {results.length > 0 && (
+          {(results.length > 0 || derivedColumns.length > 0) && (
             <TableRow>
               <TableHead colSpan={4} />
               <TableHead
@@ -132,12 +143,22 @@ export const SamplesTable = ({
               >
                 {t('groups.parameters')}
               </TableHead>
-              <TableHead
-                colSpan={results.length}
-                className="border-l font-semibold"
-              >
-                {t('groups.results')}
-              </TableHead>
+              {results.length > 0 && (
+                <TableHead
+                  colSpan={results.length}
+                  className="border-l font-semibold"
+                >
+                  {t('groups.results')}
+                </TableHead>
+              )}
+              {derivedColumns.length > 0 && (
+                <TableHead
+                  colSpan={derivedColumns.length}
+                  className="border-l font-semibold"
+                >
+                  {t('groups.calculated')}
+                </TableHead>
+              )}
               <TableHead colSpan={3} className="border-l" />
             </TableRow>
           )}
@@ -160,6 +181,17 @@ export const SamplesTable = ({
             {definitions.map(definition => (
               <TableHead key={definition.id}>
                 <ParameterLabel definition={definition} />
+              </TableHead>
+            ))}
+            {derivedColumns.map(derived => (
+              <TableHead key={derived.id}>
+                <span aria-hidden className="text-muted-foreground font-normal">
+                  ƒ{' '}
+                </span>
+                <span className="sr-only">
+                  {tDerived('table.calculated')}:{' '}
+                </span>
+                <ParameterLabel definition={derived} />
               </TableHead>
             ))}
             <TableHead>{tCharacterizations('column.title')}</TableHead>
@@ -235,6 +267,16 @@ export const SamplesTable = ({
                     {value === undefined
                       ? notRecorded
                       : formatParameterValue(format, value)}
+                  </TableCell>
+                );
+              })}
+              {derivedColumns.map(derived => {
+                const value = derivedValues[sample.id]?.[derived.id];
+                return (
+                  <TableCell key={derived.id}>
+                    {value === null || value === undefined
+                      ? notRecorded
+                      : formatDerivedValue(format, value)}
                   </TableCell>
                 );
               })}

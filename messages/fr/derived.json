@@ -1,0 +1,63 @@
+{
+  "panel": {
+    "title": "Colonnes calculées",
+    "description": "Colonnes calculées à partir de vos autres colonnes pour chaque échantillon, comme le GPC. Elles ne sont jamais saisies et suivent les colonnes qu'elles utilisent.",
+    "add": "Ajouter une colonne calculée",
+    "empty": "Aucune colonne calculée pour l'instant. Ajoutez-en une, par exemple le GPC à partir de l'épaisseur et du nombre de cycles.",
+    "edit": "Modifier {name}",
+    "delete": "Supprimer {name}",
+    "columns": {
+      "name": "Nom",
+      "unit": "Unité",
+      "formula": "Formule",
+      "actions": "Actions"
+    },
+    "noUnit": "Sans unité"
+  },
+  "form": {
+    "addTitle": "Ajouter une colonne calculée",
+    "editTitle": "Modifier {name}",
+    "description": "La valeur est calculée pour chaque échantillon à partir de ses propres colonnes. Si une colonne nécessaire n'est pas renseignée, le résultat reste vide.",
+    "nameLabel": "Nom",
+    "unitLabel": "Unité",
+    "unitHint": "L'unité du résultat, par exemple Å/cycle. L'application ne convertit pas les unités : mettez le facteur dans la formule (× 10 pour passer de nm à Å).",
+    "formulaLabel": "Formule",
+    "formulaHint": "Utilisez [Nom de colonne], des nombres, + - * / et des parenthèses. Exemple : [Thickness] * 10 / [Cycles]",
+    "insertColumn": "Insérer une colonne",
+    "previewTitle": "Aperçu",
+    "previewNoSamples": "Ajoutez des échantillons pour voir un aperçu.",
+    "previewInvalid": "Corrigez la formule pour voir un aperçu.",
+    "previewEmpty": "non renseigné",
+    "cancel": "Annuler",
+    "submit": "Ajouter la colonne",
+    "save": "Enregistrer",
+    "errors": {
+      "nameRequired": "Saisissez un nom pour la colonne.",
+      "nameTooLong": "Utilisez 60 caractères ou moins.",
+      "nameDuplicate": "Une autre colonne de cette expérience porte déjà ce nom.",
+      "unitTooLong": "Utilisez 20 caractères ou moins.",
+      "formulaEmpty": "Saisissez une formule.",
+      "formulaSyntax": "La formule n'est pas valide près du caractère {position}.",
+      "formulaUnknownColumn": "Aucune colonne ne s'appelle {name}.",
+      "formulaNotANumber": "{name} n'est pas une colonne numérique, elle ne peut donc pas être utilisée."
+    }
+  },
+  "delete": {
+    "title": "Supprimer {name} ?",
+    "description": "Seule la formule est supprimée. Aucune donnée d'échantillon n'est perdue.",
+    "confirm": "Supprimer",
+    "cancel": "Annuler"
+  },
+  "added": "Colonne calculée {name} ajoutée",
+  "updated": "Colonne calculée {name} modifiée",
+  "deleted": "Colonne calculée {name} supprimée",
+  "sample": {
+    "title": "Calculé",
+    "description": "Calculé à partir des autres colonnes de cet échantillon.",
+    "notRecorded": "Non renseigné",
+    "value": "Valeur"
+  },
+  "table": {
+    "calculated": "calculée"
+  }
+}

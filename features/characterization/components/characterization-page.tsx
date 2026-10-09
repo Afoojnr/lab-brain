@@ -148,7 +148,7 @@ export const CharacterizationPage = async ({
   return (
     <RecordDetail
       breadcrumbs={[
-        { label: t('page.breadcrumbDashboard'), href: '/' },
+        { label: t('page.breadcrumbProjects'), href: '/' },
         { label: project.name, href: `/projects/${project.id}` },
         { label: experiment.name, href: base },
         { label: sample.code, href: `${base}/samples/${sample.id}` },

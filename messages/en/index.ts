@@ -1,7 +1,8 @@
 import analysis from './analysis.json';
 import characterizations from './characterizations.json';
 import common from './common.json';
-import dashboard from './dashboard.json';
+import home from './home.json';
+import derived from './derived.json';
 import errors from './errors.json';
 import experiments from './experiments.json';
 import importer from './import.json';
@@ -17,7 +18,8 @@ export const en = {
   analysis,
   characterizations,
   common,
-  dashboard,
+  home,
+  derived,
   errors,
   experiments,
   import: importer,

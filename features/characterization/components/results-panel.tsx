@@ -4,14 +4,6 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -24,6 +16,7 @@ import {
 import { checkSelection, formatValue, resolveTarget } from '../results';
 import type { ResultColumn } from '../results';
 import type { AnalysisValue, ColumnTarget } from '../types';
+import { TargetSelect } from './target-select';
 
 type ResultsPanelProps = {
   values: AnalysisValue[];
@@ -97,14 +90,6 @@ export const ResultsPanel = ({
       }
     });
 
-  const targetItems = [
-    ...columns.map(column => ({
-      value: `column:${column.id}`,
-      label: column.unit ? `${column.name} (${column.unit})` : column.name
-    })),
-    { value: 'new', label: t('newColumn') }
-  ];
-
   return (
     <div className="grid min-w-0 gap-3">
       <p className="text-muted-foreground text-sm">{t('description')}</p>
@@ -146,72 +131,12 @@ export const ResultsPanel = ({
                   )}
                 </TableCell>
                 <TableCell className="whitespace-normal">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Select
-                      items={targetItems}
-                      value={
-                        target.type === 'column'
-                          ? `column:${target.columnId}`
-                          : 'new'
-                      }
-                      onValueChange={selected => {
-                        if (selected === null) return;
-                        setTarget(
-                          value.id,
-                          selected.startsWith('column:')
-                            ? {
-                                type: 'column',
-                                columnId: selected.slice('column:'.length)
-                              }
-                            : {
-                                type: 'new',
-                                name: value.label,
-                                unit: value.unit ?? ''
-                              }
-                        );
-                      }}
-                    >
-                      <SelectTrigger
-                        aria-label={`${t('target')}: ${value.label}`}
-                        className="w-48"
-                      >
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {targetItems.map(item => (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {target.type === 'new' && (
-                      <>
-                        <Input
-                          aria-label={`${t('newName')}: ${value.label}`}
-                          className="w-36"
-                          value={target.name}
-                          onChange={event =>
-                            setTarget(value.id, {
-                              ...target,
-                              name: event.target.value
-                            })
-                          }
-                        />
-                        <Input
-                          aria-label={`${t('newUnit')}: ${value.label}`}
-                          className="w-20"
-                          value={target.unit}
-                          onChange={event =>
-                            setTarget(value.id, {
-                              ...target,
-                              unit: event.target.value
-                            })
-                          }
-                        />
-                      </>
-                    )}
-                  </div>
+                  <TargetSelect
+                    value={value}
+                    target={target}
+                    columns={columns}
+                    onChange={next => setTarget(value.id, next)}
+                  />
                 </TableCell>
                 <TableCell className="text-muted-foreground tabular-nums">
                   {current === undefined

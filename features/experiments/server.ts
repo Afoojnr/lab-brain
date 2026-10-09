@@ -22,6 +22,12 @@ export {
   getCharacterizationOfSample,
   listCharacterizationsByExperiment
 } from './data/characterizations';
+export {
+  createDerivedColumn,
+  listDerivedColumns
+} from './data/derived-columns';
+export { listNavigation } from './data/navigation';
+export { revalidateNavigation } from './revalidate-navigation';
 export { createStudy, listStudiesByExperiment } from './data/studies';
 export {
   createDataset,
