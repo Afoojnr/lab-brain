@@ -21,11 +21,13 @@ prefilled). `Study` is an optional named group of samples inside one experiment 
 sample can be in several). `Characterization` records that a measurement (SEM, EDX,
 ...) was done on a sample: technique + date + note, repeatable. Later: `Dataset`
 (raw characterization file), `Analysis` (computed result/plot). Plus
-`NotebookEntry` (markdown, attached to any record) and `Reference` (a paper).
+`Reference` (a paper). A `SavedPlot` is a named plot setup (columns, filters,
+unticked samples) of one experiment, never a picture. There is no separate notebook: the notes are each sample's
+implementation, observation and note, and the experiment's protocol.
 
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
-SheetJS (`xlsx`), `papaparse`, charts `TBD: Recharts or Chart.js`.
+SheetJS (`xlsx`), `papaparse`, `jspdf` (PDF) and `pptxgenjs` (PowerPoint) for exports, charts `TBD: Recharts or Chart.js`.
 Testing: Vitest + Testing Library (unit/component), Playwright (the critical
 flows) — see `.claude/rules/testing.md`.
 
@@ -104,7 +106,8 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 - Create folders only when they get a first real file; do not scaffold empty ones.
 - Features: `experiments` (projects, experiments, studies, samples, attached files),
   `import`, `characterization` (analyses per technique under `techniques/`: EDX,
-  ellipsometry). Planned: `notebook`, `references`, later `assistant`.
+  ellipsometry), `plots` (X/Y scatter of an uploaded table or an experiment's
+  samples, with saved plots and export; file builders are in `lib/export/`). Planned: `references`, later `assistant`.
 
 ## Imports and exports
 
@@ -115,8 +118,8 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
   `shared.ts` or `server.ts`, never its inner files, and never in a cycle.
 - Allowed direction: `experiments` imports no other feature. `characterization`,
   `import` and `assistant` may import `experiments`. `import` may also import
-  `characterization`. `notebook` and `references` import no feature (a notebook
-  entry attaches by record type + record ID). Need something else? Move the shared
+  `characterization`. `plots` may import `experiments`. `references` imports no
+  feature. Need something else? Move the shared
   code up to `components/`, `hooks/`, `lib/` or `types/`, or ask.
 - Named exports everywhere. Default export only where Next.js requires it
   (`page`, `layout`, `loading`, `error`, `not-found`).

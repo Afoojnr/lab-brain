@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
+import { ExperimentPicker } from '@/components/experiment-picker';
 import {
   getExperimentInProject,
   listExperimentsByProject,
@@ -13,7 +14,6 @@ import { defaultSettings } from '../defaults';
 import { loadBatchRows } from '../load-batch';
 import type { AnalysisKind } from '../types';
 import { ExperimentBatch } from './experiment-batch';
-import { ExperimentPicker } from './experiment-picker';
 
 type ExperimentSourceProps = {
   kind: AnalysisKind;
@@ -46,7 +46,13 @@ export const ExperimentSource = async ({
 
   const picker = (
     <ExperimentPicker
-      kind={kind}
+      basePath={`/characterization/${kind}`}
+      labels={{
+        project: t('projectLabel'),
+        experiment: t('experimentLabel'),
+        chooseProject: t('chooseProject'),
+        chooseExperiment: t('chooseExperiment')
+      }}
       projects={projects}
       experiments={experiments}
       projectId={project?.id ?? null}

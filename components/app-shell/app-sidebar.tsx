@@ -20,13 +20,11 @@ import {
   useSidebar
 } from '@/components/ui/sidebar';
 
-import { isNavItemActive, NAV_ITEMS } from './nav-items';
+import { isNavItemActive, PLOTS_ITEM, SETTINGS_ITEM } from './nav-items';
 import { NavProjects } from './nav-projects';
 import { NavTechniques } from './nav-techniques';
 import type { NavItem } from './nav-items';
 import type { NavigationData } from '@/types/navigation';
-
-const [SETTINGS_ITEM] = NAV_ITEMS;
 
 /** Highlight that slides between items, so the eye follows where you went. */
 const ActivePill = () => (
@@ -99,6 +97,7 @@ export const AppSidebar = ({
             <SidebarMenu>
               <NavProjects projects={navigation.projects} />
               <NavTechniques techniques={techniques} />
+              <NavLink item={PLOTS_ITEM} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

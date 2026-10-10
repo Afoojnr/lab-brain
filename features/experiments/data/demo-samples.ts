@@ -1,4 +1,5 @@
 import type { Sample } from '../types';
+import { DEMO_SWEEP_SAMPLES } from './demo-samples-sweep';
 
 // TODO: demo data, replace with Drizzle in Step 6.
 //
@@ -204,5 +205,6 @@ export const DEMO_SAMPLES: Sample[] = [
     observation: null,
     studyIds: [],
     createdAt: new Date('2026-09-13T10:00:00Z')
-  }
+  },
+  ...DEMO_SWEEP_SAMPLES
 ];

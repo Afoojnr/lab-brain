@@ -27,7 +27,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { cellToText } from '../../cells';
+import { cellToText } from '@/lib/spreadsheet/cells';
 import type { SheetLayout } from '../../build-payload';
 import type { ParsedSheet } from '../../types';
 

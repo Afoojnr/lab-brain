@@ -23,8 +23,8 @@ Notebook / References / Ask / Export   (later: attached to any record, or projec
 **Sidebar** (always visible; an icon rail when collapsed, a sheet on a phone):
 **Projects** (its label is the way home, the all-projects page; a chevron collapses
 the plain list of every project, newest first) · **Characterizations** (one collapsible header over the techniques the
-app can analyse, today EDX and Ellipsometry, each opening its workspace) · Settings.
-Only those two headers collapse; what you opened or closed is remembered, and the page
+app can analyse, today EDX and Ellipsometry, each opening its workspace) · **Plots**
+(one link) · Settings. Only those two headers collapse; what you opened or closed is remembered, and the page
 you are on is highlighted.
 
 You land on a list of **Projects** first, not a flat global list — this keeps ALD and
@@ -203,7 +203,49 @@ entry possible.
      per sample what it would change. A sample that would replace a different value is
      skipped unless you tick Update. The server recomputes every number from the stored
      files and writes nothing if anything is not allowed.
-6. Later: plotting selected rows against each other (e.g. thickness vs plasma pulse).
+6. **Plots** (sidebar → Plots), with two sources like the technique workspaces:
+   - **Upload a table**: a CSV or Excel table that is not in any experiment. It is
+     read in the browser and nothing is saved. The header row is found
+     automatically (and can be changed); a column is a number column only when
+     every filled cell is a number, so a word is never read as a number.
+   - **From an experiment**: pick a project and an experiment. Entered and
+     calculated columns can be plotted; a sample shows its code on hover and opens
+     on click.
+     Choose the X and Y columns (numbers), optional **error bars** from a number column
+     (e.g. a std), **colour by** a text column or, for samples, by **study** (a sample
+     in two studies appears in both), and a **logarithmic** X or Y. A sample with no
+     number for X or Y is left out and counted ("N left out (no value)"), as is a value
+     of 0 or less on a log axis; nothing is ever plotted as 0. Only three groups get
+     their own colour (and marker shape); the rest are shown as "Other". The plotted
+     values are also listed in a table under the chart. In the samples table, ticking
+     rows shows a **Plot** button that opens the workspace with just those samples
+     ("Showing N selected samples · Show all samples").
+     The X, Y and error-bar lists are grouped (Parameters, Results, Calculated; Results
+     first for Y). Colouring also works on a number column such as Cycles (one colour
+     per value). **Filters** keep only some samples, e.g. only 600 cycles: tick the
+     values to keep (or give a minimum and maximum for a continuous column); filters
+     combine with "and" and the left-out count says how many they removed. Every
+     plotted sample is in a list under the chart with a checkbox: **untick** one to take
+     its point off the plot (nothing is deleted; tick it back any time).
+     **Export** (button above the chart): a figure as PNG, PDF or a PowerPoint
+     slide, always on white in the light theme, with a caption (what is plotted, the
+     source, filters, colour-by, counts) and the legend so the figure explains itself; or
+     the plotted numbers as Excel or CSV (one row per plotted point, an empty cell for a
+     missing error, never 0). **Save plot** (experiment source only; an uploaded table
+     is never kept) asks for a title and stores what to plot (columns, error bars,
+     grouping, log axes, filters, unticked samples), not a picture. Saved plots are
+     listed above the chart; opening one redraws it from the experiment's current
+     samples, and Save changes replaces it. Deleting a saved plot never touches samples.
+     The figure, PDF, PowerPoint and Excel builders live in `lib/export/` so the
+     project and sample export can reuse them.
+     **Customise** (a closed panel above the chart): axis ranges (empty = automatic; a
+     bound of 0 or less is ignored on a log axis), the plot title and axis titles
+     (empty = the default), text size, marker size and the grid; and what an exported
+     figure says: the filters and colour key are always written, where the data is
+     from and the sample counts only when ticked (both off by default). These are saved
+     with a saved plot. Colours stay the validated three; there is no free colour picker.
+     The workspace fits a phone: controls stack full width and the chart is shorter.
+     Not yet: fits/trend lines (the method must be agreed first).
 
 _Formulas and constants are agreed with the owner for each technique, never
 guessed._
@@ -211,7 +253,8 @@ guessed._
 ```
 Sample page → technique → files + analysis → untick spots / pick ratio → send to results → result columns filled
 Sidebar → technique → Upload files (Excel download) or From an experiment (tick samples → preview → apply)
-Samples table → select rows → choose X and Y → plot (later)
+Samples table → select rows → Plot → choose X and Y (+ error bars, colour by study) → chart and counts
+Sidebar → Plots → Upload a table or From an experiment → choose X and Y → chart and counts
 ```
 
 ---

@@ -1,6 +1,7 @@
 // Pure, client-safe exports for other features (the spreadsheet import runs in
 // the browser, so it cannot use index.ts, which also exports server
 // components). Nothing here reads the data layer.
+export { evaluateFormula, parseFormula } from './formula';
 export {
   isCalendarDate,
   parseParameterInput,

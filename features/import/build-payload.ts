@@ -1,5 +1,7 @@
-import { cellToText } from './cells';
-import { columnCells, splitHeaderUnit, suggestMapping } from './layout';
+import { cellToText } from '@/lib/spreadsheet/cells';
+import { columnCells, splitHeaderUnit } from '@/lib/spreadsheet/layout';
+
+import { suggestMapping } from './layout';
 import type {
   ColumnTarget,
   ConflictChoice,

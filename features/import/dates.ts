@@ -1,6 +1,6 @@
 import { isCalendarDate } from '@/features/experiments/shared';
 
-import { isBlank } from './cells';
+import { isBlank } from '@/lib/spreadsheet/cells';
 import type { RawCell } from './types';
 
 /** How a date written as text is read: `YYYY-MM-DD`, day first or month first. */

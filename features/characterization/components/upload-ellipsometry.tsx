@@ -19,7 +19,7 @@ import {
 import { formatValue } from '../results';
 import type { TextFile } from '../techniques/edx/from-files';
 import { readSeqfitItems } from '../techniques/ellipsometry/from-files';
-import { downloadBytes, XLSX_TYPE } from '../upload/download-file';
+import { downloadBytes, XLSX_TYPE } from '@/lib/download-file';
 import { isCsvFile, readTextFiles } from '../upload/read-files';
 import { buildWorkbook, ellipsometrySummary } from '../upload/summary-rows';
 import { EllipsometrySummaryView } from './ellipsometry-summary-view';

@@ -15,9 +15,11 @@ import {
   dataCells
 } from '../../build-payload';
 import type { SheetLayout } from '../../build-payload';
-import { cellToText } from '../../cells';
+import { cellToText } from '@/lib/spreadsheet/cells';
 import type { DateFormat } from '../../dates';
-import { detectHeaderRow, suggestPrefix } from '../../layout';
+import { detectHeaderRow } from '@/lib/spreadsheet/layout';
+
+import { suggestPrefix } from '../../layout';
 import type {
   ColumnTarget,
   ConflictChoice,

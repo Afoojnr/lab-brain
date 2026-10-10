@@ -8,6 +8,7 @@ import experiments from './experiments.json';
 import importer from './import.json';
 import navigation from './navigation.json';
 import parameters from './parameters.json';
+import plots from './plots.json';
 import projects from './projects.json';
 import samples from './samples.json';
 import settings from './settings.json';
@@ -25,6 +26,7 @@ export const en = {
   import: importer,
   navigation,
   parameters,
+  plots,
   projects,
   samples,
   settings,

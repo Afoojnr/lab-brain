@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { MAX_ROWS } from './limits';
+import { MAX_ROWS } from '@/lib/spreadsheet/limits';
 
 const text = (max: number) => z.string().max(max);
 

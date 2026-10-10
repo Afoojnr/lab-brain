@@ -23,7 +23,7 @@ import {
 } from '../techniques/edx/from-files';
 import type { TextFile } from '../techniques/edx/from-files';
 import { DEFAULT_ELEMENTS } from '../techniques/edx/stats';
-import { downloadBytes, XLSX_TYPE } from '../upload/download-file';
+import { downloadBytes, XLSX_TYPE } from '@/lib/download-file';
 import { isEdxFile, readTextFiles } from '../upload/read-files';
 import { buildWorkbook, edxSummary } from '../upload/summary-rows';
 import { EdxRatioSelects } from './edx-ratio-selects';
