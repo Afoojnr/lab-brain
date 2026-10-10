@@ -20,3 +20,9 @@ export const downloadBytes = (
 
 export const XLSX_TYPE =
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+export const CSV_TYPE = 'text/csv;charset=utf-8';
+export const PNG_TYPE = 'image/png';
+export const PDF_TYPE = 'application/pdf';
+export const PPTX_TYPE =
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation';

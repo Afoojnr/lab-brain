@@ -6,5 +6,6 @@
   "noProjects": "No projects yet",
   "edx": "EDX",
   "ellipsometry": "Ellipsometry",
-  "toggle": "Show or hide {name}"
+  "toggle": "Show or hide {name}",
+  "plots": "Plots"
 }

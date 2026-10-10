@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
@@ -12,27 +11,32 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
-import type { AnalysisKind } from '../types';
-
 type ExperimentPickerProps = {
-  kind: AnalysisKind;
+  /** The workspace's path, e.g. `/plots`; the choice is added to its query. */
+  basePath: string;
+  labels: {
+    project: string;
+    experiment: string;
+    chooseProject: string;
+    chooseExperiment: string;
+  };
   projects: { id: string; name: string }[];
   experiments: { id: string; name: string }[];
   projectId: string | null;
   experimentId: string | null;
 };
 
-/** Chooses the project, then the experiment, whose samples are analysed. The choice lives in the URL. */
+/** Chooses the project, then the experiment, a workspace works on. The choice lives in the URL. */
 export const ExperimentPicker = ({
-  kind,
+  basePath,
+  labels,
   projects,
   experiments,
   projectId,
   experimentId
 }: ExperimentPickerProps) => {
-  const t = useTranslations('analysis.workspace.experiment');
   const router = useRouter();
-  const base = `/characterization/${kind}?source=experiment`;
+  const base = `${basePath}?source=experiment`;
   const projectItems = projects.map(project => ({
     value: project.id,
     label: project.name
@@ -44,8 +48,8 @@ export const ExperimentPicker = ({
 
   return (
     <div className="flex flex-wrap gap-4">
-      <Field className="w-64">
-        <FieldLabel htmlFor="workspace-project">{t('projectLabel')}</FieldLabel>
+      <Field className="w-full sm:w-64">
+        <FieldLabel htmlFor="workspace-project">{labels.project}</FieldLabel>
         <Select
           items={projectItems}
           value={projectId}
@@ -54,7 +58,7 @@ export const ExperimentPicker = ({
           }}
         >
           <SelectTrigger id="workspace-project" className="w-full">
-            <SelectValue placeholder={t('chooseProject')} />
+            <SelectValue placeholder={labels.chooseProject} />
           </SelectTrigger>
           <SelectContent>
             {projectItems.map(item => (
@@ -65,9 +69,9 @@ export const ExperimentPicker = ({
           </SelectContent>
         </Select>
       </Field>
-      <Field className="w-64">
+      <Field className="w-full sm:w-64">
         <FieldLabel htmlFor="workspace-experiment">
-          {t('experimentLabel')}
+          {labels.experiment}
         </FieldLabel>
         <Select
           items={experimentItems}
@@ -83,7 +87,7 @@ export const ExperimentPicker = ({
             className="w-full"
             disabled={projectId === null}
           >
-            <SelectValue placeholder={t('chooseExperiment')} />
+            <SelectValue placeholder={labels.chooseExperiment} />
           </SelectTrigger>
           <SelectContent>
             {experimentItems.map(item => (

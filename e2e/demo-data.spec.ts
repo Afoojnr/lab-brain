@@ -11,7 +11,7 @@ test("lists a project's experiments with how many samples and columns each has",
     .getByRole('main')
     .getByRole('link', { name: /Deposition/ });
   await expect(deposition).toContainText('ALD');
-  await expect(deposition).toContainText('7 samples');
+  await expect(deposition).toContainText('23 samples');
   await expect(deposition).toContainText('12 columns');
   await expect(
     page.getByRole('main').getByRole('link', { name: /Paschen law/ })
@@ -60,8 +60,8 @@ test('suggests the next code from the highest one in the project', async ({
     '/projects/demo-project-1/experiments/demo-experiment-1/samples/new'
   );
 
-  // ALD006 is the highest plain code; ALD003_Annealing does not count.
-  await expect(page.getByLabel('Sample code')).toHaveValue('ALD007');
+  // ALD022 is the highest plain code; ALD003_Annealing does not count.
+  await expect(page.getByLabel('Sample code')).toHaveValue('ALD023');
 });
 
 test('shows the recorded values of a demo sample with their units', async ({
@@ -98,7 +98,7 @@ test('duplicating copies the values and implementation but not the observation',
   await expect(
     page.getByRole('heading', { name: 'Duplicate ALD001' })
   ).toBeVisible();
-  await expect(page.getByLabel('Sample code')).toHaveValue('ALD007');
+  await expect(page.getByLabel('Sample code')).toHaveValue('ALD023');
   await expect(
     page.getByLabel('Plasma pulse (s)', { exact: true })
   ).toHaveValue('5');

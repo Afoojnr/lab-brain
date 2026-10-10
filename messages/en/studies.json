@@ -41,7 +41,8 @@
     "selected": "{count, plural, one {# sample selected} other {# samples selected}}",
     "assignTo": "Assign to {name}",
     "done": "{count, plural, one {# sample} other {# samples}} assigned to {name}",
-    "tags": "Studies"
+    "tags": "Studies",
+    "plot": "Plot"
   },
   "updated": "Study {name} updated"
 }

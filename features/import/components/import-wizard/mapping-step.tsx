@@ -15,10 +15,10 @@ import type { ParameterDefinition } from '@/features/experiments/shared';
 
 import { dataCells, headersOf, unitsOf } from '../../build-payload';
 import type { SheetLayout } from '../../build-payload';
-import { cellToText, isBlank } from '../../cells';
+import { cellToText, isBlank } from '@/lib/spreadsheet/cells';
 import { hasAmbiguousDates } from '../../dates';
 import type { DateFormat } from '../../dates';
-import { guessKind } from '../../layout';
+import { guessKind } from '@/lib/spreadsheet/layout';
 import type { ColumnTarget, NewColumnTarget, ParsedSheet } from '../../types';
 import { targetToValue, valueToTarget } from './mapping-options';
 

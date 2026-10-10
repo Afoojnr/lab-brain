@@ -1,3 +1,5 @@
+import { parseDecimal } from '@/lib/numbers';
+
 import type {
   ParameterDefinition,
   ParameterKind,
@@ -11,9 +13,6 @@ import type {
  * enough that a recorded value is never silently rounded on screen.
  */
 export const NUMBER_FORMAT_OPTIONS = { maximumSignificantDigits: 15 } as const;
-
-/** Optional sign, digits with one `.` or `,` decimal separator, optional exponent. No thousands separators. */
-const NUMBER_PATTERN = /^[+-]?(\d+([.,]\d*)?|[.,]\d+)([eE][+-]?\d+)?$/;
 
 export type ParsedParameter =
   { isValid: true; value: ParameterValue | undefined } | { isValid: false };
@@ -33,10 +32,9 @@ export const parseParameterInput = (
   const trimmed = raw.trim();
   if (trimmed === '') return { isValid: true, value: undefined };
   if (kind === 'text') return { isValid: true, value: trimmed };
-  if (!NUMBER_PATTERN.test(trimmed)) return { isValid: false };
 
-  const value = Number(trimmed.replace(',', '.'));
-  return Number.isFinite(value) ? { isValid: true, value } : { isValid: false };
+  const value = parseDecimal(trimmed);
+  return value === null ? { isValid: false } : { isValid: true, value };
 };
 
 /**

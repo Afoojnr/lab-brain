@@ -1,10 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 import { assignStudyAction } from '../actions/assign-study';
 import type { Study } from '../types';
@@ -60,6 +61,12 @@ export const AssignStudyBar = ({
       <span className="font-medium">
         {t('selected', { count: selectedIds.length })}
       </span>
+      <Link
+        href={`/plots?source=experiment&project=${projectId}&experiment=${experimentId}&samples=${selectedIds.join(',')}`}
+        className={buttonVariants({ variant: 'default', size: 'sm' })}
+      >
+        {t('plot')}
+      </Link>
       {studies.map(study => (
         <Button
           key={study.id}

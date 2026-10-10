@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 import { FileDropZone } from '@/components/file-drop-zone';
 
-import { parseSpreadsheet } from '../../parsers';
+import { parseSpreadsheet } from '@/lib/spreadsheet/parsers';
 import type { ParsedSheet } from '../../types';
 
 type UploadStepProps = {
