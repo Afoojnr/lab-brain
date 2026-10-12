@@ -23,7 +23,10 @@ export const deleteSavedPlotAction = async (
   if (!(await getExperimentInProject(projectId, experimentId))) return false;
 
   const isDeleted = await deleteSavedPlot(experimentId, plotId);
-  if (isDeleted) revalidatePath('/plots');
+  if (isDeleted) {
+    revalidatePath('/plots');
+    revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
+  }
 
   return isDeleted;
 };

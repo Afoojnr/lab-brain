@@ -1,7 +1,8 @@
-import { PlusIcon, UploadIcon } from 'lucide-react';
+import { FileTextIcon, PlusIcon, DownloadIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import type { ReactNode } from 'react';
 
 import { RecordDetail } from '@/components/record-detail';
 import { buttonVariants } from '@/components/ui/button';
@@ -35,6 +36,8 @@ type ExperimentDetailProps = {
   experimentId: string;
   /** From the URL: show only samples of this study. */
   studyId?: string;
+  /** The saved plots section, composed by the page (this feature cannot import the plots feature). */
+  savedPlots?: ReactNode;
   /** From the URL: show only samples matching this text. */
   query?: string;
 };
@@ -47,6 +50,7 @@ export const ExperimentDetail = async ({
   projectId,
   experimentId,
   studyId,
+  savedPlots,
   query
 }: ExperimentDetailProps) => {
   const [
@@ -160,10 +164,17 @@ export const ExperimentDetail = async ({
                 .map(other => other.codePrefix)}
             />
             <Link
+              href={`/report/projects/${project.id}/experiments/${experiment.id}`}
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              <FileTextIcon aria-hidden />
+              {t('page.report')}
+            </Link>
+            <Link
               href={`/projects/${project.id}/import?experiment=${experiment.id}`}
               className={buttonVariants({ variant: 'outline' })}
             >
-              <UploadIcon aria-hidden />
+              <DownloadIcon aria-hidden />
               {tImport('experiment')}
             </Link>
             <Link
@@ -197,6 +208,7 @@ export const ExperimentDetail = async ({
                   <SamplesTable
                     projectId={project.id}
                     experimentId={experiment.id}
+                    experimentName={experiment.name}
                     definitions={definitions}
                     samples={samples}
                     studies={studies}
@@ -208,6 +220,28 @@ export const ExperimentDetail = async ({
                 </>
               )
           },
+          ...(savedPlots
+            ? [
+                {
+                  id: 'plots',
+                  title: t('savedPlots.title'),
+                  description: t('savedPlots.description'),
+                  actions: (
+                    <Link
+                      href={`/plots?source=experiment&project=${project.id}&experiment=${experiment.id}`}
+                      className={buttonVariants({
+                        variant: 'outline',
+                        size: 'sm'
+                      })}
+                    >
+                      <PlusIcon aria-hidden />
+                      {t('savedPlots.new')}
+                    </Link>
+                  ),
+                  content: savedPlots
+                }
+              ]
+            : []),
           {
             id: 'parameters',
             title: tParameters('panel.title'),

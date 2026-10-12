@@ -1,6 +1,6 @@
 'use client';
 
-import { UploadIcon } from 'lucide-react';
+import { DownloadIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 
@@ -79,7 +79,7 @@ export const FileDropZone = ({
       onDragLeave={() => setIsDragging(false)}
       onDrop={event => void drop(event)}
     >
-      <UploadIcon aria-hidden className="text-muted-foreground size-8" />
+      <DownloadIcon aria-hidden className="text-muted-foreground size-8" />
       <span className="font-medium">{title}</span>
       <span className="text-muted-foreground text-sm">{browse}</span>
       <span className="text-muted-foreground text-xs">{hint}</span>

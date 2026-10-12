@@ -107,7 +107,9 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 - Features: `experiments` (projects, experiments, studies, samples, attached files),
   `import`, `characterization` (analyses per technique under `techniques/`: EDX,
   ellipsometry), `plots` (X/Y scatter of an uploaded table or an experiment's
-  samples, with saved plots and export; file builders are in `lib/export/`). Planned: `references`, later `assistant`.
+  samples, with saved plots and export; file builders are in `lib/export/`),
+  `reports` (a printable sample report and experiment summary). Planned: `references`,
+  later `assistant`.
 
 ## Imports and exports
 
@@ -118,8 +120,8 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
   `shared.ts` or `server.ts`, never its inner files, and never in a cycle.
 - Allowed direction: `experiments` imports no other feature. `characterization`,
   `import` and `assistant` may import `experiments`. `import` may also import
-  `characterization`. `plots` may import `experiments`. `references` imports no
-  feature. Need something else? Move the shared
+  `characterization`. `plots` may import `experiments`. `reports` may import `experiments`
+  and `plots`. `references` imports no feature. Need something else? Move the shared
   code up to `components/`, `hooks/`, `lib/` or `types/`, or ask.
 - Named exports everywhere. Default export only where Next.js requires it
   (`page`, `layout`, `loading`, `error`, `not-found`).

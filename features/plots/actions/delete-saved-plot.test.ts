@@ -21,6 +21,7 @@ describe('deleteSavedPlotAction', () => {
     expect(await deleteSavedPlotAction('p', 'e', 'plot')).toBe(true);
     expect(deleteSavedPlot).toHaveBeenCalledWith('e', 'plot');
     expect(revalidatePath).toHaveBeenCalledWith('/plots');
+    expect(revalidatePath).toHaveBeenCalledWith('/projects/p/experiments/e');
   });
 
   it('does nothing for an experiment that is not in the project', async () => {

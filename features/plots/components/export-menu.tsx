@@ -1,6 +1,6 @@
 'use client';
 
-import { DownloadIcon } from 'lucide-react';
+import { UploadIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
@@ -34,7 +34,7 @@ export const ExportMenu = ({ isDisabled, onExport }: ExportMenuProps) => {
         render={<Button type="button" variant="outline" size="sm" />}
         disabled={isDisabled}
       >
-        <DownloadIcon aria-hidden />
+        <UploadIcon aria-hidden />
         {t('button')}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

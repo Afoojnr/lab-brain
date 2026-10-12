@@ -44,7 +44,8 @@
       "project": "Projet",
       "prefix": "Préfixe",
       "samples": "Échantillons"
-    }
+    },
+    "report": "Résumé"
   },
   "updated": "Expérience {name} mise à jour",
   "checklist": {
@@ -60,5 +61,10 @@
     "done": "Fait",
     "todo": "À faire",
     "later": "Plus tard, joignez les fichiers des instruments à la mesure d'un échantillon pour les analyser."
+  },
+  "savedPlots": {
+    "title": "Graphiques enregistrés",
+    "description": "Les graphiques enregistrés pour cette expérience. Ils sont tracés à partir des échantillons actuels.",
+    "new": "Nouveau graphique"
   }
 }

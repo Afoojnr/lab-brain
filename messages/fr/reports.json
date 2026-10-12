@@ -1,0 +1,76 @@
+{
+  "kind": {
+    "experiment": "Résumé de l'expérience",
+    "sample": "Rapport d'échantillon"
+  },
+  "generated": "Généré le {date}",
+  "print": "Imprimer / Enregistrer en PDF",
+  "back": "Retour",
+  "notRecorded": "Non renseigné",
+  "experiment": {
+    "protocol": "Protocole",
+    "studies": "Études",
+    "plots": "Graphiques enregistrés",
+    "noStudies": "Aucune étude.",
+    "noPlots": "Aucun graphique enregistré.",
+    "prefix": "Préfixe de code {prefix}",
+    "sampleCount": "{count, plural, one {# échantillon} other {# échantillons}}"
+  },
+  "studies": {
+    "name": "Étude",
+    "samples": "Échantillons",
+    "description": "Description"
+  },
+  "samples": {
+    "code": "Échantillon",
+    "date": "Date",
+    "studies": "Études",
+    "implementation": "Pourquoi il a été fait",
+    "observation": "Observation",
+    "note": "Note",
+    "parameters": "Paramètres",
+    "results": "Résultats",
+    "calculated": "Valeurs calculées",
+    "characterizations": "Caractérisations",
+    "noCharacterizations": "Aucune mesure enregistrée.",
+    "technique": "Technique",
+    "measured": "Mesuré le",
+    "files": "Fichiers",
+    "noFiles": "Aucun fichier",
+    "moreFiles": "et {count} de plus",
+    "value": "Valeur"
+  },
+  "figure": {
+    "filters": "Filtres : {list}"
+  },
+  "summary": {
+    "variedTitle": "Ce qui a varié",
+    "variedHint": "Réglages qui n'étaient pas les mêmes pour tous les échantillons, et sur quelles valeurs.",
+    "noVaried": "Aucun réglage n'a changé entre les échantillons.",
+    "constantTitle": "Ce qui est resté identique",
+    "constantHint": "Réglages qui avaient une seule valeur pour tous les échantillons qui les ont renseignés.",
+    "noConstant": "Rien n'est resté identique.",
+    "resultsTitle": "Résultats",
+    "resultsHint": "Comment chaque résultat est ressorti sur l'ensemble des échantillons. Un échantillon sans valeur n'est pas compté. L'écart type divise par N.",
+    "noResults": "Aucun résultat ni colonne calculée.",
+    "column": "Colonne",
+    "values": "Valeurs",
+    "range": "Plage",
+    "value": "Valeur",
+    "recorded": "Échantillons avec une valeur",
+    "recordedOf": "{count} sur {total}",
+    "manyValues": "{count} valeurs différentes",
+    "measured": "Échantillons avec une valeur",
+    "min": "Min",
+    "max": "Max",
+    "mean": "Moyenne",
+    "sd": "Écart type (÷ N)",
+    "study": "Étude",
+    "samples": "Échantillons",
+    "sampleCodes": "Codes des échantillons"
+  },
+  "columns": {
+    "name": "Nom",
+    "unit": "Unité"
+  }
+}

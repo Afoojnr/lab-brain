@@ -10,6 +10,7 @@ import navigation from './navigation.json';
 import parameters from './parameters.json';
 import plots from './plots.json';
 import projects from './projects.json';
+import reports from './reports.json';
 import samples from './samples.json';
 import settings from './settings.json';
 import studies from './studies.json';
@@ -28,6 +29,7 @@ export const en = {
   parameters,
   plots,
   projects,
+  reports,
   samples,
   settings,
   studies

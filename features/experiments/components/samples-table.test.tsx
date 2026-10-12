@@ -58,6 +58,7 @@ const renderTable = (
       <SamplesTable
         projectId="project-1"
         experimentId="experiment-1"
+        experimentName="Deposition"
         definitions={props.definitions ?? []}
         samples={props.samples ?? SAMPLES}
         studies={[PULSE]}
@@ -248,5 +249,21 @@ describe('SamplesTable', () => {
     expect(within(row).getByText('EDX ×2')).toBeVisible();
     const other = screen.getByRole('row', { name: /ALD002/ });
     expect(within(other).queryByText('SEM')).not.toBeInTheDocument();
+  });
+
+  it('names what an export covers: everything shown, or only the ticked rows', async () => {
+    const user = renderTable();
+
+    await user.click(screen.getByRole('button', { name: 'Export' }));
+    expect(
+      await screen.findByText(/The \d+ samples? shown/)
+    ).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+
+    await user.click(screen.getByRole('checkbox', { name: 'Select ALD001' }));
+    await user.click(screen.getByRole('button', { name: 'Export' }));
+    expect(
+      await screen.findByText('The 1 selected sample')
+    ).toBeInTheDocument();
   });
 });

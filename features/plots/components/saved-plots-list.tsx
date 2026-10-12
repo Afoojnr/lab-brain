@@ -1,23 +1,12 @@
 'use client';
 
-import { Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useState, useTransition } from 'react';
-import { toast } from 'sonner';
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from '@/components/ui/dialog';
+import { buttonVariants } from '@/components/ui/button';
 
-import { deleteSavedPlotAction } from '../actions/delete-saved-plot';
+import { DeleteSavedPlotButton } from './delete-saved-plot-button';
 
 type SavedPlotsListProps = {
   projectId: string;
@@ -27,7 +16,7 @@ type SavedPlotsListProps = {
   openId: string | null;
 };
 
-/** The experiment's saved plots: open one, or delete it (only the plot, never samples). */
+/** The experiment's saved plots on the Plots page: open one, or delete it. */
 export const SavedPlotsList = ({
   projectId,
   experimentId,
@@ -35,30 +24,8 @@ export const SavedPlotsList = ({
   openId
 }: SavedPlotsListProps) => {
   const t = useTranslations('plots.saved');
-  const tErrors = useTranslations('errors');
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  // The plot waiting for the user to confirm its deletion.
-  const [toDelete, setToDelete] = useState<{ id: string; name: string } | null>(
-    null
-  );
   const base = `/plots?source=experiment&project=${projectId}&experiment=${experimentId}`;
-
-  const remove = (plot: { id: string; name: string }) =>
-    startTransition(async () => {
-      try {
-        setToDelete(null);
-        if (!(await deleteSavedPlotAction(projectId, experimentId, plot.id))) {
-          toast.error(tErrors('unexpected'));
-          return;
-        }
-
-        toast.success(t('deleted', { name: plot.name }));
-        if (plot.id === openId) router.push(base);
-      } catch {
-        toast.error(tErrors('unexpected'));
-      }
-    });
 
   return (
     <section aria-label={t('title')} className="grid gap-2">
@@ -80,52 +47,19 @@ export const SavedPlotsList = ({
               >
                 {plot.name}
               </Link>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                disabled={isPending}
-                aria-label={t('delete', { name: plot.name })}
-                onClick={() => setToDelete(plot)}
-              >
-                <Trash2Icon aria-hidden />
-              </Button>
+              <DeleteSavedPlotButton
+                projectId={projectId}
+                experimentId={experimentId}
+                plot={plot}
+                // Deleting the plot that is open leaves it.
+                onDeleted={
+                  plot.id === openId ? () => router.push(base) : undefined
+                }
+              />
             </li>
           ))}
         </ul>
       )}
-      <Dialog
-        open={toDelete !== null}
-        onOpenChange={isOpen => {
-          if (!isOpen) setToDelete(null);
-        }}
-      >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{t('confirmTitle')}</DialogTitle>
-            <DialogDescription>
-              {t('confirmDescription', { name: toDelete?.name ?? '' })}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setToDelete(null)}
-            >
-              {t('cancel')}
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={isPending}
-              onClick={() => toDelete && remove(toDelete)}
-            >
-              {t('confirm')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };

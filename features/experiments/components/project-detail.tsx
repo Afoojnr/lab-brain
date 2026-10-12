@@ -1,4 +1,4 @@
-import { LayersIcon, UploadIcon } from 'lucide-react';
+import { LayersIcon, DownloadIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
@@ -66,7 +66,7 @@ export const ProjectDetail = async ({ projectId }: { projectId: string }) => {
               href={`/projects/${project.id}/import`}
               className={buttonVariants({ variant: 'outline' })}
             >
-              <UploadIcon aria-hidden />
+              <DownloadIcon aria-hidden />
               {tImport('project')}
             </Link>
             {hasExperiments && (

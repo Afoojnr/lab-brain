@@ -1,0 +1,76 @@
+{
+  "kind": {
+    "experiment": "Experiment summary",
+    "sample": "Sample report"
+  },
+  "generated": "Generated on {date}",
+  "print": "Print / Save as PDF",
+  "back": "Back",
+  "notRecorded": "Not recorded",
+  "experiment": {
+    "protocol": "Protocol",
+    "studies": "Studies",
+    "plots": "Saved plots",
+    "noStudies": "No studies.",
+    "noPlots": "No saved plots.",
+    "prefix": "Code prefix {prefix}",
+    "sampleCount": "{count, plural, one {# sample} other {# samples}}"
+  },
+  "studies": {
+    "name": "Study",
+    "samples": "Samples",
+    "description": "Description"
+  },
+  "samples": {
+    "code": "Sample",
+    "date": "Date",
+    "studies": "Studies",
+    "implementation": "Why it was made",
+    "observation": "Observation",
+    "note": "Note",
+    "parameters": "Parameters",
+    "results": "Results",
+    "calculated": "Calculated values",
+    "characterizations": "Characterizations",
+    "noCharacterizations": "No measurements recorded.",
+    "technique": "Technique",
+    "measured": "Measured on",
+    "files": "Files",
+    "noFiles": "No files",
+    "moreFiles": "and {count} more",
+    "value": "Value"
+  },
+  "figure": {
+    "filters": "Filters: {list}"
+  },
+  "summary": {
+    "variedTitle": "What varied",
+    "variedHint": "Settings that were not the same for every sample, and over what values.",
+    "noVaried": "No setting changed between samples.",
+    "constantTitle": "What stayed the same",
+    "constantHint": "Settings that had one value for every sample that recorded them.",
+    "noConstant": "Nothing stayed the same.",
+    "resultsTitle": "Results",
+    "resultsHint": "How each result came out across the samples. A sample with no value is not counted. SD divides by N.",
+    "noResults": "No results or calculated columns.",
+    "column": "Column",
+    "values": "Values",
+    "range": "Range",
+    "value": "Value",
+    "recorded": "Samples with a value",
+    "recordedOf": "{count} of {total}",
+    "manyValues": "{count} different values",
+    "measured": "Samples with a value",
+    "min": "Min",
+    "max": "Max",
+    "mean": "Mean",
+    "sd": "SD (÷ N)",
+    "study": "Study",
+    "samples": "Samples",
+    "sampleCodes": "Sample codes"
+  },
+  "columns": {
+    "name": "Name",
+    "unit": "Unit"
+  }
+}

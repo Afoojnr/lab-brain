@@ -1,4 +1,4 @@
-import { PencilIcon, CopyIcon } from 'lucide-react';
+import { CopyIcon, FileTextIcon, PencilIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getFormatter, getTranslations } from 'next-intl/server';
@@ -147,6 +147,13 @@ export const SampleDetail = async ({
       ]}
       actions={
         <>
+          <Link
+            href={`/report/projects/${project.id}/experiments/${experiment.id}/samples/${sample.id}`}
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            <FileTextIcon aria-hidden />
+            {t('detail.report')}
+          </Link>
           <Link
             href={`${experimentPath}/samples/new?duplicateOf=${sample.id}`}
             className={buttonVariants({ variant: 'outline' })}

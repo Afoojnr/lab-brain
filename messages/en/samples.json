@@ -91,6 +91,49 @@
     },
     "results": {
       "title": "Results"
+    },
+    "report": "Report"
+  },
+  "export": {
+    "button": "Export",
+    "excel": "Excel, all sheets (.xlsx)",
+    "csv": "CSV, samples only",
+    "scopeAll": "{count, plural, one {The # sample shown} other {The # samples shown}}",
+    "scopeSelected": "{count, plural, one {The # selected sample} other {The # selected samples}}",
+    "sheets": {
+      "samples": "Samples",
+      "columns": "Columns",
+      "studies": "Studies",
+      "measurements": "Measurements"
+    },
+    "headers": {
+      "code": "Sample",
+      "date": "Date",
+      "studies": "Studies",
+      "implementation": "Implementation",
+      "observation": "Observation",
+      "note": "Note",
+      "name": "Name",
+      "unit": "Unit",
+      "role": "Role",
+      "kind": "Kind",
+      "defaultOrFormula": "Default value or formula",
+      "study": "Study",
+      "description": "Description",
+      "sampleCount": "Samples",
+      "sampleCodes": "Sample codes",
+      "sample": "Sample",
+      "technique": "Technique",
+      "measuredOn": "Measured on"
+    },
+    "roles": {
+      "parameter": "Parameter",
+      "result": "Result",
+      "calculated": "Calculated"
+    },
+    "kinds": {
+      "number": "Number",
+      "text": "Text"
     }
   }
 }

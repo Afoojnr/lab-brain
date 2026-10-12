@@ -48,7 +48,9 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
+/* `.report-paper` always uses the light tokens: a report is a document on white paper, even in dark mode. */
+:root,
+.report-paper {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -151,5 +153,51 @@
       background-color: var(--background);
       backdrop-filter: none;
     }
+  }
+}
+
+/* Reports: named pages so each report picks its own paper orientation. */
+@page report-landscape {
+  size: A4 landscape;
+  margin: 12mm;
+}
+
+@page report-portrait {
+  size: A4 portrait;
+  margin: 14mm;
+}
+
+.report-landscape {
+  page: report-landscape;
+}
+
+.report-portrait {
+  page: report-portrait;
+}
+
+@media print {
+  [data-print-hidden] {
+    display: none !important;
+  }
+
+  .report {
+    font-size: 10pt;
+  }
+
+  /* A long table repeats its header on every page, and a row or figure is never cut in two. */
+  .report thead {
+    display: table-header-group;
+  }
+
+  .report tr,
+  .report figure,
+  .report .report-block {
+    break-inside: avoid;
+  }
+
+  /* A heading and its hint stay with what follows, never alone at the bottom of a page. */
+  .report h2,
+  .report h2 + p {
+    break-after: avoid;
   }
 }

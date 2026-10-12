@@ -69,13 +69,21 @@ test('plots an experiment, colours by study and plots only the ticked samples', 
   // The demo samples are in two named studies (and some in none).
   const legend = page.getByRole('list', { name: 'Legend' });
   await expect(legend).toContainText('Plasma pulse study');
-  // Only three studies keep their own colour; the others are folded into Other.
+  // Every study is listed in the legend, each with its own colour and shape.
   await expect(legend).toContainText('No study');
 
   // Tick two rows in the samples table: the Plot button opens just those.
   await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
-  await page.getByRole('checkbox', { name: 'Select ALD001' }).click();
-  await page.getByRole('checkbox', { name: 'Select ALD002' }).click();
+  // A click before the page has hydrated can be lost; `check` is safe to repeat.
+  await expect(async () => {
+    await page.getByRole('checkbox', { name: 'Select ALD001' }).check();
+    await page.getByRole('checkbox', { name: 'Select ALD002' }).check();
+    await expect(
+      page.getByRole('checkbox', { name: 'Select ALD002' })
+    ).toBeChecked({
+      timeout: 4000
+    });
+  }).toPass();
   await page.getByRole('link', { name: 'Plot', exact: true }).click();
 
   await expect(page.getByText('Showing 2 selected samples')).toBeVisible();
@@ -300,4 +308,47 @@ test.describe('on a phone', () => {
     const chart = await page.getByRole('img').first().boundingBox();
     expect(chart?.width).toBeGreaterThan(300);
   });
+});
+
+test('shows saved plots as cards on the experiment page, and asks before deleting one', async ({
+  page
+}) => {
+  const saved = `Card ${Date.now().toString().slice(-6)}`;
+  await page.goto(
+    '/plots?source=experiment&project=demo-project-1&experiment=demo-experiment-1'
+  );
+  await page.getByRole('button', { name: 'Save plot', exact: true }).click();
+  await page.getByLabel('Title', { exact: true }).fill(saved);
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: 'Save', exact: true })
+    .click();
+  await expect(page.getByText(`Plot ${saved} saved`)).toBeVisible();
+
+  // On the experiment page it is a card with a live preview.
+  await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
+  const card = page.getByRole('listitem').filter({ hasText: saved });
+  await expect(card).toBeVisible();
+  await expect(card.locator('.recharts-scatter-symbol').first()).toBeVisible();
+
+  // Open goes to the Plots page with it loaded.
+  await card.getByRole('link', { name: `Open ${saved}` }).click();
+  await expect(page).toHaveURL(/plot=/);
+  await expect(page.getByRole('link', { name: `Open ${saved}` })).toBeVisible();
+
+  // Delete from the card asks first.
+  await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
+  // A click before the page has hydrated can be lost, so try again until the dialog opens.
+  await expect(async () => {
+    await card.getByRole('button', { name: `Delete ${saved}` }).click();
+    await expect(page.getByText('Delete this saved plot?')).toBeVisible({
+      timeout: 4000
+    });
+  }).toPass();
+  await page.getByRole('button', { name: 'Cancel' }).click();
+  await expect(card).toBeVisible();
+  await card.getByRole('button', { name: `Delete ${saved}` }).click();
+  await page.getByRole('button', { name: 'Delete plot', exact: true }).click();
+  await expect(page.getByText(`Plot ${saved} deleted`)).toBeVisible();
+  await expect(card).toHaveCount(0);
 });

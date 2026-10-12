@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { seriesLabel, seriesStyle } from './series-style';
+import { MAX_STYLED_GROUPS, seriesLabel, seriesStyle } from './series-style';
 import type { PlotSeries } from './types';
 
 const series = (key: string, kind: PlotSeries['kind']): PlotSeries => ({
@@ -22,10 +22,28 @@ describe('seriesStyle', () => {
     );
   });
 
-  it('falls back to the position when the group is not among the first three', () => {
-    expect(
-      seriesStyle(series('x', 'group'), 1, ['a', 'b', 'c', 'x']).color
-    ).toBe('var(--plot-2)');
+  it('gives each of the first twelve groups its own colour and shape pair', () => {
+    const order = Array.from(
+      { length: MAX_STYLED_GROUPS },
+      (_, index) => `g${index}`
+    );
+    const looks = order.map(key => {
+      const look = seriesStyle(series(key, 'group'), 0, order);
+      return `${look.color}/${look.shape}`;
+    });
+
+    expect(new Set(looks).size).toBe(12);
+    expect(looks.slice(0, 3)).toEqual([
+      'var(--plot-1)/circle',
+      'var(--plot-2)/square',
+      'var(--plot-3)/triangle'
+    ]);
+  });
+
+  it('falls back to the position when the group has no slot', () => {
+    expect(seriesStyle(series('x', 'group'), 1, ['a', 'b']).color).toBe(
+      'var(--plot-2)'
+    );
   });
 
   it('greys the rows without a group, each with its own shape', () => {
