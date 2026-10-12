@@ -20,12 +20,13 @@ import { columnLabel } from '../column-label';
 import { defaultSettings } from '../default-settings';
 import type { ExportTable } from '@/lib/export/types';
 
-import { applyFilters, describeFilters } from '../filters';
+import { computePlot } from '../compute-plot';
+import { describeFilters } from '../filters';
+import { legendTitleFor } from '../legend-title';
 import { captionLines } from '../export-caption';
 import { exportPlot } from '../export-plot';
 import type { ExportFormat } from '../export-plot';
 import type { PlotTable } from '../from-table';
-import { buildSeries, foldSeries } from '../plot-model';
 import { seriesLabel, seriesStyle } from '../series-style';
 import { DEFAULT_STYLE, TEXT_SIZES } from '../style';
 import type { PlotStyle } from '../style';
@@ -41,9 +42,6 @@ import { PlotFilters } from './plot-filters';
 import { PlotStylePanel } from './plot-style-panel';
 import { SavePlotDialog } from './save-plot-dialog';
 import { ScatterPlot } from './scatter-plot';
-
-/** How many groups get their own colour; the validated palette tells this many apart on a scatter plot. */
-const MAX_GROUPS = 3;
 
 type PlotViewProps = {
   table: PlotTable;
@@ -101,38 +99,13 @@ export const PlotView = ({
     initial?.untickedIds ?? []
   );
 
-  const built = useMemo(() => {
-    if (!settings) return null;
-    const filtered = applyFilters(table.rows, filters);
-    // Every sample that could be plotted, ticked or not: the list to choose from.
-    const candidates = buildSeries(filtered.rows, settings);
-    const chosen = buildSeries(
-      filtered.rows.filter(row => !unticked.includes(row.id)),
+  const built = useMemo(
+    () =>
       settings
-    );
-    // Colours follow the groups of the whole table, so filtering or unticking
-    // never repaints the groups that stay.
-    const colorOrder = buildSeries(table.rows, settings).series.map(
-      series => series.key
-    );
-    const points = [
-      ...new Map(
-        candidates.series
-          .flatMap(series => series.points)
-          .map(point => [point.rowId, point])
-      ).values()
-    ];
-
-    return {
-      ...foldSeries(chosen.series, MAX_GROUPS, colorOrder),
-      chosenSeries: chosen.series,
-      colorOrder,
-      points,
-      plotted: chosen.plotted,
-      leftOut: candidates.leftOut,
-      filteredOut: filtered.filteredOut
-    };
-  }, [table.rows, settings, filters, unticked]);
+        ? computePlot(table, { settings, filters, untickedIds: unticked })
+        : null,
+    [table, settings, filters, unticked]
+  );
 
   if (!settings || !built) {
     return <p className="text-muted-foreground text-sm">{notEnoughNumbers}</p>;
@@ -186,6 +159,11 @@ export const PlotView = ({
   const groupColumn =
     settings.group.type === 'column' ? columnOf(settings.group.key) : undefined;
   const hasGroups = settings.group.type !== 'none';
+  const legendTitle = legendTitleFor(
+    settings.group,
+    table.columns,
+    tControls('groupStudy')
+  );
   const exportTable = (): ExportTable => ({
     headers: [
       tExport('sample'),
@@ -226,14 +204,6 @@ export const PlotView = ({
           filterLines.length > 0
             ? tExport('filters', { list: filterLines.join(' · ') })
             : null,
-        colour: hasGroups
-          ? tExport('colour', {
-              name:
-                settings.group.type === 'study'
-                  ? tControls('groupStudy')
-                  : (groupColumn?.name ?? '')
-            })
-          : null,
         counts: summaryText
       },
       style
@@ -248,6 +218,7 @@ export const PlotView = ({
           title,
           lines,
           legend: hasGroups ? legend : [],
+          legendTitle,
           textScale: TEXT_SIZES[style.textSize].scale,
           table: exportTable()
         });
@@ -324,6 +295,7 @@ export const PlotView = ({
             logX={settings.logX}
             logY={settings.logY}
             plotStyle={style}
+            legendTitle={legendTitle}
           />
         </div>
       )}

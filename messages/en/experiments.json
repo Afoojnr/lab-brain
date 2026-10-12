@@ -44,7 +44,8 @@
       "project": "Project",
       "prefix": "Prefix",
       "samples": "Samples"
-    }
+    },
+    "report": "Summary"
   },
   "updated": "Experiment {name} updated",
   "checklist": {
@@ -60,5 +61,10 @@
     "done": "Done",
     "todo": "To do",
     "later": "Later, attach the instrument files to a sample's measurement to analyse them."
+  },
+  "savedPlots": {
+    "title": "Saved plots",
+    "description": "Plots you saved for this experiment. They are drawn from the current samples.",
+    "new": "New plot"
   }
 }

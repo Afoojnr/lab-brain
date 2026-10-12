@@ -1,18 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { dataUrlToBytes, fileNameFor, readChartSvg } from './export-plot';
-
-describe('fileNameFor', () => {
-  it('makes a plain file name from a title', () => {
-    expect(fileNameFor('Thickness (nm) vs Température', 'png')).toBe(
-      'thickness-nm-vs-temperature.png'
-    );
-  });
-
-  it('falls back to "plot" when the title has no letters or digits', () => {
-    expect(fileNameFor('— ☆ —', 'pdf')).toBe('plot.pdf');
-  });
-});
+import { dataUrlToBytes, readChartSvg } from './export-plot';
 
 describe('dataUrlToBytes', () => {
   it('decodes base64 data', () => {

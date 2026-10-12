@@ -1,12 +1,18 @@
 // Pure, client-safe exports for other features (the spreadsheet import runs in
 // the browser, so it cannot use index.ts, which also exports server
 // components). Nothing here reads the data layer.
-export { evaluateFormula, parseFormula } from './formula';
+export { displayFormula, evaluateFormula, parseFormula } from './formula';
 export {
+  CALENDAR_DATE_FORMAT,
   isCalendarDate,
   parseParameterInput,
-  suggestNextSampleCode
+  suggestNextSampleCode,
+  toCalendarDate
 } from './parameters';
+export {
+  formatDerivedValue,
+  formatParameterValue
+} from './components/format-parameter-value';
 export {
   buildExperimentFormSchema,
   buildParameterFormSchema,
@@ -18,6 +24,7 @@ export type { SampleInput } from './schemas';
 export type {
   Characterization,
   Dataset,
+  DerivedColumn,
   Experiment,
   ParameterDefinition,
   ParameterKind,

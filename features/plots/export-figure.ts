@@ -91,6 +91,8 @@ type FigureInput = {
   lines?: string[];
   /** One entry per group; drawn only when there are two or more. */
   legend?: FigureLegendItem[];
+  /** What the legend's entries are, e.g. `Plasma pulse (s)`; drawn above them. */
+  legendTitle?: string;
   /** Scales the title, caption and legend text; 1 is normal. */
   textScale?: number;
 };
@@ -107,6 +109,7 @@ export const composeFigure = ({
   title,
   lines = [],
   legend = [],
+  legendTitle,
   textScale = 1
 }: FigureInput): { svg: string; width: number; height: number } => {
   const width = chart.width + 2 * PADDING;
@@ -139,6 +142,13 @@ export const composeFigure = ({
   if (legend.length > 1) {
     let x = PADDING;
     y += 12;
+    if (legendTitle) {
+      y += 4;
+      parts.push(
+        `<text x="${PADDING}" y="${y}" font-size="${13 * textScale}" font-weight="bold" fill="${INK}">${escapeXml(legendTitle)}</text>`
+      );
+      y += 20 * textScale;
+    }
     for (const item of legend) {
       const itemWidth = 24 + item.label.length * 7.2 * textScale + 20;
       if (x > PADDING && x + itemWidth > width - PADDING) {

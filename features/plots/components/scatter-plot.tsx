@@ -1,6 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { cloneElement } from 'react';
+import type { ReactElement } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import {
   CartesianGrid,
@@ -18,11 +20,31 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 import { columnLabel } from '../column-label';
 import { seriesLabel, seriesStyle } from '../series-style';
+import type { SeriesStyle } from '../series-style';
 import { axisDomain, MARKER_AREAS, TEXT_SIZES } from '../style';
 import type { PlotStyle } from '../style';
 import type { PlotColumn, PlotPoint, PlotSeries } from '../types';
 
 const MUTED = 'var(--muted-foreground)';
+
+/** A small copy of a series' marker for the legend: the same colour and shape as on the chart. */
+const LegendMarker = ({ style }: { style: SeriesStyle }) => (
+  <svg
+    aria-hidden
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill={style.color}
+  >
+    {style.shape === 'circle' && <circle cx="6" cy="6" r="5" />}
+    {style.shape === 'square' && <rect x="1" y="1" width="10" height="10" />}
+    {style.shape === 'triangle' && <polygon points="6,0.5 11.5,11 0.5,11" />}
+    {style.shape === 'diamond' && <polygon points="6,0 12,6 6,12 0,6" />}
+    {style.shape === 'star' && (
+      <polygon points="6,0.5 7.6,4.3 11.7,4.6 8.6,7.3 9.5,11.4 6,9.3 2.5,11.4 3.4,7.3 0.3,4.6 4.4,4.3" />
+    )}
+  </svg>
+);
 
 type ScatterPlotProps = {
   series: PlotSeries[];
@@ -34,6 +56,12 @@ type ScatterPlotProps = {
   logX: boolean;
   logY: boolean;
   plotStyle: PlotStyle;
+  /** What the legend's entries are, e.g. `Plasma pulse (s)`. */
+  legendTitle?: string;
+  /** A fixed size in pixels (a preview or a printed figure) instead of filling the width. */
+  size?: { width: number; height: number };
+  /** Read-only: no tooltip and no clicking a point (a preview or a report). */
+  isStatic?: boolean;
 };
 
 type Datum = PlotPoint & {
@@ -54,6 +82,22 @@ const useSeriesName = () => {
     });
 };
 
+/** Fills its parent, or is exactly `size` pixels when one is given. */
+const Chart = ({
+  size,
+  children
+}: {
+  size?: { width: number; height: number };
+  children: ReactElement<{ width?: number; height?: number }>;
+}) =>
+  size ? (
+    cloneElement(children, { width: size.width, height: size.height })
+  ) : (
+    <ResponsiveContainer width="100%" height="100%">
+      {children}
+    </ResponsiveContainer>
+  );
+
 /**
  * A scatter plot with one colour and marker shape per group (the shape keeps
  * groups apart without colour), optional error bars, and a legend whenever there
@@ -67,7 +111,10 @@ export const ScatterPlot = ({
   errorColumn,
   logX,
   logY,
-  plotStyle
+  plotStyle,
+  legendTitle,
+  size,
+  isStatic = false
 }: ScatterPlotProps) => {
   const t = useTranslations('plots.chart');
   const router = useRouter();
@@ -106,24 +153,20 @@ export const ScatterPlot = ({
         </h3>
       )}
       {series.length > 1 && (
-        <ul
-          aria-label={t('legend')}
-          className="flex flex-wrap gap-x-4 gap-y-1"
-          style={{ fontSize: sizes.legend }}
-        >
-          {series.map((item, index) => (
-            <li key={item.key} className="flex items-center gap-2">
-              <span
-                aria-hidden
-                className="size-2.5 rounded-full"
-                style={{
-                  backgroundColor: seriesStyle(item, index, colorOrder).color
-                }}
-              />
-              {nameOf(item)}
-            </li>
-          ))}
-        </ul>
+        <div className="grid gap-1" style={{ fontSize: sizes.legend }}>
+          {legendTitle && <p className="font-medium">{legendTitle}</p>}
+          <ul
+            aria-label={t('legend')}
+            className="flex flex-wrap gap-x-4 gap-y-1"
+          >
+            {series.map((item, index) => (
+              <li key={item.key} className="flex items-center gap-2">
+                <LegendMarker style={seriesStyle(item, index, colorOrder)} />
+                {nameOf(item)}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
       <div
         role="img"
@@ -131,9 +174,10 @@ export const ScatterPlot = ({
           x: columnLabel(xColumn),
           y: columnLabel(yColumn)
         })}
-        className="h-72 w-full sm:h-96"
+        className={size ? undefined : 'h-72 w-full sm:h-96'}
+        style={size}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <Chart size={size}>
           <ScatterChart
             margin={{
               top: 8,
@@ -189,30 +233,33 @@ export const ScatterPlot = ({
                 style: { fontSize: sizes.label, textAnchor: 'middle' }
               }}
             />
-            <Tooltip
-              cursor={{ strokeDasharray: '3 3' }}
-              content={({ active, payload }) => {
-                const point = payload?.[0]?.payload as Datum | undefined;
-                if (!active || !point) return null;
+            {!isStatic && (
+              <Tooltip
+                cursor={{ strokeDasharray: '3 3' }}
+                content={({ active, payload }) => {
+                  const point = payload?.[0]?.payload as Datum | undefined;
+                  if (!active || !point) return null;
 
-                return (
-                  <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 text-sm shadow-md">
-                    <p className="font-mono font-medium">{point.label}</p>
-                    <p>
-                      {columnLabel(xColumn)}: {formatNumber(point.x)}
-                    </p>
-                    <p>
-                      {columnLabel(yColumn)}: {formatNumber(point.y)}
-                    </p>
-                    {errorColumn && point.error !== undefined && (
+                  return (
+                    <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 text-sm shadow-md">
+                      <p className="font-mono font-medium">{point.label}</p>
                       <p>
-                        {columnLabel(errorColumn)}: {formatNumber(point.error)}
+                        {columnLabel(xColumn)}: {formatNumber(point.x)}
                       </p>
-                    )}
-                  </div>
-                );
-              }}
-            />
+                      <p>
+                        {columnLabel(yColumn)}: {formatNumber(point.y)}
+                      </p>
+                      {errorColumn && point.error !== undefined && (
+                        <p>
+                          {columnLabel(errorColumn)}:{' '}
+                          {formatNumber(point.error)}
+                        </p>
+                      )}
+                    </div>
+                  );
+                }}
+              />
+            )}
             {series.map((item, index) => {
               const style = seriesStyle(item, index, colorOrder);
 
@@ -226,11 +273,15 @@ export const ScatterPlot = ({
                   strokeWidth={2}
                   shape={style.shape}
                   isAnimationActive={false}
-                  cursor="pointer"
-                  onClick={(datum: unknown) => {
-                    const href = (datum as Datum).href;
-                    if (href) router.push(href);
-                  }}
+                  cursor={isStatic ? undefined : 'pointer'}
+                  onClick={
+                    isStatic
+                      ? undefined
+                      : (datum: unknown) => {
+                          const href = (datum as Datum).href;
+                          if (href) router.push(href);
+                        }
+                  }
                 >
                   {errorColumn && (
                     <ErrorBar
@@ -245,7 +296,7 @@ export const ScatterPlot = ({
               );
             })}
           </ScatterChart>
-        </ResponsiveContainer>
+        </Chart>
       </div>
     </div>
   );

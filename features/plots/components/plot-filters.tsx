@@ -72,8 +72,8 @@ export const PlotFilters = ({
 
   return (
     <div className="grid gap-3">
+      <h3 className="text-sm font-medium">{t('title')}</h3>
       <div className="flex flex-wrap items-end gap-4">
-        <h3 className="pb-2 text-sm font-medium">{t('title')}</h3>
         <Field className="w-full sm:w-52">
           <FieldLabel htmlFor="plot-add-filter">{t('add')}</FieldLabel>
           <Select
@@ -112,9 +112,23 @@ export const PlotFilters = ({
             key={filter.key}
             className="grid gap-2 rounded-lg border p-3"
           >
-            <legend className="px-1 text-sm font-medium">
-              {columnLabel(column)}
-            </legend>
+            <legend className="sr-only">{columnLabel(column)}</legend>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-medium">{columnLabel(column)}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-destructive"
+                aria-label={t('remove', { name: column.name })}
+                onClick={() =>
+                  onChange(filters.filter(item => item.key !== filter.key))
+                }
+              >
+                <XIcon aria-hidden />
+                {t('removeShort')}
+              </Button>
+            </div>
             {filter.type === 'values' ? (
               <div className="flex flex-wrap gap-x-4 gap-y-2">
                 {distinctValues(rows, filter.key).map(value => (
@@ -159,18 +173,6 @@ export const PlotFilters = ({
             {filter.type === 'values' && (
               <p className="text-muted-foreground text-xs">{t('tickHint')}</p>
             )}
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="w-fit"
-              aria-label={t('remove', { name: column.name })}
-              onClick={() =>
-                onChange(filters.filter(item => item.key !== filter.key))
-              }
-            >
-              <XIcon aria-hidden />
-            </Button>
           </fieldset>
         );
       })}

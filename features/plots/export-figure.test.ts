@@ -86,4 +86,32 @@ describe('composeFigure', () => {
       composeFigure({ chart: CHART, title: 'T', lines: ['A line'] }).height
     );
   });
+
+  it('writes the legend title above the entries, and no title for a single group', () => {
+    const legend = [
+      { label: '10', color: 'var(--plot-1)', shape: 'circle' as const },
+      { label: '15', color: 'var(--plot-2)', shape: 'square' as const },
+      {
+        label: 'Other',
+        color: 'var(--muted-foreground)',
+        shape: 'star' as const
+      }
+    ];
+    const withTitle = composeFigure({
+      chart: CHART,
+      legend,
+      legendTitle: 'Plasma pulse (s)'
+    });
+
+    expect(withTitle.svg).toContain(
+      'font-weight="bold" fill="#141414">Plasma pulse (s)</text>'
+    );
+    expect(withTitle.svg).toContain('>Other</text>');
+    expect(withTitle.height).toBeGreaterThan(
+      composeFigure({ chart: CHART, legend }).height
+    );
+    expect(
+      composeFigure({ chart: CHART, legend: [legend[0]], legendTitle: 'X' }).svg
+    ).not.toContain('>X</text>');
+  });
 });

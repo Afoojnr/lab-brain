@@ -16,8 +16,9 @@ Projects (the home page: every project as a card: ALD of BxC, CVD of borophene, 
             ├── Samples table   (one row per sample; filter by study, search, bulk assign)
             ├── Columns         (parameters you set, results you measure)
             ├── Studies         (optional named groups of samples)
-            └── Sample page     (values, characterizations, observation, note; later files and plots)
-Notebook / References / Ask / Export   (later: attached to any record, or project-wide)
+            ├── Saved plots     (cards with a small live preview; open one in Plots)
+            └── Sample page     (values, characterizations, observation, note, files)
+Report (on the project, experiment and sample pages) · Plots · References / Ask (later)
 ```
 
 **Sidebar** (always visible; an icon rail when collapsed, a sheet on a phone):
@@ -215,8 +216,7 @@ entry possible.
      (e.g. a std), **colour by** a text column or, for samples, by **study** (a sample
      in two studies appears in both), and a **logarithmic** X or Y. A sample with no
      number for X or Y is left out and counted ("N left out (no value)"), as is a value
-     of 0 or less on a log axis; nothing is ever plotted as 0. Only three groups get
-     their own colour (and marker shape); the rest are shown as "Other". The plotted
+     of 0 or less on a log axis; nothing is ever plotted as 0. Up to twelve groups are listed, each with its own colour and marker shape (three validated colours x four shapes, so groups stay apart without relying on colour); beyond twelve, the rest are shown as "Other" with a hint to use a filter. The plotted
      values are also listed in a table under the chart. In the samples table, ticking
      rows shows a **Plot** button that opens the workspace with just those samples
      ("Showing N selected samples · Show all samples").
@@ -294,19 +294,12 @@ Sample page (Next Steps note) → Link to next sample → new/existing Sample pa
 
 ---
 
-## Flow 5 — Write a notebook entry
+## Flow 5 — Notes (no separate notebook)
 
-**Goal:** capture the "why" against a specific record, not floating free.
-
-1. From `Sample page`, `Experiment page`, or `Analysis detail` → "Add Note".
-2. `Notebook entry editor` — markdown text box, auto-linked to the record it was
-   opened from; additional records can be referenced by ID/search.
-3. Save → entry appears inline on the record's detail view and in the global
-   `Notebook` list.
-
-```
-Record detail → Add Note → Notebook entry editor → Save → shown inline on record
-```
+**Decision:** there is no notebook. The "why" is written where it belongs: each sample's
+implementation, observation and note, and the experiment's protocol. They show on the
+sample page, in the samples table and in the reports, and the AI assistant will cite them.
+(A readable protocol with headings, bullets and tables is a separate, later step.)
 
 ---
 
@@ -330,19 +323,31 @@ Project page → References tab → Add Reference → Reference form → Save �
 
 ---
 
-## Flow 6 — Export for a future reader
+## Flow 6 — Export for a future reader (built)
 
-**Goal:** produce something readable outside the app.
+**Goal:** get something useful out of the app, as the right kind of file.
 
-1. From `Export` (global) or from any `Sample detail` → "Export".
-2. `Export options` — scope (single sample's full chain, or whole project), format
-   (static HTML/PDF).
-3. Generates a linked, readable document: sample parameters and results → characterization
-   plots → analysis results → notebook narrative, in one place, no login required to
-   read it.
+1. **The samples table leaves as data.** An **Export** button above the samples table
+   downloads Excel (sheets: Samples, Columns, Studies, Measurements) or CSV (samples
+   only). It exports what you are looking at: everything shown (after a study filter or
+   search), or only the ticked rows. Numbers stay numbers, a value that was never recorded
+   is an empty cell (never 0), and the Samples sheet has one row per sample with units in
+   the headers, so it can be calculated on in Excel and imported again.
+2. **A sample report** (a **Report** button on the sample page): settings, results and
+   calculated values (a missing value says "Not recorded", never 0), why it was made,
+   observation and note, and the measurements with their file names. **Print / Save as
+   PDF** uses the browser's print (A4 portrait, white paper in any theme, no toolbar).
+3. **An experiment summary** (a **Summary** button on the experiment page): one or two
+   pages that say something the table does not: what varied between samples and over what
+   values (and how many samples recorded each), what stayed the same, how each result and
+   calculated column came out (samples with a value, min, max, mean, SD dividing by N; a
+   sample with no value is not counted), the studies with their sample codes, the protocol
+   and the saved plots as figures.
+4. There is no project report: a project is exported by exporting each experiment.
 
 ```
-Sample detail → Export → Export options → downloadable document
+Samples table → Export → Excel / CSV          Sample page → Report → Print / Save as PDF
+Experiment page → Summary → Print / Save as PDF
 ```
 
 ---

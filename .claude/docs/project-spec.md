@@ -136,12 +136,14 @@ literature — not generic or hallucinated advice.
 - The mapping step is what makes this reusable beyond your own spreadsheet layout —
   worth building once, generically, rather than hard-coding your specific columns.
 
-### 4. Notebook / narrative layer
+### 4. Notes and readable export
 
-- Markdown-based entries for the "why," attached to specific records rather than
-  floating free.
-- Export to a static, readable form (HTML/PDF) for someone without access to the tool
-  itself.
+- There is no separate notebook: the "why" lives in each sample's implementation,
+  observation and note, and in the experiment's protocol (readable formatting for the
+  protocol is a later step).
+- Export to a readable form: printable sample, experiment and project reports (Print /
+  Save as PDF) for someone without access to the tool itself, plus plot figures and
+  numbers exported from the Plots page.
 
 ### 5. Characterization — simple, deterministic calculations (no Python needed)
 
@@ -197,7 +199,6 @@ parse the raw export format, compute a derived value, and hand off to a chart.
   local-file `StorageAdapter`.
 - Excel import (column-mapping → preview → confirm) to bootstrap real existing data
   instead of manual re-entry — CSV support added later behind the same interface.
-- Notebook entries (markdown, linked to records).
 - At least one characterization module, fully working end-to-end on real data (EDX,
   FTIR, or ellipsometry — whichever you have the cleanest data for right now).
 - Export to a readable static document (HTML/PDF).
@@ -205,7 +206,8 @@ parse the raw export format, compute a derived value, and hand off to a chart.
 
 **Stage 2 — the AI assistant (build second):**
 
-- Retrieval over notebook entries + structured metadata + curated `Reference` records.
+- Retrieval over sample notes (implementation, observation, note), protocols +
+  structured metadata + curated `Reference` records.
 - Chat interface, scoped to one project, with source-labeled citations.
 - Live literature search tool call as a fallback beyond curated references.
 

@@ -153,4 +153,39 @@ describe('PlotView', () => {
       screen.getByRole('heading', { name: 'My figure' })
     ).toBeInTheDocument();
   });
+
+  it('titles the legend with the column the colours are by, with its unit', async () => {
+    renderView({
+      columns: [
+        ...TABLE.columns,
+        { key: 'c', name: 'Pulse', unit: 's', kind: 'number' }
+      ],
+      rows: [
+        {
+          id: '1',
+          label: 'A',
+          href: null,
+          values: { a: 1, b: 1, c: 10 },
+          groups: []
+        },
+        {
+          id: '2',
+          label: 'B',
+          href: null,
+          values: { a: 2, b: 2, c: 15 },
+          groups: []
+        }
+      ]
+    });
+
+    await userEvent.click(screen.getByLabelText('Colour by'));
+    await userEvent.click(
+      await screen.findByRole('option', { name: 'Pulse (s)' })
+    );
+
+    const legend = screen.getByRole('list', { name: 'Legend' });
+    expect(legend).toHaveTextContent('10');
+    expect(legend).toHaveTextContent('15');
+    expect(legend.parentElement).toHaveTextContent('Pulse (s)');
+  });
 });

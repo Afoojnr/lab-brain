@@ -49,6 +49,7 @@ export const savePlotAction = async (
   if (!saved) return null;
 
   revalidatePath('/plots');
+  revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
 
   return saved.id;
 };

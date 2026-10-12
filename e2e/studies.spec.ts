@@ -9,7 +9,13 @@ test('tags samples with a new study, filters by it and searches the table', asyn
   const name = `Study ${Date.now()}`;
   await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
 
-  await page.getByRole('button', { name: 'New study' }).click();
+  // A click before the page has hydrated can be lost, so try again until the dialog opens.
+  await expect(async () => {
+    await page.getByRole('button', { name: 'New study' }).click();
+    await expect(page.getByLabel('Name', { exact: true })).toBeVisible({
+      timeout: 4000
+    });
+  }).toPass();
   await page.getByLabel('Name', { exact: true }).fill(name);
   await page.getByRole('button', { name: 'Create study' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();

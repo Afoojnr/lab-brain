@@ -1,6 +1,7 @@
 import {
   CSV_TYPE,
   downloadBytes,
+  fileNameFor,
   PDF_TYPE,
   PNG_TYPE,
   PPTX_TYPE,
@@ -9,7 +10,6 @@ import {
 import { buildPdf } from '@/lib/export/pdf';
 import { buildPptx } from '@/lib/export/pptx';
 import { svgToPng } from '@/lib/export/svg-image';
-import { tableToCsv, tableToWorkbook } from '@/lib/export/tabular';
 import type { ExportTable } from '@/lib/export/types';
 
 import { composeFigure } from './export-figure';
@@ -24,23 +24,12 @@ export type ExportInput = {
   /** Caption lines: source, filters, counts. */
   lines: string[];
   legend: FigureLegendItem[];
+  /** What the legend's entries are (the column coloured by); omitted when not grouped. */
+  legendTitle?: string;
   /** Scales the title, caption and legend text (1 is normal). */
   textScale: number;
   /** The plotted values, for the Excel and CSV formats. */
   table: ExportTable;
-};
-
-/** A file name from a title: lower case, letters and digits joined by dashes. */
-export const fileNameFor = (title: string, extension: string) => {
-  const slug = title
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60);
-
-  return `${slug === '' ? 'plot' : slug}.${extension}`;
 };
 
 /** The bytes of a `data:` URL written in base64. */
@@ -81,18 +70,30 @@ export const readChartSvg = (container: HTMLElement) => {
  */
 export const exportPlot = async (
   format: ExportFormat,
-  { chartElement, title, lines, legend, textScale, table }: ExportInput
+  {
+    chartElement,
+    title,
+    lines,
+    legend,
+    legendTitle,
+    textScale,
+    table
+  }: ExportInput
 ) => {
-  if (format === 'xlsx') {
+  if (format === 'xlsx' || format === 'csv') {
+    // The spreadsheet library is large, so it is only downloaded when someone exports.
+    const { tableToCsv, tableToWorkbook } =
+      await import('@/lib/export/tabular');
+    if (format === 'csv') {
+      downloadBytes(fileNameFor(title, 'csv'), tableToCsv(table), CSV_TYPE);
+      return;
+    }
+
     downloadBytes(
       fileNameFor(title, 'xlsx'),
       tableToWorkbook(table, title),
       XLSX_TYPE
     );
-    return;
-  }
-  if (format === 'csv') {
-    downloadBytes(fileNameFor(title, 'csv'), tableToCsv(table), CSV_TYPE);
     return;
   }
 
@@ -106,6 +107,7 @@ export const exportPlot = async (
     title: isDocument ? undefined : title,
     lines: isDocument ? [] : lines,
     legend,
+    legendTitle,
     textScale
   });
 

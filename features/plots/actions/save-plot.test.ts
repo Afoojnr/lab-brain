@@ -75,6 +75,9 @@ describe('savePlotAction', () => {
       expect.objectContaining({ name: 'GPC at 600' })
     );
     expect(revalidatePath).toHaveBeenCalledWith('/plots');
+    expect(revalidatePath).toHaveBeenCalledWith(
+      '/projects/project-1/experiments/exp-1'
+    );
     expect(id).toBe('plot-1');
   });
 

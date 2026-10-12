@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx';
 import { describe, expect, it } from 'vitest';
 
-import { tableToCsv, tableToWorkbook } from './tabular';
+import { tableToCsv, tablesToWorkbook, tableToWorkbook } from './tabular';
 
 const TABLE = {
   headers: ['Sample', 'Temperature (°C)', 'Error'],
@@ -44,5 +44,29 @@ describe('tableToCsv', () => {
     expect(text).toContain('Sample,Temperature (°C),Error');
     expect(text).toContain('ALD008,200,');
     expect(text).not.toContain('ALD008,200,0');
+  });
+});
+
+describe('tablesToWorkbook', () => {
+  it('writes one sheet per table, in order, with null cells empty', () => {
+    const workbook = XLSX.read(
+      tablesToWorkbook([
+        { name: 'Samples', table: TABLE },
+        { name: 'Columns', table: { headers: ['Name'], rows: [['Cycles']] } }
+      ]),
+      { type: 'array' }
+    );
+
+    expect(workbook.SheetNames).toEqual(['Samples', 'Columns']);
+    expect(
+      XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets.Columns, {
+        header: 1
+      })
+    ).toEqual([['Name'], ['Cycles']]);
+    expect(
+      XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets.Samples, {
+        header: 1
+      })[2]
+    ).toEqual(['ALD008', 200]);
   });
 });

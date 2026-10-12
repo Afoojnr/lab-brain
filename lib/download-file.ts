@@ -26,3 +26,27 @@ export const PNG_TYPE = 'image/png';
 export const PDF_TYPE = 'application/pdf';
 export const PPTX_TYPE =
   'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+
+/**
+ * A file name from a title: lower case, letters and digits joined by dashes
+ * (accents removed). A title with no letters or digits gets the fallback name.
+ *
+ * @param title - What the file is about, e.g. a plot title or an experiment name.
+ * @param extension - The extension without the dot.
+ * @param fallback - Used when the title leaves nothing.
+ */
+export const fileNameFor = (
+  title: string,
+  extension: string,
+  fallback = 'plot'
+) => {
+  const slug = title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+
+  return `${slug === '' ? fallback : slug}.${extension}`;
+};

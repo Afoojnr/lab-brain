@@ -6,15 +6,13 @@ import { DEFAULT_STYLE } from './style';
 const PARTS = {
   source: 'Source: ALD of BxC',
   filters: 'Filters: Cycles: 600',
-  colour: 'Colour by: Cycles',
   counts: '2 samples plotted · 18 unticked'
 };
 
 describe('captionLines', () => {
-  it('keeps only the filters and the colour key by default', () => {
+  it('keeps only the filters by default', () => {
     expect(captionLines(PARTS, DEFAULT_STYLE)).toEqual([
-      'Filters: Cycles: 600',
-      'Colour by: Cycles'
+      'Filters: Cycles: 600'
     ]);
   });
 
@@ -23,7 +21,6 @@ describe('captionLines', () => {
       [
         'Source: ALD of BxC',
         'Filters: Cycles: 600',
-        'Colour by: Cycles',
         '2 samples plotted · 18 unticked'
       ]
     );
@@ -32,7 +29,7 @@ describe('captionLines', () => {
   it('is empty when nothing applies, and skips a source that does not exist', () => {
     expect(
       captionLines(
-        { source: null, filters: null, colour: null, counts: 'x' },
+        { source: null, filters: null, counts: 'x' },
         { showSource: true, showCounts: false }
       )
     ).toEqual([]);

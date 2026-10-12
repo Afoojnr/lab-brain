@@ -4,12 +4,27 @@ export type SeriesShape = 'circle' | 'square' | 'triangle' | 'diamond' | 'star';
 
 export type SeriesStyle = { color: string; shape: SeriesShape };
 
-/** Slots 1-3 of the validated palette, the most that can be told apart on a scatter plot. */
-export const SERIES_STYLES: readonly SeriesStyle[] = [
-  { color: 'var(--plot-1)', shape: 'circle' },
-  { color: 'var(--plot-2)', shape: 'square' },
-  { color: 'var(--plot-3)', shape: 'triangle' }
+/** The three colours of the validated palette: the most that can be told apart by colour alone. */
+const COLORS = ['var(--plot-1)', 'var(--plot-2)', 'var(--plot-3)'] as const;
+const SHAPES: readonly SeriesShape[] = [
+  'circle',
+  'square',
+  'triangle',
+  'diamond'
 ];
+
+/**
+ * How many groups can each have their own look: every group gets one of the
+ * three colours and one of four shapes, and because 3 and 4 share no factor, no
+ * two of the first twelve groups share both. Past that, groups are folded.
+ */
+export const MAX_STYLED_GROUPS = COLORS.length * SHAPES.length;
+
+/** The look of the n-th group (0-based), from 0 up to {@link MAX_STYLED_GROUPS}. */
+export const groupStyle = (slot: number): SeriesStyle => ({
+  color: COLORS[slot % COLORS.length],
+  shape: SHAPES[slot % SHAPES.length]
+});
 const MUTED = 'var(--muted-foreground)';
 
 /**
@@ -29,11 +44,9 @@ export const seriesStyle = (
   if (series.kind === 'group' || series.kind === 'all') {
     const slot = colorOrder.indexOf(series.key);
 
-    return SERIES_STYLES[
-      slot >= 0 && slot < SERIES_STYLES.length
-        ? slot
-        : index % SERIES_STYLES.length
-    ];
+    return groupStyle(
+      slot >= 0 && slot < MAX_STYLED_GROUPS ? slot : index % MAX_STYLED_GROUPS
+    );
   }
 
   return { color: MUTED, shape: series.kind === 'other' ? 'star' : 'diamond' };

@@ -49,7 +49,7 @@
     "noStudy": "Sans étude",
     "noValue": "Sans valeur",
     "other": "Autres",
-    "folded": "{count, plural, one {# groupe de plus est affiché dans Autres} other {# groupes de plus sont affichés dans Autres}}",
+    "folded": "{count, plural, one {# groupe de plus est affiché dans Autres} other {# groupes de plus sont affichés dans Autres}}. Utilisez un filtre pour choisir les groupes à afficher.",
     "empty": "Rien à tracer : aucun échantillon n'a de nombre pour les deux axes.",
     "summary": "{count, plural, one {# échantillon tracé} other {# échantillons tracés}}",
     "missing": "{count, plural, one {# écarté (pas de valeur)} other {# écartés (pas de valeur)}}",
@@ -66,7 +66,8 @@
     "min": "Minimum",
     "max": "Maximum",
     "none": "Aucun filtre. Ajoutez-en un pour ne garder que certains échantillons, par exemple un nombre de cycles.",
-    "filteredOut": "{count, plural, one {# écarté par les filtres} other {# écartés par les filtres}}"
+    "filteredOut": "{count, plural, one {# écarté par les filtres} other {# écartés par les filtres}}",
+    "removeShort": "Retirer le filtre"
   },
   "selection": {
     "title": "Choisir les points",
@@ -89,7 +90,6 @@
     "title": "{y} en fonction de {x}",
     "source": "Source : {name}",
     "filters": "Filtres : {list}",
-    "colour": "Couleur par : {name}",
     "sample": "Échantillon",
     "group": "Groupe",
     "done": "{name} téléchargé"
@@ -123,7 +123,10 @@
     "confirmTitle": "Supprimer ce graphique enregistré ?",
     "confirmDescription": "{name} sera retiré. Seul le graphique enregistré est supprimé : vos échantillons et vos données ne sont pas modifiés.",
     "cancel": "Annuler",
-    "confirm": "Supprimer le graphique"
+    "confirm": "Supprimer le graphique",
+    "cardsEmpty": "Aucun graphique enregistré. Réglez un graphique dans Graphiques et utilisez Enregistrer le graphique.",
+    "openPlots": "Ouvrir les graphiques",
+    "openShort": "Ouvrir"
   },
   "customise": {
     "title": "Personnaliser",

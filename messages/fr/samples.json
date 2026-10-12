@@ -91,6 +91,49 @@
     },
     "results": {
       "title": "Résultats"
+    },
+    "report": "Rapport"
+  },
+  "export": {
+    "button": "Exporter",
+    "excel": "Excel, toutes les feuilles (.xlsx)",
+    "csv": "CSV, échantillons seulement",
+    "scopeAll": "{count, plural, one {L'échantillon affiché (#)} other {Les # échantillons affichés}}",
+    "scopeSelected": "{count, plural, one {L'échantillon sélectionné (#)} other {Les # échantillons sélectionnés}}",
+    "sheets": {
+      "samples": "Échantillons",
+      "columns": "Colonnes",
+      "studies": "Études",
+      "measurements": "Mesures"
+    },
+    "headers": {
+      "code": "Échantillon",
+      "date": "Date",
+      "studies": "Études",
+      "implementation": "Pourquoi",
+      "observation": "Observation",
+      "note": "Note",
+      "name": "Nom",
+      "unit": "Unité",
+      "role": "Rôle",
+      "kind": "Type",
+      "defaultOrFormula": "Valeur par défaut ou formule",
+      "study": "Étude",
+      "description": "Description",
+      "sampleCount": "Échantillons",
+      "sampleCodes": "Codes des échantillons",
+      "sample": "Échantillon",
+      "technique": "Technique",
+      "measuredOn": "Mesuré le"
+    },
+    "roles": {
+      "parameter": "Paramètre",
+      "result": "Résultat",
+      "calculated": "Calculée"
+    },
+    "kinds": {
+      "number": "Nombre",
+      "text": "Texte"
     }
   }
 }

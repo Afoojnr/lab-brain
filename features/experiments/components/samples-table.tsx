@@ -30,6 +30,7 @@ import type {
   Study
 } from '../types';
 import { AssignStudyBar } from './assign-study-bar';
+import { ExportSamplesMenu } from './export-samples-menu';
 import {
   formatDerivedValue,
   formatParameterValue
@@ -40,6 +41,7 @@ import { RecordLink } from './record-link';
 type SamplesTableProps = {
   projectId: string;
   experimentId: string;
+  experimentName: string;
   definitions: ParameterDefinition[];
   samples: Sample[];
   studies: Study[];
@@ -62,6 +64,7 @@ type SamplesTableProps = {
 export const SamplesTable = ({
   projectId,
   experimentId,
+  experimentName,
   definitions,
   samples,
   studies,
@@ -132,6 +135,22 @@ export const SamplesTable = ({
           onAssigned={() => setSelectedIds([])}
         />
       )}
+      <div className="mb-3 flex justify-end">
+        <ExportSamplesMenu
+          experimentName={experimentName}
+          definitions={definitions}
+          derivedColumns={derivedColumns}
+          derivedValues={derivedValues}
+          studies={studies}
+          characterizations={characterizations}
+          samples={
+            visibleSelectedIds.length > 0
+              ? samples.filter(sample => visibleSelectedIds.includes(sample.id))
+              : samples
+          }
+          isSelection={visibleSelectedIds.length > 0}
+        />
+      </div>
       <Table>
         <TableHeader>
           {(results.length > 0 || derivedColumns.length > 0) && (
