@@ -326,7 +326,9 @@ test('shows saved plots as cards on the experiment page, and asks before deletin
   await expect(page.getByText(`Plot ${saved} saved`)).toBeVisible();
 
   // On the experiment page it is a card with a live preview.
-  await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
+  await page.goto(
+    '/projects/demo-project-1/experiments/demo-experiment-1?tab=plots'
+  );
   const card = page.getByRole('listitem').filter({ hasText: saved });
   await expect(card).toBeVisible();
   await expect(card.locator('.recharts-scatter-symbol').first()).toBeVisible();
@@ -337,7 +339,9 @@ test('shows saved plots as cards on the experiment page, and asks before deletin
   await expect(page.getByRole('link', { name: `Open ${saved}` })).toBeVisible();
 
   // Delete from the card asks first.
-  await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
+  await page.goto(
+    '/projects/demo-project-1/experiments/demo-experiment-1?tab=plots'
+  );
   // A click before the page has hydrated can be lost, so try again until the dialog opens.
   await expect(async () => {
     await card.getByRole('button', { name: `Delete ${saved}` }).click();

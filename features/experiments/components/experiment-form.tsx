@@ -7,6 +7,7 @@ import { useMemo, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { MarkdownEditor } from '@/components/markdown-editor';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -16,7 +17,6 @@ import {
   FieldLabel
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 
 import { createExperimentAction } from '../actions/create-experiment';
 import { updateExperimentAction } from '../actions/update-experiment';
@@ -144,11 +144,18 @@ export const ExperimentForm = ({
           <FieldLabel htmlFor="experiment-protocol">
             {t('form.protocolLabel')}
           </FieldLabel>
-          <Textarea
-            id="experiment-protocol"
-            rows={4}
-            aria-invalid={Boolean(errors.protocol)}
-            {...register('protocol')}
+          <Controller
+            name="protocol"
+            control={control}
+            render={({ field }) => (
+              <MarkdownEditor
+                id="experiment-protocol"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                isInvalid={Boolean(errors.protocol)}
+              />
+            )}
           />
           <FieldDescription>{t('form.protocolHint')}</FieldDescription>
           <FieldError>{errorText(errors.protocol?.message)}</FieldError>

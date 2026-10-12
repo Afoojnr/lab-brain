@@ -14,13 +14,18 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 
-import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
+import type { FormulaColumn } from '../derived-values';
+import type { DerivedColumn, Sample } from '../types';
 import { DerivedColumnForm } from './derived-column-form';
 
 type DerivedColumnDialogProps = {
   projectId: string;
   experimentId: string;
-  columns: ParameterDefinition[];
+  columns: FormulaColumn[];
+  /** The calculated columns the formula can also use. */
+  calculatedColumns?: FormulaColumn[];
+  /** Calculated columns the formula cannot use because it would loop back to itself. */
+  blockedNames?: string[];
   otherNames: string[];
   previewSamples: Pick<Sample, 'id' | 'code' | 'values'>[];
   /** Set to edit this column (a pencil on its row); omit to add one. */

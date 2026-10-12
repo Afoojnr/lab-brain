@@ -9,7 +9,8 @@ import {
   listSamplesByExperiment,
   listStudiesByExperiment
 } from '@/features/experiments/server';
-import { evaluateFormula, parseFormula } from '@/features/experiments/shared';
+import { calculateForSamples } from '@/features/experiments/shared';
+import { Markdown } from '@/components/markdown';
 import { SavedPlotsReport } from '@/features/plots';
 
 import { calculatedText, valueText } from '../format';
@@ -61,20 +62,10 @@ export const ExperimentSummary = async ({
     listStudiesByExperiment(experiment.id)
   ]);
   const notRecorded = tReports('notRecorded');
-  const derivedValues = Object.fromEntries(
-    samples.map(sample => [
-      sample.id,
-      Object.fromEntries(
-        derivedColumns.map(derived => {
-          const parsed = parseFormula(derived.formula, definitions);
-
-          return [
-            derived.id,
-            parsed.isOk ? evaluateFormula(parsed.ast, sample.values) : null
-          ];
-        })
-      )
-    ])
+  const derivedValues = calculateForSamples(
+    definitions,
+    derivedColumns,
+    samples
   );
   const summary = summarizeExperiment({
     definitions,
@@ -96,7 +87,9 @@ export const ExperimentSummary = async ({
       {experiment.protocol && (
         <div className="report-block">
           <h2 className="mb-2 text-lg font-semibold">{t('protocol')}</h2>
-          <p className="text-sm whitespace-pre-wrap">{experiment.protocol}</p>
+          <div className="text-sm">
+            <Markdown>{experiment.protocol}</Markdown>
+          </div>
         </div>
       )}
 

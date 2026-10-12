@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { openTab } from './helpers';
+
 test('shows a sample note on the table and the sample page', async ({
   page
 }) => {
@@ -42,7 +44,7 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
     page.getByRole('heading', { name: 'Deposition', exact: true })
   ).toBeVisible();
 
-  // Edit the experiment: a new name and a base protocol, shown under the title.
+  // Edit the experiment: a new name and a base protocol, shown in the Protocol tab.
   await page.getByRole('button', { name: 'Edit experiment' }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name', { exact: true }).fill('Plasma deposition');
@@ -54,9 +56,11 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Plasma deposition', exact: true })
   ).toBeVisible();
+  await openTab(page, 'Protocol');
   await expect(page.getByText('Clean, pump down, run cycles.')).toBeVisible();
 
-  // A column, then a sample with a note.
+  // A column (Setup tab), then a sample with a note.
+  await openTab(page, 'Setup');
   await page.getByRole('button', { name: 'Add column' }).click();
   const parameterDialog = page.getByRole('dialog');
   await parameterDialog.getByLabel('Name', { exact: true }).fill('Pulse');

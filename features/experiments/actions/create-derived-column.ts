@@ -8,6 +8,7 @@ import {
 } from '../data/derived-columns';
 import { getExperimentInProject } from '../data/experiments';
 import { listParameterDefinitions } from '../data/parameter-definitions';
+import { formulaColumns } from '../derived-values';
 import { buildDerivedColumnFormSchema, toDerivedColumnInput } from '../schemas';
 
 /**
@@ -34,12 +35,14 @@ export const createDerivedColumnAction = async (
     listDerivedColumns(experimentId)
   ]);
   const names = [...columns, ...derived].map(column => column.name);
-  const parsed = buildDerivedColumnFormSchema(columns, names).safeParse(input);
+  // A formula may use the entered columns and any calculated column that exists.
+  const usable = formulaColumns(columns, derived);
+  const parsed = buildDerivedColumnFormSchema(usable, names).safeParse(input);
   if (!parsed.success) return false;
 
   await createDerivedColumn(
     experimentId,
-    toDerivedColumnInput(columns, parsed.data)
+    toDerivedColumnInput(usable, parsed.data)
   );
   revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
 

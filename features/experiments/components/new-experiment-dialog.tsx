@@ -33,7 +33,7 @@ export const NewExperimentDialog = ({
         <PlusIcon aria-hidden />
         {t('title')}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>

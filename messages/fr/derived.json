@@ -12,7 +12,8 @@
       "formula": "Formule",
       "actions": "Actions"
     },
-    "noUnit": "Sans unité"
+    "noUnit": "Sans unité",
+    "inUseBy": "{count, plural, one {{names} utilise cette colonne. Modifiez-la ou supprimez-la d'abord, puis vous pourrez supprimer celle-ci.} other {{names} utilisent cette colonne. Modifiez-les ou supprimez-les d'abord, puis vous pourrez supprimer celle-ci.}}"
   },
   "form": {
     "addTitle": "Ajouter une colonne calculée",
@@ -39,8 +40,10 @@
       "formulaEmpty": "Saisissez une formule.",
       "formulaSyntax": "La formule n'est pas valide près du caractère {position}.",
       "formulaUnknownColumn": "Aucune colonne ne s'appelle {name}.",
-      "formulaNotANumber": "{name} n'est pas une colonne numérique, elle ne peut donc pas être utilisée."
-    }
+      "formulaNotANumber": "{name} n'est pas une colonne numérique, elle ne peut donc pas être utilisée.",
+      "formulaLoop": "Cette formule bouclerait sur elle-même : {name} utilise cette colonne."
+    },
+    "insertCalculated": "Colonnes calculées"
   },
   "delete": {
     "title": "Supprimer {name} ?",

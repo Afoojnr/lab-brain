@@ -69,6 +69,9 @@ export const PageHeader = ({
       )}
       {children}
     </div>
-    {actions && <div className="flex shrink-0 gap-2">{actions}</div>}
+    {/* Wraps on a phone, so several buttons never push the page sideways. */}
+    {actions && (
+      <div className="flex flex-wrap gap-2 sm:shrink-0">{actions}</div>
+    )}
   </header>
 );

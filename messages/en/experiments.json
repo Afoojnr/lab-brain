@@ -31,7 +31,7 @@
       "nameTooLong": "Use 80 characters or fewer.",
       "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
       "codePrefixDuplicate": "Another experiment in this project already uses this prefix.",
-      "protocolTooLong": "Use 1000 characters or fewer."
+      "protocolTooLong": "Use 20,000 characters or fewer."
     },
     "editTrigger": "Edit experiment",
     "editTitle": "Edit {name}",
@@ -66,5 +66,19 @@
     "title": "Saved plots",
     "description": "Plots you saved for this experiment. They are drawn from the current samples.",
     "new": "New plot"
+  },
+  "protocol": {
+    "title": "Protocol",
+    "description": "The method every sample in this experiment follows.",
+    "empty": "No protocol yet. Add one with headings, lists and tables.",
+    "edit": "Edit protocol",
+    "add": "Add a protocol"
+  },
+  "sections": {
+    "label": "Experiment sections",
+    "samples": "Samples",
+    "plots": "Plots",
+    "protocol": "Protocol",
+    "setup": "Setup"
   }
 }

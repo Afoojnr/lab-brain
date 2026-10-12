@@ -1,4 +1,4 @@
-import { evaluateFormula, parseFormula } from '@/features/experiments/shared';
+import { calculateForSamples } from '@/features/experiments/shared';
 import {
   listDerivedColumns,
   listParameterDefinitions,
@@ -36,10 +36,7 @@ export const loadExperimentTable = async (
     ? allSamples.filter(sample => sampleIds.includes(sample.id))
     : allSamples;
   const studyNames = new Map(studies.map(study => [study.id, study.name]));
-  const parsed = derivedColumns.map(derived => ({
-    derived,
-    parsed: parseFormula(derived.formula, definitions)
-  }));
+  const calculated = calculateForSamples(definitions, derivedColumns, samples);
 
   const columns: PlotColumn[] = [
     ...definitions.map(definition => ({
@@ -60,10 +57,8 @@ export const loadExperimentTable = async (
 
   const rows = samples.map((sample): PlotRow => {
     const values: PlotRow['values'] = { ...sample.values };
-    for (const { derived, parsed: formula } of parsed) {
-      const value = formula.isOk
-        ? evaluateFormula(formula.ast, sample.values)
-        : null;
+    for (const derived of derivedColumns) {
+      const value = calculated[sample.id]?.[derived.id] ?? null;
       if (value !== null) values[`${DERIVED_PREFIX}${derived.id}`] = value;
     }
 

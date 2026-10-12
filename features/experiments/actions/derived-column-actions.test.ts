@@ -64,6 +64,15 @@ const GPC = {
   formula: '[#thickness] * 10 / [#cycles]',
   position: 0
 };
+// A calculated column built on GPC: GPC in nm instead of Å.
+const GPC_NM = {
+  id: 'gpcnm',
+  experimentId: 'experiment-1',
+  name: 'GPC nm',
+  unit: 'nm/cycle',
+  formula: '[#gpc] / 10',
+  position: 1
+};
 const PAGE = '/projects/project-1/experiments/experiment-1';
 const FORM = {
   name: ' Growth ',
@@ -98,6 +107,17 @@ describe('createDerivedColumnAction', () => {
       formula: '[#thickness] * 10 / [#cycles]'
     });
     expect(revalidatePath).toHaveBeenCalledWith(PAGE);
+  });
+
+  it('lets a formula use another calculated column, stored by its id', async () => {
+    expect(await run({ ...FORM, name: 'GPC nm', formula: '[GPC] / 10' })).toBe(
+      true
+    );
+
+    expect(createDerivedColumn).toHaveBeenCalledWith(
+      'experiment-1',
+      expect.objectContaining({ formula: '[#gpc] / 10' })
+    );
   });
 
   it.each([
@@ -151,6 +171,27 @@ describe('updateDerivedColumnAction', () => {
     );
   });
 
+  it('refuses a formula that uses the column itself or one that uses it, saying it would loop', async () => {
+    vi.mocked(listDerivedColumns).mockResolvedValue([GPC, GPC_NM]);
+
+    expect(await run('gpc', { ...FORM, formula: '[GPC] + 1' })).toBe(false);
+    expect(await run('gpc', { ...FORM, formula: '[GPC nm] * 10' })).toBe(false);
+    expect(updateDerivedColumn).not.toHaveBeenCalled();
+  });
+
+  it('lets a column use a calculated column that does not depend on it', async () => {
+    vi.mocked(listDerivedColumns).mockResolvedValue([GPC, GPC_NM]);
+
+    expect(
+      await run('gpcnm', { name: 'GPC nm', unit: '', formula: '[GPC] / 100' })
+    ).toBe(true);
+    expect(updateDerivedColumn).toHaveBeenCalledWith(
+      'experiment-1',
+      'gpcnm',
+      expect.objectContaining({ formula: '[#gpc] / 100' })
+    );
+  });
+
   it('ignores an unknown column and an invalid formula', async () => {
     expect(await run('ghost', FORM)).toBe(false);
     expect(await run('gpc', { ...FORM, formula: '[Nope]' })).toBe(false);
@@ -166,6 +207,15 @@ describe('deleteDerivedColumnAction', () => {
       await deleteDerivedColumnAction('project-1', 'experiment-1', 'gpc')
     ).toBe(true);
     expect(revalidatePath).toHaveBeenCalledWith(PAGE);
+  });
+
+  it('keeps a column that another calculated column uses', async () => {
+    vi.mocked(listDerivedColumnsUsing).mockResolvedValue([GPC_NM]);
+
+    expect(
+      await deleteDerivedColumnAction('project-1', 'experiment-1', 'gpc')
+    ).toBe(false);
+    expect(deleteDerivedColumn).not.toHaveBeenCalled();
   });
 
   it('ignores an unknown column', async () => {

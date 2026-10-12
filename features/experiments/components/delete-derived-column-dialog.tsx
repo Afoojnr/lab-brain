@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
+import { DisabledReason } from '@/components/disabled-reason';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -22,13 +23,16 @@ type DeleteDerivedColumnDialogProps = {
   projectId: string;
   experimentId: string;
   derived: { id: string; name: string };
+  /** The calculated columns whose formulas use it; while any, it cannot be deleted. */
+  usedBy?: string[];
 };
 
 /** A trash button that asks before removing a calculated column (only its formula; no data is lost). */
 export const DeleteDerivedColumnDialog = ({
   projectId,
   experimentId,
-  derived
+  derived,
+  usedBy = []
 }: DeleteDerivedColumnDialogProps) => {
   const t = useTranslations('derived');
   const tErrors = useTranslations('errors');
@@ -57,17 +61,29 @@ export const DeleteDerivedColumnDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger
-        render={
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label={t('panel.delete', { name: derived.name })}
-          />
+      <DisabledReason
+        reason={
+          usedBy.length > 0
+            ? t('panel.inUseBy', {
+                count: usedBy.length,
+                names: usedBy.join(', ')
+              })
+            : null
         }
       >
-        <Trash2Icon aria-hidden />
-      </DialogTrigger>
+        <DialogTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t('panel.delete', { name: derived.name })}
+              disabled={usedBy.length > 0}
+            />
+          }
+        >
+          <Trash2Icon aria-hidden />
+        </DialogTrigger>
+      </DisabledReason>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>{t('delete.title', { name: derived.name })}</DialogTitle>

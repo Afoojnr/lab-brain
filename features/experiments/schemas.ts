@@ -67,7 +67,8 @@ export const EXPERIMENT_FORM_ERRORS = [
 export type ExperimentFormError = (typeof EXPERIMENT_FORM_ERRORS)[number];
 
 const EXPERIMENT_NAME_MAX_LENGTH = 80;
-const EXPERIMENT_PROTOCOL_MAX_LENGTH = 1000;
+/** Room for a real protocol with headings, lists and tables. */
+export const EXPERIMENT_PROTOCOL_MAX_LENGTH = 20000;
 
 /** A letter, then 1-5 uppercase letters or digits (e.g. `ALD`, `B2`). */
 const CODE_PREFIX_PATTERN = /^[A-Z][A-Z0-9]{1,5}$/;
@@ -495,7 +496,8 @@ export const DERIVED_FORM_ERRORS = [
   'formulaEmpty',
   'formulaSyntax',
   'formulaUnknownColumn',
-  'formulaNotANumber'
+  'formulaNotANumber',
+  'formulaLoop'
 ] as const;
 
 export type DerivedFormError = (typeof DERIVED_FORM_ERRORS)[number];
@@ -515,12 +517,17 @@ const FORMULA_ERROR_KEYS = {
  * columns (the server rebuilds this from stored columns, so a forged formula
  * naming a missing or text column is refused).
  *
- * @param columns - The experiment's entered columns.
+ * @param columns - The columns the formula may use: the experiment's entered
+ *   number columns and its calculated columns (see `formulaColumns`).
  * @param otherNames - Names of every other column, entered or calculated.
+ * @param blockedNames - Calculated columns that exist but cannot be used here
+ *   because the formula would loop back to itself (the column being edited and
+ *   the ones that use it); naming one gives a clearer message than "no such column".
  */
 export const buildDerivedColumnFormSchema = (
-  columns: ParameterDefinition[],
-  otherNames: string[]
+  columns: Pick<ParameterDefinition, 'id' | 'name' | 'kind'>[],
+  otherNames: string[],
+  blockedNames: string[] = []
 ) =>
   z
     .object({
@@ -551,10 +558,15 @@ export const buildDerivedColumnFormSchema = (
     .superRefine((values, context) => {
       const parsed = parseFormula(values.formula, columns);
       if (!parsed.isOk) {
+        const isLoop =
+          parsed.error === 'unknownColumn' &&
+          blockedNames.some(
+            name => name.toLowerCase() === parsed.name?.toLowerCase()
+          );
         context.addIssue({
           code: 'custom',
           path: ['formula'],
-          message: FORMULA_ERROR_KEYS[parsed.error]
+          message: isLoop ? 'formulaLoop' : FORMULA_ERROR_KEYS[parsed.error]
         });
       }
     });
@@ -581,7 +593,7 @@ export const isDerivedFormError = (
  * @param values - The validated form values.
  */
 export const toDerivedColumnInput = (
-  columns: ParameterDefinition[],
+  columns: Pick<ParameterDefinition, 'id' | 'name' | 'kind'>[],
   values: DerivedColumnFormValues
 ): DerivedColumnInput => {
   const parsed = parseFormula(values.formula, columns);

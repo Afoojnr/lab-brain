@@ -99,14 +99,18 @@ describe('buildExperimentFormSchema', () => {
     expect(result.error?.issues[0]?.message).toBe('nameRequired');
   });
 
-  it('rejects a protocol over 1000 characters', () => {
-    const result = buildExperimentFormSchema([]).safeParse({
-      name: 'Deposition',
-      codePrefix: 'ALD',
-      protocol: 'x'.repeat(1001)
-    });
+  it('accepts a protocol of 20,000 characters and rejects one character more', () => {
+    const parse = (protocol: string) =>
+      buildExperimentFormSchema([]).safeParse({
+        name: 'Deposition',
+        codePrefix: 'ALD',
+        protocol
+      });
 
-    expect(result.error?.issues[0]?.message).toBe('protocolTooLong');
+    expect(parse('x'.repeat(20000)).success).toBe(true);
+    expect(parse('x'.repeat(20001)).error?.issues[0]?.message).toBe(
+      'protocolTooLong'
+    );
   });
 });
 
