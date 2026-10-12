@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { openTab } from './helpers';
+
 // Creates its own project so the demo data's next sample code stays untouched.
 test('places a sample in several studies from the form and changes them on edit', async ({
   page
@@ -27,7 +29,8 @@ test('places a sample in several studies from the form and changes them on edit'
     page.getByRole('heading', { name: 'Deposition', exact: true })
   ).toBeVisible();
 
-  // Two studies in this experiment.
+  // Two studies in this experiment (Setup tab).
+  await openTab(page, 'Setup');
   for (const name of ['Pulse study', 'TEB study']) {
     await page.getByRole('button', { name: 'New study' }).click();
     const dialog = page.getByRole('dialog');

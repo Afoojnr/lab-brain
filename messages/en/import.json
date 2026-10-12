@@ -157,7 +157,7 @@
     "unitTooLong": "The unit is too long (20 characters at most).",
     "codePrefixInvalid": "Use 2 to 6 letters or digits, starting with a letter.",
     "codePrefixDuplicate": "Another experiment in this project already uses this prefix.",
-    "protocolTooLong": "Use 1000 characters or fewer.",
+    "protocolTooLong": "Use 20,000 characters or fewer.",
     "unknown": "This is not valid."
   },
   "done": {

@@ -13,8 +13,7 @@ import {
 } from '@/features/experiments/server';
 import {
   CALENDAR_DATE_FORMAT,
-  evaluateFormula,
-  parseFormula,
+  calculateForSamples,
   toCalendarDate
 } from '@/features/experiments/shared';
 
@@ -95,10 +94,9 @@ export const SampleReport = async ({
       ])}
     />
   );
-  const formulas = derived.map(item => ({
-    item,
-    parsed: parseFormula(item.formula, definitions)
-  }));
+  const calculated = calculateForSamples(definitions, derived, [sample])[
+    sample.id
+  ];
 
   return (
     <ReportShell
@@ -141,19 +139,15 @@ export const SampleReport = async ({
           {valuesTable(results)}
         </div>
       )}
-      {formulas.length > 0 && (
+      {derived.length > 0 && (
         <div>
           <h2 className="mb-2 text-lg font-semibold">{t('calculated')}</h2>
           <ReportTable
             headers={[tColumns('name'), tColumns('unit'), t('value')]}
-            rows={formulas.map(({ item, parsed }) => [
+            rows={derived.map(item => [
               item.name,
               item.unit ?? '',
-              calculatedText(
-                format,
-                parsed.isOk ? evaluateFormula(parsed.ast, sample.values) : null,
-                notRecorded
-              )
+              calculatedText(format, calculated?.[item.id], notRecorded)
             ])}
           />
         </div>

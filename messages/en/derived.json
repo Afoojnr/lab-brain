@@ -12,7 +12,8 @@
       "formula": "Formula",
       "actions": "Actions"
     },
-    "noUnit": "No unit"
+    "noUnit": "No unit",
+    "inUseBy": "{count, plural, one {{names} uses this column. Change or delete it first, then you can delete this one.} other {{names} use this column. Change or delete them first, then you can delete this one.}}"
   },
   "form": {
     "addTitle": "Add a calculated column",
@@ -39,8 +40,10 @@
       "formulaEmpty": "Enter a formula.",
       "formulaSyntax": "The formula is not valid near character {position}.",
       "formulaUnknownColumn": "There is no column called {name}.",
-      "formulaNotANumber": "{name} is not a number column, so it cannot be used."
-    }
+      "formulaNotANumber": "{name} is not a number column, so it cannot be used.",
+      "formulaLoop": "This formula would loop back to itself: {name} uses this column."
+    },
+    "insertCalculated": "Calculated columns"
   },
   "delete": {
     "title": "Delete {name}?",

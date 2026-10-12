@@ -16,5 +16,30 @@
     "lines": "Showing the first {shown} of {total} lines",
     "sheet": "Sheet {name}",
     "dialogDescription": "A quick look. The original file is never changed."
+  },
+  "markdownEditor": {
+    "write": "Write",
+    "preview": "Preview",
+    "nothingToPreview": "Nothing to preview yet.",
+    "toolbar": "Formatting",
+    "tip": "Tip: use the buttons, or type # for a main heading, ## for a section, ### for a sub-section, ** around bold words, - for a bullet and 1. for a numbered list.",
+    "format": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "bulletList": "Bullet list",
+      "numberedList": "Numbered list",
+      "table": "Table",
+      "link": "Link",
+      "heading1": "Heading 1",
+      "heading2": "Heading 2",
+      "heading3": "Heading 3"
+    },
+    "words": {
+      "text": "text",
+      "heading": "Heading",
+      "item": "Item",
+      "parameter": "Parameter",
+      "value": "Value"
+    }
   }
 }

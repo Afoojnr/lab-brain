@@ -21,14 +21,19 @@ import { updateDerivedColumnAction } from '../actions/update-derived-column';
 import { evaluateFormula, parseFormula } from '../formula';
 import { buildDerivedColumnFormSchema, isDerivedFormError } from '../schemas';
 import type { DerivedColumnFormValues } from '../schemas';
-import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
+import type { FormulaColumn } from '../derived-values';
+import type { DerivedColumn, Sample } from '../types';
 import { formatDerivedValue } from './format-parameter-value';
 
 type DerivedColumnFormProps = {
   projectId: string;
   experimentId: string;
   /** The experiment's entered columns, which the formula can use (number ones). */
-  columns: ParameterDefinition[];
+  columns: FormulaColumn[];
+  /** The calculated columns the formula can also use (not itself, nor one that uses it). */
+  calculatedColumns?: FormulaColumn[];
+  /** Calculated columns that exist but would make the formula loop; naming one says so. */
+  blockedNames?: string[];
   /** Names of every other column, for the duplicate check. */
   otherNames: string[];
   /** A few samples to preview the result on. */
@@ -50,6 +55,8 @@ export const DerivedColumnForm = ({
   projectId,
   experimentId,
   columns,
+  calculatedColumns = [],
+  blockedNames = [],
   otherNames,
   previewSamples,
   derived,
@@ -62,9 +69,13 @@ export const DerivedColumnForm = ({
   const [isPending, startTransition] = useTransition();
   const formulaInput = useRef<HTMLInputElement | null>(null);
   const numberColumns = columns.filter(column => column.kind === 'number');
+  const allColumns = useMemo(
+    () => [...columns, ...calculatedColumns],
+    [columns, calculatedColumns]
+  );
   const schema = useMemo(
-    () => buildDerivedColumnFormSchema(columns, otherNames),
-    [columns, otherNames]
+    () => buildDerivedColumnFormSchema(allColumns, otherNames, blockedNames),
+    [allColumns, otherNames, blockedNames]
   );
   const {
     control,
@@ -83,8 +94,8 @@ export const DerivedColumnForm = ({
   const formula = useWatch({ control, name: 'formula' });
   const unit = useWatch({ control, name: 'unit' });
   const parsed = useMemo(
-    () => parseFormula(formula, columns),
-    [formula, columns]
+    () => parseFormula(formula, allColumns),
+    [formula, allColumns]
   );
 
   const errorText = (
@@ -190,6 +201,28 @@ export const DerivedColumnForm = ({
               </Button>
             ))}
           </div>
+          {calculatedColumns.length > 0 && (
+            <div
+              className="flex flex-wrap items-center gap-1"
+              role="group"
+              aria-label={t('form.insertCalculated')}
+            >
+              <span className="text-muted-foreground text-xs">
+                {t('form.insertCalculated')}
+              </span>
+              {calculatedColumns.map(column => (
+                <Button
+                  key={column.id}
+                  type="button"
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => insertColumn(column.name)}
+                >
+                  {column.name}
+                </Button>
+              ))}
+            </div>
+          )}
           <FieldDescription>{t('form.formulaHint')}</FieldDescription>
           <FieldError>
             {errorText('formula', errors.formula?.message)}

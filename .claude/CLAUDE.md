@@ -27,7 +27,8 @@ implementation, observation and note, and the experiment's protocol.
 
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
-SheetJS (`xlsx`), `papaparse`, `jspdf` (PDF) and `pptxgenjs` (PowerPoint) for exports, charts `TBD: Recharts or Chart.js`.
+SheetJS (`xlsx`), `papaparse`, `jspdf` (PDF) and `pptxgenjs` (PowerPoint) for exports, `react-markdown` + `remark-gfm` +
+`remark-breaks` (the formatted protocol), charts `TBD: Recharts or Chart.js`.
 Testing: Vitest + Testing Library (unit/component), Playwright (the critical
 flows) — see `.claude/rules/testing.md`.
 

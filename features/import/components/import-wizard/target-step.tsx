@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { MarkdownEditor } from '@/components/markdown-editor';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -18,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { buildExperimentFormSchema } from '@/features/experiments/shared';
 
 import type { ImportTarget } from '../../types';
@@ -178,13 +178,12 @@ export const TargetStep = ({
             <FieldLabel htmlFor="import-new-protocol">
               {t('target.protocolLabel')}
             </FieldLabel>
-            <Textarea
+            <MarkdownEditor
               id="import-new-protocol"
-              rows={3}
+              rows={5}
               value={target.protocol}
-              onChange={event =>
-                onTargetChange({ ...target, protocol: event.target.value })
-              }
+              onChange={protocol => onTargetChange({ ...target, protocol })}
+              isInvalid={Boolean(messageFor('protocol'))}
             />
             <FieldError>{messageFor('protocol')}</FieldError>
           </Field>

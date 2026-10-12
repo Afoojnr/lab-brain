@@ -90,7 +90,9 @@ test('opens an experiment summary that says what varied, what stayed the same an
   expect(pdf.length).toBeGreaterThan(5000);
 
   // Clean up the plot made for this test.
-  await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
+  await page.goto(
+    '/projects/demo-project-1/experiments/demo-experiment-1?tab=plots'
+  );
   await expect(async () => {
     await page.getByRole('button', { name: `Delete ${saved}` }).click();
     await expect(page.getByText('Delete this saved plot?')).toBeVisible({

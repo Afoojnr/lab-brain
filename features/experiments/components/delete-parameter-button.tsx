@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 
+import { DisabledReason } from '@/components/disabled-reason';
 import { Button } from '@/components/ui/button';
 
 import { deleteParameterDefinitionAction } from '../actions/delete-parameter-definition';
@@ -44,15 +45,16 @@ export const DeleteParameterButton = ({
     });
 
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      aria-label={t('panel.delete', { name: parameter.name })}
-      title={isInUse ? t('panel.inUse') : undefined}
-      disabled={isInUse || isPending}
-      onClick={remove}
-    >
-      <Trash2Icon aria-hidden />
-    </Button>
+    <DisabledReason reason={isInUse ? t('panel.inUse') : null}>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label={t('panel.delete', { name: parameter.name })}
+        disabled={isInUse || isPending}
+        onClick={remove}
+      >
+        <Trash2Icon aria-hidden />
+      </Button>
+    </DisabledReason>
   );
 };

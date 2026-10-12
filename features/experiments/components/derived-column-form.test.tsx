@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it, vi } from 'vitest';
@@ -45,7 +45,9 @@ const SAMPLES: Pick<Sample, 'id' | 'code' | 'values'>[] = [
   { id: 's2', code: 'ALD002', values: { thickness: 43.2 } }
 ];
 
-const renderForm = () => {
+const renderForm = (
+  extra: Partial<Parameters<typeof DerivedColumnForm>[0]> = {}
+) => {
   const onSaved = vi.fn();
   render(
     <NextIntlClientProvider locale="en" messages={en}>
@@ -55,6 +57,7 @@ const renderForm = () => {
         columns={COLUMNS}
         otherNames={['Thickness', 'Cycles', 'Substrate']}
         previewSamples={SAMPLES}
+        {...extra}
         onCancel={vi.fn()}
         onSaved={onSaved}
       />
@@ -164,5 +167,73 @@ describe('DerivedColumnForm', () => {
       expect(toast.error).toHaveBeenCalledWith(en.errors.unexpected)
     );
     expect(onSaved).not.toHaveBeenCalled();
+  });
+
+  describe('with calculated columns to build on', () => {
+    // GPC is a calculated column; its value (8.1) is in the preview samples by id.
+    const GPC = { id: 'gpc', name: 'GPC', kind: 'number' as const };
+    const WITH_GPC: Pick<Sample, 'id' | 'code' | 'values'>[] = [
+      {
+        id: 's1',
+        code: 'ALD001',
+        values: { thickness: 40.5, cycles: 50, gpc: 8.1 }
+      },
+      { id: 's2', code: 'ALD002', values: { thickness: 43.2 } }
+    ];
+
+    it('offers the calculated columns in their own group, and inserts one', async () => {
+      const { user } = renderForm({ calculatedColumns: [GPC] });
+
+      const group = screen.getByRole('group', { name: t.insertCalculated });
+      await user.click(within(group).getByRole('button', { name: 'GPC' }));
+
+      expect(screen.getByLabelText(t.formulaLabel)).toHaveValue('[GPC]');
+    });
+
+    it('has no calculated group when there is none to use', () => {
+      renderForm();
+
+      expect(
+        screen.queryByRole('group', { name: t.insertCalculated })
+      ).toBeNull();
+    });
+
+    it('previews a formula built on a calculated column', async () => {
+      const { user } = renderForm({
+        calculatedColumns: [GPC],
+        previewSamples: WITH_GPC
+      });
+
+      await user.click(screen.getByLabelText(t.formulaLabel));
+      await user.paste('[GPC] / 10');
+
+      expect(await screen.findByText(/→ 0\.81/)).toBeVisible();
+      expect(screen.getByText(t.previewEmpty)).toBeVisible();
+    });
+
+    it('says a formula would loop back when it names a column that uses this one', async () => {
+      const { user } = renderForm({
+        calculatedColumns: [],
+        blockedNames: ['GPC nm'],
+        derived: {
+          id: 'gpc',
+          name: 'GPC',
+          unit: null,
+          formulaText: '[Thickness]'
+        }
+      });
+
+      await user.clear(screen.getByLabelText(t.formulaLabel));
+      await user.click(screen.getByLabelText(t.formulaLabel));
+      await user.paste('[GPC nm] * 10');
+      await user.click(screen.getByRole('button', { name: t.save }));
+
+      expect(
+        await screen.findByText(
+          t.errors.formulaLoop.replace('{name}', 'GPC nm')
+        )
+      ).toBeVisible();
+      expect(createDerivedColumnAction).not.toHaveBeenCalled();
+    });
   });
 });

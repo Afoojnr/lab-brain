@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { openTab } from './helpers';
+
 // Flow 1 part B: name a study, tag samples with it in bulk, then filter and
 // search the table. Runs against the demo experiment; the study name is
 // unique per run because the in-memory storage is never reset between runs.
@@ -9,7 +11,8 @@ test('tags samples with a new study, filters by it and searches the table', asyn
   const name = `Study ${Date.now()}`;
   await page.goto('/projects/demo-project-1/experiments/demo-experiment-1');
 
-  // A click before the page has hydrated can be lost, so try again until the dialog opens.
+  // Studies are created in the Setup tab.
+  await openTab(page, 'Setup');
   await expect(async () => {
     await page.getByRole('button', { name: 'New study' }).click();
     await expect(page.getByLabel('Name', { exact: true })).toBeVisible({
@@ -23,6 +26,8 @@ test('tags samples with a new study, filters by it and searches the table', asyn
     page.getByRole('link', { name: `Show samples of ${name}` })
   ).toBeVisible();
 
+  // Tagging samples happens in the Samples tab.
+  await openTab(page, 'Samples');
   await page.getByRole('checkbox', { name: 'Select ALD001' }).click();
   await page.getByRole('checkbox', { name: 'Select ALD002' }).click();
   await expect(page.getByText('2 samples selected')).toBeVisible();

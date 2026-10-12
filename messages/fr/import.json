@@ -157,7 +157,7 @@
     "unitTooLong": "L'unité est trop longue (20 caractères au maximum).",
     "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
     "codePrefixDuplicate": "Une autre expérience de ce projet utilise déjà ce préfixe.",
-    "protocolTooLong": "Utilisez 1000 caractères ou moins.",
+    "protocolTooLong": "Utilisez 20 000 caractères ou moins.",
     "unknown": "Ce n'est pas valide."
   },
   "done": {

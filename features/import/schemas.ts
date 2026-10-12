@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { EXPERIMENT_PROTOCOL_MAX_LENGTH } from '@/features/experiments/shared';
+
 import { MAX_ROWS } from '@/lib/spreadsheet/limits';
 
 const text = (max: number) => z.string().max(max);
@@ -39,7 +41,7 @@ export const importPayloadSchema = z.object({
       type: z.literal('new'),
       name: text(200),
       codePrefix: text(20),
-      protocol: text(5000)
+      protocol: text(EXPERIMENT_PROTOCOL_MAX_LENGTH)
     }),
     z.object({ type: z.literal('existing'), experimentId: text(100) })
   ]),

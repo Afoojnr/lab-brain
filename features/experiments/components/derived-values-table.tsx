@@ -9,7 +9,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { evaluateFormula, parseFormula } from '../formula';
+import { calculateForSamples } from '../derived-values';
 import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
 import { formatDerivedValue } from './format-parameter-value';
 
@@ -21,12 +21,16 @@ export const DerivedValuesTable = async ({
 }: {
   derivedColumns: DerivedColumn[];
   columns: ParameterDefinition[];
-  sample: Pick<Sample, 'values'>;
+  sample: Pick<Sample, 'id' | 'values'>;
 }) => {
   const [t, format] = await Promise.all([
     getTranslations('derived.sample'),
     getFormatter()
   ]);
+
+  const calculated = calculateForSamples(columns, derivedColumns, [sample])[
+    sample.id
+  ];
 
   return (
     <Table>
@@ -38,10 +42,7 @@ export const DerivedValuesTable = async ({
       </TableHeader>
       <TableBody>
         {derivedColumns.map(derived => {
-          const parsed = parseFormula(derived.formula, columns);
-          const value = parsed.isOk
-            ? evaluateFormula(parsed.ast, sample.values)
-            : null;
+          const value = calculated?.[derived.id] ?? null;
 
           return (
             <TableRow key={derived.id}>

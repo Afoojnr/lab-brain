@@ -12,11 +12,11 @@ This is meant to drive the information architecture, not final visual design.
 Projects (the home page: every project as a card: ALD of BxC, CVD of borophene, ...)
 └── Project page (name, description, edit)
     └── Experiments (tabs, like the sheets of a spreadsheet: Deposition ALD, Paschen law PSL, ...)
-        └── Experiment page
-            ├── Samples table   (one row per sample; filter by study, search, bulk assign)
-            ├── Columns         (parameters you set, results you measure)
-            ├── Studies         (optional named groups of samples)
-            ├── Saved plots     (cards with a small live preview; open one in Plots)
+        └── Experiment page, in four tabs: Protocol · Setup · Samples · Plots
+            ├── Protocol        (the formatted method every sample follows)
+            ├── Setup           (columns you set and results you measure, calculated columns, studies)
+            ├── Samples         (one row per sample; filter by study, search, bulk assign, export)
+            ├── Plots           (saved plots as cards with a small live preview; open one in Plots)
             └── Sample page     (values, characterizations, observation, note, files)
 Report (on the project, experiment and sample pages) · Plots · References / Ask (later)
 ```
@@ -53,10 +53,13 @@ screen.
 3. "New experiment" asks for a name (e.g. "Deposition"), a code prefix (e.g. `ALD`,
    which numbers its samples) and an optional base protocol. An experiment can be
    edited later; changing the prefix never renames existing sample codes.
-4. Opening an experiment shows its samples table (Flow 1), or, while it has no
-   samples, a "Getting started" checklist: ① add the columns (ticked once there are
-   any), ② record the first sample or import samples from a spreadsheet. Tabs above
-   switch between the project's experiments.
+4. An experiment page has four section tabs, in this order: **Protocol**, **Setup**
+   (columns, calculated columns and studies), **Samples** (the table, Flow 1) and
+   **Plots**. It opens on Samples, or, while it has no samples, on Setup, where a
+   "Getting started" checklist shows: ① add the columns (ticked once there are any),
+   ② record the first sample or import samples from a spreadsheet. The tab is in the URL
+   (`?tab=`), so Back and links work, and the tab names show counts (Samples 23). The
+   pills above switch between the project's experiments.
 
 ```
 Projects → select/create Project → Project page → open an Experiment → Samples table
@@ -126,19 +129,25 @@ Experiment page → Add sample → Sample form → Save → Sample page
 **Goal:** have a value worked out for every sample instead of computing it by hand,
 e.g. GPC (Å/cycle) = Thickness (nm) × 10 ÷ Cycles.
 
-1. On the `Experiment page`, in the "Calculated columns" panel → "Add calculated
+1. On the `Experiment page`, in the Setup tab's "Calculated columns" panel → "Add calculated
    column".
 2. Give it a name, a unit (typed; the app never converts units, so the factor, like
    × 10 for nm to Å, goes in the formula) and a formula written with `[Column name]`,
    numbers, `+ - * /` and parentheses. The entered number columns are offered as
-   buttons; a preview shows the result on the first samples as you type; a mistake is
+   buttons, and the other calculated columns in their own "Calculated columns" group,
+   so a column can be built on another (GPC in nm = [GPC] / 10); a preview shows the result on the first samples as you type; a mistake is
    named (unknown column, a text column, where it went wrong).
 3. The column appears after the others in the samples table (marked ƒ) and on each
    sample page under "Calculated". It is never typed and never stored: it is worked out
    when shown, so it follows the columns it uses. If an input is not recorded, or it
    would divide by 0, the cell is empty ("not recorded"), never 0.
-4. A column used by a formula cannot be deleted or turned into text; renaming it is
-   fine, because formulas are stored by column id.
+4. A column used by a formula cannot be deleted or turned into text, and that includes a
+   calculated column used by another one (its delete button is greyed out with the reason);
+   renaming it is fine, because formulas are stored by column id.
+5. A formula can never loop back to itself: when editing a column, itself and the
+   columns built on it are not offered, and typing one gives "This formula would loop back
+   to itself". The columns are worked out in dependency order whatever order they are
+   listed in, and one empty step leaves everything built on it empty (never 0).
 
 ```
 Experiment page → Calculated columns → Add → name + unit + formula (preview) → column in the table
@@ -299,7 +308,11 @@ Sample page (Next Steps note) → Link to next sample → new/existing Sample pa
 **Decision:** there is no notebook. The "why" is written where it belongs: each sample's
 implementation, observation and note, and the experiment's protocol. They show on the
 sample page, in the samples table and in the reports, and the AI assistant will cite them.
-(A readable protocol with headings, bullets and tables is a separate, later step.)
+The protocol is written with formatting buttons (Heading 1, 2 and 3, bold, italic, bullets,
+numbered list, table, link) and a Write / Preview switch, stored as plain Markdown (up to 20,000 characters),
+and shown in full on the experiment page's **Protocol** tab (with an Edit protocol button).
+`#`, `##` and `###` give three clearly different heading sizes. The experiment summary prints it formatted too. Raw HTML
+and pictures in a protocol are never rendered.
 
 ---
 
@@ -403,10 +416,10 @@ Project page → Ask tab → chat → response with labeled, clickable citations
 ## Design principles for v1
 
 - **Every record detail view looks the same shape**: a header (the record's code or
-  name, a one-sentence lead such as a sample's implementation or an experiment's
-  protocol, long text folded behind "Show more", and a strip of key facts), a main
+  name, a one-sentence lead such as a sample's implementation, long text folded
+  behind "Show more", and a strip of key facts), a main
   column of raised panels for the work you do and read most (for an experiment: the
-  samples table and its columns; for a sample: parameters, results and
+  samples table, the saved plots, the protocol and its columns; for a sample: parameters, results and
   characterizations), and a quiet section for context (studies, notebook). One
   layout, many record types — keeps UI work small. Each record type chooses what is
   primary.

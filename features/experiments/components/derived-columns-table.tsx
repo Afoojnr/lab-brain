@@ -9,6 +9,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
+import { dependentsOf, formulaColumns, referencedIds } from '../derived-values';
 import { displayFormula } from '../formula';
 import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
 import { DeleteDerivedColumnDialog } from './delete-derived-column-dialog';
@@ -36,6 +37,9 @@ export const DerivedColumnsTable = async ({
     return <p className="text-muted-foreground text-sm">{t('panel.empty')}</p>;
   }
 
+  // A formula names its columns by id, so it can be shown with the current names of both kinds.
+  const names = [...columns, ...derivedColumns];
+
   return (
     <Table>
       <TableHeader>
@@ -56,7 +60,7 @@ export const DerivedColumnsTable = async ({
               {derived.unit ?? t('panel.noUnit')}
             </TableCell>
             <TableCell className="font-mono text-xs whitespace-normal">
-              {displayFormula(derived.formula, columns)}
+              {displayFormula(derived.formula, names)}
             </TableCell>
             <TableCell>
               <div className="flex justify-end gap-1">
@@ -64,6 +68,19 @@ export const DerivedColumnsTable = async ({
                   projectId={projectId}
                   experimentId={experimentId}
                   columns={columns}
+                  calculatedColumns={formulaColumns(
+                    columns,
+                    derivedColumns,
+                    derived.id
+                  ).filter(
+                    column => !columns.some(entered => entered.id === column.id)
+                  )}
+                  blockedNames={[
+                    derived.name,
+                    ...dependentsOf(derivedColumns, derived.id).map(
+                      other => other.name
+                    )
+                  ]}
                   otherNames={[
                     ...columns.map(column => column.name),
                     ...derivedColumns
@@ -75,13 +92,18 @@ export const DerivedColumnsTable = async ({
                     id: derived.id,
                     name: derived.name,
                     unit: derived.unit,
-                    formulaText: displayFormula(derived.formula, columns)
+                    formulaText: displayFormula(derived.formula, names)
                   }}
                 />
                 <DeleteDerivedColumnDialog
                   projectId={projectId}
                   experimentId={experimentId}
                   derived={derived}
+                  usedBy={derivedColumns
+                    .filter(other =>
+                      referencedIds(other.formula).includes(derived.id)
+                    )
+                    .map(other => other.name)}
                 />
               </div>
             </TableCell>

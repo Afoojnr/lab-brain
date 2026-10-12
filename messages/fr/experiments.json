@@ -31,7 +31,7 @@
       "nameTooLong": "Utilisez 80 caractères ou moins.",
       "codePrefixInvalid": "Utilisez 2 à 6 lettres ou chiffres, en commençant par une lettre.",
       "codePrefixDuplicate": "Une autre expérience de ce projet utilise déjà ce préfixe.",
-      "protocolTooLong": "Utilisez 1000 caractères ou moins."
+      "protocolTooLong": "Utilisez 20 000 caractères ou moins."
     },
     "editTrigger": "Modifier l'expérience",
     "editTitle": "Modifier {name}",
@@ -66,5 +66,19 @@
     "title": "Graphiques enregistrés",
     "description": "Les graphiques enregistrés pour cette expérience. Ils sont tracés à partir des échantillons actuels.",
     "new": "Nouveau graphique"
+  },
+  "protocol": {
+    "title": "Protocole",
+    "description": "La méthode que suit chaque échantillon de cette expérience.",
+    "empty": "Pas encore de protocole. Ajoutez-en un avec des titres, des listes et des tableaux.",
+    "edit": "Modifier le protocole",
+    "add": "Ajouter un protocole"
+  },
+  "sections": {
+    "label": "Sections de l'expérience",
+    "samples": "Échantillons",
+    "plots": "Graphiques",
+    "protocol": "Protocole",
+    "setup": "Configuration"
   }
 }

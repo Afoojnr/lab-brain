@@ -33,6 +33,8 @@ type RecordDetailProps = {
   lead?: string;
   /** Key facts in one strip under the lead, e.g. project, date and parent. */
   facts: Fact[];
+  /** Tabs shown between the header and the panels, when the page has sections. */
+  tabs?: ReactNode;
   /** Header buttons, the primary action first. */
   actions?: ReactNode;
   /** Raised panels in the main column: what you do and read most on this record. */
@@ -101,6 +103,7 @@ export const RecordDetail = ({
   lead,
   facts,
   actions,
+  tabs,
   primary,
   secondary,
   secondaryPlacement = 'side'
@@ -127,6 +130,7 @@ export const RecordDetail = ({
           </dl>
         )}
       </PageHeader>
+      {tabs}
       <div
         className={cn(
           'mt-8 grid gap-8',

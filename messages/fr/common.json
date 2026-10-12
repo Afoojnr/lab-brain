@@ -16,5 +16,30 @@
     "lines": "Affichage des {shown} premières lignes sur {total}",
     "sheet": "Feuille {name}",
     "dialogDescription": "Un aperçu rapide. Le fichier original n'est jamais modifié."
+  },
+  "markdownEditor": {
+    "write": "Écrire",
+    "preview": "Aperçu",
+    "nothingToPreview": "Rien à afficher pour l'instant.",
+    "toolbar": "Mise en forme",
+    "tip": "Astuce : utilisez les boutons, ou tapez # pour un titre principal, ## pour une section, ### pour une sous-section, ** autour des mots en gras, - pour une puce et 1. pour une liste numérotée.",
+    "format": {
+      "bold": "Gras",
+      "italic": "Italique",
+      "bulletList": "Liste à puces",
+      "numberedList": "Liste numérotée",
+      "table": "Tableau",
+      "link": "Lien",
+      "heading1": "Titre 1",
+      "heading2": "Titre 2",
+      "heading3": "Titre 3"
+    },
+    "words": {
+      "text": "texte",
+      "heading": "Titre",
+      "item": "Élément",
+      "parameter": "Paramètre",
+      "value": "Valeur"
+    }
   }
 }

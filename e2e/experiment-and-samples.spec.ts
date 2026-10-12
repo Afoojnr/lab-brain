@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { openTab } from './helpers';
+
 // Flows 0 and 1 end to end: a project with an experiment, its columns, and samples
 // added, duplicated and edited. Creates its own project, so it never depends
 // on what another test, or an earlier run, left behind.
@@ -39,6 +41,8 @@ test('builds an experiment with columns and records, duplicates and edits sample
   await expect(page.getByText('Getting started')).toBeVisible();
   await expect(page.getByText('(To do)', { exact: false })).toHaveCount(2);
 
+  // Columns live in the Setup tab.
+  await openTab(page, 'Setup');
   // Two columns, each with a default.
   for (const [name, unit, defaultValue] of [
     ['Plasma power', 'W', '100'],
@@ -138,17 +142,23 @@ test('builds an experiment with columns and records, duplicates and edits sample
   ).toContainText('15');
 
   // A column added later: older samples show it empty, nothing is back-filled.
+  await openTab(page, 'Setup');
   await page.getByRole('button', { name: 'Add column' }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name', { exact: true }).fill('Cycles');
   await dialog.getByRole('button', { name: 'Add column' }).click();
   await expect(
-    page.getByRole('columnheader', { name: 'Cycles' })
+    page.getByRole('cell', { name: 'Cycles', exact: true })
   ).toBeVisible();
-  await expect(firstRow.getByText('Not recorded').first()).toBeAttached();
 
   // A column that samples hold values for cannot be deleted.
   await expect(
     page.getByRole('button', { name: 'Delete Plasma power' })
   ).toBeDisabled();
+
+  await openTab(page, 'Samples');
+  await expect(
+    page.getByRole('columnheader', { name: 'Cycles' })
+  ).toBeVisible();
+  await expect(firstRow.getByText('Not recorded').first()).toBeAttached();
 });

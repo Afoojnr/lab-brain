@@ -21,23 +21,30 @@ import { ExperimentForm } from './experiment-form';
 export const EditExperimentDialog = ({
   projectId,
   experiment,
-  otherPrefixes
+  otherPrefixes,
+  label,
+  variant = 'outline',
+  size
 }: {
   projectId: string;
   experiment: Pick<Experiment, 'id' | 'name' | 'codePrefix' | 'protocol'>;
   /** Prefixes of the project's other experiment. */
   otherPrefixes: string[];
+  /** The button's text; defaults to "Edit experiment". */
+  label?: string;
+  variant?: 'outline' | 'ghost';
+  size?: 'default' | 'sm';
 }) => {
   const t = useTranslations('experiments.form');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger render={<Button variant="outline" />}>
+      <DialogTrigger render={<Button variant={variant} size={size} />}>
         <PencilIcon aria-hidden />
-        {t('editTrigger')}
+        {label ?? t('editTrigger')}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{t('editTitle', { name: experiment.name })}</DialogTitle>
           <DialogDescription>{t('editDescription')}</DialogDescription>

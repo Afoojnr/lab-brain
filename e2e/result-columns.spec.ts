@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { openTab } from './helpers';
+
 // Creates its own project. Results are measured afterwards, so they are typed
 // by hand, grouped apart from the parameters, and never copied to a duplicate.
 test('records a measured result in its own column and leaves it empty on a duplicate', async ({
@@ -29,6 +31,7 @@ test('records a measured result in its own column and leaves it empty on a dupli
   ).toBeVisible();
 
   // A parameter you set, then a result you measure (no default for a result).
+  await openTab(page, 'Setup');
   await page.getByRole('button', { name: 'Add column' }).click();
   let dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name', { exact: true }).fill('Pulse');
