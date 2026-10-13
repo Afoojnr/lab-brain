@@ -73,6 +73,8 @@ export default defineConfig({
   webServer: {
     command: 'yarn dev',
     url: 'http://localhost:3000',
+    // The assistant answers with a built-in stand-in, so no test needs a real key.
+    env: { LAB_BRAIN_MOCK_AI: 'true' },
     reuseExistingServer: !process.env.CI
   }
 });

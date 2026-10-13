@@ -16,8 +16,8 @@ import {
 } from '@/features/experiments/server';
 
 import { getAnalysis, latestTargets } from '../data/analyses';
-import { defaultSettings, suggestKind } from '../defaults';
-import { loadEdxSpots, loadSeqfits } from '../load';
+import { defaultSettings, suggestKind } from '../analysis/defaults';
+import { loadEdxSpots, loadSeqfits } from '../analysis/load';
 import { analysisKindSchema } from '../schemas';
 import type { AnalysisKind, AnalysisSettings } from '../types';
 import { EdxAnalysis } from './edx-analysis';

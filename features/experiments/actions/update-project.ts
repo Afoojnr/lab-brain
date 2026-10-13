@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { revalidateNavigation } from '../revalidate-navigation';
+import { revalidateNavigation } from '../navigation/revalidate-navigation';
 
 import { updateProject } from '../data/projects';
-import { projectFormSchema } from '../schemas';
+import { projectFormSchema } from '../schemas/schemas';
 
 /**
  * Changes a project from the Edit project form, then refreshes the pages that

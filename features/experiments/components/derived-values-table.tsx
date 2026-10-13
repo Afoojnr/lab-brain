@@ -9,7 +9,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { calculateForSamples } from '../derived-values';
+import { calculateForSamples } from '../calculations/derived-values';
 import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
 import { formatDerivedValue } from './format-parameter-value';
 

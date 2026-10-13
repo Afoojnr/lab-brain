@@ -18,10 +18,13 @@ import { Input } from '@/components/ui/input';
 
 import { createDerivedColumnAction } from '../actions/create-derived-column';
 import { updateDerivedColumnAction } from '../actions/update-derived-column';
-import { evaluateFormula, parseFormula } from '../formula';
-import { buildDerivedColumnFormSchema, isDerivedFormError } from '../schemas';
-import type { DerivedColumnFormValues } from '../schemas';
-import type { FormulaColumn } from '../derived-values';
+import { evaluateFormula, parseFormula } from '../calculations/formula';
+import {
+  buildDerivedColumnFormSchema,
+  isDerivedFormError
+} from '../schemas/schemas';
+import type { DerivedColumnFormValues } from '../schemas/schemas';
+import type { FormulaColumn } from '../calculations/derived-values';
 import type { DerivedColumn, Sample } from '../types';
 import { formatDerivedValue } from './format-parameter-value';
 

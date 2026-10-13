@@ -14,7 +14,7 @@ import type { ParameterValues } from '@/features/experiments/shared';
 
 import { saveAnalysis } from '../data/analyses';
 import { createPlannedColumns, numbersFor, planTargets } from './apply-core';
-import { computeAnalysisValues } from '../load';
+import { computeAnalysisValues } from '../analysis/load';
 import { analysisKindSchema, analysisSettingsSchema } from '../schemas';
 
 /**

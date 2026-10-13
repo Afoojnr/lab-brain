@@ -20,8 +20,8 @@ import {
   XLSX_TYPE
 } from '@/lib/download-file';
 
-import { buildExperimentSheets } from '../export-workbook';
-import type { ExportLabels } from '../export-workbook';
+import { buildExperimentSheets } from '../export/export-workbook';
+import type { ExportLabels } from '../export/export-workbook';
 import type {
   Characterization,
   DerivedColumn,

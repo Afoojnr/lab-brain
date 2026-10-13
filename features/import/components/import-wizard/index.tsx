@@ -13,20 +13,20 @@ import {
   headersOf,
   initialMapping,
   dataCells
-} from '../../build-payload';
-import type { SheetLayout } from '../../build-payload';
+} from '../../mapping/build-payload';
+import type { SheetLayout } from '../../mapping/build-payload';
 import { cellToText } from '@/lib/spreadsheet/cells';
-import type { DateFormat } from '../../dates';
+import type { DateFormat } from '../../mapping/dates';
 import { detectHeaderRow } from '@/lib/spreadsheet/layout';
 
-import { suggestPrefix } from '../../layout';
+import { suggestPrefix } from '../../mapping/layout';
 import type {
   ColumnTarget,
   ConflictChoice,
   ImportTarget,
   ParsedSheet
 } from '../../types';
-import { validateImport } from '../../validate';
+import { validateImport } from '../../validation/validate';
 import { DoneStep } from './done-step';
 import { LayoutStep } from './layout-step';
 import { MappingStep } from './mapping-step';

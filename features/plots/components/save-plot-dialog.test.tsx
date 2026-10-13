@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { en } from '@/messages/en';
 
 import { savePlotAction } from '../actions/save-plot';
-import { DEFAULT_STYLE } from '../style';
+import { DEFAULT_STYLE } from '../style/style';
 import { SavePlotDialog } from './save-plot-dialog';
 
 vi.mock('next/navigation', () => ({

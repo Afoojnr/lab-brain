@@ -13,11 +13,11 @@ import {
 } from '@/components/ui/select';
 import type { ParameterDefinition } from '@/features/experiments/shared';
 
-import { dataCells, headersOf, unitsOf } from '../../build-payload';
-import type { SheetLayout } from '../../build-payload';
+import { dataCells, headersOf, unitsOf } from '../../mapping/build-payload';
+import type { SheetLayout } from '../../mapping/build-payload';
 import { cellToText, isBlank } from '@/lib/spreadsheet/cells';
-import { hasAmbiguousDates } from '../../dates';
-import type { DateFormat } from '../../dates';
+import { hasAmbiguousDates } from '../../mapping/dates';
+import type { DateFormat } from '../../mapping/dates';
 import { guessKind } from '@/lib/spreadsheet/layout';
 import type { ColumnTarget, NewColumnTarget, ParsedSheet } from '../../types';
 import { targetToValue, valueToTarget } from './mapping-options';

@@ -9,8 +9,12 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { dependentsOf, formulaColumns, referencedIds } from '../derived-values';
-import { displayFormula } from '../formula';
+import {
+  dependentsOf,
+  formulaColumns,
+  referencedIds
+} from '../calculations/derived-values';
+import { displayFormula } from '../calculations/formula';
 import type { DerivedColumn, ParameterDefinition, Sample } from '../types';
 import { DeleteDerivedColumnDialog } from './delete-derived-column-dialog';
 import { DerivedColumnDialog } from './derived-column-dialog';

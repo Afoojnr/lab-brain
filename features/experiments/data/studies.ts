@@ -1,10 +1,14 @@
-import type { StudyFormValues } from '../schemas';
+import type { StudyFormValues } from '../schemas/schemas';
 import type { Study } from '../types';
 import { DEMO_STUDIES } from './demo-studies';
 
 // TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
 // the server process, so it resets when the dev server restarts.
-const studies: Study[] = [...DEMO_STUDIES];
+// On `globalThis` because a Route Handler (the assistant) is bundled apart from
+// the pages and actions: a plain module-level list would be a separate copy
+// there and would not see what was just created. A database has no such problem.
+const store = globalThis as { __labBrainStudies?: Study[] };
+const studies: Study[] = (store.__labBrainStudies ??= [...DEMO_STUDIES]);
 
 /**
  * An experiment's studies, oldest first.

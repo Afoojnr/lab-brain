@@ -14,7 +14,7 @@ import {
 import { isViewable, viewerKind } from '@/components/file-viewer/kinds';
 import type { ViewerKind } from '@/components/file-viewer/kinds';
 
-import { formatFileSize } from '../datasets';
+import { formatFileSize } from '../datasets/datasets';
 import type { Dataset } from '../types';
 import { DeleteDatasetDialog } from './delete-dataset-dialog';
 

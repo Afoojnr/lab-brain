@@ -22,10 +22,14 @@ import {
   isAppliedByDefault,
   rowValues,
   valueDefinitions
-} from '../batch-preview';
-import type { BatchRow } from '../batch-types';
-import { checkSelection, formatValue, resolveTarget } from '../results';
-import type { ResultColumn } from '../results';
+} from '../batch/batch-preview';
+import type { BatchRow } from '../batch/batch-types';
+import {
+  checkSelection,
+  formatValue,
+  resolveTarget
+} from '../analysis/results';
+import type { ResultColumn } from '../analysis/results';
 import { DEFAULT_ELEMENTS } from '../techniques/edx/stats';
 import type { AnalysisKind, ColumnTarget } from '../types';
 import { EdxRatioSelects } from './edx-ratio-selects';

@@ -22,8 +22,8 @@ import { updateCharacterizationAction } from '../actions/update-characterization
 import {
   characterizationFormSchema,
   isCharacterizationFormError
-} from '../schemas';
-import type { CharacterizationFormValues } from '../schemas';
+} from '../schemas/schemas';
+import type { CharacterizationFormValues } from '../schemas/schemas';
 import type { Characterization } from '../types';
 
 type CharacterizationFormProps = {

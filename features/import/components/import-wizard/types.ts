@@ -1,4 +1,4 @@
-import type { ValidationContext } from '../../validation-types';
+import type { ValidationContext } from '../../validation/validation-types';
 
 /** What the import page loads for the wizard: the project's stored data, per possible target. */
 export type ImportData = {

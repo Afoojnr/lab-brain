@@ -53,7 +53,10 @@ screen.
 3. "New experiment" asks for a name (e.g. "Deposition"), a code prefix (e.g. `ALD`,
    which numbers its samples) and an optional base protocol. An experiment can be
    edited later; changing the prefix never renames existing sample codes.
-4. An experiment page has four section tabs, in this order: **Protocol**, **Setup**
+4. The project page has three tabs: **Background** (formatted text about the project,
+   read by the assistant), **Experiments** (the default) and **References** (Flow 5b); the
+   tab is in the URL (`?tab=`).
+5. An experiment page has four section tabs, in this order: **Protocol**, **Setup**
    (columns, calculated columns and studies), **Samples** (the table, Flow 1) and
    **Plots**. It opens on Samples, or, while it has no samples, on Setup, where a
    "Getting started" checklist shows: ① add the columns (ticked once there are any),
@@ -316,22 +319,24 @@ and pictures in a protocol are never rendered.
 
 ---
 
-## Flow 5b — Add a reference (curated literature)
+## Flow 5b — Add a reference (project literature)
 
-**Goal:** build the project's own bibliography so the AI assistant can cite real
-papers instead of relying on unaided recall.
+**Goal:** give the AI assistant background on the project (a paper, a standard, your own
+notes) without it ever reading a whole paper for each question.
 
-1. From `Project page` → "References" tab → "Add Reference", or from any
-   `Notebook entry` → "Cite a reference" inline.
-2. `Reference form` — title, authors, year, DOI/URL (auto-fetches metadata where
-   possible), optional PDF upload; optionally link to the specific
-   `Experiment`/`Notebook` entry it informed (e.g. "Neil's paper" → `ALD001_1`).
-3. Save → appears in the project's `References` list and, if linked, inline on the
-   record it was attached to. Indexed into the assistant's retrieval alongside
-   notebook entries.
+1. `Project page` → **References** tab → "Add a reference". Choose what you add: a PDF
+   (≤ 20 MB, ≤ 150 pages), a link or DOI (a web page or a PDF address; private network
+   addresses are refused), or pasted text (≤ 300,000 characters). Up to 10 per project.
+2. Title, authors and year are filled from the file or page where possible and are
+   editable. Add a note on why it matters ("how the plasma pulse changes growth").
+3. The text is read **once** now and kept; the reference appears as a card with your note.
+4. **Summarise** (needs your AI key from Settings) writes a short summary of the key points
+   and numbers, noting which pages it covered. It is editable (Edit). The assistant uses
+   the summary, or your note when there is none, and can read more of the text on demand.
+5. Open shows the PDF or the link; Delete (after a confirmation) removes the files too.
 
 ```
-Project page → References tab → Add Reference → Reference form → Save → shown in References list (+ inline if linked to a record)
+Project page → References tab → Add a reference → card → Summarise (optional) → used by the assistant
 ```
 
 ---
@@ -367,27 +372,30 @@ Experiment page → Summary → Print / Save as PDF
 
 ## Flow 7 — Ask the AI assistant
 
-**Goal:** get an answer grounded in your own experiment history — and real
-literature, not the model's unaided recall — without manually digging through the
-experiments.
+**Goal:** get an answer grounded in your own records — not the model's unaided recall —
+without digging through the tables.
 
-1. From `Project page` → "Ask" tab, or from any record detail view → a persistent
-   "Ask about this" shortcut that opens the same chat pre-scoped to that record's
-   context (e.g. asking from `ALD023` pre-loads that sample's chain).
-2. `Ask view` — chat interface. User types a question (e.g. "what happened when I
-   increased plasma time above 10 seconds?" or "what does the literature say about
-   TEB decomposition above 25°C?").
-3. Response includes inline citations, **visibly labeled by source**: your own
-   `Experiment`/`Notebook`/`Analysis` records, your curated `Reference` library, or
-   (if enabled) a live external literature search — each one clickable, records
-   landing on their detail view, references landing on the source paper. Internal and
-   external citations are never blended into one unlabeled claim.
-4. Follow-up questions stay in the same scoped conversation; switching projects (or
-   explicitly choosing "search all projects") changes what's retrievable.
+1. Once, in **Settings → AI assistant**: choose Claude, OpenAI or Ollama (on your computer),
+   enter your key and model, and press Test connection. The key stays in this browser.
+2. Press the floating **Ask AI** button (bottom right, on project, experiment and sample
+   pages; hidden while the panel is open). The assistant opens as a panel on
+   the right (a full-screen sheet on a phone) and pushes the page aside, so the data stays
+   visible. What it asks about follows the page: an experiment page asks about that
+   experiment (a switch makes it the whole project), a project page about the project.
+   On other pages (home, plots, settings) a project is chosen in the panel.
+3. Ask, or press an example question. The answer streams in; the assistant looks up the
+   records with read-only tools. A value that was not recorded is said to be missing, never
+   0, and "I don't have that" is a valid answer. An answer written without reading any
+   record carries a warning.
+4. Under the answer: **Sources** (links to only the samples/experiments the answer names,
+   opening in the same tab) and the **tokens used**. Stop cancels an answer; New chat
+   clears the conversation. The panel stays open and keeps the conversation while you move
+   between pages or close and reopen it (chats are lost when the page is reloaded).
+5. Without a key the page says so and links to Settings; a refused key, a missing model or
+   a rate limit is shown as a plain message, never the provider's raw error.
 
 ```
-Project page → Ask tab → chat → response with labeled, clickable citations (your data vs. literature)
-(or) Any record detail → "Ask about this" → same chat, pre-scoped to that record
+Settings (key) → Project/Experiment page → floating Ask AI → side panel → answer with linked sources and tokens used
 ```
 
 ---

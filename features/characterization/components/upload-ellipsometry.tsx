@@ -16,7 +16,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { formatValue } from '../results';
+import { formatValue } from '../analysis/results';
 import type { TextFile } from '../techniques/edx/from-files';
 import { readSeqfitItems } from '../techniques/ellipsometry/from-files';
 import { downloadBytes, XLSX_TYPE } from '@/lib/download-file';

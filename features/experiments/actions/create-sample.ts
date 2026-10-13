@@ -6,7 +6,7 @@ import { listParameterDefinitions } from '../data/parameter-definitions';
 import { createSample, listSampleCodesByProject } from '../data/samples';
 import { getExperimentInProject } from '../data/experiments';
 import { listStudiesByExperiment } from '../data/studies';
-import { buildSampleFormSchema, toSampleInput } from '../schemas';
+import { buildSampleFormSchema, toSampleInput } from '../schemas/schemas';
 
 /**
  * Records a sample from the Add sample form, then refreshes the experiment page.

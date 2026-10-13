@@ -18,11 +18,11 @@ import {
 
 import { useIsMobile } from '@/hooks/use-mobile';
 
-import { columnLabel } from '../column-label';
-import { seriesLabel, seriesStyle } from '../series-style';
-import type { SeriesStyle } from '../series-style';
-import { axisDomain, MARKER_AREAS, TEXT_SIZES } from '../style';
-import type { PlotStyle } from '../style';
+import { columnLabel } from '../style/column-label';
+import { seriesLabel, seriesStyle } from '../style/series-style';
+import type { SeriesStyle } from '../style/series-style';
+import { axisDomain, MARKER_AREAS, TEXT_SIZES } from '../style/style';
+import type { PlotStyle } from '../style/style';
 import type { PlotColumn, PlotPoint, PlotSeries } from '../types';
 
 const MUTED = 'var(--muted-foreground)';

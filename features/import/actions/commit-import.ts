@@ -18,8 +18,11 @@ import {
 
 import { importPayloadSchema } from '../schemas';
 import type { ImportPayload } from '../types';
-import { validateImport } from '../validate';
-import type { ImportReport, ValidationContext } from '../validation-types';
+import { validateImport } from '../validation/validate';
+import type {
+  ImportReport,
+  ValidationContext
+} from '../validation/validation-types';
 
 export type CommitImportResult =
   | {

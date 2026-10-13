@@ -9,12 +9,14 @@ import {
   listSamplesByExperiment,
   listStudiesByExperiment
 } from '@/features/experiments/server';
-import { calculateForSamples } from '@/features/experiments/shared';
+import {
+  calculateForSamples,
+  summarizeExperiment
+} from '@/features/experiments/shared';
 import { Markdown } from '@/components/markdown';
 import { SavedPlotsReport } from '@/features/plots';
 
-import { calculatedText, valueText } from '../format';
-import { summarizeExperiment } from '../summary';
+import { calculatedText, valueText } from '../formatting/format';
 import { ReportShell } from './report-shell';
 import { ReportTable } from './report-table';
 

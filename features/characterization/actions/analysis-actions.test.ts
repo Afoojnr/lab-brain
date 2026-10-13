@@ -11,7 +11,7 @@ vi.mock('@/features/experiments/server', () => ({
   updateSample: vi.fn()
 }));
 vi.mock('../data/analyses', () => ({ saveAnalysis: vi.fn() }));
-vi.mock('../load', () => ({ computeAnalysisValues: vi.fn() }));
+vi.mock('../analysis/load', () => ({ computeAnalysisValues: vi.fn() }));
 
 import {
   createParameterDefinition,
@@ -24,7 +24,7 @@ import {
 } from '@/features/experiments/server';
 
 import { saveAnalysis } from '../data/analyses';
-import { computeAnalysisValues } from '../load';
+import { computeAnalysisValues } from '../analysis/load';
 import type { AnalysisSettings } from '../types';
 import { applyAnalysisAction } from './apply-analysis';
 import { saveAnalysisSettingsAction } from './save-analysis-settings';

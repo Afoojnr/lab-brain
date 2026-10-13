@@ -16,7 +16,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { formatValue } from '../results';
+import { formatValue } from '../analysis/results';
 import {
   groupEdxItems,
   looksLikeDateFolder

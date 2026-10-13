@@ -21,8 +21,8 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { createSampleAction } from '../../actions/create-sample';
 import { updateSampleAction } from '../../actions/update-sample';
-import { buildSampleFormSchema } from '../../schemas';
-import type { SampleFormValues } from '../../schemas';
+import { buildSampleFormSchema } from '../../schemas/schemas';
+import type { SampleFormValues } from '../../schemas/schemas';
 import type { ParameterDefinition, Study } from '../../types';
 import { StudyField } from './study-field';
 import { useErrorText } from './use-error-text';

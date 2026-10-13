@@ -20,6 +20,7 @@ const PROJECT = {
   id: 'project-1',
   name: 'ALD of BxC',
   description: null,
+  background: null,
   createdAt: new Date()
 };
 const ALD = {

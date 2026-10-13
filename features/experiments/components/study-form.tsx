@@ -19,8 +19,8 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { createStudyAction } from '../actions/create-study';
 import { updateStudyAction } from '../actions/update-study';
-import { buildStudyFormSchema, isStudyFormError } from '../schemas';
-import type { StudyFormValues } from '../schemas';
+import { buildStudyFormSchema, isStudyFormError } from '../schemas/schemas';
+import type { StudyFormValues } from '../schemas/schemas';
 import type { Study } from '../types';
 
 type StudyFormProps = {

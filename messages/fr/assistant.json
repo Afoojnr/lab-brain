@@ -1,0 +1,74 @@
+{
+  "settings": {
+    "title": "Assistant IA",
+    "description": "Choisissez l'IA qui répond aux questions sur vos expériences, et donnez-lui votre propre clé.",
+    "provider": "Fournisseur",
+    "providers": {
+      "anthropic": "Claude (Anthropic)",
+      "openai": "OpenAI",
+      "ollama": "Ollama (sur cet ordinateur)",
+      "openrouter": "OpenRouter"
+    },
+    "key": "Clé API",
+    "keyHint": "Depuis le site de votre fournisseur. Elle reste dans ce navigateur : elle est envoyée avec chaque question et jamais enregistrée ni journalisée par le serveur de l'application.",
+    "showKey": "Afficher la clé",
+    "hideKey": "Masquer la clé",
+    "address": "Adresse d'Ollama",
+    "addressHint": "Ollama tourne sur votre propre ordinateur et n'a pas besoin de clé. Seule une adresse sur cet ordinateur (localhost) est acceptée.",
+    "model": "Modèle",
+    "modelHint": "Choisissez une suggestion ou tapez le nom de n'importe quel modèle proposé par votre fournisseur.",
+    "test": "Tester la connexion",
+    "testing": "Test…",
+    "works": "Ça fonctionne.",
+    "privacy": "Ce que vous demandez, ainsi que les notes, valeurs et références que l'assistant lit pour répondre, sont envoyés au fournisseur que vous choisissez. Avec Ollama, ils restent sur cet ordinateur."
+  },
+  "errors": {
+    "notReady": "Saisissez d'abord une clé et un modèle (Ollama demande un modèle et une adresse locale).",
+    "localDisabled": "Ollama n'est pas disponible ici : il ne fonctionne que lorsque l'application tourne sur votre propre ordinateur.",
+    "unauthorized": "Le fournisseur a refusé la clé. Vérifiez qu'elle est correcte et toujours active.",
+    "modelNotFound": "Ce modèle est introuvable. Vérifiez son nom.",
+    "rateLimited": "Le fournisseur signale trop de requêtes, ou le compte n'a plus de crédit. Réessayez plus tard.",
+    "unreachable": "Le fournisseur est injoignable. Vérifiez votre connexion internet (ou qu'Ollama est lancé).",
+    "timeout": "Le fournisseur a mis trop de temps à répondre. Réessayez.",
+    "failed": "L'IA n'a pas pu répondre. Vérifiez les réglages et réessayez.",
+    "noCredit": "Le fournisseur indique que le compte n'a plus de crédit. Ajoutez du crédit sur sa page de facturation, puis réessayez."
+  },
+  "chat": {
+    "title": "Assistant",
+    "project": "Projet",
+    "chooseProject": "Choisir un projet",
+    "wholeProject": "Tout le projet",
+    "noProject": "Ouvrez un projet, ou choisissez-en un ci-dessus, pour poser vos questions.",
+    "placeholder": "Posez une question sur ce projet…",
+    "send": "Envoyer",
+    "stop": "Arrêter",
+    "working": "Consultation de vos enregistrements…",
+    "sources": "Sources",
+    "tokens": "{count} jetons utilisés",
+    "emptyTitle": "Posez une question",
+    "emptyHint": "Il répond à partir de vos échantillons, notes et références. S'il n'a pas l'information, il le dit.",
+    "example1": "Qu'est-ce qui a changé entre ces échantillons et qu'est-ce qui est resté identique ?",
+    "example2": "Quel échantillon a le meilleur résultat, et en quoi était-il différent ?",
+    "example3": "Quels échantillons n'ont pas de mesure ?",
+    "notReady": "Ajoutez votre clé d'IA (ou choisissez Ollama) dans les paramètres pour poser des questions.",
+    "openSettings": "Ouvrir les paramètres",
+    "newChat": "Nouvelle discussion",
+    "privacy": "Votre question et les enregistrements lus sont envoyés à votre fournisseur d'IA.",
+    "askingAbout": "Questions sur",
+    "thisProject": "ce projet",
+    "scope": "Sujet des questions",
+    "thisExperiment": "Cette expérience",
+    "noRecords": "Cette réponse a été écrite sans lire vos enregistrements : elle ne repose peut-être pas sur vos données. Vérifiez-la avant de vous y fier.",
+    "close": "Fermer l'assistant"
+  },
+  "ask": {
+    "label": "Demander à l'IA"
+  },
+  "summarise": {
+    "button": "Résumer",
+    "again": "Résumer à nouveau",
+    "working": "Résumé en cours…",
+    "done": "Résumé enregistré. Vous pouvez le modifier.",
+    "needsSettings": "Ajoutez d'abord votre clé d'IA dans les paramètres."
+  }
+}

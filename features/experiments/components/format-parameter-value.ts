@@ -1,6 +1,6 @@
 import type { useFormatter } from 'next-intl';
 
-import { NUMBER_FORMAT_OPTIONS } from '../parameters';
+import { NUMBER_FORMAT_OPTIONS } from '../parameters/parameters';
 import type { ParameterValue } from '../types';
 
 /** The same formatter type comes from `getFormatter` (server) and `useFormatter` (client). */

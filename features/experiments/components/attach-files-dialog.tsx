@@ -19,7 +19,7 @@ import {
 
 import { reserveDatasetFolderAction } from '../actions/reserve-dataset-folder';
 import { uploadDatasetAction } from '../actions/upload-dataset';
-import { MAX_DATASET_BYTES } from '../datasets';
+import { MAX_DATASET_BYTES } from '../datasets/datasets';
 
 type AttachFilesDialogProps = {
   projectId: string;

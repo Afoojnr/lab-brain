@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/table';
 
 import { cellToText } from '@/lib/spreadsheet/cells';
-import type { SheetLayout } from '../../build-payload';
+import type { SheetLayout } from '../../mapping/build-payload';
 import type { ParsedSheet } from '../../types';
 
 const PREVIEW_ROWS = 10;

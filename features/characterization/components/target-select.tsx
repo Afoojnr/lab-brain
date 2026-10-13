@@ -11,7 +11,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
-import type { ResultColumn } from '../results';
+import type { ResultColumn } from '../analysis/results';
 import type { AnalysisValue, ColumnTarget } from '../types';
 
 type TargetSelectProps = {

@@ -20,8 +20,8 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 
-import { summarizeTechniques } from '../characterizations';
-import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
+import { summarizeTechniques } from '../characterizations/characterizations';
+import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters/parameters';
 import type {
   Characterization,
   DerivedColumn,

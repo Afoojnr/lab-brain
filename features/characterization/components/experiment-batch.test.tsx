@@ -32,7 +32,7 @@ vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 import { toast } from 'sonner';
 
 import { applyAnalysisBatchAction } from '../actions/apply-analysis-batch';
-import type { BatchRow } from '../batch-types';
+import type { BatchRow } from '../batch/batch-types';
 import { ExperimentBatch } from './experiment-batch';
 
 const t = en.analysis.workspace.experiment;

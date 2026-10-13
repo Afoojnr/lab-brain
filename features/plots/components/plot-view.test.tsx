@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { en } from '@/messages/en';
 
-import type { PlotTable } from '../from-table';
+import type { PlotTable } from '../compute/from-table';
 import { PlotView } from './plot-view';
 
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }) }));

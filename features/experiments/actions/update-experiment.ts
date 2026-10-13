@@ -7,7 +7,7 @@ import {
   listExperimentsByProject,
   updateExperiment
 } from '../data/experiments';
-import { buildExperimentFormSchema } from '../schemas';
+import { buildExperimentFormSchema } from '../schemas/schemas';
 
 /**
  * Changes an experiment from the Edit experiment form, then refreshes the pages that

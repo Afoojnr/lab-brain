@@ -11,7 +11,7 @@ import {
   listStudiesByExperiment
 } from '@/features/experiments/server';
 
-import type { ValidationContext } from '../validation-types';
+import type { ValidationContext } from '../validation/validation-types';
 import { ImportWizard } from './import-wizard';
 
 type ImportPageProps = {

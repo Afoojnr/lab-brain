@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-import { PREVIEW_SIZE } from '../preview-size';
+import { PREVIEW_SIZE } from '../style/preview-size';
 
 /**
  * The chart library is only downloaded after the page is up, so a page that

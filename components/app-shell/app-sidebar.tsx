@@ -102,7 +102,8 @@ export const AppSidebar = ({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      {/* Raised off the screen's bottom edge, where it was easy to miss. */}
+      <SidebarFooter className="pb-8">
         <SidebarMenu>
           <NavLink item={SETTINGS_ITEM} />
         </SidebarMenu>

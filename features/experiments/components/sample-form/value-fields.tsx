@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-import type { SampleFormValues } from '../../schemas';
+import type { SampleFormValues } from '../../schemas/schemas';
 import type { ParameterDefinition } from '../../types';
 import { ParameterLabel } from '../parameter-label';
 import { useErrorText } from './use-error-text';

@@ -1,0 +1,94 @@
+{
+  "tab": {
+    "description": "Des articles et des notes qui donnent à l'assistant IA du contexte sur ce projet. Chacun est lu une fois et conservé ; l'assistant utilise son résumé et consulte les détails quand il en a besoin.",
+    "usage": "{count} références sur {max}",
+    "empty": "Pas encore de référence. Ajoutez un article (un PDF, un lien ou un DOI) ou collez du texte, avec une note sur son intérêt.",
+    "add": "Ajouter une référence"
+  },
+  "add": {
+    "title": "Ajouter une référence",
+    "description": "Le fichier, la page ou le texte est lu une fois maintenant et conservé, pour que l'assistant n'ait plus à le relire.",
+    "kind": "Que voulez-vous ajouter ?",
+    "kinds": {
+      "pdf": "PDF",
+      "link": "Lien ou DOI",
+      "text": "Texte collé"
+    },
+    "file": "Fichier PDF",
+    "fileHint": "Jusqu'à 20 Mo et 150 pages. Un PDF scanné sans texte ne peut pas être lu.",
+    "url": "Adresse web ou DOI",
+    "urlHint": "Par exemple https://example.com/article ou 10.1016/j.apsusc.2020.146190. Une page payante ne peut pas être lue : importez plutôt le PDF.",
+    "urlPlaceholder": "https://… ou 10.…",
+    "text": "Texte",
+    "textHint": "Collez le passage, le résumé ou vos propres notes (jusqu'à 300 000 caractères).",
+    "titleLabel": "Titre",
+    "titleHint": "Laissez vide pour reprendre le titre du fichier ou de la page.",
+    "authors": "Auteurs",
+    "year": "Année",
+    "note": "Pourquoi c'est utile",
+    "notePlaceholder": "Par exemple : comment la durée du plasma change la croissance par cycle",
+    "submit": "Ajouter la référence",
+    "reading": "Lecture…",
+    "cancel": "Annuler",
+    "done": "Référence ajoutée",
+    "dropTitle": "Déposez un PDF ici",
+    "browse": "ou cliquez pour choisir un fichier",
+    "chosen": "Choisi : {name} ({size} Mo). Déposez-en ou choisissez-en un autre pour le remplacer."
+  },
+  "errors": {
+    "invalid": "Vérifiez les informations et réessayez.",
+    "limitReached": "Ce projet a déjà le maximum de références ({max}). Supprimez-en une d'abord.",
+    "fileMissing": "Choisissez un fichier PDF.",
+    "fileTooLarge": "Ce fichier dépasse 20 Mo.",
+    "notPdf": "Ce n'est pas un fichier PDF.",
+    "unreadablePdf": "Ce PDF n'a pas pu être lu. Est-il abîmé ou protégé par un mot de passe ?",
+    "tooManyPages": "Ce PDF a plus de 150 pages. Ajoutez plutôt la partie dont vous avez besoin.",
+    "noText": "Il n'y a pas assez de texte à conserver. Un PDF scanné n'a pas de texte : collez le texte à la place.",
+    "linkInvalid": "Ce n'est ni une adresse web ni un DOI.",
+    "linkBlocked": "Cette adresse ne peut pas être lue d'ici : elle pointe vers un réseau privé.",
+    "linkFailed": "La page n'a pas pu être lue (pas de réponse, ou refus). Réessayez, ou importez le PDF.",
+    "linkTooLarge": "Cette page ou ce fichier dépasse 10 Mo.",
+    "linkUnsupported": "Ce lien n'est ni une page web, ni un PDF, ni du texte brut.",
+    "unexpected": "Un problème est survenu pendant l'ajout de la référence.",
+    "titleRequired": "Donnez un titre à la référence.",
+    "titleTooLong": "Utilisez 200 caractères ou moins.",
+    "authorsTooLong": "Utilisez 300 caractères ou moins.",
+    "yearInvalid": "Utilisez une année à quatre chiffres, comme 2023.",
+    "urlInvalid": "Utilisez une adresse web ou un DOI.",
+    "noteTooLong": "Utilisez 2 000 caractères ou moins.",
+    "summaryTooLong": "Utilisez 4 000 caractères ou moins."
+  },
+  "card": {
+    "kind": {
+      "pdf": "PDF",
+      "link": "Lien",
+      "text": "Texte"
+    },
+    "open": "Ouvrir {title}",
+    "openShort": "Ouvrir",
+    "edit": "Modifier {title}",
+    "delete": "Supprimer {title}",
+    "pages": "{count, plural, one {# page} other {# pages}}",
+    "characters": "{count} caractères",
+    "truncated": "Seul le début a été conservé : la limite de longueur est atteinte.",
+    "note": "Pourquoi c'est utile",
+    "summary": "Résumé",
+    "noSummary": "Pas encore de résumé. L'assistant utilise votre note."
+  },
+  "edit": {
+    "title": "Modifier la référence",
+    "description": "Changez les informations, votre note ou le résumé que lit l'assistant.",
+    "summary": "Résumé",
+    "summaryHint": "L'assistant lit ceci à la place du texte entier. Modifiez-le librement.",
+    "save": "Enregistrer les modifications",
+    "cancel": "Annuler",
+    "saved": "Référence enregistrée"
+  },
+  "delete": {
+    "title": "Supprimer cette référence ?",
+    "description": "{title} et le texte qui en a été lu seront supprimés. L'assistant ne la connaîtra plus.",
+    "confirm": "Supprimer la référence",
+    "cancel": "Annuler",
+    "deleted": "Référence supprimée"
+  }
+}

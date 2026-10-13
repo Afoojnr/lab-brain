@@ -1,0 +1,74 @@
+{
+  "settings": {
+    "title": "AI assistant",
+    "description": "Choose the AI that answers questions about your experiments, and give it your own key.",
+    "provider": "Provider",
+    "providers": {
+      "anthropic": "Claude (Anthropic)",
+      "openai": "OpenAI",
+      "ollama": "Ollama (on this computer)",
+      "openrouter": "OpenRouter"
+    },
+    "key": "API key",
+    "keyHint": "From your provider's website. It stays in this browser: it is sent with each question and never saved or logged by the app's server.",
+    "showKey": "Show the key",
+    "hideKey": "Hide the key",
+    "address": "Ollama address",
+    "addressHint": "Ollama runs on your own computer and needs no key. Only an address on this computer (localhost) is accepted.",
+    "model": "Model",
+    "modelHint": "Pick a suggestion or type any model name your provider offers.",
+    "test": "Test connection",
+    "testing": "Testing…",
+    "works": "It works.",
+    "privacy": "What you ask, and the notes, values and references the assistant reads to answer, are sent to the provider you choose. With Ollama they stay on this computer."
+  },
+  "errors": {
+    "notReady": "Enter a key and a model first (Ollama needs a model and a local address).",
+    "localDisabled": "Ollama is not available here: it only works when the app runs on your own computer.",
+    "unauthorized": "The provider refused the key. Check that it is correct and still active.",
+    "modelNotFound": "That model was not found. Check the model name.",
+    "rateLimited": "The provider says there are too many requests, or the account has no credit left. Try again later.",
+    "unreachable": "The provider could not be reached. Check your internet connection (or that Ollama is running).",
+    "timeout": "The provider took too long to answer. Try again.",
+    "failed": "The AI could not answer. Check the settings and try again.",
+    "noCredit": "The provider says the account has no credit left. Add credit on the provider's billing page, then try again."
+  },
+  "chat": {
+    "title": "Assistant",
+    "project": "Project",
+    "chooseProject": "Choose a project",
+    "wholeProject": "Whole project",
+    "noProject": "Open a project, or choose one above, to ask about it.",
+    "placeholder": "Ask about this project…",
+    "send": "Send",
+    "stop": "Stop",
+    "working": "Looking at your records…",
+    "sources": "Sources",
+    "tokens": "{count} tokens used",
+    "emptyTitle": "Ask a question",
+    "emptyHint": "It answers from your samples, notes and references. If it does not have something, it says so.",
+    "example1": "What changed between these samples and what stayed the same?",
+    "example2": "Which sample has the highest result, and what was different about it?",
+    "example3": "Which samples are missing a measurement?",
+    "notReady": "Add your AI key (or choose Ollama) in Settings to ask questions.",
+    "openSettings": "Open settings",
+    "newChat": "New chat",
+    "privacy": "Your question and the records it reads are sent to your AI provider.",
+    "askingAbout": "Asking about",
+    "thisProject": "this project",
+    "scope": "What to ask about",
+    "thisExperiment": "This experiment",
+    "noRecords": "This answer was written without reading your records, so it may not be based on your data. Check it before relying on it.",
+    "close": "Close the assistant"
+  },
+  "ask": {
+    "label": "Ask AI"
+  },
+  "summarise": {
+    "button": "Summarise",
+    "again": "Summarise again",
+    "working": "Summarising…",
+    "done": "Summary saved. You can edit it.",
+    "needsSettings": "Add your AI key in Settings first."
+  }
+}

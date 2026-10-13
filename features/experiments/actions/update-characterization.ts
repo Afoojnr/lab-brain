@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { matchTechnique } from '../characterizations';
+import { matchTechnique } from '../characterizations/characterizations';
 import {
   getCharacterizationOfSample,
   listTechniquesByProject,
@@ -10,7 +10,7 @@ import {
 } from '../data/characterizations';
 import { getExperimentInProject } from '../data/experiments';
 import { getSampleById } from '../data/samples';
-import { characterizationFormSchema } from '../schemas';
+import { characterizationFormSchema } from '../schemas/schemas';
 
 /**
  * Changes a characterization from the Edit characterization form, then

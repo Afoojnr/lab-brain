@@ -16,20 +16,20 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { columnLabel } from '../column-label';
-import { defaultSettings } from '../default-settings';
+import { columnLabel } from '../style/column-label';
+import { defaultSettings } from '../style/default-settings';
 import type { ExportTable } from '@/lib/export/types';
 
-import { computePlot } from '../compute-plot';
-import { describeFilters } from '../filters';
-import { legendTitleFor } from '../legend-title';
-import { captionLines } from '../export-caption';
-import { exportPlot } from '../export-plot';
-import type { ExportFormat } from '../export-plot';
-import type { PlotTable } from '../from-table';
-import { seriesLabel, seriesStyle } from '../series-style';
-import { DEFAULT_STYLE, TEXT_SIZES } from '../style';
-import type { PlotStyle } from '../style';
+import { computePlot } from '../compute/compute-plot';
+import { describeFilters } from '../compute/filters';
+import { legendTitleFor } from '../style/legend-title';
+import { captionLines } from '../export/export-caption';
+import { exportPlot } from '../export/export-plot';
+import type { ExportFormat } from '../export/export-plot';
+import type { PlotTable } from '../compute/from-table';
+import { seriesLabel, seriesStyle } from '../style/series-style';
+import { DEFAULT_STYLE, TEXT_SIZES } from '../style/style';
+import type { PlotStyle } from '../style/style';
 import type {
   PlotFilter,
   PlotPoint,

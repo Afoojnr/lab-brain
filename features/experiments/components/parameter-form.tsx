@@ -25,8 +25,11 @@ import {
 
 import { createParameterDefinitionAction } from '../actions/create-parameter-definition';
 import { updateParameterDefinitionAction } from '../actions/update-parameter-definition';
-import { buildParameterFormSchema, isParameterFormError } from '../schemas';
-import type { ParameterFormValues } from '../schemas';
+import {
+  buildParameterFormSchema,
+  isParameterFormError
+} from '../schemas/schemas';
+import type { ParameterFormValues } from '../schemas/schemas';
 import type { ParameterDefinition } from '../types';
 
 type ParameterFormProps = {

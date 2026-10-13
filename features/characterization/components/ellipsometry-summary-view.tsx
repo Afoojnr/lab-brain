@@ -11,7 +11,7 @@ import {
   YAxis
 } from 'recharts';
 
-import { formatValue } from '../results';
+import { formatValue } from '../analysis/results';
 import type { SeqfitSummary } from '../techniques/ellipsometry/parse';
 
 /**

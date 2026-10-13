@@ -9,8 +9,8 @@ import {
   listSavedPlots,
   updateSavedPlot
 } from '../data/saved-plots';
-import { loadExperimentTable } from '../load-experiment';
-import { buildSavedPlotSchema } from '../schemas';
+import { loadExperimentTable } from '../compute/load-experiment';
+import { buildSavedPlotSchema } from '../schemas/schemas';
 
 /**
  * Saves the plot on screen for an experiment, or replaces a saved plot when

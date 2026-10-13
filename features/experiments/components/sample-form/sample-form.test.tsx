@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 
 import { createSampleAction } from '../../actions/create-sample';
 import { updateSampleAction } from '../../actions/update-sample';
-import type { SampleFormValues } from '../../schemas';
+import type { SampleFormValues } from '../../schemas/schemas';
 import type { ParameterDefinition, Study } from '../../types';
 import { SampleForm } from '.';
 

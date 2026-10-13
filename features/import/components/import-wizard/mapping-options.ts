@@ -1,6 +1,6 @@
 import type { ParameterDefinition } from '@/features/experiments/shared';
 
-import { newColumnFromHeader } from '../../build-payload';
+import { newColumnFromHeader } from '../../mapping/build-payload';
 import type { ColumnTarget } from '../../types';
 
 /** The select's value for a target: `column:<id>` for an existing column, else the target's type. */

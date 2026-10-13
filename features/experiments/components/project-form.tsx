@@ -19,8 +19,8 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { createProjectAction } from '../actions/create-project';
 import { updateProjectAction } from '../actions/update-project';
-import { isProjectFormError, projectFormSchema } from '../schemas';
-import type { ProjectFormValues } from '../schemas';
+import { isProjectFormError, projectFormSchema } from '../schemas/schemas';
+import type { ProjectFormValues } from '../schemas/schemas';
 import type { Project } from '../types';
 
 type ProjectFormProps = {

@@ -7,7 +7,7 @@ import {
   listParameterDefinitions
 } from '../data/parameter-definitions';
 import { getExperimentInProject } from '../data/experiments';
-import { buildParameterFormSchema, toParameterInput } from '../schemas';
+import { buildParameterFormSchema, toParameterInput } from '../schemas/schemas';
 
 /**
  * Adds a parameter (a column) to an experiment from the Add parameter form, then

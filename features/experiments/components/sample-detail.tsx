@@ -18,7 +18,7 @@ import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { getSampleById } from '../data/samples';
 import { getExperimentById } from '../data/experiments';
-import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
+import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters/parameters';
 import { CharacterizationDialog } from './characterization-dialog';
 import { CharacterizationsTable } from './characterizations-table';
 import { RecordLink } from './record-link';

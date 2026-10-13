@@ -25,8 +25,11 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { savePlotAction } from '../actions/save-plot';
-import { buildSavedPlotFormSchema, isSavedPlotFormError } from '../schemas';
-import type { SavedPlotFormValues } from '../schemas';
+import {
+  buildSavedPlotFormSchema,
+  isSavedPlotFormError
+} from '../schemas/schemas';
+import type { SavedPlotFormValues } from '../schemas/schemas';
 import type { SavedPlotInput } from '../types';
 
 type SavePlotDialogProps = {
