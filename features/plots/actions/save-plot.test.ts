@@ -4,7 +4,7 @@ vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
 vi.mock('@/features/experiments/server', () => ({
   getExperimentInProject: vi.fn()
 }));
-vi.mock('../load-experiment', () => ({ loadExperimentTable: vi.fn() }));
+vi.mock('../compute/load-experiment', () => ({ loadExperimentTable: vi.fn() }));
 vi.mock('../data/saved-plots', () => ({
   createSavedPlot: vi.fn(),
   listSavedPlots: vi.fn(),
@@ -20,8 +20,8 @@ import {
   listSavedPlots,
   updateSavedPlot
 } from '../data/saved-plots';
-import { loadExperimentTable } from '../load-experiment';
-import { DEFAULT_STYLE } from '../style';
+import { loadExperimentTable } from '../compute/load-experiment';
+import { DEFAULT_STYLE } from '../style/style';
 import { savePlotAction } from './save-plot';
 
 const INPUT = {

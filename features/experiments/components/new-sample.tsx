@@ -16,7 +16,7 @@ import {
   defaultSampleInputs,
   duplicateSampleInputs,
   suggestNextSampleCode
-} from '../parameters';
+} from '../parameters/parameters';
 import { SampleForm } from './sample-form';
 
 type NewSampleProps = {

@@ -9,7 +9,7 @@ import {
 } from '../data/parameter-definitions';
 import { isParameterInUse } from '../data/samples';
 import { getExperimentInProject } from '../data/experiments';
-import { buildParameterFormSchema, toParameterInput } from '../schemas';
+import { buildParameterFormSchema, toParameterInput } from '../schemas/schemas';
 
 /**
  * Changes a parameter from the Edit parameter form, then refreshes the

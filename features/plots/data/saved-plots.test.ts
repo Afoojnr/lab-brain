@@ -7,7 +7,7 @@ import {
   listSavedPlots,
   updateSavedPlot
 } from './saved-plots';
-import { DEFAULT_STYLE } from '../style';
+import { DEFAULT_STYLE } from '../style/style';
 
 const INPUT = {
   name: 'GPC at 600',

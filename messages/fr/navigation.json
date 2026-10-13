@@ -7,5 +7,6 @@
   "edx": "EDX",
   "ellipsometry": "Ellipsométrie",
   "toggle": "Afficher ou masquer {name}",
-  "plots": "Graphiques"
+  "plots": "Graphiques",
+  "askAi": "Demander à l'IA"
 }

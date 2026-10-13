@@ -17,7 +17,7 @@ import {
   toCalendarDate
 } from '@/features/experiments/shared';
 
-import { calculatedText, valueText } from '../format';
+import { calculatedText, valueText } from '../formatting/format';
 import { ReportShell } from './report-shell';
 import { ReportTable } from './report-table';
 

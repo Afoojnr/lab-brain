@@ -7,7 +7,7 @@ import {
   createExperiment,
   listExperimentsByProject
 } from '../data/experiments';
-import { buildExperimentFormSchema } from '../schemas';
+import { buildExperimentFormSchema } from '../schemas/schemas';
 
 /**
  * Adds an experiment to a project from the New experiment form, then refreshes the

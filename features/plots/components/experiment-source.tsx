@@ -9,8 +9,8 @@ import {
 } from '@/features/experiments/server';
 
 import { listSavedPlots } from '../data/saved-plots';
-import { loadExperimentTable } from '../load-experiment';
-import { restoreSaved } from '../restore';
+import { loadExperimentTable } from '../compute/load-experiment';
+import { restoreSaved } from '../compute/restore';
 import { PlotView } from './plot-view';
 import { SavedPlotsList } from './saved-plots-list';
 

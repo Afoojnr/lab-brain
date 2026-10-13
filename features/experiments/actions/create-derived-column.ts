@@ -8,8 +8,11 @@ import {
 } from '../data/derived-columns';
 import { getExperimentInProject } from '../data/experiments';
 import { listParameterDefinitions } from '../data/parameter-definitions';
-import { formulaColumns } from '../derived-values';
-import { buildDerivedColumnFormSchema, toDerivedColumnInput } from '../schemas';
+import { formulaColumns } from '../calculations/derived-values';
+import {
+  buildDerivedColumnFormSchema,
+  toDerivedColumnInput
+} from '../schemas/schemas';
 
 /**
  * Adds a calculated column from the Add calculated column form, then

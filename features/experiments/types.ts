@@ -8,6 +8,11 @@ export type Project = {
   name: string;
   /** What the project is about; null when not set. */
   description: string | null;
+  /**
+   * The long version of what the project is about, as Markdown: goals, what is
+   * known, open questions. The AI assistant reads it; null when not written.
+   */
+  background: string | null;
   createdAt: Date;
 };
 

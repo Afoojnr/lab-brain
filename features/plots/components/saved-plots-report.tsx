@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 
-import { columnLabel } from '../column-label';
+import { columnLabel } from '../style/column-label';
 import { listSavedPlots } from '../data/saved-plots';
-import { describeFilters } from '../filters';
-import { loadExperimentTable } from '../load-experiment';
-import { restoreSaved } from '../restore';
+import { describeFilters } from '../compute/filters';
+import { loadExperimentTable } from '../compute/load-experiment';
+import { restoreSaved } from '../compute/restore';
 import { SavedPlotFigure } from './saved-plot-figure';
 
 /** A figure on paper: wide enough to read, short enough that two fit a page. */

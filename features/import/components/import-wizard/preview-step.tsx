@@ -24,7 +24,10 @@ import {
 } from '@/components/ui/table';
 
 import type { ConflictChoice } from '../../types';
-import type { ImportReport, RowReport } from '../../validation-types';
+import type {
+  ImportReport,
+  RowReport
+} from '../../validation/validation-types';
 import { issueKey } from './issue-text';
 
 type PreviewStepProps = {

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 
 import { useAnalysisRun } from '../hooks/use-analysis-run';
 import type { AnalysisIds } from '../hooks/use-analysis-run';
-import type { ResultColumn } from '../results';
+import type { ResultColumn } from '../analysis/results';
 import { edxValues } from '../techniques/edx/stats';
 import type { Spot } from '../techniques/edx/types';
 import type { AnalysisSettings } from '../types';

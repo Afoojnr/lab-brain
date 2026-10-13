@@ -4,11 +4,11 @@ import { getTranslations } from 'next-intl/server';
 import { buttonVariants } from '@/components/ui/button';
 
 import { listSavedPlots } from '../data/saved-plots';
-import { describeFilters } from '../filters';
-import { columnLabel } from '../column-label';
-import { loadExperimentTable } from '../load-experiment';
-import { PREVIEW_SIZE } from '../preview-size';
-import { restoreSaved } from '../restore';
+import { describeFilters } from '../compute/filters';
+import { columnLabel } from '../style/column-label';
+import { loadExperimentTable } from '../compute/load-experiment';
+import { PREVIEW_SIZE } from '../style/preview-size';
+import { restoreSaved } from '../compute/restore';
 import { DeleteSavedPlotButton } from './delete-saved-plot-button';
 import { LazySavedPlotFigure } from './lazy-saved-plot-figure';
 

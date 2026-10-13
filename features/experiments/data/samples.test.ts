@@ -9,7 +9,7 @@ import {
   listSamplesByExperiment,
   updateSample
 } from './samples';
-import { suggestNextSampleCode } from '../parameters';
+import { suggestNextSampleCode } from '../parameters/parameters';
 import {
   getExperimentInProject,
   listExperimentsByProject,

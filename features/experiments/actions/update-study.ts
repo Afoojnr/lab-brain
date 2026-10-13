@@ -8,7 +8,7 @@ import {
   listStudiesByExperiment,
   updateStudy
 } from '../data/studies';
-import { buildStudyFormSchema } from '../schemas';
+import { buildStudyFormSchema } from '../schemas/schemas';
 
 /**
  * Changes a study from the Edit study form, then refreshes the experiment

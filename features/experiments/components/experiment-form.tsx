@@ -20,8 +20,11 @@ import { Input } from '@/components/ui/input';
 
 import { createExperimentAction } from '../actions/create-experiment';
 import { updateExperimentAction } from '../actions/update-experiment';
-import { buildExperimentFormSchema, isExperimentFormError } from '../schemas';
-import type { ExperimentFormValues } from '../schemas';
+import {
+  buildExperimentFormSchema,
+  isExperimentFormError
+} from '../schemas/schemas';
+import type { ExperimentFormValues } from '../schemas/schemas';
 import type { Experiment } from '../types';
 
 type ExperimentFormProps = {

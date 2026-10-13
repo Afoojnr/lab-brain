@@ -14,7 +14,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
-import { columnLabel } from '../column-label';
+import { columnLabel } from '../style/column-label';
 import type { GroupBy, PlotColumn, PlotSettings } from '../types';
 
 const NONE = 'none';

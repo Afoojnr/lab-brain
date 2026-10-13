@@ -164,29 +164,30 @@ parse the raw export format, compute a derived value, and hand off to a chart.
 - Built as small, independent modules per technique so a new technique is a new
   parser + calculation function, not a change to the core app.
 
-### 6. AI research assistant
+### 6. AI research assistant (built, bring-your-own key)
 
-- A chat interface answering questions grounded in the researcher's own notebook
-  entries and metadata — e.g. "what happened when I increased plasma time above 10
-  seconds?" — answered from your own linked experiment history.
-- **Structured context, not just text chunks**: when scoped to a project, retrieval
-  includes the experiment tree's structure (objectives, parameters, results per node,
-  in hierarchical/chronological order), not only isolated notebook paragraphs.
-- **Literature grounding, kept explicitly separate from internal data**, to avoid
-  generic or hallucinated advice:
-  - A `Reference` record (title, authors, year, DOI/URL, optional PDF), linked to a
-    `Project` and optionally to specific `Experiment`/`Notebook` entries — your own
-    curated reading list, indexed into the same retrieval pipeline as notebook
-    entries.
-  - Live literature search as a tool call (start with one API — Semantic Scholar has
-    the simplest free API and decent materials-science coverage) for questions beyond
-    what's been curated — the assistant retrieves and cites real papers at query time
-    rather than recalling titles/DOIs from training data.
-  - Responses must visibly distinguish "from your own experiment data" citations from
-    "from external literature" citations — never blended into one unsourced claim.
-- **"Suggest next steps" is a later, higher-risk capability**, deferred until plain
-  grounded Q&A is solid — generating suggestions before citation discipline works is
-  exactly how you get confident, generic, ungrounded advice.
+- A chat page (`/assistant`, scoped to a project and optionally one experiment, also
+  opened from an **Ask AI** button on those pages) that answers questions such as "which
+  samples at 600 cycles had the best result?" from the researcher's own records.
+- **No RAG, no embeddings, no extra services (decided).** The assistant reads the records
+  with small, exact, read-only tools (`listExperiments`, `getExperimentOverview`,
+  `findSamples`, `getSample`, `searchNotes`, `readReference`), so a question costs few
+  tokens and numbers are exact. Calculated values come from the same calculator as the
+  tables. A value that was not recorded is reported as not recorded, never as 0.
+- **Project background** (formatted text on the project's Background tab) and each
+  **reference's summary or note** go into the instructions of every question, so the AI
+  understands the project. References (PDF, link or DOI, pasted text; 10 per project) are
+  read once when added and the text is kept in storage; a **Summarise** button writes a
+  short summary with the user's AI (editable). The AI can read more of a reference with
+  `readReference` when the summary is not enough.
+- **Bring your own key:** Claude, OpenAI or Ollama (on the user's computer). The key stays
+  in the browser, is sent with each question, and is never stored or logged by the server.
+- Answers cite the records they used as links, show the tokens used, and say "I don't have
+  that" instead of guessing. The assistant never changes data. Chats last while the page
+  is open.
+- **Later:** saved chats and encrypted key storage (with accounts and the database), live
+  literature search, and "suggest the next experiments" (DoE + Bayesian optimisation) as a
+  separate step once plain grounded Q&A is solid.
 
 ---
 
@@ -206,10 +207,10 @@ parse the raw export format, compute a derived value, and hand off to a chart.
 
 **Stage 2 — the AI assistant (build second):**
 
-- Retrieval over sample notes (implementation, observation, note), protocols +
-  structured metadata + curated `Reference` records.
-- Chat interface, scoped to one project, with source-labeled citations.
-- Live literature search tool call as a fallback beyond curated references.
+- Tool-based reading of sample notes, protocols and structured metadata, plus the
+  project background and `Reference` summaries (built, see section 6).
+- Chat interface, scoped to a project or experiment, with linked citations (built).
+- Live literature search tool call as a fallback beyond curated references (later).
 
 **Explicitly out of scope for now:**
 
@@ -245,7 +246,7 @@ answer.
 | Charting              | Recharts or Chart.js                                                                       | Plot ratio/GPC/spectra vs. chosen parameters; export as PNG via canvas                              |
 | Notebook              | Markdown, rendered client-side                                                             | Attached to records, exported to static HTML/PDF                                                    |
 | Provenance            | Linking tables in the same database (Drizzle relations)                                    | No separate graph DB needed at this scale                                                           |
-| AI assistant          | Vector store (e.g. SQLite-based or Chroma) + Claude API                                    | RAG over notebook narrative + metadata + curated references                                         |
+| AI assistant          | Vercel AI SDK, user's own key (Claude, OpenAI, Ollama), read-only tools                    | No RAG: exact tool queries over the records + project background + reference summaries              |
 | Literature search     | Semantic Scholar API (start with one provider)                                             | Tool call for grounding beyond curated references                                                   |
 | Deployment            | Vercel (or similar)                                                                        | Live, linkable, recruiter-visible                                                                   |
 

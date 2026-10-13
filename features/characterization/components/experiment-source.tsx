@@ -10,8 +10,8 @@ import {
 } from '@/features/experiments/server';
 
 import { getAnalysis, latestTargets } from '../data/analyses';
-import { defaultSettings } from '../defaults';
-import { loadBatchRows } from '../load-batch';
+import { defaultSettings } from '../analysis/defaults';
+import { loadBatchRows } from '../batch/load-batch';
 import type { AnalysisKind } from '../types';
 import { ExperimentBatch } from './experiment-batch';
 

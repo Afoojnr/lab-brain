@@ -13,8 +13,12 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { checkSelection, formatValue, resolveTarget } from '../results';
-import type { ResultColumn } from '../results';
+import {
+  checkSelection,
+  formatValue,
+  resolveTarget
+} from '../analysis/results';
+import type { ResultColumn } from '../analysis/results';
 import type { AnalysisValue, ColumnTarget } from '../types';
 import { TargetSelect } from './target-select';
 

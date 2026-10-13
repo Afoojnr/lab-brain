@@ -34,8 +34,8 @@ export const PageHeader = ({
   actions,
   children
 }: PageHeaderProps) => (
-  <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-    <div className="space-y-2">
+  <header className="flex flex-wrap items-end justify-between gap-4">
+    <div className="min-w-0 space-y-2">
       {breadcrumbs && breadcrumbs.length > 0 && (
         <Breadcrumb>
           <BreadcrumbList>
@@ -69,9 +69,7 @@ export const PageHeader = ({
       )}
       {children}
     </div>
-    {/* Wraps on a phone, so several buttons never push the page sideways. */}
-    {actions && (
-      <div className="flex flex-wrap gap-2 sm:shrink-0">{actions}</div>
-    )}
+    {/* Wraps under the title when the space is narrow (a phone, or the assistant panel open). */}
+    {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
   </header>
 );

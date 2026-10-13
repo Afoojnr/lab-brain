@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { en } from '@/messages/en';
 
-import { DEFAULT_STYLE } from '../style';
+import { DEFAULT_STYLE } from '../style/style';
 import { PlotStylePanel } from './plot-style-panel';
 
 const DEFAULTS = { title: 'Y vs X', xTitle: 'X (W)', yTitle: 'Y (nm)' };

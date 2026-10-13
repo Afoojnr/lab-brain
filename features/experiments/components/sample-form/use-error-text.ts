@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 
-import { isSampleFormError } from '../../schemas';
+import { isSampleFormError } from '../../schemas/schemas';
 
 /** Translates the error keys the sample schema reports; unknown messages show nothing. */
 export const useErrorText = () => {

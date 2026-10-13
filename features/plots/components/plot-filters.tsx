@@ -15,8 +15,8 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
-import { columnLabel } from '../column-label';
-import { distinctValues } from '../filters';
+import { columnLabel } from '../style/column-label';
+import { distinctValues } from '../compute/filters';
 import type { PlotColumn, PlotFilter, PlotRow } from '../types';
 
 /** A number column with up to this many distinct values is filtered by ticking values, else by a range. */

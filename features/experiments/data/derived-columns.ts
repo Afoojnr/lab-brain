@@ -3,7 +3,13 @@ import { DEMO_DERIVED_COLUMNS } from './demo-derived-columns';
 
 // TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
 // the server process, so it resets when the dev server restarts.
-const derivedColumns: DerivedColumn[] = [...DEMO_DERIVED_COLUMNS];
+// On `globalThis` because a Route Handler (the assistant) is bundled apart from
+// the pages and actions: a plain module-level list would be a separate copy
+// there and would not see what was just created. A database has no such problem.
+const store = globalThis as { __labBrainDerivedColumns?: DerivedColumn[] };
+const derivedColumns: DerivedColumn[] = (store.__labBrainDerivedColumns ??= [
+  ...DEMO_DERIVED_COLUMNS
+]);
 
 /**
  * An experiment's calculated columns in the order they were added.

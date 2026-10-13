@@ -10,7 +10,7 @@ import {
 } from '../data/samples';
 import { getExperimentInProject } from '../data/experiments';
 import { listStudiesByExperiment } from '../data/studies';
-import { buildSampleFormSchema, toSampleInput } from '../schemas';
+import { buildSampleFormSchema, toSampleInput } from '../schemas/schemas';
 
 /**
  * Changes a sample from the Edit sample form, then refreshes the pages that

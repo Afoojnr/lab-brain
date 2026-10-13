@@ -22,5 +22,26 @@
     "experiment": "{count, plural, =0 {Aucune expérience} one {# expérience} other {# expériences}}",
     "noDescription": "Aucune description pour l'instant"
   },
-  "updated": "Projet {name} mis à jour"
+  "updated": "Projet {name} mis à jour",
+  "tabs": {
+    "label": "Sections du projet",
+    "background": "Contexte",
+    "experiments": "Expériences",
+    "references": "Références"
+  },
+  "background": {
+    "hint": "Ce dont parle le projet, ses objectifs et ce qui est déjà connu. L'assistant IA le lit pour comprendre votre travail.",
+    "empty": "Pas encore de contexte. Ajoutez quelques paragraphes sur le projet : son objectif, ce qui est connu et les questions ouvertes.",
+    "add": "Ajouter le contexte",
+    "edit": "Modifier le contexte",
+    "title": "Contexte du projet",
+    "description": "Écrit en Markdown avec les boutons de mise en forme. Gardez ce qui aide quelqu'un (ou l'assistant) à comprendre le projet.",
+    "label": "Contexte",
+    "cancel": "Annuler",
+    "save": "Enregistrer le contexte",
+    "saved": "Contexte enregistré",
+    "errors": {
+      "backgroundTooLong": "Utilisez 20 000 caractères ou moins."
+    }
+  }
 }

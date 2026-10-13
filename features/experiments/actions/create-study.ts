@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import { createStudy, listStudiesByExperiment } from '../data/studies';
 import { getExperimentInProject } from '../data/experiments';
-import { buildStudyFormSchema } from '../schemas';
+import { buildStudyFormSchema } from '../schemas/schemas';
 
 /**
  * Adds a study to an experiment from the New study form, then refreshes

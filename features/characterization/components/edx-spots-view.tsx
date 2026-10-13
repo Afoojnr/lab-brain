@@ -27,7 +27,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { formatValue } from '../results';
+import { formatValue } from '../analysis/results';
 import { elementColor, spotColor } from '../techniques/edx/colors';
 import { DEFAULT_ELEMENTS, summarizeSpots } from '../techniques/edx/stats';
 import type { Spot } from '../techniques/edx/types';

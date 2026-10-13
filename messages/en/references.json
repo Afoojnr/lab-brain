@@ -1,0 +1,94 @@
+{
+  "tab": {
+    "description": "Papers and notes that give the AI assistant background on this project. Each is read once and kept; the assistant uses its summary, and looks up details when it needs them.",
+    "usage": "{count} of {max} references",
+    "empty": "No references yet. Add a paper (a PDF, a link or a DOI) or paste some text, with a note on why it matters.",
+    "add": "Add a reference"
+  },
+  "add": {
+    "title": "Add a reference",
+    "description": "The file, page or text is read once now and kept, so the assistant never has to read it again.",
+    "kind": "What are you adding?",
+    "kinds": {
+      "pdf": "PDF",
+      "link": "Link or DOI",
+      "text": "Pasted text"
+    },
+    "file": "PDF file",
+    "fileHint": "Up to 20 MB and 150 pages. A scanned PDF with no text cannot be read.",
+    "url": "Web address or DOI",
+    "urlHint": "For example https://example.com/paper or 10.1016/j.apsusc.2020.146190. A page behind a paywall cannot be read: upload the PDF instead.",
+    "urlPlaceholder": "https://… or 10.…",
+    "text": "Text",
+    "textHint": "Paste the passage, abstract or your own notes (up to 300,000 characters).",
+    "titleLabel": "Title",
+    "titleHint": "Leave empty to use the title of the file or page.",
+    "authors": "Authors",
+    "year": "Year",
+    "note": "Why it matters",
+    "notePlaceholder": "For example: how the plasma pulse changes the growth per cycle",
+    "submit": "Add reference",
+    "reading": "Reading…",
+    "cancel": "Cancel",
+    "done": "Reference added",
+    "dropTitle": "Drop a PDF here",
+    "browse": "or click to choose a file",
+    "chosen": "Chosen: {name} ({size} MB). Drop or choose another to replace it."
+  },
+  "errors": {
+    "invalid": "Check the details and try again.",
+    "limitReached": "This project already has the most references it can hold ({max}). Delete one first.",
+    "fileMissing": "Choose a PDF file.",
+    "fileTooLarge": "This file is larger than 20 MB.",
+    "notPdf": "This does not look like a PDF file.",
+    "unreadablePdf": "This PDF could not be read. Is it damaged or password protected?",
+    "tooManyPages": "This PDF has more than 150 pages. Add the part you need instead.",
+    "noText": "There is not enough text to keep. A scanned PDF has no text: paste the text instead.",
+    "linkInvalid": "This is not a web address or a DOI.",
+    "linkBlocked": "This address cannot be read from here: it points inside a private network.",
+    "linkFailed": "The page could not be read (it did not answer, or refused). Try again, or upload the PDF.",
+    "linkTooLarge": "This page or file is larger than 10 MB.",
+    "linkUnsupported": "This link is not a web page, a PDF or plain text.",
+    "unexpected": "Something went wrong while adding the reference.",
+    "titleRequired": "Give the reference a title.",
+    "titleTooLong": "Use 200 characters or fewer.",
+    "authorsTooLong": "Use 300 characters or fewer.",
+    "yearInvalid": "Use a four-digit year, such as 2023.",
+    "urlInvalid": "Use a web address or a DOI.",
+    "noteTooLong": "Use 2,000 characters or fewer.",
+    "summaryTooLong": "Use 4,000 characters or fewer."
+  },
+  "card": {
+    "kind": {
+      "pdf": "PDF",
+      "link": "Link",
+      "text": "Text"
+    },
+    "open": "Open {title}",
+    "openShort": "Open",
+    "edit": "Edit {title}",
+    "delete": "Delete {title}",
+    "pages": "{count, plural, one {# page} other {# pages}}",
+    "characters": "{count} characters",
+    "truncated": "Only the first part was kept: the length limit was reached.",
+    "note": "Why it matters",
+    "summary": "Summary",
+    "noSummary": "No summary yet. The assistant uses your note."
+  },
+  "edit": {
+    "title": "Edit reference",
+    "description": "Change the details, your note or the summary the assistant reads.",
+    "summary": "Summary",
+    "summaryHint": "The assistant reads this instead of the whole text. Edit it freely.",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "saved": "Reference saved"
+  },
+  "delete": {
+    "title": "Delete this reference?",
+    "description": "{title} and the text read from it will be removed. The assistant will no longer know about it.",
+    "confirm": "Delete reference",
+    "cancel": "Cancel",
+    "deleted": "Reference deleted"
+  }
+}

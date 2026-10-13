@@ -11,7 +11,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters';
+import { CALENDAR_DATE_FORMAT, toCalendarDate } from '../parameters/parameters';
 import type { Characterization, Dataset } from '../types';
 import { AttachFilesDialog } from './attach-files-dialog';
 import { DatasetList } from './dataset-list';

@@ -7,7 +7,7 @@ experimental materials science data.
 
 A web workspace for materials science research: record experiments, import
 spreadsheet data, attach characterization files, run calculations, link and export
-everything, and (later) ask an AI assistant about it.
+everything, and ask an AI assistant about it (your own key).
 
 - Spec: `.claude/docs/project-spec.md` · User journeys: `.claude/docs/ux-flows.md`
 - Read both before proposing new features or changing the data model.
@@ -28,7 +28,9 @@ implementation, observation and note, and the experiment's protocol.
 **Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
 Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
 SheetJS (`xlsx`), `papaparse`, `jspdf` (PDF) and `pptxgenjs` (PowerPoint) for exports, `react-markdown` + `remark-gfm` +
-`remark-breaks` (the formatted protocol), charts `TBD: Recharts or Chart.js`.
+`remark-breaks` (the formatted protocol), the Vercel AI SDK (`ai`, `@ai-sdk/react`,
+`@ai-sdk/anthropic`, `@ai-sdk/openai`, `@ai-sdk/openai-compatible` for Ollama),
+`unpdf` + `@mozilla/readability` + `linkedom` (reading references once), charts `TBD: Recharts or Chart.js`.
 Testing: Vitest + Testing Library (unit/component), Playwright (the critical
 flows) — see `.claude/rules/testing.md`.
 
@@ -105,12 +107,21 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 ```
 
 - Create folders only when they get a first real file; do not scaffold empty ones.
+- A feature's root holds only its entry points (`index.ts`, `shared.ts`, `server.ts`)
+  plus `types.ts` and `schemas.ts`; a `schemas.ts` that has tests moves with them into
+  `schemas/` (as in `experiments` and `plots`). All other logic goes
+  in a folder named for what it does, like a small feature inside the feature: for
+  example `assistant/ai/` (provider, settings, errors), `assistant/chat/`,
+  `assistant/prompts/`, `plots/compute/`, `plots/export/`, `plots/style/`,
+  `experiments/calculations/`, `import/validation/`, `import/mapping/`. A test sits
+  next to the file it tests.
 - Features: `experiments` (projects, experiments, studies, samples, attached files),
   `import`, `characterization` (analyses per technique under `techniques/`: EDX,
   ellipsometry), `plots` (X/Y scatter of an uploaded table or an experiment's
   samples, with saved plots and export; file builders are in `lib/export/`),
-  `reports` (a printable sample report and experiment summary). Planned: `references`,
-  later `assistant`.
+  `reports` (a printable sample report and experiment summary), `references` (a
+  project's papers: PDF, link or pasted text, read once and kept), `assistant` (the
+  AI chat, bring-your-own key; read-only tools over the experiments).
 
 ## Imports and exports
 
@@ -122,7 +133,8 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 - Allowed direction: `experiments` imports no other feature. `characterization`,
   `import` and `assistant` may import `experiments`. `import` may also import
   `characterization`. `plots` may import `experiments`. `reports` may import `experiments`
-  and `plots`. `references` imports no feature. Need something else? Move the shared
+  and `plots`. `references` may import `experiments`. `assistant` may import
+  `experiments` and `references`. Need something else? Move the shared
   code up to `components/`, `hooks/`, `lib/` or `types/`, or ask.
 - Named exports everywhere. Default export only where Next.js requires it
   (`page`, `layout`, `loading`, `error`, `not-found`).

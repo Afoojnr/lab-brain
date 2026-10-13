@@ -13,7 +13,7 @@ import {
 
 import { useAnalysisRun } from '../hooks/use-analysis-run';
 import type { AnalysisIds } from '../hooks/use-analysis-run';
-import type { ResultColumn } from '../results';
+import type { ResultColumn } from '../analysis/results';
 import { ellipsometryValues } from '../techniques/ellipsometry/parse';
 import type { SeqfitFile } from '../techniques/ellipsometry/parse';
 import type { AnalysisSettings } from '../types';

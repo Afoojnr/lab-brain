@@ -1,4 +1,4 @@
-import type { PlotStyle } from './style';
+import type { PlotStyle } from './style/style';
 
 /** One column that can be plotted or grouped by. */
 export type PlotColumn = {

@@ -27,7 +27,7 @@ export {
   listDerivedColumns
 } from './data/derived-columns';
 export { listNavigation } from './data/navigation';
-export { revalidateNavigation } from './revalidate-navigation';
+export { revalidateNavigation } from './navigation/revalidate-navigation';
 export { createStudy, listStudiesByExperiment } from './data/studies';
 export {
   createDataset,
@@ -36,4 +36,4 @@ export {
   listDatasetsByCharacterization,
   listDatasetsBySample
 } from './data/datasets';
-export { datasetBytes, datasetResponse } from './datasets-file';
+export { datasetBytes, datasetResponse } from './datasets/datasets-file';

@@ -9,7 +9,7 @@ import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { getSampleById, listSampleCodesByProject } from '../data/samples';
 import { getExperimentById } from '../data/experiments';
-import { sampleToInputs } from '../parameters';
+import { sampleToInputs } from '../parameters/parameters';
 import { SampleForm } from './sample-form';
 
 type EditSampleProps = {

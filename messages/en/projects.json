@@ -22,5 +22,26 @@
     "experiment": "{count, plural, =0 {No experiments yet} one {# experiment} other {# experiments}}",
     "noDescription": "No description yet"
   },
-  "updated": "Project {name} updated"
+  "updated": "Project {name} updated",
+  "tabs": {
+    "label": "Project sections",
+    "background": "Background",
+    "experiments": "Experiments",
+    "references": "References"
+  },
+  "background": {
+    "hint": "What the project is about, its goals and what is already known. The AI assistant reads this to understand your work.",
+    "empty": "No background yet. Add a few paragraphs on the project: its goal, what is known and the open questions.",
+    "add": "Add background",
+    "edit": "Edit background",
+    "title": "Project background",
+    "description": "Written in Markdown with the formatting buttons. Keep it to what helps someone (or the assistant) understand the project.",
+    "label": "Background",
+    "cancel": "Cancel",
+    "save": "Save background",
+    "saved": "Background saved",
+    "errors": {
+      "backgroundTooLong": "Use 20,000 characters or fewer."
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import type { CharacterizationFormValues } from '../schemas';
+import type { CharacterizationFormValues } from '../schemas/schemas';
 import type { Characterization } from '../types';
 import { DEMO_CHARACTERIZATIONS } from './demo-characterizations';
 import { listExperimentsByProject } from './experiments';
@@ -6,7 +6,14 @@ import { listSamplesByExperiment } from './samples';
 
 // TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
 // the server process, so it resets when the dev server restarts.
-const characterizations: Characterization[] = [...DEMO_CHARACTERIZATIONS];
+// On `globalThis` because a Route Handler (the assistant) is bundled apart from
+// the pages and actions: a plain module-level list would be a separate copy
+// there and would not see what was just created. A database has no such problem.
+const store = globalThis as {
+  __labBrainCharacterizations?: Characterization[];
+};
+const characterizations: Characterization[] =
+  (store.__labBrainCharacterizations ??= [...DEMO_CHARACTERIZATIONS]);
 
 const byDateThenCreation = (a: Characterization, b: Characterization) => {
   if (a.measuredOn !== b.measuredOn) {

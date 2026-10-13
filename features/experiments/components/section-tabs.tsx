@@ -1,9 +1,8 @@
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-import { cn } from '@/lib/utils';
+import { PageTabs } from '@/components/page-tabs';
 
-import type { SectionTab } from '../sections';
+import type { SectionTab } from '../navigation/sections';
 
 type SectionTabsProps = {
   /** `/projects/<id>/experiments/<id>`; each tab links to it with `?tab=`. */
@@ -36,32 +35,15 @@ export const SectionTabs = async ({
   ];
 
   return (
-    <nav
-      aria-label={t('label')}
-      className="mt-6 flex gap-1 overflow-x-auto border-b"
-    >
-      {tabs.map(({ tab, count }) => (
-        <Link
-          key={tab}
-          href={`${experimentPath}?tab=${tab}`}
-          aria-current={tab === active ? 'page' : undefined}
-          className={cn(
-            '-mb-px flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2 text-sm whitespace-nowrap transition-colors',
-            tab === active
-              ? 'border-primary text-foreground font-medium'
-              : 'text-muted-foreground hover:text-foreground border-transparent'
-          )}
-        >
-          {t(tab)}
-          {/* A space between the word and the number, so a screen reader says "Samples 23". */}
-          {count !== undefined && ' '}
-          {count !== undefined && (
-            <span className="text-muted-foreground text-xs tabular-nums">
-              {count}
-            </span>
-          )}
-        </Link>
-      ))}
-    </nav>
+    <PageTabs
+      label={t('label')}
+      active={active}
+      tabs={tabs.map(({ tab, count }) => ({
+        value: tab,
+        label: t(tab),
+        count,
+        href: `${experimentPath}?tab=${tab}`
+      }))}
+    />
   );
 };

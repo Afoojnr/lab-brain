@@ -1,4 +1,4 @@
-import { FileTextIcon, PlusIcon, DownloadIcon } from 'lucide-react';
+import { DownloadIcon, FileTextIcon, PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
@@ -11,7 +11,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { listCharacterizationsByExperiment } from '../data/characterizations';
 import { listStudiesByExperiment } from '../data/studies';
 import { listDerivedColumns } from '../data/derived-columns';
-import { calculateForSamples } from '../derived-values';
+import { calculateForSamples } from '../calculations/derived-values';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { isParameterInUse, listSamplesByExperiment } from '../data/samples';
@@ -19,9 +19,9 @@ import {
   getExperimentById,
   listExperimentsByProject
 } from '../data/experiments';
-import { filterSamples } from '../sample-filter';
-import { defaultSectionTab } from '../sections';
-import type { SectionTab } from '../sections';
+import { filterSamples } from '../samples/sample-filter';
+import { defaultSectionTab } from '../navigation/sections';
+import type { SectionTab } from '../navigation/sections';
 import { EditExperimentDialog } from './edit-experiment-dialog';
 import { ExperimentChecklist } from './experiment-checklist';
 import { StudiesList } from './studies-list';

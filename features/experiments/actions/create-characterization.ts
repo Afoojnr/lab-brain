@@ -2,14 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { matchTechnique } from '../characterizations';
+import { matchTechnique } from '../characterizations/characterizations';
 import {
   createCharacterization,
   listTechniquesByProject
 } from '../data/characterizations';
 import { getExperimentInProject } from '../data/experiments';
 import { getSampleById } from '../data/samples';
-import { characterizationFormSchema } from '../schemas';
+import { characterizationFormSchema } from '../schemas/schemas';
 
 /**
  * Records a characterization on a sample from the Add characterization form,

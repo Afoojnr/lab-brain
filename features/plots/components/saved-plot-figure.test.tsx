@@ -4,8 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { en } from '@/messages/en';
 
-import type { PlotTable } from '../from-table';
-import { DEFAULT_STYLE } from '../style';
+import type { PlotTable } from '../compute/from-table';
+import { DEFAULT_STYLE } from '../style/style';
 import type { SavedPlotInput } from '../types';
 import { SavedPlotFigure } from './saved-plot-figure';
 

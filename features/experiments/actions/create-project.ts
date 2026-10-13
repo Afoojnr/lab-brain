@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { revalidateNavigation } from '../revalidate-navigation';
+import { revalidateNavigation } from '../navigation/revalidate-navigation';
 
 import { createProject } from '../data/projects';
-import { projectFormSchema } from '../schemas';
+import { projectFormSchema } from '../schemas/schemas';
 
 /**
  * Creates a project from the New project form, then refreshes the projects page and the sidebar.

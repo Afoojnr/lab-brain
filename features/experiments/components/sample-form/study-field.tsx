@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/combobox';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 
-import type { SampleFormValues } from '../../schemas';
+import type { SampleFormValues } from '../../schemas/schemas';
 import type { Study } from '../../types';
 
 type StudyFieldProps = {

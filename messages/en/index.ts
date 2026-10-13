@@ -1,3 +1,4 @@
+import assistant from './assistant.json';
 import analysis from './analysis.json';
 import characterizations from './characterizations.json';
 import common from './common.json';
@@ -10,6 +11,7 @@ import navigation from './navigation.json';
 import parameters from './parameters.json';
 import plots from './plots.json';
 import projects from './projects.json';
+import references from './references.json';
 import reports from './reports.json';
 import samples from './samples.json';
 import settings from './settings.json';
@@ -18,6 +20,7 @@ import studies from './studies.json';
 /** Shared namespaces: common, navigation, errors. Everything else belongs to one feature. */
 export const en = {
   analysis,
+  assistant,
   characterizations,
   common,
   home,
@@ -29,6 +32,7 @@ export const en = {
   parameters,
   plots,
   projects,
+  references,
   reports,
   samples,
   settings,

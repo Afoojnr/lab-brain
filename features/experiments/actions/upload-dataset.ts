@@ -11,7 +11,7 @@ import {
   withoutCollision
 } from '@/lib/storage/paths';
 
-import { contentTypeFor, MAX_DATASET_BYTES } from '../datasets';
+import { contentTypeFor, MAX_DATASET_BYTES } from '../datasets/datasets';
 import { getCharacterizationOfSample } from '../data/characterizations';
 import { createDataset } from '../data/datasets';
 import { getExperimentInProject } from '../data/experiments';

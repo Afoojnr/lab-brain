@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import type { ExportFormat } from '../export-plot';
+import type { ExportFormat } from '../export/export-plot';
 
 const FIGURE_FORMATS = ['png', 'pdf', 'pptx'] as const;
 const NUMBER_FORMATS = ['xlsx', 'csv'] as const;

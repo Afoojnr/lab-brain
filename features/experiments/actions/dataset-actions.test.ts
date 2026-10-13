@@ -24,7 +24,7 @@ import { createDataset, deleteDataset, getDatasetById } from '../data/datasets';
 import { getExperimentInProject } from '../data/experiments';
 import { getProjectById } from '../data/projects';
 import { getSampleById } from '../data/samples';
-import { MAX_DATASET_BYTES } from '../datasets';
+import { MAX_DATASET_BYTES } from '../datasets/datasets';
 import { deleteDatasetAction } from './delete-dataset';
 import { reserveDatasetFolderAction } from './reserve-dataset-folder';
 import { uploadDatasetAction } from './upload-dataset';

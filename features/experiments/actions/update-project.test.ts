@@ -12,6 +12,7 @@ const PROJECT = {
   id: 'project-1',
   name: 'Alpha',
   description: null,
+  background: null,
   createdAt: new Date()
 };
 

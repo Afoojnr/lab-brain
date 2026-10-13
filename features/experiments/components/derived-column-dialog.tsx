@@ -14,7 +14,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 
-import type { FormulaColumn } from '../derived-values';
+import type { FormulaColumn } from '../calculations/derived-values';
 import type { DerivedColumn, Sample } from '../types';
 import { DerivedColumnForm } from './derived-column-form';
 

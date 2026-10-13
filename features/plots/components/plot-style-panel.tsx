@@ -14,8 +14,8 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
-import { DEFAULT_STYLE } from '../style';
-import type { PlotStyle, Size } from '../style';
+import { DEFAULT_STYLE } from '../style/style';
+import type { PlotStyle, Size } from '../style/style';
 
 const SIZES: Size[] = ['small', 'medium', 'large'];
 

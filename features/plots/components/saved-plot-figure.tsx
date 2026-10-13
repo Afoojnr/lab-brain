@@ -3,10 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
-import { computePlot } from '../compute-plot';
-import type { PlotTable } from '../from-table';
-import { legendTitleFor } from '../legend-title';
-import { restoreSaved } from '../restore';
+import { computePlot } from '../compute/compute-plot';
+import type { PlotTable } from '../compute/from-table';
+import { legendTitleFor } from '../style/legend-title';
+import { restoreSaved } from '../compute/restore';
 import type { SavedPlotInput } from '../types';
 import { ScatterPlot } from './scatter-plot';
 

@@ -19,7 +19,7 @@ import { detectHeaderRow } from '@/lib/spreadsheet/layout';
 import { parseSpreadsheet } from '@/lib/spreadsheet/parsers';
 import type { ParsedSheet } from '@/lib/spreadsheet/types';
 
-import { tableFromSheet } from '../from-table';
+import { tableFromSheet } from '../compute/from-table';
 import { PlotView } from './plot-view';
 
 /**
