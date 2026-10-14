@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState, useTransition } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -24,6 +25,7 @@ import {
   MODEL_SUGGESTIONS
 } from '../ai/settings';
 import type { AiProvider } from '../ai/settings';
+import { AiProviderNotes } from './ai-provider-notes';
 import { useAiSettings } from '../hooks/use-ai-settings';
 
 type TestResult = { ok: true } | { ok: false; error: AiErrorKey } | null;
@@ -147,6 +149,24 @@ export const AiSettingsPanel = () => {
         <FieldDescription>{t('modelHint')}</FieldDescription>
       </Field>
 
+      {settings.provider === 'openrouter' && (
+        <Field orientation="horizontal">
+          <Checkbox
+            id="ai-zero-retention"
+            checked={settings.isZeroRetention}
+            onCheckedChange={isChecked =>
+              change({ isZeroRetention: isChecked })
+            }
+          />
+          <div className="grid gap-1">
+            <FieldLabel htmlFor="ai-zero-retention">
+              {t('zeroRetention')}
+            </FieldLabel>
+            <FieldDescription>{t('zeroRetentionHint')}</FieldDescription>
+          </div>
+        </Field>
+      )}
+
       <div className="flex flex-wrap items-center gap-3">
         <Button
           type="button"
@@ -166,6 +186,7 @@ export const AiSettingsPanel = () => {
         )}
       </div>
 
+      <AiProviderNotes provider={settings.provider} />
       <p className="text-muted-foreground text-xs">{t('privacy')}</p>
     </div>
   );

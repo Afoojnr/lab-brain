@@ -80,7 +80,8 @@
     "description": "Analysez des fichiers bruts de l'instrument, ou les échantillons d'une expérience.",
     "tabs": {
       "upload": "Téléverser des fichiers",
-      "experiment": "Depuis une expérience"
+      "experiment": "Depuis une expérience",
+      "bonds": "Table des liaisons"
     },
     "upload": {
       "edxDescription": "Déposez le dossier d'un échantillon issu du microscope, ou plusieurs. Rien n'est envoyé ni enregistré : les fichiers sont lus dans votre navigateur.",
@@ -231,7 +232,9 @@
       "addPosition": "Position du nouveau pic (cm⁻¹)",
       "add": "Ajouter un pic",
       "noValue": "Aucune donnée près de ce pic",
-      "valueIn": "Valeur dans {spectrum}"
+      "valueIn": "Valeur dans {spectrum}",
+      "suggested": "Liaisons possibles :",
+      "use": "Utiliser {bond}"
     },
     "export": {
       "button": "Exporter",
@@ -250,6 +253,69 @@
       "convertedLine": "Absorbance, convertie depuis la transmittance en pourcentage (A = 2 − log10 %T)",
       "normalisedLine": "Normalisé : {method} (valeurs relatives, pas des quantités absolues)",
       "stackedLine": "Les spectres sont décalés verticalement pour les comparer ; l'axe vertical n'est pas à l'échelle."
+    },
+    "bonds": {
+      "title": "Table des liaisons",
+      "description": "Les liaisons que vous cherchez, avec la plage de nombres d'onde de confiance et sa provenance. Un pic détecté propose les liaisons dont la plage le contient ; vous décidez de ce que vous gardez. L'application n'a aucune liste intégrée.",
+      "empty": "Aucune liaison pour l'instant. Ajoutez celles que vous cherchez, ou collez ou importez un tableau.",
+      "bond": "Liaison ou nom",
+      "from": "De (cm⁻¹)",
+      "to": "À (cm⁻¹)",
+      "source": "Source",
+      "sourcePlaceholder": "Un article, un livre, une note",
+      "toHint": "Laissez vide pour une position unique (comparée avec la tolérance).",
+      "add": "Ajouter une liaison",
+      "addTitle": "Ajouter une liaison",
+      "editTitle": "Modifier la liaison",
+      "edit": "Modifier {bond}",
+      "delete": "Supprimer {bond}",
+      "deleteTitle": "Supprimer cette liaison ?",
+      "deleteDescription": "Les pics déjà nommés gardent leur nom.",
+      "confirmDelete": "Supprimer la liaison",
+      "cancel": "Annuler",
+      "save": "Enregistrer la liaison",
+      "saved": "Liaison enregistrée",
+      "deleted": "Liaison supprimée",
+      "errors": {
+        "missingBond": "Indiquez le nom de la liaison.",
+        "missingFrom": "Indiquez le nombre d'onde.",
+        "notNumber": "Ce n'est pas un nombre.",
+        "rangeOrder": "« De » ne doit pas dépasser « À ».",
+        "duplicate": "Cette liaison et cette plage sont déjà dans la table.",
+        "alreadyThere": "Cette liaison et cette plage sont déjà dans la table.",
+        "tooMany": "La table est pleine : elle contient au plus {max} liaisons.",
+        "failed": "La liaison n'a pas pu être enregistrée."
+      },
+      "import": {
+        "title": "Coller ou importer un tableau",
+        "format": "La première ligne nomme les colonnes : Bond, From (cm-1), To (cm-1) et Source, dans n'importe quel ordre. Bond et From sont obligatoires. Laissez To vide pour une position unique. Source est facultative. Les nombres peuvent utiliser un point ou une virgule. Copiez des lignes depuis Excel et collez-les, ou importez un fichier CSV ou Excel.",
+        "template": "Télécharger le modèle",
+        "paste": "Coller des lignes",
+        "pastePlaceholder": "Bond\tFrom (cm-1)\tTo (cm-1)\tSource",
+        "read": "Lire le tableau",
+        "dropTitle": "Ou importer un fichier CSV ou Excel",
+        "browse": "Cliquez pour choisir un fichier",
+        "fileLabel": "Fichier du tableau des liaisons",
+        "fileFailed": "Ce fichier n'a pas pu être lu comme un tableau.",
+        "ready": "{count, plural, one {# liaison est prête} other {# liaisons sont prêtes}} à être ajoutée(s).",
+        "problemsTitle": "Ces lignes sont inutilisables et laissées de côté :",
+        "problems": {
+          "noHeader": "Ligne {row} : la première ligne doit nommer les colonnes ; Bond et From sont obligatoires.",
+          "missingBond": "Ligne {row} : la liaison est vide.",
+          "missingFrom": "Ligne {row} : From est vide.",
+          "notNumber": "Ligne {row}, {column} : « {value} » n'est pas un nombre.",
+          "rangeOrder": "Ligne {row} : From est supérieur à To.",
+          "duplicate": "Ligne {row} : la même liaison et la même plage apparaissent deux fois.",
+          "alreadyThere": "Ligne {row} : cette liaison et cette plage sont déjà dans la table."
+        },
+        "addButton": "Ajouter {count, plural, one {# liaison} other {# liaisons}}",
+        "replaceButton": "Remplacer la table par {count, plural, one {# liaison} other {# liaisons}}",
+        "confirmReplace": "Cela supprime {existing, plural, one {# liaison} other {# liaisons}} de la table actuelle. La remplacer ?",
+        "confirmYes": "Oui, remplacer",
+        "added": "{count, plural, one {# liaison ajoutée} other {# liaisons ajoutées}}",
+        "replaced": "La table contient maintenant {count, plural, one {# liaison} other {# liaisons}}",
+        "failed": "La table n'a pas pu être enregistrée. Vérifiez qu'aucune ligne n'en répète une déjà présente."
+      }
     }
   }
 }

@@ -5,13 +5,16 @@ import { FadeIn } from '@/components/motion/fade-in';
 import { PageHeader } from '@/components/page-header';
 import { buttonVariants } from '@/components/ui/button';
 
+import { listBonds } from '../data/ftir-bonds';
 import type { AnalysisKind } from '../types';
 import { ExperimentSource } from './experiment-source';
+import { FtirBondsTab } from './ftir-bonds-tab';
 import { UploadEdx } from './upload-edx';
 import { UploadEllipsometry } from './upload-ellipsometry';
 import { UploadFtir } from './upload-ftir';
 
-export type WorkspaceSource = 'upload' | 'experiment';
+/** `bonds` (the user's bond table) exists for FTIR only. */
+export type WorkspaceSource = 'upload' | 'experiment' | 'bonds';
 
 type TechniqueWorkspaceProps = {
   kind: AnalysisKind;
@@ -35,6 +38,12 @@ export const TechniqueWorkspace = async ({
     getTranslations('analysis.workspace'),
     getTranslations('navigation')
   ]);
+  const tabs =
+    kind === 'ftir'
+      ? (['upload', 'experiment', 'bonds'] as const)
+      : (['upload', 'experiment'] as const);
+  // A link to the bond table of another technique falls back to the upload.
+  const current = source === 'bonds' && kind !== 'ftir' ? 'upload' : source;
 
   return (
     <FadeIn>
@@ -50,13 +59,13 @@ export const TechniqueWorkspace = async ({
         ]}
       />
       <nav aria-label={tNavigation(kind)} className="mt-6 flex gap-2">
-        {(['upload', 'experiment'] as const).map(tab => (
+        {tabs.map(tab => (
           <Link
             key={tab}
             href={`/characterization/${kind}?source=${tab}`}
-            aria-current={source === tab ? 'page' : undefined}
+            aria-current={current === tab ? 'page' : undefined}
             className={buttonVariants({
-              variant: source === tab ? 'default' : 'outline'
+              variant: current === tab ? 'default' : 'outline'
             })}
           >
             {t(`tabs.${tab}`)}
@@ -64,12 +73,14 @@ export const TechniqueWorkspace = async ({
         ))}
       </nav>
       <div className="mt-6 min-w-0 rounded-xl border p-4 sm:p-6">
-        {source === 'upload' ? (
+        {current === 'upload' ? (
           {
             edx: <UploadEdx />,
             ellipsometry: <UploadEllipsometry />,
-            ftir: <UploadFtir />
+            ftir: <UploadFtir bonds={await listBonds()} />
           }[kind]
+        ) : current === 'bonds' ? (
+          <FtirBondsTab />
         ) : (
           <ExperimentSource
             kind={kind}

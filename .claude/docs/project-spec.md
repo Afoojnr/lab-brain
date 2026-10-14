@@ -158,8 +158,10 @@ parse the raw export format, compute a derived value, and hand off to a chart.
   peaks that the user curates (remove, add, label with the bond as free text), and read
   the intensity at each kept peak within a tolerance. Optional absorbance
   (A = 2 − log10 %T) and normalisation (min–max, reference peak, vector, SNV), always
-  labelled relative; baseline correction and an automatic bond-assignment table (from a
-  source the user provides) come later. Still peak _finding_ and annotation, not
+  labelled relative; baseline correction comes later. Bond suggestions come from a table
+  the user fills (by hand, paste, or CSV/Excel import; the app ships none, so every range
+  has a source they trust): a peak offers the bonds whose range holds it, and the user
+  clicks to accept. Still peak _finding_ and annotation, not
   _fitting/deconvolution_, which would need a numerical library.
 - **Ellipsometry**: thickness ÷ cycles = growth-per-cycle (GPC); plot GPC (or
   thickness) vs. a chosen parameter across samples.

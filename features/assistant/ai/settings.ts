@@ -20,6 +20,8 @@ export type AiSettings = {
   apiKey: string;
   model: string;
   baseUrl: string;
+  /** OpenRouter only: use providers with a zero-data-retention policy (stricter than "do not train", which is always asked for). */
+  isZeroRetention: boolean;
 };
 
 export const DEFAULT_OLLAMA_URL = 'http://localhost:11434/v1';
@@ -28,7 +30,8 @@ export const DEFAULT_AI_SETTINGS: AiSettings = {
   provider: 'anthropic',
   apiKey: '',
   model: 'claude-sonnet-5-5',
-  baseUrl: DEFAULT_OLLAMA_URL
+  baseUrl: DEFAULT_OLLAMA_URL,
+  isZeroRetention: false
 };
 
 /** Models offered as suggestions; any model name can be typed instead. */
@@ -46,7 +49,7 @@ export const MODEL_SUGGESTIONS: Record<AiProvider, string[]> = {
     'anthropic/claude-3.5-haiku',
     'google/gemini-2.0-flash-001'
   ],
-  ollama: ['llama3.1', 'qwen2.5', 'mistral']
+  ollama: ['qwen2.5:7b', 'llama3.1', 'mistral']
 };
 
 /** The model to start with when the provider changes. */
@@ -54,7 +57,7 @@ export const DEFAULT_MODEL: Record<AiProvider, string> = {
   anthropic: 'claude-sonnet-5-5',
   openai: 'gpt-5-mini',
   openrouter: 'openai/gpt-4o-mini',
-  ollama: 'llama3.1'
+  ollama: 'qwen2.5:7b'
 };
 
 const LOOPBACK_HOSTS = ['localhost', '127.0.0.1', '[::1]'];
@@ -82,7 +85,9 @@ export const aiSettingsSchema = z.object({
   provider: z.enum(AI_PROVIDERS),
   apiKey: z.string().max(500),
   model: z.string().trim().min(1).max(100),
-  baseUrl: z.string().trim().max(300)
+  baseUrl: z.string().trim().max(300),
+  // Settings saved before this existed have no value: off.
+  isZeroRetention: z.boolean().default(false)
 });
 
 /**

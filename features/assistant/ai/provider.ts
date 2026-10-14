@@ -34,7 +34,16 @@ export const createModel = (settings: AiSettings): LanguageModel => {
       return createOpenAICompatible({
         name: 'openrouter',
         baseURL: OPENROUTER_URL,
-        apiKey: settings.apiKey
+        apiKey: settings.apiKey,
+        // Always ask for providers that do not collect or train on prompts;
+        // optionally only those with a zero-data-retention policy.
+        transformRequestBody: body => ({
+          ...body,
+          provider: {
+            data_collection: 'deny',
+            ...(settings.isZeroRetention ? { zdr: true } : {})
+          }
+        })
       })(settings.model);
     case 'ollama':
       return createOpenAICompatible({

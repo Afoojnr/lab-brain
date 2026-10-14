@@ -13,6 +13,15 @@ describe('aiErrorKey', () => {
       'noCredit'
     ],
     [{ statusCode: 400, responseBody: 'something else' }, 'failed'],
+    [
+      {
+        statusCode: 404,
+        responseBody:
+          'No endpoints found matching your data policy (Zero data retention).'
+      },
+      'noPrivateProvider'
+    ],
+    [{ statusCode: 404, responseBody: 'model not found' }, 'modelNotFound'],
     [{ name: 'TimeoutError' }, 'timeout'],
     [{ name: 'AbortError' }, 'timeout'],
     [{ cause: { code: 'ECONNREFUSED' } }, 'unreachable'],

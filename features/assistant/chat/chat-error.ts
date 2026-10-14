@@ -7,6 +7,7 @@ const KEYS: AiErrorKey[] = [
   'modelNotFound',
   'rateLimited',
   'noCredit',
+  'noPrivateProvider',
   'unreachable',
   'timeout',
   'failed'

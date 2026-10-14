@@ -6,6 +6,7 @@ export type AiErrorKey =
   | 'modelNotFound'
   | 'rateLimited'
   | 'noCredit'
+  | 'noPrivateProvider'
   | 'unreachable'
   | 'timeout'
   | 'failed';
@@ -34,6 +35,9 @@ export const aiErrorKey = (error: unknown): AiErrorKey => {
   if (statusCode === 400 && /credit balance/i.test(responseBody ?? ''))
     return 'noCredit';
   if (statusCode === 401 || statusCode === 403) return 'unauthorized';
+  // OpenRouter says so when the privacy setting leaves a model with no provider.
+  if (statusCode === 404 && /data policy/i.test(responseBody ?? ''))
+    return 'noPrivateProvider';
   if (statusCode === 404) return 'modelNotFound';
   if (statusCode === 429) return 'rateLimited';
   if (name === 'TimeoutError' || name === 'AbortError') return 'timeout';

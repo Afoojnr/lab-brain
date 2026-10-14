@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { FtirBatchRow } from '../batch/batch-types';
 import type { ResultColumn } from '../analysis/results';
 import { processSpectrum } from '../techniques/ftir/process';
-import type { FtirSettings } from '../techniques/ftir/types';
+import type { FtirBond, FtirSettings } from '../techniques/ftir/types';
 import { ftirUnit, peakLabel } from '../techniques/ftir/values';
 import type { AnalysisValue, ColumnTarget } from '../types';
 import { FtirBatchSend } from './ftir-batch-send';
@@ -24,6 +24,8 @@ type FtirBatchProps = {
   initialTargets: Record<string, ColumnTarget>;
   /** Names exported files and titles the figure, e.g. the experiment. */
   exportTitle?: string;
+  /** The user's bond table, to suggest what each peak may be. */
+  bonds?: FtirBond[];
 };
 
 const labelOf = (row: FtirBatchRow) =>
@@ -57,7 +59,8 @@ export const FtirBatch = ({
   initialSettings,
   initialSelectedIds,
   initialTargets,
-  exportTitle
+  exportTitle,
+  bonds
 }: FtirBatchProps) => {
   const t = useTranslations('analysis.workspace.experiment');
   const [settings, setSettings] = useState(initialSettings);
@@ -144,6 +147,7 @@ export const FtirBatch = ({
             settings={settings}
             onChange={setSettings}
             title={exportTitle}
+            bonds={bonds}
           />
           <FtirBatchSend
             projectId={projectId}
