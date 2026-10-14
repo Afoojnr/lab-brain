@@ -38,6 +38,7 @@ export const SectionTabs = async ({
     <PageTabs
       label={t('label')}
       active={active}
+      tourId="section-tabs"
       tabs={tabs.map(({ tab, count }) => ({
         value: tab,
         label: t(tab),

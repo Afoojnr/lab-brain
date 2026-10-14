@@ -518,3 +518,20 @@ Settings (key) → Project/Experiment page → floating Ask AI → side panel �
    minutes while something changed (last 30 per computer kept). **Back up now** is there too.
 4. **Restore** lists the backups of every computer using the folder, asks once, keeps a copy
    of the current database on this computer, then restores.
+
+## Flow 5e — Guided tours (built)
+
+**Goal:** show a newcomer where things are, without getting in the way.
+
+1. The first time a page with a tour is opened (home, a project, an experiment, a sample), a
+   small card asks **New here? Take a one-minute tour** with **Start the tour**, **Not now**
+   and **No more tours**. Nothing opens by itself.
+2. **Start** dims the page and spotlights one real element at a time (Next, Back, ×, Esc).
+   Steps whose element is not on the page are left out; on a phone the sidebar steps become one
+   step on the menu button.
+3. A closed or finished tour is not offered again on that page. **Not now** does the same
+   without running it; **No more tours** silences all of them.
+4. Replay: the **?** in the top bar replays the current page's tour (even after No more tours);
+   **Settings → Guided tours → Show the tours again** makes every page offer its tour again.
+5. What was seen is kept in the browser (`lab-brain:tours`), so it works on the demo with no
+   accounts. Targets are `data-tour="…"` attributes on the real elements.

@@ -5,6 +5,8 @@ import { AppSidebar } from '@/components/app-shell/app-sidebar';
 import { AppTopbar } from '@/components/app-shell/app-topbar';
 import { AskAiFloating } from '@/components/ask-ai-floating';
 import { SidePanel, SidePanelProvider } from '@/components/side-panel';
+import { TourPrompt } from '@/components/tour/tour-prompt';
+import { TourProvider } from '@/components/tour/tour-provider';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AssistantPanel } from '@/features/assistant';
 import { TECHNIQUES } from '@/features/characterization';
@@ -26,25 +28,28 @@ export default async function WorkspaceLayout({ children }: LayoutProps<'/'>) {
   return (
     <SidePanelProvider>
       <SidebarProvider defaultOpen={isSidebarOpen}>
-        <AppSidebar navigation={navigation} techniques={TECHNIQUES} />
-        <SidebarInset>
-          <AppTopbar />
-          {isDemoMode() && (
-            <p
-              role="note"
-              className="bg-muted text-muted-foreground border-b px-4 py-2 text-center text-sm"
-            >
-              {tCommon('demoBanner')}
-            </p>
-          )}
-          <div className="mx-auto w-full max-w-6xl flex-1 px-4 pt-8 pb-32 md:px-8">
-            {children}
-          </div>
-        </SidebarInset>
-        <AskAiFloating />
-        <SidePanel title={t('title')} closeLabel={t('close')}>
-          <AssistantPanel projects={navigation.projects} />
-        </SidePanel>
+        <TourProvider>
+          <AppSidebar navigation={navigation} techniques={TECHNIQUES} />
+          <SidebarInset>
+            <AppTopbar />
+            {isDemoMode() && (
+              <p
+                role="note"
+                className="bg-muted text-muted-foreground border-b px-4 py-2 text-center text-sm"
+              >
+                {tCommon('demoBanner')}
+              </p>
+            )}
+            <div className="mx-auto w-full max-w-6xl flex-1 px-4 pt-8 pb-32 md:px-8">
+              {children}
+            </div>
+          </SidebarInset>
+          <AskAiFloating />
+          <SidePanel title={t('title')} closeLabel={t('close')}>
+            <AssistantPanel projects={navigation.projects} />
+          </SidePanel>
+          <TourPrompt />
+        </TourProvider>
       </SidebarProvider>
     </SidePanelProvider>
   );

@@ -154,6 +154,7 @@ export const SampleDetail = async ({
         <>
           <Link
             href={`/report/projects/${project.id}/experiments/${experiment.id}/samples/${sample.id}`}
+            data-tour="report"
             className={buttonVariants({ variant: 'outline' })}
           >
             <FileTextIcon aria-hidden />
@@ -161,6 +162,7 @@ export const SampleDetail = async ({
           </Link>
           <Link
             href={`${experimentPath}/samples/new?duplicateOf=${sample.id}`}
+            data-tour="duplicate"
             className={buttonVariants({ variant: 'outline' })}
           >
             <CopyIcon aria-hidden />
@@ -220,6 +222,7 @@ export const SampleDetail = async ({
             ]
           : []),
         {
+          id: 'characterizations',
           title: tCharacterizations('panel.title'),
           description: tCharacterizations('panel.description'),
           actions: (

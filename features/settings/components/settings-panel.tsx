@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
 import { LanguagePicker } from './language-picker';
+import { TourReset } from './tour-reset';
 import { ThemePicker } from './theme-picker';
 
 type SettingsRowProps = {
@@ -22,7 +23,10 @@ const SettingsRow = ({ title, description, children }: SettingsRowProps) => (
 
 /** All workspace preferences, one row per setting. */
 export const SettingsPanel = async () => {
-  const t = await getTranslations('settings');
+  const [t, tTour] = await Promise.all([
+    getTranslations('settings'),
+    getTranslations('tour.settings')
+  ]);
 
   return (
     <div className="divide-border divide-y">
@@ -37,6 +41,9 @@ export const SettingsPanel = async () => {
         description={t('language.description')}
       >
         <LanguagePicker />
+      </SettingsRow>
+      <SettingsRow title={tTour('title')} description={tTour('description')}>
+        <TourReset />
       </SettingsRow>
     </div>
   );

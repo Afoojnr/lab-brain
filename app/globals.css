@@ -1,3 +1,4 @@
+@import 'driver.js/dist/driver.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
@@ -200,4 +201,65 @@
   .report h2 + p {
     break-after: avoid;
   }
+}
+
+/*
+ * The guided tour (driver.js) wears the app's own tokens, in light and dark.
+ * Deliberately outside any @layer: the library's stylesheet is unlayered, so
+ * only unlayered rules written after it can override it (a layered rule would
+ * lose, and moving the library into a layer lets the base reset break its
+ * spacing).
+ */
+.driver-popover {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.35);
+  font-family: inherit;
+  max-width: min(22rem, calc(100vw - 2rem));
+}
+.driver-popover-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.driver-popover-description {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.driver-popover-progress-text {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.driver-popover-close-btn {
+  color: var(--muted-foreground);
+}
+.driver-popover-close-btn:hover {
+  color: var(--foreground);
+}
+.driver-popover-footer button {
+  background: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  text-shadow: none;
+}
+.driver-popover-footer button.driver-popover-next-btn {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+.driver-popover-arrow-side-top.driver-popover-arrow {
+  border-top-color: var(--popover);
+}
+.driver-popover-arrow-side-bottom.driver-popover-arrow {
+  border-bottom-color: var(--popover);
+}
+.driver-popover-arrow-side-left.driver-popover-arrow {
+  border-left-color: var(--popover);
+}
+.driver-popover-arrow-side-right.driver-popover-arrow {
+  border-right-color: var(--popover);
 }

@@ -346,6 +346,7 @@ export const ExperimentDetail = async ({
           <>
             <Link
               href={`/report/projects/${project.id}/experiments/${experiment.id}`}
+              data-tour="report"
               className={buttonVariants({ variant: 'outline' })}
             >
               <FileTextIcon aria-hidden />
@@ -353,6 +354,7 @@ export const ExperimentDetail = async ({
             </Link>
             <Link
               href={`/projects/${project.id}/import?experiment=${experiment.id}`}
+              data-tour="import"
               className={buttonVariants({ variant: 'outline' })}
             >
               <DownloadIcon aria-hidden />
@@ -361,6 +363,7 @@ export const ExperimentDetail = async ({
             <Link
               href={`${experimentPath}/samples/new`}
               className={buttonVariants()}
+              data-tour="add-sample"
             >
               <PlusIcon aria-hidden />
               {tSamples('list.add')}

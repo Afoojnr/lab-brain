@@ -17,6 +17,7 @@ import reports from './reports.json';
 import samples from './samples.json';
 import settings from './settings.json';
 import studies from './studies.json';
+import tour from './tour.json';
 
 /** Typed against English, so a key missing here fails `ts-check`. */
 export const fr: typeof en = {
@@ -37,5 +38,6 @@ export const fr: typeof en = {
   reports,
   samples,
   settings,
-  studies
+  studies,
+  tour
 };

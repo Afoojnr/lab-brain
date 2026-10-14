@@ -3,12 +3,14 @@ import { ChartScatterIcon, SettingsIcon } from 'lucide-react';
 export const PLOTS_ITEM = {
   href: '/plots',
   labelKey: 'plots',
+  tourId: 'sidebar-plots',
   Icon: ChartScatterIcon
 } as const;
 
 export const SETTINGS_ITEM = {
   href: '/settings',
   labelKey: 'settings',
+  tourId: 'sidebar-settings',
   Icon: SettingsIcon
 } as const;
 

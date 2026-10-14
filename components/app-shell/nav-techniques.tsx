@@ -40,7 +40,7 @@ export const NavTechniques = ({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      render={<SidebarMenuItem />}
+      render={<SidebarMenuItem data-tour="sidebar-techniques" />}
     >
       <CollapsibleTrigger
         render={

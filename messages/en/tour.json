@@ -1,0 +1,130 @@
+{
+  "prompt": {
+    "title": "New here?",
+    "text": "Take a one-minute tour of this page.",
+    "start": "Start the tour",
+    "later": "Not now",
+    "never": "No more tours"
+  },
+  "controls": {
+    "next": "Next",
+    "previous": "Back",
+    "done": "Done",
+    "progress": "{current} of {total}"
+  },
+  "help": {
+    "label": "Tour of this page"
+  },
+  "settings": {
+    "title": "Guided tours",
+    "description": "Short tours that point at where things are. Each page offers its tour once.",
+    "reset": "Show the tours again",
+    "done": "The tours will be offered again"
+  },
+  "steps": {
+    "home": {
+      "menu": {
+        "title": "Open the menu",
+        "text": "Your projects, the characterization tools and plots are in the menu."
+      },
+      "projects": {
+        "title": "Your projects",
+        "text": "Every project you create is listed here. Open one to see its experiments."
+      },
+      "newProject": {
+        "title": "Start with a project",
+        "text": "A project holds one line of work, such as a paper. Create your first one here."
+      },
+      "techniques": {
+        "title": "Characterizations",
+        "text": "Analyse raw instrument files (EDX, ellipsometry, FTIR), with or without a project."
+      },
+      "plots": {
+        "title": "Plots",
+        "text": "Plot any table you upload, or an experiment's samples, and save the plot."
+      },
+      "settings": {
+        "title": "Settings",
+        "text": "Language, appearance, where your files are kept and your AI key."
+      },
+      "help": {
+        "title": "Need this again?",
+        "text": "Press here on any page to replay its tour."
+      }
+    },
+    "project": {
+      "tabs": {
+        "title": "Sections",
+        "text": "Switch between the project's experiments, its background and its references."
+      },
+      "newExperiment": {
+        "title": "Add an experiment",
+        "text": "An experiment is one kind of sample with its own columns, like one sheet of a spreadsheet."
+      },
+      "import": {
+        "title": "Import a spreadsheet",
+        "text": "Bring in samples you already recorded in Excel or a CSV file. Nothing is saved until you confirm the preview."
+      },
+      "more": {
+        "title": "More actions",
+        "text": "Edit the project or delete it."
+      },
+      "askAi": {
+        "title": "Ask AI",
+        "text": "Ask questions about this project's experiments, with your own key."
+      }
+    },
+    "experiment": {
+      "experiments": {
+        "title": "Experiments",
+        "text": "Switch between the experiments of this project."
+      },
+      "sections": {
+        "title": "Sections",
+        "text": "Protocol, setup (columns and studies), samples and saved plots."
+      },
+      "addSample": {
+        "title": "Add a sample",
+        "text": "Record a new sample. Values are prefilled from the previous one."
+      },
+      "import": {
+        "title": "Import samples",
+        "text": "Add or update samples from a spreadsheet."
+      },
+      "report": {
+        "title": "Report",
+        "text": "A printable summary of this experiment."
+      },
+      "export": {
+        "title": "Export",
+        "text": "Download the samples table as Excel or CSV."
+      },
+      "more": {
+        "title": "More actions",
+        "text": "Edit the experiment or delete it."
+      }
+    },
+    "sample": {
+      "characterizations": {
+        "title": "Characterizations",
+        "text": "Record the measurements done on this sample, such as SEM or EDX, and attach their files."
+      },
+      "add": {
+        "title": "Add a characterization",
+        "text": "A technique, a date and a note. Then attach the raw files."
+      },
+      "duplicate": {
+        "title": "Duplicate",
+        "text": "Start a new sample from this one and change only what differs."
+      },
+      "report": {
+        "title": "Report",
+        "text": "A printable summary of this sample."
+      },
+      "more": {
+        "title": "More actions",
+        "text": "Edit or delete this sample."
+      }
+    }
+  }
+}

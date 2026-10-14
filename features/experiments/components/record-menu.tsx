@@ -42,6 +42,7 @@ export const RecordMenu = ({ edit, details }: RecordMenuProps) => {
               variant="outline"
               size="icon"
               aria-label={t('moreActions')}
+              data-tour="more-actions"
             />
           }
         >

@@ -41,7 +41,7 @@ export const NavProjects = ({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      render={<SidebarMenuItem />}
+      render={<SidebarMenuItem data-tour="sidebar-projects" />}
     >
       <SidebarMenuButton
         tooltip={t('projects')}

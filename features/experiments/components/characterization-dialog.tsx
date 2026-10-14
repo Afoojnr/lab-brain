@@ -54,7 +54,15 @@ export const CharacterizationDialog = ({
           <PencilIcon aria-hidden />
         </DialogTrigger>
       ) : (
-        <DialogTrigger render={<Button variant="outline" size="sm" />}>
+        <DialogTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              data-tour="add-characterization"
+            />
+          }
+        >
           <PlusIcon aria-hidden />
           {t('panel.add')}
         </DialogTrigger>
