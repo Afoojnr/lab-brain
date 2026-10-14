@@ -27,15 +27,12 @@ describe('useTourState', () => {
     );
   });
 
-  it('turns tours off, and reset brings them back', () => {
+  it('turns tours off', () => {
     const { result } = renderHook(() => useTourState());
 
     act(() => result.current.turnOff());
-    expect(result.current.isOff).toBe(true);
 
-    act(() => result.current.reset());
-    expect(result.current.isOff).toBe(false);
-    expect(result.current.seen).toEqual([]);
+    expect(result.current.isOff).toBe(true);
   });
 
   it('ignores damaged stored text', () => {

@@ -95,7 +95,6 @@ export const useTourState = () => {
 
       write({ ...current, seen: [...current.seen, id] });
     },
-    turnOff: () => write({ ...read(), isOff: true }),
-    reset: () => write(NOTHING_SEEN)
+    turnOff: () => write({ ...read(), isOff: true })
   };
 };

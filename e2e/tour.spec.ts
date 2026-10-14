@@ -33,7 +33,7 @@ test('offers a tour once, runs it, and can be replayed from the help button', as
   await expect(page.locator('.driver-popover')).toBeVisible();
 });
 
-test('No more tours silences the cards, and Settings brings them back', async ({
+test('No more tours silences the cards on every page, and ? still replays one', async ({
   page
 }) => {
   await page.goto('/');
@@ -43,9 +43,6 @@ test('No more tours silences the cards, and Settings brings them back', async ({
   await page.goto('/projects/demo-project-1');
   await expect(page.getByText('New here?')).toHaveCount(0);
 
-  await page.goto('/settings');
-  await page.getByRole('button', { name: 'Show the tours again' }).click();
-
-  await page.goto('/');
-  await expect(page.getByText('New here?')).toBeVisible();
+  await page.getByRole('button', { name: 'Tour of this page' }).click();
+  await expect(page.locator('.driver-popover')).toBeVisible();
 });

@@ -15,12 +15,6 @@
   "help": {
     "label": "Tour de cette page"
   },
-  "settings": {
-    "title": "Visites guidées",
-    "description": "De courtes visites qui montrent où sont les choses. Chaque page propose la sienne une fois.",
-    "reset": "Afficher à nouveau les visites",
-    "done": "Les visites seront de nouveau proposées"
-  },
   "steps": {
     "home": {
       "menu": {

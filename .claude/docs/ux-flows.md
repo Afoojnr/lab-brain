@@ -531,7 +531,6 @@ Settings (key) → Project/Experiment page → floating Ask AI → side panel �
    step on the menu button.
 3. A closed or finished tour is not offered again on that page. **Not now** does the same
    without running it; **No more tours** silences all of them.
-4. Replay: the **?** in the top bar replays the current page's tour (even after No more tours);
-   **Settings → Guided tours → Show the tours again** makes every page offer its tour again.
+4. Replay: the **?** in the top bar replays the current page's tour, even after No more tours.
 5. What was seen is kept in the browser (`lab-brain:tours`), so it works on the demo with no
    accounts. Targets are `data-tour="…"` attributes on the real elements.

@@ -15,12 +15,6 @@
   "help": {
     "label": "Tour of this page"
   },
-  "settings": {
-    "title": "Guided tours",
-    "description": "Short tours that point at where things are. Each page offers its tour once.",
-    "reset": "Show the tours again",
-    "done": "The tours will be offered again"
-  },
   "steps": {
     "home": {
       "menu": {
