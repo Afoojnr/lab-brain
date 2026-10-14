@@ -77,6 +77,11 @@
     "dropFolderTitle": "Drop a folder here",
     "dropFolderHint": "The whole sample folder, with its subfolders. Each file up to 50 MB",
     "folderInputLabel": "Folder to attach",
-    "folderSummary": "{name} · {count, plural, one {# file} other {# files}}"
+    "folderSummary": "{name} · {count, plural, one {# file} other {# files}}",
+    "removeFolder": "Delete folder {name}",
+    "removeFolderTitle": "Delete {name} and its {count, plural, one {# file} other {# files}}?",
+    "removeFolderDescription": "The files are removed from storage. Values already sent to result columns stay.",
+    "removeFolderConfirm": "Delete folder",
+    "folderRemoved": "{name} deleted ({count, plural, one {# file} other {# files}})"
   }
 }

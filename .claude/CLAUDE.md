@@ -130,6 +130,11 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
 - Flow is one way: `shared (lib, utils, hooks, components) → features → app`.
 - Features may import another feature only through its public `index.ts`,
   `shared.ts` or `server.ts`, never its inner files, and never in a cycle.
+- A delete that touches data held by several features (a sample, experiment or project
+  takes saved analyses, saved plots or references with it) is composed in
+  `app/(workspace)/_actions/`: the `experiments` cascade removes its own records and
+  returns what went, then the page-level action asks the other features' `server.ts` to
+  clean up. No feature imports them all.
 - Allowed direction: `experiments` imports no other feature. `characterization`,
   `import` and `assistant` may import `experiments`. `import` may also import
   `characterization`. `plots` may import `experiments`. `reports` may import `experiments`

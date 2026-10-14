@@ -1,4 +1,5 @@
 import { parseProjectTab, ProjectDetail } from '@/features/experiments';
+import { deleteProjectAction } from '@/app/(workspace)/_actions/delete-records';
 import { SummariseButton } from '@/features/assistant';
 import { ReferencesTab } from '@/features/references';
 import { listReferencesByProject } from '@/features/references/server';
@@ -17,6 +18,7 @@ const ProjectPage = async (props: PageProps<'/projects/[projectId]'>) => {
       projectId={projectId}
       tab={parseProjectTab(tab)}
       referenceCount={references.length}
+      deleteProject={deleteProjectAction.bind(null, projectId)}
       references={
         <ReferencesTab
           projectId={projectId}

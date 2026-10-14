@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab } from './helpers';
+import { chooseFromMenu, openTab } from './helpers';
 
 test('shows a sample note on the table and the sample page', async ({
   page
@@ -45,7 +45,7 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   ).toBeVisible();
 
   // Edit the experiment: a new name and a base protocol, shown in the Protocol tab.
-  await page.getByRole('button', { name: 'Edit experiment' }).click();
+  await chooseFromMenu(page, 'Edit experiment');
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name', { exact: true }).fill('Plasma deposition');
   await dialog
@@ -82,7 +82,7 @@ test('edits an experiment and records a note on a sample', async ({ page }) => {
   ).toBeVisible();
 
   // The edit form opens with the note already there.
-  await page.getByRole('link', { name: 'Edit', exact: true }).click();
+  await chooseFromMenu(page, 'Edit');
   await expect(page.getByLabel('Note', { exact: true })).toHaveValue(
     'Shortened after a leak.'
   );

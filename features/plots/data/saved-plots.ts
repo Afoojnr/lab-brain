@@ -77,3 +77,19 @@ export const deleteSavedPlot = async (
 
   return true;
 };
+
+/**
+ * Removes every saved plot of an experiment that was deleted.
+ *
+ * @param experimentId - The experiment that is gone.
+ * @returns How many saved plots were removed.
+ */
+export const deleteSavedPlotsOf = async (
+  experimentId: string
+): Promise<number> => {
+  const before = savedPlots.length;
+  const kept = savedPlots.filter(plot => plot.experimentId !== experimentId);
+  savedPlots.splice(0, savedPlots.length, ...kept);
+
+  return before - savedPlots.length;
+};

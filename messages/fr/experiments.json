@@ -80,5 +80,54 @@
     "plots": "Graphiques",
     "protocol": "Protocole",
     "setup": "Configuration"
+  },
+  "delete": {
+    "typeName": "Saisissez <strong>{name}</strong> pour confirmer.",
+    "nameLabel": "Nom",
+    "cancel": "Annuler",
+    "failed": "La suppression a échoué.",
+    "removes": "Cela supprime :",
+    "irreversible": "Cette action est irréversible.",
+    "counts": {
+      "experiments": "{count, plural, one {# expérience} other {# expériences}}",
+      "samples": "{count, plural, one {# échantillon} other {# échantillons}}",
+      "characterizations": "{count, plural, one {# mesure} other {# mesures}}",
+      "files": "{count, plural, one {# fichier joint (aussi supprimé du stockage)} other {# fichiers joints (aussi supprimés du stockage)}}",
+      "columns": "{count, plural, one {# colonne} other {# colonnes}}",
+      "studies": "{count, plural, one {# étude} other {# études}}",
+      "references": "{count, plural, one {# référence avec son PDF et son texte enregistrés} other {# références avec leurs PDF et textes enregistrés}}",
+      "savedPlots": "ses graphiques et analyses enregistrés",
+      "background": "le contexte du projet"
+    },
+    "study": {
+      "button": "Supprimer cette étude",
+      "confirm": "Supprimer l'étude",
+      "keeps": "{count, plural, =0 {Aucun échantillon n'a cette étude.} one {# échantillon garde toutes ses données et perd seulement l'étiquette.} other {# échantillons gardent toutes leurs données et perdent seulement l'étiquette.}}",
+      "done": "Étude supprimée",
+      "title": "Supprimer cette étude ?",
+      "menuItem": "Supprimer l'étude"
+    },
+    "sample": {
+      "button": "Supprimer cet échantillon",
+      "confirm": "Supprimer l'échantillon",
+      "done": "Échantillon supprimé",
+      "title": "Supprimer cet échantillon ?",
+      "menuItem": "Supprimer l'échantillon"
+    },
+    "experiment": {
+      "button": "Supprimer cette expérience",
+      "confirm": "Supprimer l'expérience",
+      "done": "Expérience supprimée",
+      "title": "Supprimer cette expérience ?",
+      "menuItem": "Supprimer l'expérience"
+    },
+    "project": {
+      "button": "Supprimer ce projet",
+      "confirm": "Supprimer le projet",
+      "done": "Projet supprimé",
+      "title": "Supprimer ce projet ?",
+      "menuItem": "Supprimer le projet"
+    },
+    "moreActions": "Plus d'actions"
   }
 }

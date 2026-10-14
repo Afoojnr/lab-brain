@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { chooseFromMenu } from './helpers';
+
 // Creates its own project: editing changes its name and description.
 test('edits a project and folds a long description behind Show more', async ({
   page
@@ -21,7 +23,7 @@ test('edits a project and folds a long description behind Show more', async ({
     page.getByRole('heading', { name: projectName, exact: true })
   ).toBeVisible();
 
-  await page.getByRole('button', { name: 'Edit project', exact: true }).click();
+  await chooseFromMenu(page, 'Edit project');
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Name', { exact: true }).fill(renamed);
   await dialog

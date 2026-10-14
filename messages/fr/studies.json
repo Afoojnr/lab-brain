@@ -6,7 +6,8 @@
     "samples": "{count, plural, one {# échantillon} other {# échantillons}}",
     "show": "Afficher les échantillons de {name}",
     "add": "Nouvelle étude",
-    "edit": "Modifier {name}"
+    "edit": "Modifier {name}",
+    "delete": "Supprimer {name}"
   },
   "form": {
     "title": "Nouvelle étude",

@@ -37,3 +37,16 @@ export {
   listDatasetsBySample
 } from './data/datasets';
 export { datasetBytes, datasetResponse } from './datasets/datasets-file';
+export {
+  countExperiment,
+  countProject,
+  countSample
+} from './cascade/count-records';
+export type { Counts } from './cascade/count-records';
+export {
+  removeExperiment,
+  removeProject,
+  removeSample,
+  removeStudy
+} from './cascade/remove-records';
+export type { Removed } from './cascade/remove-records';
