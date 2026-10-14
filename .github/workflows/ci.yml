@@ -43,3 +43,42 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+  docker:
+    name: Docker image builds and starts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t lab-brain .
+      - name: Start a container with volumes, as docker-compose.yml does
+        run: |
+          docker run -d --name lab-brain -p 3000:3000 \
+            -v lab-brain-data:/data -v lab-brain-files:/storage \
+            -v lab-brain-backups:/backups -e LAB_BRAIN_BACKUP_DIR=/backups \
+            lab-brain
+      - name: Wait until the health check passes
+        run: |
+          for attempt in $(seq 1 40); do
+            status=$(docker inspect --format '{{.State.Health.Status}}' lab-brain)
+            echo "attempt $attempt: $status"
+            if [ "$status" = "healthy" ]; then exit 0; fi
+            sleep 3
+          done
+          docker logs lab-brain
+          exit 1
+      - name: The app answers
+        run: |
+          curl -fsS http://localhost:3000/api/health
+          curl -fsS -o /dev/null http://localhost:3000/
+          curl -fsS -o /dev/null http://localhost:3000/settings
+          curl -fsS http://localhost:3000/manifest.webmanifest
+          curl -fsS -o /dev/null http://localhost:3000/opengraph-image
+      - name: The database was created on the volume, and runs as the node user
+        run: |
+          docker exec lab-brain ls -la /data
+          docker exec lab-brain sh -c 'test -s /data/lab-brain.db && [ "$(id -un)" = node ]'
+      - name: Show the logs if anything failed
+        if: failure()
+        run: docker logs lab-brain

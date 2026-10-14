@@ -26,7 +26,7 @@ export const DataFolderSection = async () => {
         isManaged={state.isManaged}
       />
       <BackupsList
-        hasFolder={state.dataFolder !== null}
+        hasFolder={state.backupFolder !== null}
         lastBackupAt={state.lastBackupAt}
         lastBackupError={state.lastBackupError}
         backups={state.backups.map(backup => ({

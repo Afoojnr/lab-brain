@@ -72,6 +72,17 @@ server, kept on `globalThis` so Route Handlers share it). Migrations are in `dri
   Data folder. `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and
   `playwright.config.ts`; never document it for users or put it in `.env`.
 
+## Docker (self-hosting)
+
+- `Dockerfile` (multi-stage, `NEXT_OUTPUT=standalone`, runs as `node`, health check on
+  `/api/health`) and `docker-compose.yml` (volumes for `/data`, `/storage`, `/backups`).
+  Inside the image `LAB_BRAIN_DATA_DIR=/data` and `LAB_BRAIN_STORAGE_DIR=/storage`, so the
+  Settings data-folder picker is locked; `LAB_BRAIN_BACKUP_DIR=/backups` is where the
+  automatic backups go (mount it somewhere synced). `.dockerignore` keeps `.env`, `data` and
+  `storage` out of the image.
+- The standalone build is only produced when `NEXT_OUTPUT=standalone` (see
+  `next.config.ts`), so Render and local `next start` are unchanged.
+
 ## Branding and SEO
 
 - One logo component, `components/brand/logo-mark.tsx` (flask in a hexagon; `full` has a

@@ -120,6 +120,21 @@ describe('backups', () => {
   });
 });
 
+describe('a fixed backup folder', () => {
+  it('is used instead of the data folder when the server sets one', async () => {
+    const fixed = path.join(root, 'fixed-backups');
+    process.env.LAB_BRAIN_BACKUP_DIR = fixed;
+    try {
+      const name = await backUpNow();
+
+      expect(existsSync(path.join(fixed, name))).toBe(true);
+      expect((await listBackups()).map(backup => backup.name)).toContain(name);
+    } finally {
+      delete process.env.LAB_BRAIN_BACKUP_DIR;
+    }
+  });
+});
+
 describe('restoring', () => {
   it('brings back what the backup held, keeps a copy of what was replaced, and refuses other names', async () => {
     const name = await backUpNow();
