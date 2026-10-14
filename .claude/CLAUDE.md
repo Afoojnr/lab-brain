@@ -75,7 +75,7 @@ messages/       en and fr
 - **Errors** are shown as a toast, translated in `messages/en` and `messages/fr`.
 - **Comments:** say why, not what, in a sentence or two. No `@param`/`@returns`, no
   restating the name, no history ("Step 6", "now supports").
-- **Commits:** Conventional Commits, no scope (`feat: ...`). Branch `<type>/<what>`.
+- **Commits:** Conventional Commits, no scope (`feat: ...`). Branch: a short hyphenated name for what it does (a `feat/` or `fix/` prefix is optional).
 
 ## Tests
 

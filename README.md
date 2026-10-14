@@ -173,11 +173,11 @@ Run `yarn test:e2e` too when you touch a main flow.
 
 ### Branching
 
-Use the format `<type>/<short-description>`, e.g. `feat/saved-plots` or `fix/import-dates`.
+Name it after what it does, in lowercase with hyphens, e.g. `saved-plots` or `fix-import-dates`. A type prefix is optional: `feat/saved-plots`, `fix/import-dates` and `chore/clean-repo` are all fine.
 
 ### Commit messages
 
-Follows [Conventional Commits](https://www.conventionalcommits.org/), with no scope:
+Follows [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 feat: add backups to the data folder
