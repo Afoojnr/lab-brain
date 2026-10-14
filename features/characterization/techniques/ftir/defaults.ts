@@ -1,10 +1,6 @@
 import type { FtirSettings } from './types';
 
-/**
- * Settings before the user changes anything. These are adjustable algorithm
- * settings (how picky the peak finder is, how close counts as the same peak),
- * not scientific constants, and the workspace shows them so they can be changed.
- */
+/** Settings before the user changes anything. */
 export const defaultFtirSettings = (): FtirSettings => ({
   reading: null,
   convertToAbsorbance: false,

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getFormatter, getTranslations } from 'next-intl/server';
 
-import { RecordDetail } from '@/components/record-detail';
+import { RecordDetail } from '@/components/page/record-detail';
 import { buttonVariants } from '@/components/ui/button';
 import { AttachFilesDialog, DatasetList } from '@/features/experiments';
 import {

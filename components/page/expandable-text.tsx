@@ -12,8 +12,7 @@ type ExpandableTextProps = {
 
 /**
  * Long text shown as three lines with a "Show more" toggle, so a lengthy
- * protocol or description never pushes the page content down. Line breaks in
- * the text are kept, and short text shows no toggle at all.
+ * protocol or description never pushes the page content down.
  */
 export const ExpandableText = ({
   children,

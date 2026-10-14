@@ -71,18 +71,9 @@ const loadContext = async (
 };
 
 /**
- * Applies an import. Nothing from the browser is trusted: the payload's shape is
- * checked, the project and experiment are looked up, and the whole import is
- * validated again against what is stored now. If anything changed since the
- * preview (a code taken in the meantime, for example) or anything is invalid,
- * it writes nothing and returns the fresh report.
- *
- * The writes run as one database transaction: if any of them fails, nothing
- * from the import is kept.
- *
- * @param projectId - Owning project's id.
- * @param input - The import (see `importPayloadSchema`).
- * @returns What was written, the fresh report when it was refused, or null when ignored.
+ * Applies an import. Nothing from the browser is trusted: it is validated again
+ * against what is stored now, and if anything changed or is invalid nothing is
+ * written. The writes are one transaction.
  */
 export const commitImportAction = async (
   projectId: string,

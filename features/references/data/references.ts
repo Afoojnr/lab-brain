@@ -5,11 +5,7 @@ import { references } from '@/lib/db/schema';
 
 import type { Reference } from '../types';
 
-/**
- * A project's references, oldest first.
- *
- * @param projectId - Owning project's id.
- */
+/** A project's references, oldest first. */
 export const listReferencesByProject = async (
   projectId: string
 ): Promise<Reference[]> => {
@@ -22,12 +18,7 @@ export const listReferencesByProject = async (
     .orderBy(references.createdAt, sql`rowid`);
 };
 
-/**
- * One reference, only when it belongs to the project.
- *
- * @param projectId - The project the caller says owns it.
- * @param id - The reference's id.
- */
+/** One reference, only when it belongs to the project. */
 export const getReference = async (
   projectId: string,
   id: string
@@ -68,11 +59,7 @@ type ReferenceChanges = Partial<
   Pick<Reference, 'title' | 'authors' | 'year' | 'url' | 'note' | 'summary'>
 >;
 
-/**
- * Changes a reference's details or summary.
- *
- * @returns The updated reference, or undefined when it is not the project's.
- */
+/** Changes a reference's details or summary. */
 export const updateReference = async (
   projectId: string,
   id: string,
@@ -90,11 +77,7 @@ export const updateReference = async (
   return updated;
 };
 
-/**
- * Removes a reference's record (its files are removed by the caller).
- *
- * @returns The removed reference, or undefined when it is not the project's.
- */
+/** Removes a reference's record (its files are removed by the caller). */
 export const deleteReference = async (
   projectId: string,
   id: string

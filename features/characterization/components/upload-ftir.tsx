@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 
-import { FileDropZone } from '@/components/file-drop-zone';
-import type { PickedFile } from '@/components/read-dropped-entries';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
+import type { PickedFile } from '@/components/file-drop/read-dropped-entries';
 import { Button } from '@/components/ui/button';
 
 import { defaultFtirSettings } from '../techniques/ftir/defaults';
@@ -18,7 +18,7 @@ type Read = ReturnType<typeof parseSpectrum>;
 /**
  * FTIR spectra that are not in any experiment: drop one or more exports, stack
  * them to compare, detect and curate peaks, and download the value at each peak
- * as Excel. The files are read in the browser; nothing is uploaded.
+ * as Excel.
  */
 export const UploadFtir = ({ bonds }: { bonds?: FtirBond[] }) => {
   const t = useTranslations('analysis.workspace.upload');

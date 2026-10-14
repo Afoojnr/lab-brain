@@ -5,12 +5,7 @@ import type { ExportTable } from './types';
 
 export type NamedTable = { name: string; table: ExportTable };
 
-/**
- * Several tables as one Excel file, one sheet each, in order. A sheet name is
- * cut to the 31 characters Excel allows; a `null` cell stays empty.
- *
- * @param sheets - The sheets. At least one.
- */
+/** Several tables as one Excel file, one sheet each, in order. */
 export const tablesToWorkbook = (sheets: NamedTable[]): Uint8Array => {
   const workbook = XLSX.utils.book_new();
   for (const { name, table } of sheets) {
@@ -26,12 +21,7 @@ export const tablesToWorkbook = (sheets: NamedTable[]): Uint8Array => {
   );
 };
 
-/**
- * A table as an Excel file (one sheet).
- *
- * @param table - Headers and rows; a `null` cell stays empty.
- * @param sheetName - The sheet's name (cut to the 31 characters Excel allows).
- */
+/** A table as an Excel file (one sheet). */
 export const tableToWorkbook = (
   table: ExportTable,
   sheetName: string
@@ -41,7 +31,7 @@ const BYTE_ORDER_MARK = String.fromCharCode(0xfeff);
 
 /**
  * A table as CSV text with a byte-order mark, so Excel reads accented letters
- * and symbols such as °C correctly. A `null` cell is empty.
+ * and symbols such as °C correctly.
  */
 export const tableToCsv = (table: ExportTable): Uint8Array =>
   new TextEncoder().encode(

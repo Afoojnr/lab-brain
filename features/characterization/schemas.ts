@@ -47,11 +47,7 @@ export const ftirSettingsSchema = z.object({
     .max(50)
 });
 
-/**
- * The shape of an analysis's settings sent to the server. It only guards the
- * shape: the server recomputes every number itself and checks each target
- * against the experiment's own columns.
- */
+/** The shape of an analysis's settings sent to the server. */
 export const analysisSettingsSchema: z.ZodType<AnalysisSettings> = z.object({
   numerator: symbol,
   denominator: symbol,
@@ -65,7 +61,7 @@ export const analysisSettingsSchema: z.ZodType<AnalysisSettings> = z.object({
 /**
  * The shape of a batch sent to the server: the shared choices (ratio, values,
  * where they go) and the characterizations to apply them to, each with the
- * spots left out. The server recomputes every number itself.
+ * spots left out.
  */
 export const batchPayloadSchema = z.object({
   settings: analysisSettingsSchema,

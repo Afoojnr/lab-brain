@@ -36,8 +36,6 @@ const isChangeable = () => !isDemoMode() && !process.env.LAB_BRAIN_STORAGE_DIR;
 /**
  * Looks at a typed folder without changing anything: whether it exists, can be
  * written to, and already holds Lab Brain files or backups.
- *
- * @param typed - The path as typed.
  */
 export const checkDataFolderAction = async (
   typed: string
@@ -47,15 +45,10 @@ export const checkDataFolderAction = async (
     : { isOk: false, reason: 'unavailable' };
 
 /**
- * Makes a `Lab Brain` folder inside the picked folder the place uploaded files
- * and database backups go (or the picked folder itself when it already is one).
- *
- * - `move`: copies the files kept so far into it first (checked file by file,
- *   never replacing one that is already there); the old files stay.
- * - `use`: takes the folder as it is, with whatever it already holds.
- *
- * @param typed - The path as typed.
- * @param mode - Whether to move the current files there or use the folder as is.
+ * Makes a `Lab Brain` folder inside the picked folder the place files and
+ * backups go (or the picked folder itself when it already is one). `move`
+ * copies the current files there first, checking each and never replacing one;
+ * `use` takes the folder as it is.
  */
 export const setDataFolderAction = async (
   typed: string,
@@ -106,12 +99,7 @@ export const backUpNowAction = async (): Promise<DataFolderResult> => {
   return { isOk: true };
 };
 
-/**
- * Replaces the database with a backup from the data folder. The database in use
- * is kept as a copy first.
- *
- * @param name - The backup's file name.
- */
+/** Replaces the database with a backup from the data folder. */
 export const restoreBackupAction = async (
   name: string
 ): Promise<DataFolderResult> => {

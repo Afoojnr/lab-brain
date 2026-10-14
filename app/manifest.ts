@@ -5,7 +5,7 @@ import { en } from '@/messages/en';
 
 /**
  * The web app manifest, so the app can be installed or pinned with its own name
- * and icon. The name is the product's, which is the same in every language.
+ * and icon.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {

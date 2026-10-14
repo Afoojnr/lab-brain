@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
-import { DisabledReason } from '@/components/disabled-reason';
+import { DisabledReason } from '@/components/controls/disabled-reason';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

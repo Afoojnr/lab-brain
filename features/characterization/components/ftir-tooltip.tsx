@@ -20,8 +20,7 @@ type FtirTooltipProps = {
 
 /**
  * What hovering the chart says: the wavenumber first, then each spectrum's own
- * value nearest to it (not the shifted line that is drawn). If a spectrum has no
- * point at that wavenumber, the one it has nearest is shown with where it is.
+ * value nearest to it (not the shifted line that is drawn).
  */
 export const FtirTooltip = ({
   isActive,

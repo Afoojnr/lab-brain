@@ -40,10 +40,8 @@ export const useSidePanel = (): SidePanelState => {
 };
 
 /**
- * A column on the right of the page that pushes the content aside (a full-screen
- * sheet on a phone). Its content is created the first time it opens and then
- * kept while it is closed, so a conversation survives closing the panel and
- * moving between pages.
+ * A column on the right of the page that pushes the content aside (a
+ * full-screen sheet on a phone).
  */
 export const SidePanel = ({
   title,

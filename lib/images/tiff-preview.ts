@@ -6,10 +6,6 @@ export const MAX_PREVIEW_SIDE = 2000;
 /**
  * A PNG copy of an image the browser cannot show (TIFF), no larger than
  * `width` pixels on its longest side. The original is never changed.
- *
- * @param bytes - The original file.
- * @param width - Longest side wanted, at most {@link MAX_PREVIEW_SIDE}.
- * @returns The PNG, or null when the file is not an image sharp can read.
  */
 export const imageToPng = async (
   bytes: Uint8Array,

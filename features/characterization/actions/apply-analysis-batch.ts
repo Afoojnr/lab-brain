@@ -18,20 +18,10 @@ import { analysisKindSchema, batchPayloadSchema } from '../schemas';
 import { createPlannedColumns, numbersFor, planTargets } from './apply-core';
 
 /**
- * Sends the chosen analysis values to the result columns of several samples of
- * one experiment at once. Nothing the browser says about the numbers is used:
- * every value is computed again here from the stored files, each
- * characterization must belong to the experiment, two characterizations of one
- * sample cannot be applied together, and the targets are checked once. If
- * anything is not allowed or cannot be computed, nothing at all is written. Only
- * the chosen columns change; every other value of each sample is kept. Invalid
- * input only comes from a direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment whose samples are updated.
- * @param kind - Which analysis.
- * @param input - The shared settings and the rows to apply them to.
- * @returns How many samples were updated, or null when ignored.
+ * Sends analysis values to the result columns of several samples of one
+ * experiment. The numbers are computed again here from the stored files, never
+ * taken from the browser, and every characterization must belong to the
+ * experiment.
  */
 export const applyAnalysisBatchAction = async (
   projectId: string,

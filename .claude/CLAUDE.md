@@ -2,229 +2,81 @@
 
 # Lab Brain
 
-Act as a Senior Full-Stack Engineer (Next.js + TypeScript) who understands
-experimental materials science data.
-
 A web workspace for materials science research: record experiments, import
-spreadsheet data, attach characterization files, run calculations, link and export
-everything, and ask an AI assistant about it (your own key).
+spreadsheets, attach characterization files, run analyses, plot, export, and ask
+an AI about the data (bring your own key). Write code as a senior full-stack
+engineer who understands experimental data.
 
-- Spec: `.claude/docs/project-spec.md` · User journeys: `.claude/docs/ux-flows.md`
-- Read both before proposing new features or changing the data model.
+- Spec: `.claude/docs/project-spec.md`. User flows: `.claude/docs/ux-flows.md`.
+  Read both before changing the data model or adding a feature.
+- Setup, configuration, Docker and deployment are in `README.md`.
 
-**Core records** (use these exact names in code):
-`Project` → `Experiment` (one sheet of a spreadsheet: its own columns, a code
-prefix and a base protocol, e.g. "Deposition" ALD, "Paschen law" PSL) → `Sample`
-(one row, e.g. `ALD023`; a value per column, empty = not recorded; one note).
-Columns are either a parameter (what you set) or a result (what you measure; never
-prefilled). `Study` is an optional named group of samples inside one experiment (a
-sample can be in several). `Characterization` records that a measurement (SEM, EDX,
-...) was done on a sample: technique + date + note, repeatable. Later: `Dataset`
-(raw characterization file), `Analysis` (computed result/plot). Plus
-`Reference` (a paper). A `SavedPlot` is a named plot setup (columns, filters,
-unticked samples) of one experiment, never a picture. There is no separate notebook: the notes are each sample's
-implementation, observation and note, and the experiment's protocol.
+## Records
 
-**Stack** (ask before adding anything else): Next.js (App Router), TypeScript,
-Drizzle ORM + SQLite, Zod, React Hook Form, TanStack Query, shadcn/ui + Tailwind v4,
-SheetJS (`xlsx`), `papaparse`, `jspdf` (PDF) and `pptxgenjs` (PowerPoint) for exports, `react-markdown` + `remark-gfm` +
-`remark-breaks` (the formatted protocol), the Vercel AI SDK (`ai`, `@ai-sdk/react`,
-`@ai-sdk/anthropic`, `@ai-sdk/openai`, `@ai-sdk/openai-compatible` for Ollama),
-`unpdf` + `@mozilla/readability` + `linkedom` (reading references once), charts `TBD: Recharts or Chart.js`.
-Testing: Vitest + Testing Library (unit/component), Playwright (the critical
-flows) — see `.claude/rules/testing.md`.
+Use these names in code: `Project` → `Experiment` (one sheet: its columns, a code
+prefix and a protocol) → `Sample` (one row, a value per column, empty = not
+recorded) → `Characterization` (technique + date + note) → `Dataset` (a raw file)
+and `Analysis`. Columns are a parameter (set) or a result (measured, never
+prefilled). Also `Study` (a group of samples), `SavedPlot` (a plot setup, never a
+picture) and `Reference` (a paper). Never hardcode technique names or prefixes:
+the user names everything.
+
+## Stack
+
+Next.js (App Router), TypeScript, Drizzle + SQLite (libSQL), Zod, React Hook Form,
+TanStack Query, shadcn/ui (Base UI, `base-nova`) + Tailwind v4, next-intl, Vercel
+AI SDK, Recharts, SheetJS, driver.js. Ask before adding anything else.
 
 ## Commands
 
 ```bash
-yarn dev                  # dev server
-yarn ts-check             # typecheck
-yarn lint / lint:fix      # ESLint (also enforces file size, nesting, import boundaries)
-yarn format:fix           # Prettier
-yarn test                 # Vitest: unit + component tests
-yarn test:e2e             # Playwright: critical end-to-end flows
-npx drizzle-kit generate  # migrations from schema changes (once Drizzle is added)
+yarn dev          # dev server
+yarn ts-check     # typecheck
+yarn lint         # ESLint (also enforces boundaries)
+yarn test         # Vitest
+yarn test:e2e     # Playwright
+npx drizzle-kit generate   # migration after a schema change
 ```
 
-## Storage
+Done means `ts-check`, `lint` and the relevant tests pass. Show the output; fix the
+cause, never add `@ts-ignore` or disable a rule.
 
-Records live in SQLite through Drizzle (`@libsql/client`): schema in `lib/db/schema/`,
-connection `getDb()` in `lib/db/client.ts` (opened and migrated on first use, one per
-server, kept on `globalThis` so Route Handlers share it). Migrations are in `drizzle/`
-(`npx drizzle-kit generate` after a schema change). Foreign keys cascade.
-
-- **Database**: `LAB_BRAIN_DATABASE_URL`, else `./data/lab-brain.db` (`LAB_BRAIN_DATA_DIR`,
-  git-ignored). Keep it on a local disk, never on a synced or network drive.
-- **Attached files** (`StorageAdapter`, `getStorage()`): `LAB_BRAIN_STORAGE_DIR`, else the
-  `files` folder of the **Data folder** chosen in Settings, else `./storage` (git-ignored).
-  The example files live with the example data in `lib/db/demo/files/` and are copied
-  into storage under `demo/` when the demo is used. Only `lib/storage/local-adapter.ts` touches
-  `fs` for them.
-- **Data folder** (self-hosted): a `Lab Brain` folder is created inside the picked folder,
-  holding `files/` and `backups/` (a picked folder that already is one is used as is,
-  never replaced). The choice and the
-  last backup's status are per computer, in `data/settings.json` (`lib/config/`), not in
-  the database. Backups are `VACUUM INTO` copies (`lib/db/backup.ts`) every 10 minutes
-  while something changed, 30 kept per computer; `lib/db/restore.ts` restores one.
-- **Example data**: a normal install starts empty and shows no example data or button.
-  `LAB_BRAIN_DEMO=true` (the public demo) also starts empty but shows an Add/Remove example
-  data button, uses a temporary database and files in `/tmp`, shows a banner, and has no
-  Data folder. `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and
-  `playwright.config.ts`; never document it for users or put it in `.env`.
-
-## Docker (self-hosting)
-
-- `Dockerfile` (multi-stage, `NEXT_OUTPUT=standalone`, runs as `node`, health check on
-  `/api/health`) and `docker-compose.yml` (volumes for `/data`, `/storage`, `/backups`).
-  Inside the image `LAB_BRAIN_DATA_DIR=/data` and `LAB_BRAIN_STORAGE_DIR=/storage`, so the
-  Settings data-folder picker is locked; `LAB_BRAIN_BACKUP_DIR=/backups` is where the
-  automatic backups go (mount it somewhere synced). `.dockerignore` keeps `.env`, `data` and
-  `storage` out of the image.
-- The standalone build is only produced when `NEXT_OUTPUT=standalone` (see
-  `next.config.ts`), so Render and local `next start` are unchanged.
-
-## Branding and SEO
-
-- One logo component, `components/brand/logo-mark.tsx` (flask in a hexagon; `full` has a
-  small network, `compact` is for favicons). The sidebar, the preview card and every icon
-  file come from it: after changing it run `npx tsx scripts/brand-assets.tsx` from the repo
-  root (writes `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `public/icons/`).
-- Metadata lives in `app/layout.tsx` (title template, Open Graph, Twitter, `metadataBase`
-  from `LAB_BRAIN_SITE_URL`), `app/manifest.ts`, `app/robots.ts` and the generated
-  `app/opengraph-image.tsx` / `twitter-image.tsx` (`lib/brand-image.tsx`).
-- Not indexed by default (`noindex` + `Disallow: /`); `LAB_BRAIN_ALLOW_INDEXING=true` opens
-  it. There is no sitemap until there is a landing page.
-
-## Verification
-
-Work is done when `yarn ts-check` and `yarn lint` pass with no errors, **and**
-the relevant tests pass (`yarn test`, plus `yarn test:e2e` if the change
-touches a critical flow) — see `.claude/rules/testing.md` for what to test and
-what to skip. Show the output rather than claiming success. Fix root causes;
-never add `@ts-ignore` or disable a lint rule to get green.
-
-## Tooling gotchas
-
-- Package manager is **Yarn 1**. Use `npx` for one-off CLIs, never `yarn dlx`
-  (it runs Yarn 4 in PnP mode and breaks installs).
-- shadcn uses the **Base UI** style (`base-nova`, `@base-ui/react`), not Radix.
-  Check `components/ui/` for the actual component APIs.
-- Commits must follow Conventional Commits (`feat:`, `fix:`, `chore:` …); commitlint
-  rejects others. Husky runs lint-staged (typecheck, lint, format) on commit.
-
-## UI components
-
-- Before writing any UI component, check shadcn first (use the `shadcn` skill to
-  search and read docs; add with `npx shadcn@latest add <name>`). Only build a
-  custom component when shadcn has no equivalent, and build it in the same style
-  as `components/ui/`.
-- Use the design skills in `.claude/skills/` when designing or reviewing UI. They
-  load on their own from their descriptions, so no need to restate them here.
-
-## Naming
-
-- Files and folders: kebab-case (`experiment-card.tsx`, `format-date.ts`, `use-auth.ts`).
-- Inside the code: components and types PascalCase (`ExperimentCard`), hooks and
-  functions camelCase (`useAuth`).
-- Whole words only: `experiment` not `exp`, `configuration` not `cfg`.
-- Booleans are prefixed `is`/`has`/`can`/`should`/`did` (e.g. `isImporting`).
-- Constants and env vars: UPPER_SNAKE_CASE.
-
-## Project structure
+## Structure
 
 ```
-app/             routes only: thin pages that compose features
-components/      shared UI (ui/ = shadcn, generated)
-features/<name>/ one folder per feature, self-contained:
-  actions/       Server Actions ('use server')
-  data/          Drizzle queries (only place besides lib/db that imports Drizzle)
-  components/    components used only by this feature
-  hooks/         hooks used only by this feature, including TanStack Query
-                 hooks; each hook's query key is defined in the same file
-  types.ts       hand-written types (Project, Experiment, ...)
-  schemas.ts     Zod schemas for forms and payloads + inferred types (only where needed)
-  index.ts       public API (components and types); may export server components,
-                 so client code of another feature cannot import it
-  shared.ts      pure, client-safe API for other features (schemas, parsing, types)
-  server.ts      public server API (data functions); never imported by client code
-hooks/  lib/ (db/, storage/)  types/  utils/     shared code
+app/            routes only: thin pages that compose features
+components/     shared UI, grouped by purpose (ui/ is shadcn, generated)
+features/<x>/   actions/ data/ components/ hooks/ + types.ts, schemas.ts,
+                index.ts (components), shared.ts (client-safe), server.ts (data)
+lib/            db/, storage/, config/, export/, i18n/, ...
+messages/       en and fr
 ```
 
-- Create folders only when they get a first real file; do not scaffold empty ones.
-- A feature's root holds only its entry points (`index.ts`, `shared.ts`, `server.ts`)
-  plus `types.ts` and `schemas.ts`; a `schemas.ts` that has tests moves with them into
-  `schemas/` (as in `experiments` and `plots`). All other logic goes
-  in a folder named for what it does, like a small feature inside the feature: for
-  example `assistant/ai/` (provider, settings, errors), `assistant/chat/`,
-  `assistant/prompts/`, `plots/compute/`, `plots/export/`, `plots/style/`,
-  `experiments/calculations/`, `import/validation/`, `import/mapping/`. A test sits
-  next to the file it tests.
-- Features: `experiments` (projects, experiments, studies, samples, attached files),
-  `import`, `characterization` (analyses per technique under `techniques/`: EDX,
-  ellipsometry, FTIR), `plots` (X/Y scatter of an uploaded table or an experiment's
-  samples, with saved plots and export; file builders are in `lib/export/`),
-  `reports` (a printable sample report and experiment summary), `references` (a
-  project's papers: PDF, link or pasted text, read once and kept), `assistant` (the
-  AI chat, bring-your-own key; read-only tools over the experiments).
+- A feature's root holds only its entry points, `types.ts` and `schemas.ts`; other
+  code goes in a folder named for what it does. A test sits next to its file.
+- Create a folder only when it has a first real file.
+- Files and folders are kebab-case, whole words, booleans `is/has/can/should/did`.
+- Named exports; default only where Next.js requires it.
 
-## Imports and exports
+## Rules
 
-- Absolute imports with `@/` across folders; `./` or `../` only inside one feature.
-- Imports at the top: dependencies first, then local.
-- Flow is one way: `shared (lib, utils, hooks, components) → features → app`.
-- Features may import another feature only through its public `index.ts`,
-  `shared.ts` or `server.ts`, never its inner files, and never in a cycle.
-- A delete that touches data held by several features (a sample, experiment or project
-  takes saved analyses, saved plots or references with it) is composed in
-  `app/(workspace)/_actions/`: the `experiments` cascade removes its own records and
-  returns what went, then the page-level action asks the other features' `server.ts` to
-  clean up. No feature imports them all.
-- Allowed direction: `experiments` imports no other feature. `characterization`,
-  `import` and `assistant` may import `experiments`. `import` may also import
-  `characterization`. `plots` may import `experiments`. `reports` may import `experiments`
-  and `plots`. `references` may import `experiments`. `assistant` may import
-  `experiments` and `references`. Need something else? Move the shared
-  code up to `components/`, `hooks/`, `lib/` or `types/`, or ask.
-- Named exports everywhere. Default export only where Next.js requires it
-  (`page`, `layout`, `loading`, `error`, `not-found`).
+- **Database:** only `lib/db/` and a feature's `data/` import Drizzle.
+- **Files:** all file I/O goes through `StorageAdapter` (`lib/storage/`).
+- **Features:** import another feature only through its `index.ts`, `shared.ts` or
+  `server.ts`, never in a cycle. `experiments` imports no feature; `characterization`,
+  `import`, `plots`, `references` may import `experiments`; `import` also
+  `characterization`; `reports` also `plots`; `assistant` also `references`. A delete
+  that touches several features is composed in `app/(workspace)/_actions/`.
+- **Mutations** go through Server Actions or route handlers. Secrets stay server-side.
+- **Data:** never coerce a value silently (text in a number column is an error with its
+  row and column). Never overwrite on import without an explicit choice. Store raw
+  values with units; derive in calculation functions. Never invent data or constants:
+  leave a marked `TODO` and ask.
+- **Errors** are shown as a toast, translated in `messages/en` and `messages/fr`.
+- **Comments:** say why, not what, in a sentence or two. No `@param`/`@returns`, no
+  restating the name, no history ("Step 6", "now supports").
+- **Commits:** Conventional Commits, no scope (`feat: ...`). Branch `<type>/<what>`.
 
-## Architecture boundaries (non-negotiable)
+## Tests
 
-These keep storage and parsing swappable later. Never cross these lines, even for
-a quick fix. Deep imports into another feature are ESLint-enforced; the rest rely
-on you following the rule.
-
-- **Database**: only `lib/db/` or a feature's `data/` folder imports Drizzle.
-  Never import `drizzle-orm` from a component, page, or feature root.
-- **Storage**: all file I/O goes through the `StorageAdapter` interface
-  (`upload`, `download`, `list`, `delete`) in `lib/storage/`. Never call `fs`
-  anywhere else. A Nextcloud/WebDAV adapter will replace the local one later.
-- **Import**: every file format implements `ImportParser` (`parse(file) → rows`);
-  mapping, validation and preview never know the source format.
-- Mutations go through Server Actions or route handlers, never the client.
-- Secrets stay server-side; never prefix them `NEXT_PUBLIC_`.
-- Needing Python means a separate HTTP service called from a route handler. Ask first.
-
-## Scientific data integrity
-
-- IMPORTANT: never silently coerce values. Text in a numeric column is a
-  validation error pointing at the exact row/column, not `NaN` or `0`.
-- Never overwrite an existing record on import without an explicit user choice
-  (update / skip / add as new).
-- Store raw values plus units; derived values come from calculation functions.
-- Raw instrument files are referenced by storage path, never copied into the database.
-- Never invent sample data, peak positions or constants. Leave a marked `TODO` and ask.
-
-## Single source of truth
-
-- Drizzle schema defines database shape; infer types with `$inferSelect`/`$inferInsert`.
-- Use Zod where it pays off, mostly forms and object payloads (field-level
-  errors). Define each schema once in the feature's `schemas.ts`, derive types with
-  `z.infer`, and share it with React Hook Form via `zodResolver`.
-- Cross-feature types live in `types/`. Grep before creating a new type, schema,
-  component, hook or utility.
-
-## Errors
-
-Show errors to the user as a toast, with the message translated in
-`messages/<locale>/` (English and French).
+See `.claude/rules/testing.md`.

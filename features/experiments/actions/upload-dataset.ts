@@ -19,21 +19,9 @@ import { getProjectById } from '../data/projects';
 import { getSampleById } from '../data/samples';
 
 /**
- * Attaches one file to a characterization: checks that the project,
- * experiment, sample and characterization belong together, that the file is
- * there and within the size limit, writes it to storage under
- * `project/experiment/sample/technique/`, then records it. A second file with
- * the same name never replaces the first. Invalid input only comes from a
- * direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the characterization belongs to.
- * @param characterizationId - The characterization the file is attached to.
- * @param formData - Holds the file under `file`. A file from an uploaded folder
- *   also has `folder` (the reserved folder name) and `relativePath` (its path
- *   inside it). `refresh` = `0` skips re-rendering the pages (set on every file of a batch but the last).
- * @returns The new dataset's id, or null when ignored.
+ * Attaches one file to a characterization and writes it under
+ * `project/experiment/sample/technique/`. A file with the same name never
+ * replaces an existing one.
  */
 export const uploadDatasetAction = async (
   projectId: string,

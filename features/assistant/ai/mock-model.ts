@@ -20,8 +20,7 @@ type StreamPart =
 /**
  * A stand-in for a real AI, for the end-to-end tests only (`LAB_BRAIN_MOCK_AI`
  * outside production): in a chat it reads the project's experiments with a
- * tool, then answers; asked to summarise it returns a fixed summary. It makes
- * no network call, so tests need no key.
+ * tool, then answers; asked to summarise it returns a fixed summary.
  */
 export const createMockModel = () =>
   new MockLanguageModelV4({

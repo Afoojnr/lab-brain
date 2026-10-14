@@ -109,15 +109,9 @@ const COMPONENTS: Components = {
 };
 
 /**
- * Renders Markdown (headings, bold, lists, tables, links) in the app's style,
- * for the protocol. Safe by construction: raw HTML in the text is never run,
- * pictures are not loaded (only their text is kept), links open in a new tab,
- * and a single line break stays a line break so protocols written line by line
- * look the same as before. Headings start at the second level, because the page
- * already has its own title: `#` is the main heading, `##` a section, `###` a
- * sub-section, each a clear step smaller than the last, and none of them huge.
- *
- * @param children - The Markdown text.
+ * Renders Markdown for the protocol. Raw HTML is never run, images are not
+ * loaded, links open in a new tab, and a single line break stays a line break.
+ * Headings start at the second level because the page has its own title.
  */
 export const Markdown = ({ children }: { children: string }) => (
   <ReactMarkdown

@@ -12,8 +12,6 @@ const DEMO_PREFIX = 'demo';
 /**
  * Puts the example files into the storage in use (under `demo/`), so the
  * example data's attached files open.
- *
- * @returns How many files were copied.
  */
 export const copyDemoFiles = async (): Promise<number> => {
   const source = createLocalStorage(DEMO_FILES());

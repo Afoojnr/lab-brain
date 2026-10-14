@@ -26,9 +26,6 @@ export const peakLabel = (
  * The value at each of the user's peaks: the strongest point within the
  * tolerance of its position, from the raw numbers (converted or normalised only
  * as chosen). A peak with no data near it gives no value, never 0.
- *
- * @param spectrum - The processed spectrum.
- * @param settings - The user's peaks and tolerance.
  */
 export const ftirValues = (
   spectrum: ProcessedSpectrum,

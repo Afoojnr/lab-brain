@@ -32,8 +32,6 @@ const choiceSchema = z.discriminatedUnion('action', [
 
 /**
  * The shape of an import sent to the server: plain strings and numbers only.
- * It only guards the shape; the values themselves are checked by
- * `validateImport`, the same function the preview uses.
  */
 export const importPayloadSchema = z.object({
   target: z.discriminatedUnion('type', [

@@ -79,11 +79,7 @@ export const clearTourState = () => {
   }
 };
 
-/**
- * Which guided tours were seen, and whether the user turned them off. Kept in
- * the browser, so it works on the public demo with no accounts, and quietly
- * forgets when storage is blocked. Nothing is read during the server render.
- */
+/** Which guided tours were seen, and whether the user turned them off. */
 export const useTourState = () => {
   const state = useSyncExternalStore(subscribe, read, () => NOTHING_SEEN);
 

@@ -1,17 +1,11 @@
 import type { ParameterDefinition } from './types';
 
-// Demo data, seeded into the database. The column names are the
-// owner's own examples; the app itself never assumes a technique.
+// Demo data, seeded into the database.
 //
-// Units are left empty for the Paschen law and temperature calibration experiment
-// because the owner has not given them. The PVD experiment has no columns yet, to
-// show the empty state.
-//
-// EXAMPLE VALUES ONLY, NOT REAL SETTINGS: the ALD defaults below are
-// placeholders matching the demo samples in demo-samples.ts, to show prefilled
-// forms. The five extra ALD columns (Carrier flow to Substrate) and their sample
-// values exist only to test a wide table; they have no defaults. Thickness and
-// B/C ratio are the two ALD result columns: measured afterwards, never prefilled.
+// The ALD defaults are placeholders that match demo-samples.ts. Thickness and
+// B/C ratio are results, so they are never prefilled. The extra ALD columns only
+// exist to test a wide table, and the PVD experiment has no columns on purpose,
+// to show the empty state.
 export const DEMO_PARAMETER_DEFINITIONS: ParameterDefinition[] = [
   {
     id: 'demo-parameter-1',

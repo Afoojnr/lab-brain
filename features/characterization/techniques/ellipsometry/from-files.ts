@@ -15,8 +15,6 @@ export type SeqfitItem = {
 /**
  * Reads every dropped CSV as an ellipsometer fit export. A file that is not
  * one is reported with its reason, never skipped silently.
- *
- * @param files - The dropped `.csv` files, as text.
  */
 export const readSeqfitItems = (files: TextFile[]): SeqfitItem[] =>
   files

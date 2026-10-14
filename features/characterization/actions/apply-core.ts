@@ -15,12 +15,6 @@ export type TargetPlanItem = {
  * Checks where the chosen values go, before anything is written: every value
  * must be one the analysis produces, every target an existing number result
  * column (used once) or a new result column with a valid, unused name.
- *
- * @param selectedValueIds - The values the user chose.
- * @param targets - Where each goes.
- * @param availableValueIds - The values the analysis can produce.
- * @param definitions - The experiment's entered columns.
- * @returns The plan, or null when anything is not allowed.
  */
 export const planTargets = (
   selectedValueIds: string[],
@@ -69,13 +63,7 @@ export const planTargets = (
   return plan;
 };
 
-/**
- * The numbers to write for a plan, taken from values the server computed.
- *
- * @param plan - From {@link planTargets}.
- * @param values - The analysis's computed values for one sample.
- * @returns Value id → number, or null when one is missing or not a finite number.
- */
+/** The numbers to write for a plan, taken from values the server computed. */
 export const numbersFor = (
   plan: TargetPlanItem[],
   values: AnalysisValue[]
@@ -94,12 +82,8 @@ export const numbersFor = (
 };
 
 /**
- * Creates the plan's new result columns (once) and says which column each
- * value goes to. Call it only after everything else has been checked.
- *
- * @param experimentId - The experiment the columns belong to.
- * @param plan - From {@link planTargets}.
- * @returns Value id → column id.
+ * Creates the plan's new result columns (once) and says which column each value
+ * goes to.
  */
 export const createPlannedColumns = async (
   experimentId: string,

@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileDropZone } from '@/components/file-drop-zone';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
 
 import { parseSpreadsheet } from '@/lib/spreadsheet/parsers';
 import type { ParsedSheet } from '../../types';

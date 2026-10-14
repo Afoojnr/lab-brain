@@ -14,11 +14,7 @@ export const PREVIEW_ROWS = 200;
 
 const clip = (rows: string[][]) => rows.slice(0, PREVIEW_ROWS);
 
-/**
- * Reads a CSV for display: the delimiter is guessed, every cell stays text.
- *
- * @param text - The file's contents.
- */
+/** Reads a CSV for display: the delimiter is guessed, every cell stays text. */
 export const previewCsv = (text: string): TablePreview => {
   const rows = Papa.parse<string[]>(text.replace(/^\uFEFF/, ''), {
     skipEmptyLines: 'greedy'
@@ -30,8 +26,6 @@ export const previewCsv = (text: string): TablePreview => {
 /**
  * Reads every sheet of a workbook for display, with numbers and dates as
  * Excel shows them.
- *
- * @param data - The workbook's bytes.
  */
 export const previewWorkbook = (data: ArrayBuffer): TablePreview[] => {
   const workbook = XLSX.read(data, { type: 'array' });
@@ -54,11 +48,7 @@ export const previewWorkbook = (data: ArrayBuffer): TablePreview[] => {
 
 export const TEXT_PREVIEW_LINES = 300;
 
-/**
- * The first lines of a text file, and how many there are in all.
- *
- * @param text - The file's contents.
- */
+/** The first lines of a text file, and how many there are in all. */
 export const previewText = (text: string) => {
   const lines = text.split(/\r?\n/);
 

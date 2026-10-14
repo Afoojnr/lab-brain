@@ -48,10 +48,6 @@ export const findFieldColumns = (mapping: ColumnTarget[]): FieldColumns => {
  * Checks the import's setup before any row: a code column is mapped, nothing
  * is mapped twice, the new experiment's fields are valid and every new column
  * has a usable name.
- *
- * @param payload - The import.
- * @param context - The project's stored data.
- * @returns The new columns as definitions (id `new:<index>`), and the problems found.
  */
 export const checkSetup = (
   payload: ImportPayload,

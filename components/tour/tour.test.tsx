@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { clearTourState } from '@/hooks/use-tour-state';
+import { clearTourState } from '@/components/tour/use-tour-state';
 import { en } from '@/messages/en';
 
 const navigation = vi.hoisted(() => ({ pathname: '/' }));

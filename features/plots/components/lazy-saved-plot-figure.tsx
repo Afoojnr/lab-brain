@@ -9,7 +9,7 @@ import { PREVIEW_SIZE } from '../style/preview-size';
 /**
  * The chart library is only downloaded after the page is up, so a page that
  * shows saved-plot previews (the experiment page) is interactive as soon as it
- * would be without them. A skeleton of the same size holds the place.
+ * would be without them.
  */
 export const LazySavedPlotFigure = dynamic(
   () => import('./saved-plot-figure').then(module => module.SavedPlotFigure),

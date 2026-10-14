@@ -15,12 +15,7 @@ const toAnalysis = (row: AnalysisRow): Analysis => ({
   settings: row.settings as AnalysisSettings
 });
 
-/**
- * The saved settings of a characterization's analysis, if any.
- *
- * @param characterizationId - Owning characterization's id.
- * @param kind - Which analysis.
- */
+/** The saved settings of a characterization's analysis, if any. */
 export const getAnalysis = async (
   characterizationId: string,
   kind: AnalysisKind
@@ -42,10 +37,6 @@ export const getAnalysis = async (
 /**
  * Saves the settings of an analysis, replacing the earlier ones: one analysis
  * per characterization and kind.
- *
- * @param characterizationId - Owning characterization's id.
- * @param kind - Which analysis.
- * @param settings - Validated settings.
  */
 export const saveAnalysis = async (
   characterizationId: string,
@@ -76,9 +67,6 @@ export const saveAnalysis = async (
  * The most recently saved target of each value for an analysis kind anywhere
  * in a set of characterizations, so a new characterization starts with the
  * columns the last one used.
- *
- * @param characterizationIds - The characterizations to look through.
- * @param kind - Which analysis.
  */
 export const latestTargets = async (
   characterizationIds: string[],
@@ -102,12 +90,7 @@ export const latestTargets = async (
   return latest ? toAnalysis(latest).settings.targets : {};
 };
 
-/**
- * Removes the saved analyses of characterizations that were deleted.
- *
- * @param characterizationIds - The characterizations that are gone.
- * @returns How many saved analyses were removed.
- */
+/** Removes the saved analyses of characterizations that were deleted. */
 export const deleteAnalysesOf = async (
   characterizationIds: string[]
 ): Promise<number> => {

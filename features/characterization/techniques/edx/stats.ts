@@ -9,10 +9,6 @@ export const DEFAULT_ELEMENTS = ['B', 'N', 'C', 'O'];
 
 /**
  * The mean and standard deviation of each element over the spots, in percent.
- * Follows the lab notebook: an element missing from a spot counts as 0 there,
- * and the standard deviation divides by N (not N − 1).
- *
- * @param spots - The spots to average (leave excluded ones out first).
  */
 export const summarizeSpots = (spots: Spot[]): Record<string, ElementStat> => {
   const symbols = [
@@ -37,10 +33,6 @@ export const summarizeSpots = (spots: Spot[]): Record<string, ElementStat> => {
  * standard deviations. When it cannot be computed (an element absent, or a
  * mean of 0) the result is 0 and flagged, as in the notebook, so it can still
  * be plotted; it is never NaN.
- *
- * @param stats - From {@link summarizeSpots}.
- * @param numerator - Element on top, e.g. `B`.
- * @param denominator - Element below, e.g. `N`.
  */
 export const ratioOf = (
   stats: Record<string, ElementStat>,
@@ -81,13 +73,7 @@ export const DEFAULT_EDX_VALUE_IDS = [
   'substrate:std'
 ];
 
-/**
- * Every number an EDX analysis can send to the result columns.
- *
- * @param spots - The spots to average (excluded ones already left out).
- * @param numerator - Ratio element on top.
- * @param denominator - Ratio element below.
- */
+/** Every number an EDX analysis can send to the result columns. */
 export const edxValues = (
   spots: Spot[],
   numerator: string,

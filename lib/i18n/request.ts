@@ -10,8 +10,7 @@ type Messages = typeof en;
 
 /**
  * Each language is loaded on its own, so a request only pays for the one it
- * renders. `messages/fr/index.ts` is typed against English, so a key missing in
- * another language fails `ts-check`.
+ * renders.
  */
 const MESSAGE_LOADERS: Record<Locale, () => Promise<Messages>> = {
   en: async () => (await import('@/messages/en')).en,
@@ -20,8 +19,7 @@ const MESSAGE_LOADERS: Record<Locale, () => Promise<Messages>> = {
 
 /**
  * Resolves the active locale from the `locale` cookie (no URL prefix) and loads
- * its messages. Falls back to the default locale when the cookie is absent or
- * holds an unsupported value.
+ * its messages.
  */
 export default getRequestConfig(async () => {
   const cookieStore = await cookies();

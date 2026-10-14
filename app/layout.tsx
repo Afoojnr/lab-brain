@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 import { Providers } from '@/components/providers';
-import { getSiteUrl, isIndexingAllowed } from '@/lib/site';
+import { getSiteUrl, isIndexingAllowed } from '@/lib/site/site';
 import { cn } from '@/lib/utils';
 
 import './globals.css';

@@ -21,10 +21,7 @@ export const referencedIds = (formula: string): string[] => [
 
 /**
  * The calculated columns that use a column, directly or through other
- * calculated columns. Changing or removing the column would break all of them.
- *
- * @param derived - The experiment's calculated columns.
- * @param id - A column's id (entered or calculated).
+ * calculated columns.
  */
 export const dependentsOf = <T extends Calculated>(
   derived: T[],
@@ -59,10 +56,6 @@ const asNumberColumn = (column: Calculated): FormulaColumn => ({
  * every other calculated column, except (when editing) the column itself and
  * the ones that depend on it, since using those would make the formula loop
  * back to itself.
- *
- * @param definitions - The experiment's entered columns.
- * @param derived - Its calculated columns.
- * @param editingId - The calculated column being edited; omit when adding one.
  */
 export const formulaColumns = (
   definitions: FormulaColumn[],
@@ -87,11 +80,7 @@ export type CompiledDerived = { id: string; ast: FormulaNode | null };
 /**
  * Reads every calculated column's formula once and puts the columns in the
  * order they can be worked out: a column comes after the calculated columns it
- * uses, whatever their positions. A column in a loop, or one that uses a loop,
- * cannot be calculated and gets no formula.
- *
- * @param definitions - The experiment's entered columns.
- * @param derived - Its calculated columns, in display order.
+ * uses, whatever their positions.
  */
 export const compileDerived = (
   definitions: FormulaColumn[],
@@ -135,9 +124,6 @@ export const compileDerived = (
  * Every calculated column's value for one sample, working through the columns
  * in order so a column can use the ones before it. A value that cannot be
  * worked out (a missing input, a division by 0, a loop) is null, never 0.
- *
- * @param compiled - From {@link compileDerived}.
- * @param values - The sample's entered values by column id.
  */
 export const calculateDerivedValues = (
   compiled: CompiledDerived[],
@@ -158,10 +144,6 @@ export const calculateDerivedValues = (
  * The calculated values of many samples at once: sample id → column id → value.
  * The one place the app works these out, so the table, the sample page, plots,
  * exports and reports always agree.
- *
- * @param definitions - The experiment's entered columns.
- * @param derived - Its calculated columns, in display order.
- * @param samples - The samples.
  */
 export const calculateForSamples = (
   definitions: FormulaColumn[],

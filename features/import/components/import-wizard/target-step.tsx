@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { MarkdownEditor } from '@/components/markdown-editor';
+import { MarkdownEditor } from '@/components/markdown/markdown-editor';
 import { Button } from '@/components/ui/button';
 import {
   Field,

@@ -8,14 +8,7 @@ export type DateFormat = 'iso' | 'dmy' | 'mdy';
 
 const SLASHED_DATE = /^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/;
 
-/**
- * Turns a date written as text into `YYYY-MM-DD` using the chosen format.
- * Anything that does not fit is returned as it was, so validation reports it
- * instead of the import guessing a date.
- *
- * @param text - The cell's text.
- * @param format - How the sheet writes dates.
- */
+/** Turns a date written as text into `YYYY-MM-DD` using the chosen format. */
 export const normaliseDate = (text: string, format: DateFormat): string => {
   const trimmed = text.trim();
   if (isCalendarDate(trimmed) || format === 'iso') return trimmed;
@@ -33,8 +26,6 @@ export const normaliseDate = (text: string, format: DateFormat): string => {
 /**
  * Whether the date column holds dates written as text (not Excel dates or
  * `YYYY-MM-DD`), which is when the user must say how to read them.
- *
- * @param cells - The date column's cells below the header.
  */
 export const hasAmbiguousDates = (cells: RawCell[]): boolean =>
   cells.some(

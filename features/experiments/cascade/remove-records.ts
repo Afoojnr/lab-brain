@@ -59,14 +59,7 @@ const removeFilesOf = async (
   return count;
 };
 
-/**
- * Removes a sample with its measurements and their files (from storage). Other
- * samples are untouched.
- *
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample to remove.
- * @returns What went, or null when the sample is not in the experiment.
- */
+/** Removes a sample with its measurements and their files (from storage). */
 export const removeSample = async (
   experimentId: string,
   sampleId: string
@@ -86,13 +79,7 @@ export const removeSample = async (
   return { ...EMPTY, characterizationIds, sampleCount: 1, fileCount };
 };
 
-/**
- * Removes a study. Its samples stay with all their data and only lose the tag.
- *
- * @param experimentId - The experiment the caller says owns the study.
- * @param studyId - The study to remove.
- * @returns How many samples had the tag, or null when the study is not there.
- */
+/** Removes a study. */
 export const removeStudy = async (
   experimentId: string,
   studyId: string
@@ -108,10 +95,6 @@ export const removeStudy = async (
 /**
  * Removes an experiment: every sample (with measurements and files), its
  * columns, calculated columns and studies, then the experiment.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment to remove.
- * @returns What went, or null when the experiment is not in the project.
  */
 export const removeExperiment = async (
   projectId: string,
@@ -139,9 +122,6 @@ export const removeExperiment = async (
 /**
  * Removes a project: every experiment as above, then the project (its
  * background goes with its record).
- *
- * @param projectId - The project to remove.
- * @returns What went, or null when there is no such project.
  */
 export const removeProject = async (
   projectId: string

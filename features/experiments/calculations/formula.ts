@@ -120,12 +120,7 @@ const findColumn = (
 
 /**
  * Reads a formula such as `[Thickness] * 10 / [Cycles]`. Columns are written
- * `[Name]` (any case) and must be number columns of the experiment. Nothing is
- * evaluated as code: only numbers, columns, `+ - * /` and parentheses exist.
- * A decimal comma is read as a point.
- *
- * @param text - What the user typed.
- * @param columns - The experiment's columns.
+ * `[Name]` (any case) and must be number columns of the experiment.
  */
 export const parseFormula = (
   text: string,
@@ -230,9 +225,6 @@ export const parseFormula = (
  * The value of a formula for one sample, or null when it cannot be calculated:
  * a column it uses is not recorded (or is text), it divides by 0, or the result
  * is not a finite number. Never 0 or NaN.
- *
- * @param ast - From {@link parseFormula}.
- * @param values - The sample's values by column id.
  */
 export const evaluateFormula = (
   ast: FormulaNode,
@@ -270,12 +262,7 @@ export const evaluateFormula = (
   }
 };
 
-/**
- * A stored formula shown with the columns' current names (`[Thickness]`).
- *
- * @param stored - The formula with `[#id]` references.
- * @param columns - The experiment's columns.
- */
+/** A stored formula shown with the columns' current names (`[Thickness]`). */
 export const displayFormula = (
   stored: string,
   columns: Pick<ParameterDefinition, 'id' | 'name'>[]
@@ -285,11 +272,7 @@ export const displayFormula = (
     return column ? `[${column.name}]` : `[#${id}]`;
   });
 
-/**
- * The value of a stored formula for a sample, parsing it first. Used where
- * many samples share one formula, so parse once with {@link parseFormula}
- * and call {@link evaluateFormula} instead.
- */
+/** The value of a stored formula for a sample, parsing it first. */
 export const evaluateStored = (
   stored: string,
   columns: Pick<ParameterDefinition, 'id' | 'name' | 'kind'>[],

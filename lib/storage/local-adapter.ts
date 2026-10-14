@@ -39,11 +39,7 @@ const listFiles = async (folder: string): Promise<string[]> => {
   return nested.flat();
 };
 
-/**
- * Stores files in a folder on this machine. The only file that imports `fs`.
- *
- * @param root - The storage folder; created on the first upload.
- */
+/** Stores files in a folder on this machine. */
 export const createLocalStorage = (root: string): StorageAdapter => ({
   upload: async (relativePath, bytes) => {
     const target = resolveInside(root, relativePath);
@@ -91,12 +87,7 @@ export const createLocalStorage = (root: string): StorageAdapter => ({
   }
 });
 
-/**
- * Whether a path on this computer is an existing folder. Used to check a folder
- * the user typed before the app starts keeping files in it.
- *
- * @param folder - An absolute path.
- */
+/** Whether a path on this computer is an existing folder. */
 export const folderExists = async (folder: string): Promise<boolean> =>
   stat(folder)
     .then(info => info.isDirectory())
@@ -106,10 +97,7 @@ export type FolderEntry = { name: string; path: string };
 
 /**
  * The folders directly inside a folder, for a folder picker: names only, never
- * file contents. Hidden folders (starting with a dot) are left out. Null when
- * the folder cannot be read.
- *
- * @param folder - An absolute path.
+ * file contents.
  */
 export const listFolders = async (
   folder: string
@@ -141,9 +129,6 @@ export type CreateFolderResult =
 /**
  * Creates one new folder inside an existing one. The name must be a single
  * folder name: no separators and no `.` or `..`.
- *
- * @param parent - An existing absolute folder.
- * @param name - The new folder's name.
  */
 export const createFolder = async (
   parent: string,

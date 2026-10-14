@@ -22,10 +22,7 @@ const isPrivateIpv4 = (address: string): boolean => {
  * Whether an IP address points inside a private network, to the computer
  * itself, or to a reserved range. A link to such an address is never fetched,
  * so a pasted link cannot make the server read its own network (for example a
- * cloud metadata service or a router page). Anything that is not an IP address
- * counts as private, so nothing unknown gets through.
- *
- * @param address - An IPv4 or IPv6 address.
+ * cloud metadata service or a router page).
  */
 export const isPrivateAddress = (address: string): boolean => {
   const version = isIP(address);

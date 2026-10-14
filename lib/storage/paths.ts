@@ -78,10 +78,6 @@ export const datasetPath = (parts: DatasetPathParts): string => {
 /**
  * A name for an uploaded folder that no earlier upload used: the same name, or
  * with `-2`, `-3`, ... so two uploads of one folder never mix their files.
- *
- * @param parts - The technique and date the folder is uploaded to.
- * @param folder - The folder's name.
- * @param taken - Paths already in storage.
  */
 export const freeFolderName = (
   parts: LocationParts,
@@ -102,9 +98,6 @@ export const freeFolderName = (
 /**
  * The same path, or with `-2`, `-3`, ... before the extension when a file is
  * already stored there, so a second upload never replaces the first.
- *
- * @param wanted - The path from {@link datasetPath}.
- * @param taken - Paths already in storage.
  */
 export const withoutCollision = (wanted: string, taken: string[]): string => {
   if (!taken.includes(wanted)) return wanted;

@@ -2,7 +2,7 @@ import { ExternalLinkIcon } from 'lucide-react';
 import { getFormatter, getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
-import { ExpandableText } from '@/components/expandable-text';
+import { ExpandableText } from '@/components/page/expandable-text';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 

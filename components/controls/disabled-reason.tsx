@@ -10,12 +10,7 @@ import {
 
 /**
  * Says why a greyed-out button is greyed out, and what to do, when the mouse is
- * over it or it is reached with the keyboard. A disabled button does not
- * receive the mouse itself, so the message hangs on a wrapper; screen readers
- * get the same text. With no reason (the button is enabled) it adds nothing.
- *
- * @param reason - Why the button is disabled; null when it is not.
- * @param children - The (disabled) button.
+ * over it or it is reached with the keyboard.
  */
 export const DisabledReason = ({
   reason,

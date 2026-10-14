@@ -1,7 +1,7 @@
 import { cellToText, isBlank } from '@/lib/spreadsheet/cells';
 import { splitHeaderUnit } from '@/lib/spreadsheet/layout';
 import type { ParsedSheet, RawCell } from '@/lib/spreadsheet/types';
-import { parseDecimal } from '@/lib/numbers';
+import { parseDecimal } from '@/lib/numbers/numbers';
 
 import type { PlotColumn, PlotRow } from '../types';
 
@@ -27,14 +27,9 @@ const cellNumber = (cell: RawCell | undefined): number | null => {
 export type PlotTable = { columns: PlotColumn[]; rows: PlotRow[] };
 
 /**
- * Reads a sheet as a table to plot: the header row names the columns (with a
- * unit when written like "Power (W)"), a column of numbers is one that can go on
- * an axis, and every other column is text (usable for grouping). A column that
- * has any text that is not a number or a blank marker is a text column, so a
- * word is never read as a number.
- *
- * @param sheet - The parsed sheet.
- * @param headerRow - Zero-based index of the header row.
+ * Reads a sheet as a table to plot. A column is numeric only if every value is
+ * a number or a blank marker; anything else is text, so a word is never read as
+ * a number.
  */
 export const tableFromSheet = (
   sheet: ParsedSheet,

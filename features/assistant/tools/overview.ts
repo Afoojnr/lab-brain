@@ -12,10 +12,8 @@ const MAX_LISTED_VALUES = 12;
 
 /**
  * What one experiment is, in a few hundred tokens: its protocol (cut), its
- * columns, studies, which settings varied or stayed the same and how each result
- * came out. The table itself stays out; findSamples reads rows.
- *
- * @param data - The experiment.
+ * columns, studies, which settings varied or stayed the same and how each
+ * result came out.
  */
 export const getExperimentOverview = (data: ExperimentData) => {
   const summary = summarizeExperiment({

@@ -9,11 +9,7 @@ import type { Study } from '../types';
 const emptyToNull = (text: string): string | null =>
   text === '' ? null : text;
 
-/**
- * An experiment's studies, oldest first.
- *
- * @param experimentId - Owning experiment's id.
- */
+/** An experiment's studies, oldest first. */
 export const listStudiesByExperiment = async (
   experimentId: string
 ): Promise<Study[]> => {
@@ -26,12 +22,7 @@ export const listStudiesByExperiment = async (
     .orderBy(studies.createdAt, sql`rowid`);
 };
 
-/**
- * One study, only when it belongs to the given experiment.
- *
- * @param experimentId - The experiment the URL names.
- * @param id - The study id.
- */
+/** One study, only when it belongs to the given experiment. */
 export const getStudyInExperiment = async (
   experimentId: string,
   id: string
@@ -48,11 +39,6 @@ export const getStudyInExperiment = async (
 /**
  * Changes a study's name and description. Input must already be validated by
  * `studyFormSchema`.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The study to change.
- * @param values - Validated form values.
- * @returns The updated study, or undefined when the experiment has none with that id.
  */
 export const updateStudy = async (
   experimentId: string,
@@ -72,13 +58,7 @@ export const updateStudy = async (
   return updated;
 };
 
-/**
- * Stores a new study. Input must already be validated by `studyFormSchema`.
- *
- * @param experimentId - Owning experiment's id.
- * @param values - Validated form values.
- * @returns The stored study.
- */
+/** Stores a new study. Input must already be validated by `studyFormSchema`. */
 export const createStudy = async (
   experimentId: string,
   values: StudyFormValues
@@ -96,13 +76,7 @@ export const createStudy = async (
   return study;
 };
 
-/**
- * Removes a study's own record. Callers take it off the samples first.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The study to remove.
- * @returns Whether a study was removed.
- */
+/** Removes a study's own record. Callers take it off the samples first. */
 export const deleteStudy = async (
   experimentId: string,
   id: string
@@ -116,12 +90,7 @@ export const deleteStudy = async (
   return removed.length > 0;
 };
 
-/**
- * Removes every study of an experiment.
- *
- * @param experimentId - The experiment being removed.
- * @returns How many studies were removed.
- */
+/** Removes every study of an experiment. */
 export const deleteStudiesOfExperiment = async (
   experimentId: string
 ): Promise<number> => {

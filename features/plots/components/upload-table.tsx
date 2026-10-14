@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileDropZone } from '@/components/file-drop-zone';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -22,11 +22,7 @@ import type { ParsedSheet } from '@/lib/spreadsheet/types';
 import { tableFromSheet } from '../compute/from-table';
 import { PlotView } from './plot-view';
 
-/**
- * Plots a CSV or Excel table that is not in any experiment. The file is read in
- * the browser; nothing is uploaded or saved. The header row is found
- * automatically and can be changed.
- */
+/** Plots a CSV or Excel table that is not in any experiment. */
 export const UploadTable = () => {
   const t = useTranslations('plots.upload');
   const tErrors = useTranslations('import.errors');

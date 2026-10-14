@@ -15,11 +15,11 @@ import { useTranslations } from 'next-intl';
 import { useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
-import { Markdown } from '@/components/markdown';
+import { Markdown } from '@/components/markdown/markdown';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { applyFormat } from '@/lib/markdown-format';
-import type { FormatKind } from '@/lib/markdown-format';
+import { applyFormat } from '@/lib/markdown/markdown-format';
+import type { FormatKind } from '@/lib/markdown/markdown-format';
 
 const BUTTONS: { kind: FormatKind; icon: ReactNode }[] = [
   { kind: 'heading1', icon: <Heading1Icon aria-hidden /> },
@@ -45,7 +45,7 @@ type MarkdownEditorProps = {
 /**
  * A text box for formatted text with formatting buttons (heading, bold, italic,
  * lists, table, link) and a Write / Preview switch, so nobody has to know the
- * marks. It stores plain Markdown text, like the textarea it replaces.
+ * marks.
  */
 export const MarkdownEditor = ({
   id,

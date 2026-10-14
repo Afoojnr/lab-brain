@@ -8,9 +8,6 @@ import type { Dataset } from '../types';
 /**
  * A stored file's record and bytes, for reading it on the server (an analysis
  * parsing an export). Never changes the file.
- *
- * @param datasetId - The file record's id.
- * @returns The record and bytes, or null when there is no such record or file.
  */
 export const datasetBytes = async (
   datasetId: string
@@ -23,16 +20,7 @@ export const datasetBytes = async (
   return dataset && bytes ? { dataset, bytes } : null;
 };
 
-/**
- * The response for one attached file. Common images are shown inline; every
- * other type is a download, and nothing is ever served as a type the browser
- * could run.
- *
- * @param datasetId - The file record's id.
- * @param options - `previewWidth`: for a TIFF, a PNG copy no wider than this
- *   (the original stays untouched for download).
- * @returns The file, or a 404 when there is no such record or file.
- */
+/** The response for one attached file. */
 export const datasetResponse = async (
   datasetId: string,
   options: { previewWidth?: number } = {}

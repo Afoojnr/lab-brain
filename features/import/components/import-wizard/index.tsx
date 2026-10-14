@@ -55,11 +55,7 @@ const layoutFor = (sheet: ParsedSheet): SheetLayout => ({
   hasUnitsRow: false
 });
 
-/**
- * The spreadsheet import: file, sheet, experiment, columns, preview, done. The
- * file is read in the browser; the preview runs the same `validateImport` the
- * server runs again before it writes anything.
- */
+/** The spreadsheet import: file, sheet, experiment, columns, preview, done. */
 export const ImportWizard = ({
   projectId,
   data,

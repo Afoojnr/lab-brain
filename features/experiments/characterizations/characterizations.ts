@@ -4,10 +4,6 @@ import type { Characterization } from '../types';
  * Spells a typed technique the way the project already writes it, ignoring
  * case, so "eds" becomes the existing "EDS" instead of a near-duplicate that
  * would split one technique into two.
- *
- * @param name - The technique as typed.
- * @param knownTechniques - Techniques already used in the project.
- * @returns The matching known spelling, or the trimmed name when it is new.
  */
 export const matchTechnique = (
   name: string,
@@ -31,10 +27,7 @@ export type TechniqueSummary = {
 
 /**
  * One entry per technique done on a sample, in the order first recorded, with
- * how many times and on which dates. The same technique done twice stays one
- * entry, so a table cell shows "SEM x2", not two badges.
- *
- * @param characterizations - The sample's characterizations.
+ * how many times and on which dates.
  */
 export const summarizeTechniques = (
   characterizations: Pick<Characterization, 'technique' | 'measuredOn'>[]

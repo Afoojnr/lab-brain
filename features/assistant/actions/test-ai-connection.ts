@@ -14,8 +14,6 @@ const TIMEOUT_MS = 20_000;
  * model and the address work. The settings are used for this call only and are
  * never stored or logged; a failure is reported as a reason, never as the
  * provider's message.
- *
- * @param input - The settings, as typed.
  */
 export const testAiConnectionAction = async (
   input: unknown

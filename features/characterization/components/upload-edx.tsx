@@ -4,8 +4,8 @@ import { ChevronDownIcon, ChevronRightIcon, DownloadIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment, useMemo, useState } from 'react';
 
-import { FileDropZone } from '@/components/file-drop-zone';
-import type { PickedFile } from '@/components/read-dropped-entries';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
+import type { PickedFile } from '@/components/file-drop/read-dropped-entries';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -23,7 +23,7 @@ import {
 } from '../techniques/edx/from-files';
 import type { TextFile } from '../techniques/edx/from-files';
 import { DEFAULT_ELEMENTS } from '../techniques/edx/stats';
-import { downloadBytes, XLSX_TYPE } from '@/lib/download-file';
+import { downloadBytes, XLSX_TYPE } from '@/lib/export/download-file';
 import { isEdxFile, readTextFiles } from '../upload/read-files';
 import { buildWorkbook, edxSummary } from '../upload/summary-rows';
 import { EdxRatioSelects } from './edx-ratio-selects';
@@ -33,7 +33,6 @@ import { EdxSpotsView } from './edx-spots-view';
  * EDX from raw files that are not in any experiment: drop one or more sample
  * folders (or a day's folder holding them), see each sample's values like the
  * lab notebook's summary, untick bad spots, and download the table as Excel.
- * The files are read in the browser; nothing is uploaded or saved.
  */
 export const UploadEdx = () => {
   const t = useTranslations('analysis.workspace.upload');

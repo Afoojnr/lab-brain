@@ -57,12 +57,7 @@ export const readLocalSettings = (): LocalSettings => {
   }
 };
 
-/**
- * Changes some of this computer's settings and keeps the rest.
- *
- * @param changes - The fields to change.
- * @returns The settings after the change.
- */
+/** Changes some of this computer's settings and keeps the rest. */
 export const writeLocalSettings = (
   changes: Partial<LocalSettings>
 ): LocalSettings => {

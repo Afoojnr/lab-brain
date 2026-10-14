@@ -11,11 +11,6 @@ import { getExperimentInProject } from '../data/experiments';
  * Removes a parameter, then refreshes the experiment page. A parameter that
  * any sample holds a value for is kept, so recorded values never lose their
  * meaning.
- *
- * @param projectId - Owning project's id.
- * @param experimentId - The experiment that owns the parameter.
- * @param definitionId - The parameter to remove.
- * @returns Whether the parameter was removed.
  */
 export const deleteParameterDefinitionAction = async (
   projectId: string,

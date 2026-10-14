@@ -52,8 +52,7 @@ type ExperimentBatchProps = {
  * An experiment's measurements of one technique, to work on together: tick the
  * samples, leave out bad spots per sample, choose once which values go to which
  * result columns, see what each sample would change, and apply. A sample that
- * would replace a different value is skipped unless you tick Update. The
- * server recomputes every number before it writes.
+ * would replace a different value is skipped unless you tick Update.
  */
 export const ExperimentBatch = ({
   projectId,

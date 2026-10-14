@@ -51,8 +51,7 @@ type FtirBatchSendProps = {
  * Choosing which peak values go to which result columns, for every ticked
  * sample at once; what each sample would change; and applying. A sample that
  * would replace a different value is skipped unless you tick Update, and one
- * with no data near a chosen peak cannot be applied. The server recomputes every
- * number before it writes.
+ * with no data near a chosen peak cannot be applied.
  */
 export const FtirBatchSend = ({
   projectId,

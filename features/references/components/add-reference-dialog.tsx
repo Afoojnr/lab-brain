@@ -6,7 +6,7 @@ import { useState, useTransition } from 'react';
 import type { FormEvent } from 'react';
 import { toast } from 'sonner';
 
-import { FileDropZone } from '@/components/file-drop-zone';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

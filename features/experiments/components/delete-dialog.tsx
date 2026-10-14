@@ -165,8 +165,7 @@ const DeleteBody = ({
 /**
  * The confirmation for deleting a study, sample, experiment or project: a
  * dialog that lists what goes with the record, with counts; a project or an
- * experiment also needs its exact name typed before Delete works. Nothing is
- * deleted until then, and there is no undo. It starts fresh on every open.
+ * experiment also needs its exact name typed before Delete works.
  */
 export const DeleteDialog = ({
   details,

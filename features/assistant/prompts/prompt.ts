@@ -22,8 +22,6 @@ export const referenceBrief = (
  * The instructions for one chat. The rules come first; the project's background
  * and the references follow as data between markers, so text inside them is read
  * as information and never as an order.
- *
- * @param input - The project, its references and the experiment the chat is about.
  */
 export const buildSystemPrompt = ({
   project,

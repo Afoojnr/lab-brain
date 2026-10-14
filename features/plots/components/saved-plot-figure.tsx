@@ -20,7 +20,7 @@ type SavedPlotFigureProps = {
 /**
  * A saved plot drawn read-only from the experiment's current samples: the same
  * points, filters, colours and look it has on the Plots page, with no tooltip
- * and no clicking. Used by the saved-plot cards and the reports.
+ * and no clicking.
  */
 export const SavedPlotFigure = ({
   table,

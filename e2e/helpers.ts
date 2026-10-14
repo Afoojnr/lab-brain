@@ -13,11 +13,7 @@ export const openTab = async (
   await expect(tab).toHaveAttribute('aria-current', 'page');
 };
 
-/**
- * Opens a page's More actions (⋯) menu and picks an item (Edit, Delete). The
- * dev server hydrates the page while other tests run, and a click before that
- * is lost, so it presses again until the item is there.
- */
+/** Opens a page's More actions (⋯) menu and picks an item (Edit, Delete). */
 export const chooseFromMenu = async (page: Page, item: string | RegExp) => {
   await expect(async () => {
     await page.getByRole('button', { name: 'More actions' }).click();

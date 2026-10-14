@@ -1,13 +1,10 @@
-import type { PickedFile } from '@/components/read-dropped-entries';
+import type { PickedFile } from '@/components/file-drop/read-dropped-entries';
 
 import type { TextFile } from '../techniques/edx/from-files';
 
 /**
  * Reads the dropped files that an analysis needs as text, in the browser:
  * nothing is sent anywhere.
- *
- * @param picked - Everything that was dropped or chosen.
- * @param isNeeded - Whether a file name is one the analysis reads.
  */
 export const readTextFiles = (
   picked: PickedFile[],

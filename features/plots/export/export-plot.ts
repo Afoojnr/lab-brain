@@ -10,13 +10,7 @@ export type ExportInput = FigureFileInput & {
   table: ExportTable;
 };
 
-/**
- * Saves the plot as a file in the chosen format. The picture formats (PNG, PDF,
- * PowerPoint) use the light theme with the caption and legend, so a figure
- * explains itself; Excel and CSV hold the plotted values.
- *
- * @throws When the chart is not drawn, or the picture cannot be made.
- */
+/** Saves the plot as a file in the chosen format. */
 export const exportPlot = async (
   format: ExportFormat,
   { table, ...figure }: ExportInput

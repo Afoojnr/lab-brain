@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
 const downloaded = vi.hoisted(() => [] as { name: string; type: string }[]);
-vi.mock('@/lib/download-file', async importOriginal => ({
-  ...(await importOriginal<typeof import('@/lib/download-file')>()),
+vi.mock('@/lib/export/download-file', async importOriginal => ({
+  ...(await importOriginal<typeof import('@/lib/export/download-file')>()),
   downloadBytes: (name: string, _bytes: Uint8Array, type: string) => {
     downloaded.push({ name, type });
   }

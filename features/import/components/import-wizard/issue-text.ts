@@ -30,8 +30,6 @@ const ISSUE_KEYS = [
 /**
  * Narrows a validation message to a translation key under `import.issues`,
  * falling back to "unknown" so a new message never shows as a raw key.
- *
- * @param message - The message from the validation report.
  */
 export const issueKey = (message: string): IssueKey =>
   ISSUE_KEYS.find(key => key === message) ?? 'unknown';

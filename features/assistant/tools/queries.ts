@@ -187,9 +187,6 @@ const rowOf = (
 /**
  * Samples of one experiment that match filters, sorted and capped. A sample
  * with no value for a filtered column never matches a comparison, and sorts last.
- *
- * @param data - The experiment.
- * @param input - Filters (all must match), an optional study name, sort, shown columns and limit.
  */
 export const findSamples = (
   data: ExperimentData,
@@ -308,9 +305,6 @@ export const findSamples = (
 /**
  * Everything recorded about one sample, by code: every column with its unit
  * (null when not recorded), the notes, studies and measurements.
- *
- * @param data - The experiment.
- * @param code - The sample code, e.g. ALD023 (case-insensitive).
  */
 export const getSample = (data: ExperimentData, code: string) => {
   const sample = data.samples.find(
@@ -349,10 +343,6 @@ export const getSample = (data: ExperimentData, code: string) => {
 /**
  * Search the free text people wrote: sample implementation, observation and
  * note, and the experiment's protocol. Returns short snippets, never whole notes.
- *
- * @param data - The experiment.
- * @param query - The words to look for (case-insensitive).
- * @param limit - The most snippets to return.
  */
 export const searchNotes = (
   data: ExperimentData,

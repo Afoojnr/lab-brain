@@ -11,17 +11,9 @@ import {
 import { buildStudyFormSchema } from '../schemas/schemas';
 
 /**
- * Changes a study from the Edit study form, then refreshes the experiment
- * page. The schema is rebuilt here from the experiment's other stored
- * studies, so a name still can never be shared; the study's own name does not
- * count as a duplicate. Invalid input only comes from a direct call, so it is
- * ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment owning the study.
- * @param studyId - The study to change.
- * @param input - Raw form values.
- * @returns True when the study was changed, false when ignored or not found.
+ * Changes a study from the Edit study form. The schema is rebuilt from the
+ * experiment's stored studies, so a name is never shared (its own name does not
+ * count as a duplicate). Invalid input is ignored.
  */
 export const updateStudyAction = async (
   projectId: string,

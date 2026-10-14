@@ -13,17 +13,9 @@ import { getExperimentInProject } from '../data/experiments';
 import { getSampleById } from '../data/samples';
 
 /**
- * Removes every file of one uploaded folder, from storage and from the
- * records, after checking that the characterization belongs to the sample,
- * experiment and project the caller names. Only that folder's files go: loose
- * files and other folders stay.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the characterization belongs to.
- * @param characterizationId - The characterization the folder is attached to.
- * @param folder - The folder's name, as the files carry it.
- * @returns How many files were removed, or null when nothing matched.
+ * Removes every file of one uploaded folder, from storage and from the records,
+ * after checking that the characterization belongs to the sample, experiment
+ * and project the caller names.
  */
 export const deleteDatasetFolderAction = async (
   projectId: string,

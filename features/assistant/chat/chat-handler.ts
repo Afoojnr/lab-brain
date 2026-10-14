@@ -55,10 +55,7 @@ const questionLength = (message: unknown): number => {
 /**
  * Answers one chat question as a stream. The key in the request is used to
  * build the model for this request only: it is never logged, stored, or put in
- * a response or an error. The model can only call the read-only tools.
- *
- * @param request - The POST request: messages, scope and the user's AI settings.
- * @param options - A model to use instead of the one the settings describe (tests).
+ * a response or an error.
  */
 export const handleChat = async (
   request: Request,

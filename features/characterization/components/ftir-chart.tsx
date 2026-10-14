@@ -71,9 +71,7 @@ const spanOf = (points: SpectrumPoint[]): number => {
 
 /**
  * The spectra drawn one above another (shifted by the offset so they can be
- * compared), with a dashed line and label at every peak. Clicking the chart adds
- * a peak at that wavenumber. A narrow dip is kept when the spectrum is thinned
- * for drawing.
+ * compared), with a dashed line and label at every peak.
  */
 export const FtirChart = ({
   spectra,

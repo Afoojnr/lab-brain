@@ -3,8 +3,7 @@ import { getDb } from './client';
 
 /**
  * Every storage path the records point at: attached files, and the stored PDF
- * and text of references. Anything else in a storage folder belongs to no
- * record.
+ * and text of references.
  */
 export const listReferencedFiles = async (): Promise<string[]> => {
   const db = await getDb();

@@ -42,9 +42,6 @@ type SafeFetchOptions = {
 /**
  * Turns what the user pasted into an address to read: a web address as it is,
  * a DOI (`10.1000/xyz` or `doi:10.1000/xyz`) into its doi.org address.
- *
- * @param input - The pasted text.
- * @returns The address, or null when it is neither.
  */
 export const normalizeLinkInput = (input: string): string | null => {
   const text = input.trim();
@@ -65,15 +62,9 @@ export const normalizeLinkInput = (input: string): string | null => {
 const bareHost = (hostname: string) => hostname.replace(/^\[|\]$/g, '');
 
 /**
- * Reads a web address from the server for a reference, and refuses what could
- * hurt: only http and https; never an address inside a private network or on
- * the server itself (checked on the address actually connected to, so a name
- * that later points somewhere private is caught too); each redirect checked the
- * same way; a time limit and a size limit.
- *
- * @param address - The address to read.
- * @param options - Limits; the defaults are the app's. Only tests change them.
- * @throws {LinkRefusal} With the reason, when the link cannot be read.
+ * Reads a web address for a reference. Only http and https, never a private or
+ * local address (checked on the address actually connected to, and on every
+ * redirect), with a time and a size limit.
  */
 export const safeFetch = async (
   address: string,

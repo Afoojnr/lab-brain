@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import type { ReactNode } from 'react';
 
-import { ExpandableText } from '@/components/expandable-text';
+import { ExpandableText } from '@/components/page/expandable-text';
 import {
   Breadcrumb,
   BreadcrumbItem,

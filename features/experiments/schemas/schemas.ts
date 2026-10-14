@@ -69,12 +69,7 @@ export const isProjectBackgroundError = (
 ): message is ProjectBackgroundError =>
   PROJECT_BACKGROUND_ERRORS.some(error => error === message);
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link projectFormSchema}.
- * @returns True when the message is one of {@link PROJECT_FORM_ERRORS}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isProjectFormError = (
   message: string | undefined
 ): message is ProjectFormError =>
@@ -101,8 +96,6 @@ const CODE_PREFIX_PATTERN = /^[A-Z][A-Z0-9]{1,5}$/;
 /**
  * The New experiment form's schema. Prefixes must be unique within a project, so
  * it is built from the project's other experiment's prefixes.
- *
- * @param otherPrefixes - Prefixes of the project's existing experiment.
  */
 export const buildExperimentFormSchema = (otherPrefixes: string[]) =>
   z.object({
@@ -135,11 +128,7 @@ export type ExperimentFormValues = z.infer<
   ReturnType<typeof buildExperimentFormSchema>
 >;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link buildExperimentFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isExperimentFormError = (
   message: string | undefined
 ): message is ExperimentFormError =>
@@ -166,8 +155,6 @@ const TEXT_VALUE_MAX_LENGTH = 200;
 /**
  * The Add/Edit parameter form's schema. Names must be unique within one
  * experiment, so it is built from the other parameters' names.
- *
- * @param otherNames - Names of the experiment's other parameters.
  */
 export const buildParameterFormSchema = (otherNames: string[]) =>
   z
@@ -225,11 +212,7 @@ export type ParameterFormValues = z.infer<
   ReturnType<typeof buildParameterFormSchema>
 >;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link buildParameterFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isParameterFormError = (
   message: string | undefined
 ): message is ParameterFormError =>
@@ -239,8 +222,6 @@ export const isParameterFormError = (
  * Converts a form that already passed {@link buildParameterFormSchema} into
  * what is stored: the default as a number or text, or null when left empty
  * (and always null for a result).
- *
- * @param values - The validated form values.
  */
 export const toParameterInput = (
   values: ParameterFormValues
@@ -280,12 +261,8 @@ const NOTE_MAX_LENGTH = 500;
 
 /**
  * The Add/Edit sample form's schema, built from the experiment's own columns: a
- * number column rejects text with an error on that exact field (never `NaN`
- * or `0`), and the code must be unique within the project. Values are
- * typed-in strings; {@link toSampleInput} converts them.
- *
- * @param definitions - The experiment's parameters.
- * @param otherCodes - Codes of the project's other samples (case-insensitive).
+ * number column rejects text with an error on that exact field (never `NaN` or
+ * `0`), and the code must be unique within the project.
  */
 export const buildSampleFormSchema = (
   definitions: ParameterDefinition[],
@@ -363,11 +340,7 @@ export type SampleFormValues = z.infer<
   ReturnType<typeof buildSampleFormSchema>
 >;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link buildSampleFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isSampleFormError = (
   message: string | undefined
 ): message is SampleFormError =>
@@ -386,10 +359,6 @@ export type SampleInput = {
 /**
  * Converts a form that already passed {@link buildSampleFormSchema} into
  * stored values: numbers for number columns, empty cells omitted.
- *
- * @param definitions - The same parameters the schema was built from.
- * @param studies - The experiment's own studies; any other study id is dropped.
- * @param values - The validated form values.
  */
 export const toSampleInput = (
   definitions: ParameterDefinition[],
@@ -423,8 +392,6 @@ const STUDY_DESCRIPTION_MAX_LENGTH = 1000;
 /**
  * The New study form's schema. Names must be unique within one experiment
  * (ignoring case), so it is built from the experiment's other study names.
- *
- * @param otherNames - Names of the experiment's existing studies.
  */
 export const buildStudyFormSchema = (otherNames: string[]) =>
   z.object({
@@ -451,11 +418,7 @@ export const buildStudyFormSchema = (otherNames: string[]) =>
 
 export type StudyFormValues = z.infer<ReturnType<typeof buildStudyFormSchema>>;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link buildStudyFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isStudyFormError = (
   message: string | undefined
 ): message is StudyFormError =>
@@ -502,11 +465,7 @@ export type CharacterizationFormValues = z.infer<
   typeof characterizationFormSchema
 >;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link characterizationFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isCharacterizationFormError = (
   message: string | undefined
 ): message is CharacterizationFormError =>
@@ -541,13 +500,6 @@ const FORMULA_ERROR_KEYS = {
  * all the experiment's columns, and the formula must parse against its number
  * columns (the server rebuilds this from stored columns, so a forged formula
  * naming a missing or text column is refused).
- *
- * @param columns - The columns the formula may use: the experiment's entered
- *   number columns and its calculated columns (see `formulaColumns`).
- * @param otherNames - Names of every other column, entered or calculated.
- * @param blockedNames - Calculated columns that exist but cannot be used here
- *   because the formula would loop back to itself (the column being edited and
- *   the ones that use it); naming one gives a clearer message than "no such column".
  */
 export const buildDerivedColumnFormSchema = (
   columns: Pick<ParameterDefinition, 'id' | 'name' | 'kind'>[],
@@ -600,11 +552,7 @@ export type DerivedColumnFormValues = z.infer<
   ReturnType<typeof buildDerivedColumnFormSchema>
 >;
 
-/**
- * Narrows a Zod error message to a known translation key.
- *
- * @param message - Message reported by {@link buildDerivedColumnFormSchema}.
- */
+/** Narrows a Zod error message to a known translation key. */
 export const isDerivedFormError = (
   message: string | undefined
 ): message is DerivedFormError =>
@@ -613,9 +561,6 @@ export const isDerivedFormError = (
 /**
  * Converts a form that already passed {@link buildDerivedColumnFormSchema} into
  * what is stored: the formula with its columns written by id.
- *
- * @param columns - The same columns the schema was built from.
- * @param values - The validated form values.
  */
 export const toDerivedColumnInput = (
   columns: Pick<ParameterDefinition, 'id' | 'name' | 'kind'>[],

@@ -34,8 +34,7 @@ type PlotStylePanelProps = {
 
 /**
  * Looks of the plot: axis ranges, titles, text and marker size, grid, and what
- * an exported figure says. Closed until opened, so the controls stay short; on
- * a phone every box takes the full width.
+ * an exported figure says.
  */
 export const PlotStylePanel = ({
   style,

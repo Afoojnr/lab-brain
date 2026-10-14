@@ -23,7 +23,7 @@ const splitLine = (line: string, separator: Separator): string[] =>
 
 /**
  * The separator a file uses, from its first lines: a semicolon, a tab, a comma
- * or spaces. A comma only separates columns when the line really has two.
+ * or spaces.
  */
 const detectSeparator = (lines: string[]): Separator => {
   const sample = lines.slice(0, 5);
@@ -51,8 +51,6 @@ const withoutBom = (text: string): string =>
  * or without one header row, separated by a semicolon, tab, comma or spaces, with
  * a decimal point or comma. Further columns are ignored. A line that is not two
  * numbers is an error with its line number, never NaN and never 0.
- *
- * @param text - The file's contents.
  */
 export const parseSpectrum = (text: string): SpectrumResult => {
   const lines = withoutBom(text)

@@ -75,8 +75,8 @@ const ColumnSection = ({
 };
 
 /**
- * The experiment's columns as inputs, in two groups: the parameters you set
- * and the results you measured. Either group is left out when empty.
+ * The experiment's columns as inputs, in two groups: the parameters you set and
+ * the results you measured.
  */
 export const ValueFields = ({ form, definitions }: ValueFieldsProps) => {
   const t = useTranslations('samples.form');

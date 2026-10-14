@@ -7,8 +7,7 @@ export type ExportImage = {
 
 /**
  * One page of a PDF or one slide of a presentation: a title, an optional
- * picture, and lines of text under it. Plots, and later a project or sample
- * report, are both built from a list of these.
+ * picture, and lines of text under it.
  */
 export type ExportPage = {
   title: string;

@@ -10,8 +10,7 @@ export type PlotColumn = {
   kind: 'number' | 'text';
   /**
    * Where the column comes from in an experiment, to group the pickers: a
-   * `parameter` (set), a `result` (measured) or a `calculated` column. Absent
-   * for an uploaded table, whose columns have no such roles.
+   * `parameter` (set), a `result` (measured) or a `calculated` column.
    */
   role?: 'parameter' | 'result' | 'calculated';
 };
@@ -74,21 +73,17 @@ export type LeftOut = {
 };
 
 /**
- * A rule that keeps only some rows. `values`: keep rows whose value is one of
- * these (nothing ticked = no restriction yet). `range`: keep rows whose number
- * is within the bounds; a bound left empty is open, and text that is not a
- * number is no bound at all (never 0). A row with no value for the column does
- * not pass an active filter.
+ * A rule that keeps only some rows. `range`: keep rows whose number is within
+ * the bounds; a bound left empty is open, and text that is not a number is no
+ * bound at all (never 0).
  */
 export type PlotFilter =
   | { type: 'values'; key: string; values: (number | string)[] }
   | { type: 'range'; key: string; min: string; max: string };
 
 /**
- * A plot saved for an experiment: what to plot, not a picture. It is rebuilt
- * from the experiment's current samples whenever it is opened, so it follows
- * new samples. Only an experiment's plots are saved; an uploaded table is
- * never kept.
+ * A plot saved for an experiment: what to plot, not a picture. Only an
+ * experiment's plots are saved; an uploaded table is never kept.
  */
 export type SavedPlot = {
   id: string;

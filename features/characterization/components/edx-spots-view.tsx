@@ -55,11 +55,10 @@ const downsample = <T,>(items: T[]): T[] =>
   items.filter((_item, index) => index % 2 === 0);
 
 /**
- * One EDX measurement set as the lab notebook shows it: a ratio of two chosen
- * elements, the spots (untick bad ones; files are untouched), the composition
- * averaged over the rest with error bars, and the spectra. Controlled: the
- * caller keeps the settings, so the sample page, the upload workspace and the
- * experiment workspace share it.
+ * One EDX measurement set as the lab notebook shows it: the ratio of two
+ * elements, the spots (untick bad ones; files are untouched), the averaged
+ * composition with error bars, and the spectra. Controlled: the caller keeps
+ * the settings.
  */
 export const EdxSpotsView = ({
   spots,

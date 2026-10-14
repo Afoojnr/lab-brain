@@ -5,16 +5,11 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { useIsMounted } from '@/hooks/use-is-mounted';
-import { useTourState } from '@/hooks/use-tour-state';
+import { useTourState } from '@/components/tour/use-tour-state';
 
 import { useTour } from './tour-provider';
 
-/**
- * Asks, once per page, whether to take its tour. Nothing opens by itself: Start
- * runs the tour, Not now remembers it was declined for this page, and No more
- * tours turns every tour off (they stay available from the help button and
- * Settings).
- */
+/** Asks, once per page, whether to take its tour. */
 export const TourPrompt = () => {
   const t = useTranslations('tour.prompt');
   const isMounted = useIsMounted();

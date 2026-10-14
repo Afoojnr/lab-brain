@@ -21,12 +21,7 @@ export {
   updateReference
 };
 
-/**
- * The text read from a reference when it was added, from storage.
- *
- * @param reference - The reference.
- * @returns The text, or null when the file is missing.
- */
+/** The text read from a reference when it was added, from storage. */
 export const readReferenceText = async (
   reference: Pick<Reference, 'textPath'>
 ): Promise<string | null> => {
@@ -38,9 +33,6 @@ export const readReferenceText = async (
 /**
  * Removes every reference of a project that was deleted: the records, and each
  * one's PDF and extracted text from storage.
- *
- * @param projectId - The project that is gone.
- * @returns How many references were removed.
  */
 export const deleteReferencesOf = async (
   projectId: string

@@ -14,15 +14,7 @@ import { buildSampleFormSchema, toSampleInput } from '../schemas/schemas';
 
 /**
  * Changes a sample from the Edit sample form, then refreshes the pages that
- * show it. The schema is rebuilt here from the stored columns and codes; the
- * sample's own current code does not count as a duplicate. Invalid input only
- * comes from a direct call, so it is ignored.
- *
- * @param projectId - Owning project's id.
- * @param experimentId - The experiment the sample belongs to.
- * @param sampleId - The sample to change.
- * @param input - Raw form values.
- * @returns The sample's id and code, or null when ignored or not found.
+ * show it. Invalid input only comes from a direct call, so it is ignored.
  */
 export const updateSampleAction = async (
   projectId: string,

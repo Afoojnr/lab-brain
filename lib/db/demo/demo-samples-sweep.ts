@@ -2,13 +2,9 @@ import type { Sample } from './types';
 
 // Demo data, seeded into the database.
 //
-// EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS: a made-up sweep of the ALD
-// experiment (temperature x cycles x plasma pulse) so plots, filters and
-// grouping have something to show. The thickness and B/C ratio are invented to
-// follow a smooth, slightly noisy trend; they say nothing about the process.
-//
-// Columns (demo-parameters.ts): 1 plasma power, 2 plasma pulse, 3 purge,
-// 4 temperature, 5 cycles, 10..14 fixed settings, 15 thickness, 16 B/C ratio.
+// A made-up sweep of the ALD experiment (temperature x cycles x plasma pulse) so
+// plots and filters have something to show. Thickness and B/C ratio follow an
+// invented trend and mean nothing. Column numbers refer to demo-parameters.ts.
 type SweepRow = {
   pulse: number;
   temperature: number;

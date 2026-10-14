@@ -8,10 +8,6 @@ import { projectBackgroundSchema } from '../schemas/schemas';
 /**
  * Saves a project's background text, then refreshes its page. Invalid input
  * only comes from a direct call, so it is ignored.
- *
- * @param projectId - The project to change.
- * @param input - Raw form values.
- * @returns True when the background was saved, false when ignored or not found.
  */
 export const updateProjectBackgroundAction = async (
   projectId: string,

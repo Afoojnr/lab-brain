@@ -4,15 +4,10 @@ import { SparklesIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import { useSidePanel } from '@/components/side-panel';
+import { useSidePanel } from '@/components/side-panel/side-panel';
 import { Button } from '@/components/ui/button';
 
-/**
- * The floating "Ask AI" button that opens the assistant panel. It sits in the
- * bottom-right corner (raised clear of the corner), only on project pages, where
- * there is data to ask about, and is hidden while the panel is open. On a phone
- * it is the icon alone.
- */
+/** The floating "Ask AI" button that opens the assistant panel. */
 export const AskAiFloating = () => {
   const t = useTranslations('navigation');
   const pathname = usePathname();

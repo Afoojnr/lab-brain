@@ -3,11 +3,6 @@ import type { ExportImage } from './types';
 /**
  * Draws an SVG into a PNG, in the browser. The SVG must be self-contained: no
  * CSS variables or external files, because nothing outside it is loaded.
- *
- * @param svg - The SVG markup.
- * @param width - Its width in CSS pixels.
- * @param height - Its height in CSS pixels.
- * @param scale - Pixels per CSS pixel; 3 keeps small text sharp in print.
  */
 export const svgToPng = async (
   svg: string,

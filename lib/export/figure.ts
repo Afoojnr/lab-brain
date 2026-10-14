@@ -104,11 +104,8 @@ type FigureInput = {
 };
 
 /**
- * One self-contained picture of a plot: white background, an optional title
- * and caption lines, the legend, then the chart. Pure text in, text out, so
- * the plot picture, a PDF or a slide, and later a project report all share it.
- *
- * @returns The SVG markup and its size in CSS pixels.
+ * One self-contained picture of a plot: white background, an optional title and
+ * caption lines, the legend, then the chart.
  */
 export const composeFigure = ({
   chart,

@@ -64,11 +64,7 @@ const replaceStudies = async (
     .values(kept.map((studyId, position) => ({ sampleId, studyId, position })));
 };
 
-/**
- * An experiment's samples, oldest first, like the rows of a spreadsheet.
- *
- * @param experimentId - Owning experiment's id.
- */
+/** An experiment's samples, oldest first, like the rows of a spreadsheet. */
 export const listSamplesByExperiment = async (
   experimentId: string
 ): Promise<Sample[]> => {
@@ -82,12 +78,7 @@ export const listSamplesByExperiment = async (
   return withStudies(db, rows);
 };
 
-/**
- * One sample by id.
- *
- * @param id - Sample id.
- * @returns The sample, or undefined when no sample has that id.
- */
+/** One sample by id. */
 export const getSampleById = async (
   id: string
 ): Promise<Sample | undefined> => {
@@ -100,8 +91,6 @@ export const getSampleById = async (
 /**
  * Every sample code in a project, across all its experiments, so a new code can
  * be checked and suggested against all of them.
- *
- * @param projectId - Owning project's id.
  */
 export const listSampleCodesByProject = async (
   projectId: string
@@ -119,8 +108,6 @@ export const listSampleCodesByProject = async (
 /**
  * Whether any sample holds a value for this parameter, which makes it unsafe
  * to delete or to change its kind.
- *
- * @param definitionId - The parameter's id.
  */
 export const isParameterInUse = async (
   definitionId: string
@@ -140,10 +127,6 @@ export const isParameterInUse = async (
 /**
  * Stores a new sample. Input must already be validated by
  * `buildSampleFormSchema` and converted by `toSampleInput`.
- *
- * @param experimentId - Owning experiment's id.
- * @param input - Validated, converted sample.
- * @returns The stored sample.
  */
 export const createSample = async (
   experimentId: string,
@@ -170,11 +153,6 @@ export const createSample = async (
 /**
  * Changes a sample's code, date, values, studies, implementation, observation
  * and note.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The sample to change.
- * @param input - Validated, converted sample.
- * @returns The updated sample, or undefined when the experiment has none with that id.
  */
 export const updateSample = async (
   experimentId: string,
@@ -204,11 +182,6 @@ export const updateSample = async (
 /**
  * Tags samples of one experiment with a study. Samples that already have it
  * keep it once, and ids that are not in the experiment are skipped.
- *
- * @param experimentId - The experiment owning both the samples and the study.
- * @param studyId - The study to add.
- * @param sampleIds - The samples to tag.
- * @returns How many samples were tagged (not counting ones that already had it).
  */
 export const assignSamplesToStudy = async (
   experimentId: string,
@@ -270,10 +243,6 @@ export const assignSamplesToStudy = async (
 /**
  * Removes a sample's own record. Its measurements and files are removed by the
  * caller first.
- *
- * @param experimentId - The experiment owning the sample.
- * @param id - The sample to remove.
- * @returns Whether a sample was removed.
  */
 export const deleteSample = async (
   experimentId: string,
@@ -291,10 +260,6 @@ export const deleteSample = async (
 /**
  * Takes a study off every sample of the experiment that has it; the samples and
  * their data stay.
- *
- * @param experimentId - The experiment owning the study.
- * @param studyId - The study being removed.
- * @returns How many samples had it.
  */
 export const removeStudyFromSamples = async (
   experimentId: string,

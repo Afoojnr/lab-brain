@@ -30,14 +30,9 @@ export const clearPersistentOpen = () => {
 };
 
 /**
- * Whether a collapsible group is open, remembered between visits. Until the
- * user opens or closes it, `defaultOpen` decides (for example, the group that
- * holds the page you are on). Works without storage (private window, blocked
- * site data): it just forgets on reload. Server and first client render agree
- * because the stored value is only read after hydration.
- *
- * @param key - Where the choice is kept.
- * @param defaultOpen - Whether it is open before the user chooses.
+ * Whether a collapsible group is open, remembered between visits. Server and
+ * first client render agree because the stored value is only read after
+ * hydration.
  */
 export const usePersistentOpen = (key: string, defaultOpen: boolean) => {
   const stored = useSyncExternalStore(

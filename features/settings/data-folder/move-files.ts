@@ -17,11 +17,8 @@ export type MoveResult =
 /**
  * Copies the attached files the records use from the storage in use into a new
  * data folder's `files` folder, and checks each copy has the same size before
- * reporting success. Files no record points at are left where they are. It never
- * replaces a file that is already there, and it leaves the old files in place:
- * the user removes them when they are ready.
- *
- * @param folder - The new data folder (already checked).
+ * reporting success. It never replaces a file that is already there, and it
+ * leaves the old files in place: the user removes them when they are ready.
  */
 export const copyFilesToFolder = async (
   folder: string

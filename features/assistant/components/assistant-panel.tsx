@@ -18,10 +18,7 @@ import { AssistantChat } from './assistant-chat';
 type AssistantPanelProps = { projects: { id: string; name: string }[] };
 
 /**
- * The content of the assistant side panel. What a question is about follows
- * the page: an experiment page asks about that experiment (or the whole
- * project, by a switch), a project page about the project. Elsewhere (home,
- * plots, settings) a project is chosen here. The chat itself is never restarted
+ * The content of the assistant side panel. The chat itself is never restarted
  * by a change of page or scope.
  */
 export const AssistantPanel = ({ projects }: AssistantPanelProps) => {

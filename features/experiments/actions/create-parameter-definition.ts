@@ -14,11 +14,6 @@ import { buildParameterFormSchema, toParameterInput } from '../schemas/schemas';
  * refreshes the experiment page. The schema is rebuilt here from the
  * experiment's stored parameters; invalid input only comes from a direct call,
  * so it is ignored.
- *
- * @param projectId - Owning project's id.
- * @param experimentId - The experiment gaining the parameter.
- * @param input - Raw form values.
- * @returns Whether a parameter was added.
  */
 export const createParameterDefinitionAction = async (
   projectId: string,

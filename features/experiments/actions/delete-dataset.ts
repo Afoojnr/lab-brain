@@ -13,13 +13,6 @@ import { getSampleById } from '../data/samples';
  * Removes one attached file, from storage and from the records, after checking
  * that it belongs to the characterization, sample, experiment and project the
  * caller names.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the characterization belongs to.
- * @param characterizationId - The characterization the file is attached to.
- * @param datasetId - The file to remove.
- * @returns Whether a file was removed.
  */
 export const deleteDatasetAction = async (
   projectId: string,

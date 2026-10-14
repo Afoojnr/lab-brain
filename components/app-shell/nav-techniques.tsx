@@ -23,8 +23,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * "Characterizations": one collapsible header with the techniques the app can
- * analyse. Each opens its workspace, where you analyse raw files or an
- * experiment's samples.
+ * analyse.
  */
 export const NavTechniques = ({
   techniques

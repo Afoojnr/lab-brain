@@ -22,8 +22,7 @@ const ViewerContext = createContext<((id: string) => void) | null>(null);
 
 /**
  * Opens a larger view of any of `items` in a dialog, with next and previous
- * through them. Wrap a list of files in it and put a {@link ViewFileTrigger}
- * on each file that can be shown; the rest stays a plain download link.
+ * through them.
  */
 export const FileViewer = ({
   items,

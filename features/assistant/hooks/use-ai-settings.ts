@@ -64,10 +64,8 @@ export const clearAiSettings = () => {
 
 /**
  * The user's AI settings, kept in this browser only, with a function to save
- * them. The key never goes to the server except with a question. Works without
- * storage (private window, blocked site data): it just forgets on reload.
- * Server and first client render agree because storage is only read after
- * hydration.
+ * them. The key never goes to the server except with a question. Server and
+ * first client render agree because storage is only read after hydration.
  */
 export const useAiSettings = () => {
   const settings = useSyncExternalStore(

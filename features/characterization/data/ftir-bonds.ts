@@ -32,12 +32,7 @@ export const listBonds = async (): Promise<FtirBond[]> => {
     .sort((a, b) => a.from - b.from || a.bond.localeCompare(b.bond));
 };
 
-/**
- * Adds bonds to the table.
- *
- * @param inputs - The bonds to add, already validated.
- * @returns The stored bonds, with their ids.
- */
+/** Adds bonds to the table. */
 export const addBonds = async (
   inputs: FtirBondInput[]
 ): Promise<FtirBond[]> => {
@@ -52,11 +47,7 @@ export const addBonds = async (
   return rows.map(toBond);
 };
 
-/**
- * Changes one bond.
- *
- * @returns The changed bond, or undefined when there is none with that id.
- */
+/** Changes one bond. */
 export const updateBond = async (
   id: string,
   input: FtirBondInput

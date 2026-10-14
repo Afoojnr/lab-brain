@@ -27,11 +27,7 @@ const refresh = () => {
 
 /**
  * Adds a bond to the table, or changes one when an id is given. Invalid input
- * only comes from a direct call, so it is refused. The same bond and range
- * cannot be in the table twice.
- *
- * @param input - The bond as typed.
- * @param id - The bond to change; omit to add.
+ * only comes from a direct call, so it is refused.
  */
 export const saveBondAction = async (
   input: unknown,
@@ -58,11 +54,7 @@ export const saveBondAction = async (
   return { ok: true };
 };
 
-/**
- * Removes a bond. Labels already written on peaks stay as they are.
- *
- * @param id - The bond to remove.
- */
+/** Removes a bond. Labels already written on peaks stay as they are. */
 export const deleteBondAction = async (id: string): Promise<boolean> => {
   const isDeleted = await deleteBond(id);
   if (isDeleted) refresh();
@@ -71,12 +63,8 @@ export const deleteBondAction = async (id: string): Promise<boolean> => {
 };
 
 /**
- * Adds the imported bonds to the table, or replaces the table with them. Replace
- * is only done when asked for. Rows that repeat one already in the table (or
- * each other) refuse the whole import, so nothing is half saved; the browser's
- * preview reports those rows by number first.
- *
- * @param input - The mode and the validated bonds.
+ * Adds the imported bonds to the table, or replaces the table with them.
+ * Replace is only done when asked for.
  */
 export const importBondsAction = async (
   input: unknown

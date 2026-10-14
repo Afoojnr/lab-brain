@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';

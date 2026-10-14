@@ -51,8 +51,8 @@ type DerivedColumnFormProps = {
 
 /**
  * Add or edit a calculated column: a name, a unit and a formula typed with
- * column names, with the columns offered as buttons and a live preview on a
- * few samples. Validated with the schema the actions check again.
+ * column names, with the columns offered as buttons and a live preview on a few
+ * samples.
  */
 export const DerivedColumnForm = ({
   projectId,

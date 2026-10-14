@@ -74,8 +74,6 @@ const statistics = (values: number[]) => {
  * between samples (and over what values), which stayed the same, and how each
  * result came out across the samples. A sample with no value for a column is
  * left out of that column's numbers, never counted as 0.
- *
- * @param input - The experiment's columns, the samples and their calculated values.
  */
 export const summarizeExperiment = ({
   definitions,

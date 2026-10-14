@@ -8,10 +8,7 @@ import { ProjectCard } from './project-card';
 const MAX_STAGGERED_ITEMS = 8;
 const STAGGER_SECONDS = 0.05;
 
-/**
- * Responsive grid of projects. Cards ease in one after another on first load,
- * and a newly created card enters while the others slide to make room (`layout`).
- */
+/** Responsive grid of projects. */
 export const ProjectGrid = ({
   projects
 }: {

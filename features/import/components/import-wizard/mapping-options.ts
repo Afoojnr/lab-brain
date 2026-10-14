@@ -17,16 +17,7 @@ const FIELD_TYPES = [
   'studies'
 ] as const;
 
-/**
- * The target a select value stands for. Choosing "new column" prefills its
- * name and unit from the header.
- *
- * @param value - A value from {@link targetToValue}.
- * @param header - The source column's header.
- * @param unit - A unit from the units row, if any.
- * @param columns - The experiment's columns, to check an existing one.
- * @param kind - The kind suggested for a new column, from the cells.
- */
+/** The target a select value stands for. */
 export const valueToTarget = (
   value: string,
   header: string,

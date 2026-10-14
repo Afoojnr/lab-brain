@@ -11,11 +11,6 @@ import { buildStudyFormSchema } from '../schemas/schemas';
  * the experiment page. The schema is rebuilt here from the experiment's stored
  * studies, so a name can never be reused; invalid input only comes from a
  * direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment gaining the study.
- * @param input - Raw form values.
- * @returns The new study's id, or null when ignored.
  */
 export const createStudyAction = async (
   projectId: string,

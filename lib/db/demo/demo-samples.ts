@@ -3,11 +3,9 @@ import { DEMO_SWEEP_SAMPLES } from './demo-samples-sweep';
 
 // Demo data, seeded into the database.
 //
-// EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS (thickness and B/C ratio on the
-// first samples are placeholders too): every number and text below is
-// a placeholder to show the layout. Only the four plasma pulse durations (5,
-// 10, 15, 20 s) come from the owner's own spec example. Cycles is left empty
-// on the first two samples to show a column that was added later.
+// Placeholder values to show the layout, not measurements. Only the four plasma
+// pulse durations (5, 10, 15, 20 s) come from the owner's spec example. Cycles
+// is empty on the first two samples to show a column added later.
 export const DEMO_SAMPLES: Sample[] = [
   {
     id: 'demo-sample-1',

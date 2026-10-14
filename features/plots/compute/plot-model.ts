@@ -27,12 +27,7 @@ const groupNames = (row: PlotRow, settings: PlotSettings): string[] => {
 /**
  * Turns rows into the series a scatter plot draws. A row with no number for X
  * or Y is left out and counted, never plotted as 0; on a logarithmic axis a
- * value of 0 or less is left out and counted. An error bar is drawn only from a
- * number that is 0 or more. A row in several studies appears once in each
- * (and is counted once as plotted); one in none goes to "no study".
- *
- * @param rows - The rows to plot.
- * @param settings - What is on each axis, the error column, the grouping and the log axes.
+ * value of 0 or less is left out and counted.
  */
 export const buildSeries = (
   rows: PlotRow[],
@@ -97,14 +92,7 @@ export const buildSeries = (
 
 /**
  * Keeps the first `max` named groups and folds the rest into one "other"
- * series, because only a few colours can be told apart on a scatter plot. The
- * rows without a group are kept as they are. Points of a row in several folded
- * groups appear once.
- *
- * @param series - The series from {@link buildSeries}.
- * @param max - How many named groups to keep.
- * @param order - Group keys in the order to keep them (e.g. from all the
- *   rows), so filtering or unticking never changes which groups stay named.
+ * series, because only a few colours can be told apart on a scatter plot.
  */
 export const foldSeries = (
   series: PlotSeries[],

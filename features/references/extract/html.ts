@@ -18,11 +18,7 @@ const collapse = (text: string) =>
 
 /**
  * The readable text of a web page: the article without menus, adverts and
- * scripts. Falls back to the whole body text when the page does not look like
- * an article. The page's scripts are never run.
- *
- * @param html - The page's HTML.
- * @param url - Its address, used to resolve relative links.
+ * scripts. The page's scripts are never run.
  */
 export const extractReadable = (html: string, url: string): ReadablePage => {
   const { document } = parseHTML(html);

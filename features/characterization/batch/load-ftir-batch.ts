@@ -10,10 +10,8 @@ import type { FtirBatchRow } from './batch-types';
 
 /**
  * The rows of an FTIR comparison: an experiment's characterizations whose
- * technique is FTIR, each with its first readable spectrum (null when it has none).
- * A repeat is its own row.
- *
- * @param experimentId - The experiment to list.
+ * technique is FTIR, each with its first readable spectrum (null when it has
+ * none).
  */
 export const loadFtirBatchRows = async (
   experimentId: string

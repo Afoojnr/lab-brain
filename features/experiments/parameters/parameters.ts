@@ -1,4 +1,4 @@
-import { parseDecimal } from '@/lib/numbers';
+import { parseDecimal } from '@/lib/numbers/numbers';
 
 import type {
   ParameterDefinition,
@@ -18,12 +18,8 @@ export type ParsedParameter =
   { isValid: true; value: ParameterValue | undefined } | { isValid: false };
 
 /**
- * Reads one typed-in value for a parameter. Empty means "not recorded". Text
- * in a number parameter is invalid, never coerced to `NaN` or `0`.
- *
- * @param raw - What the user typed.
- * @param kind - The parameter's kind.
- * @returns The value (undefined when empty), or invalid.
+ * Reads one typed-in value for a parameter. Text in a number parameter is
+ * invalid, never coerced to `NaN` or `0`.
  */
 export const parseParameterInput = (
   raw: string,
@@ -40,10 +36,6 @@ export const parseParameterInput = (
 /**
  * Parses every typed-in value of one sample against its experiment's parameters.
  * Keys that match no parameter are ignored.
- *
- * @param definitions - The experiment's parameters.
- * @param inputs - Typed-in values by parameter id.
- * @returns The parsed values (empty ones omitted) and the ids that failed.
  */
 export const parseParameterInputs = (
   definitions: ParameterDefinition[],
@@ -68,8 +60,6 @@ export const parseParameterInputs = (
 /**
  * Whether a `YYYY-MM-DD` string is a real calendar date, so "2026-02-30" is
  * rejected instead of silently rolling over to March.
- *
- * @param value - The text to check.
  */
 export const isCalendarDate = (value: string): boolean => {
   const date = new Date(`${value}T00:00:00Z`);
@@ -85,8 +75,6 @@ export const CALENDAR_DATE_FORMAT = {
  * A stored `YYYY-MM-DD` date as a `Date` at midnight UTC. Pair it with
  * {@link CALENDAR_DATE_FORMAT} so a date never shifts a day for someone west
  * of Greenwich.
- *
- * @param value - A stored calendar date.
  */
 export const toCalendarDate = (value: string): Date =>
   new Date(`${value}T00:00:00Z`);
@@ -95,9 +83,6 @@ export const toCalendarDate = (value: string): Date =>
  * The next sample code in an experiment: the prefix plus one more than the highest
  * number already used, zero-padded to 3 digits (ALD251 after ALD250). Codes
  * that are not exactly prefix + digits, like `ALD023_Annealing` typed by hand, are ignored.
- *
- * @param codePrefix - The experiment's prefix, e.g. `ALD`.
- * @param existingCodes - Sample codes already in the project.
  */
 export const suggestNextSampleCode = (
   codePrefix: string,
@@ -120,15 +105,9 @@ export const emptyInputs = (
   Object.fromEntries(definitions.map(definition => [definition.id, '']));
 
 /**
- * Prefills a new sample's value inputs. Results are always left empty, since a
- * measurement belongs to the sample it was measured on. Each parameter's own default wins,
- * since it is the standard setting the user chose; without one, the previous
- * sample's value is used, because consecutive samples usually share most
- * settings. The values are copied into the sample when saved, so editing a
- * default later never changes recorded samples.
- *
- * @param definitions - The experiment's parameters.
- * @param previous - The most recent sample, if any.
+ * Prefills a new sample's inputs: results stay empty, a parameter's own default
+ * wins, otherwise the previous sample's value is used. Values are copied into
+ * the sample, so changing a default later never touches recorded samples.
  */
 export const defaultSampleInputs = (
   definitions: ParameterDefinition[],
@@ -147,9 +126,6 @@ export const defaultSampleInputs = (
 /**
  * Typed-in inputs for duplicating a sample: its parameters are copied, but its
  * results are left empty, because they were measured on the original.
- *
- * @param definitions - The experiment's columns.
- * @param sample - The sample being copied.
  */
 export const duplicateSampleInputs = (
   definitions: ParameterDefinition[],
@@ -164,12 +140,7 @@ export const duplicateSampleInputs = (
     ])
   );
 
-/**
- * Typed-in inputs for an existing sample, for duplicating or editing it.
- *
- * @param definitions - The experiment's parameters.
- * @param sample - The sample whose values to show.
- */
+/** Typed-in inputs for an existing sample, for duplicating or editing it. */
 export const sampleToInputs = (
   definitions: ParameterDefinition[],
   sample: Pick<Sample, 'values'>

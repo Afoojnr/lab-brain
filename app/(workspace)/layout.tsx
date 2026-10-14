@@ -3,8 +3,11 @@ import { getTranslations } from 'next-intl/server';
 
 import { AppSidebar } from '@/components/app-shell/app-sidebar';
 import { AppTopbar } from '@/components/app-shell/app-topbar';
-import { AskAiFloating } from '@/components/ask-ai-floating';
-import { SidePanel, SidePanelProvider } from '@/components/side-panel';
+import { AskAiFloating } from '@/components/side-panel/ask-ai-floating';
+import {
+  SidePanel,
+  SidePanelProvider
+} from '@/components/side-panel/side-panel';
 import { TourPrompt } from '@/components/tour/tour-prompt';
 import { TourProvider } from '@/components/tour/tour-provider';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';

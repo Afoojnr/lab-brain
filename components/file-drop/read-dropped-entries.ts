@@ -55,9 +55,7 @@ const walk = async (entry: Entry, prefix: string): Promise<PickedFile[]> => {
 
 /**
  * Every file in what was dropped, folders included, with each file's path
- * inside its folder. Hidden files are left out.
- *
- * @param entries - The dropped items as file system entries.
+ * inside its folder.
  */
 export const readDroppedEntries = async (
   entries: Entry[]

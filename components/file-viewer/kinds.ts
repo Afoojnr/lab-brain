@@ -25,9 +25,6 @@ const KINDS: Record<string, ViewerKind> = {
 /**
  * How to show a file, from its extension. Tables and text over
  * {@link MAX_PREVIEW_BYTES} are not previewed; images are always shown.
- *
- * @param fileName - The file's name.
- * @param sizeBytes - The file's size.
  */
 export const viewerKind = (fileName: string, sizeBytes: number): ViewerKind => {
   const dot = fileName.lastIndexOf('.');

@@ -4,8 +4,8 @@ import { ChevronDownIcon, ChevronRightIcon, DownloadIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment, useMemo, useState } from 'react';
 
-import { FileDropZone } from '@/components/file-drop-zone';
-import type { PickedFile } from '@/components/read-dropped-entries';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
+import type { PickedFile } from '@/components/file-drop/read-dropped-entries';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -19,15 +19,15 @@ import {
 import { formatValue } from '../analysis/results';
 import type { TextFile } from '../techniques/edx/from-files';
 import { readSeqfitItems } from '../techniques/ellipsometry/from-files';
-import { downloadBytes, XLSX_TYPE } from '@/lib/download-file';
+import { downloadBytes, XLSX_TYPE } from '@/lib/export/download-file';
 import { isCsvFile, readTextFiles } from '../upload/read-files';
 import { buildWorkbook, ellipsometrySummary } from '../upload/summary-rows';
 import { EllipsometrySummaryView } from './ellipsometry-summary-view';
 
 /**
  * Ellipsometry from fit exports that are not in any experiment: drop one or
- * more `.csv` files, see each one's thickness and n with their std, and download
- * the table as Excel. The files are read in the browser; nothing is uploaded.
+ * more `.csv` files, see each one's thickness and n with their std, and
+ * download the table as Excel.
  */
 export const UploadEllipsometry = () => {
   const t = useTranslations('analysis.workspace.upload');

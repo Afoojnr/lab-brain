@@ -3,11 +3,7 @@ import type { GroupBy, PlotColumn } from '../types';
 
 /**
  * What a legend's entries are: the column the colours are by (with its unit),
- * or the study. Undefined when the plot is not grouped.
- *
- * @param group - How the plot is grouped.
- * @param columns - The table's columns.
- * @param studyLabel - The translated word for "Study".
+ * or the study.
  */
 export const legendTitleFor = (
   group: GroupBy,
