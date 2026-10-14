@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 import { Providers } from '@/components/providers';
+import { getSiteUrl, isIndexingAllowed } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
@@ -18,12 +19,42 @@ const geistMono = Geist_Mono({
   subsets: ['latin']
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }
+  ]
+};
+
 export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations('common');
+  const [t, locale] = await Promise.all([
+    getTranslations('common'),
+    getLocale()
+  ]);
+  const isIndexable = isIndexingAllowed();
 
   return {
+    metadataBase: new URL(getSiteUrl()),
+    applicationName: t('appName'),
     title: { default: t('appName'), template: `%s | ${t('appName')}` },
-    description: t('appDescription')
+    description: t('appDescription'),
+    // Not indexed unless the owner opts in (see `lib/site.ts`); `robots.ts`
+    // says the same to crawlers that read the file first.
+    robots: isIndexable
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
+    openGraph: {
+      type: 'website',
+      siteName: t('appName'),
+      title: t('appName'),
+      description: t('appDescription'),
+      locale: locale === 'fr' ? 'fr_FR' : 'en_US'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('appName'),
+      description: t('appDescription')
+    }
   };
 };
 

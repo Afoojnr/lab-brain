@@ -1,6 +1,5 @@
 'use client';
 
-import { FlaskConicalIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -19,6 +18,8 @@ import {
   SidebarRail,
   useSidebar
 } from '@/components/ui/sidebar';
+
+import { LogoMark } from '@/components/brand/logo-mark';
 
 import { isNavItemActive, PLOTS_ITEM, SETTINGS_ITEM } from './nav-items';
 import { NavProjects } from './nav-projects';
@@ -81,10 +82,15 @@ export const AppSidebar = ({
               render={<Link href="/" />}
               onClick={() => setOpenMobile(false)}
             >
-              <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
-                <FlaskConicalIcon aria-hidden />
-              </span>
-              <span className="text-base font-semibold tracking-tight">
+              <LogoMark
+                size={32}
+                background="var(--primary)"
+                foreground="var(--primary-foreground)"
+                // The menu button sizes every svg in it to 16 px; the mark is the
+                // brand, so it keeps its own size.
+                className="size-8! shrink-0"
+              />
+              <span className="text-base font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
                 {t('appName')}
               </span>
             </SidebarMenuButton>

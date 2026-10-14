@@ -72,6 +72,18 @@ server, kept on `globalThis` so Route Handlers share it). Migrations are in `dri
   Data folder. `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and
   `playwright.config.ts`; never document it for users or put it in `.env`.
 
+## Branding and SEO
+
+- One logo component, `components/brand/logo-mark.tsx` (flask in a hexagon; `full` has a
+  small network, `compact` is for favicons). The sidebar, the preview card and every icon
+  file come from it: after changing it run `npx tsx scripts/brand-assets.tsx` from the repo
+  root (writes `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `public/icons/`).
+- Metadata lives in `app/layout.tsx` (title template, Open Graph, Twitter, `metadataBase`
+  from `LAB_BRAIN_SITE_URL`), `app/manifest.ts`, `app/robots.ts` and the generated
+  `app/opengraph-image.tsx` / `twitter-image.tsx` (`lib/brand-image.tsx`).
+- Not indexed by default (`noindex` + `Disallow: /`); `LAB_BRAIN_ALLOW_INDEXING=true` opens
+  it. There is no sitemap until there is a landing page.
+
 ## Verification
 
 Work is done when `yarn ts-check` and `yarn lint` pass with no errors, **and**
