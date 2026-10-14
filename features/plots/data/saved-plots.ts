@@ -1,8 +1,21 @@
+import { and, eq, sql } from 'drizzle-orm';
+
+import { getDb } from '@/lib/db/client';
+import { savedPlots } from '@/lib/db/schema';
+
 import type { SavedPlot, SavedPlotInput } from '../types';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so saved plots reset when the dev server restarts.
-const savedPlots: SavedPlot[] = [];
+type SavedPlotRow = typeof savedPlots.$inferSelect;
+
+// The JSON columns are only ever written by this module, from a validated
+// `SavedPlotInput`, so reading them back is a plain cast.
+const toSavedPlot = (row: SavedPlotRow): SavedPlot => ({
+  ...row,
+  settings: row.settings as SavedPlot['settings'],
+  filters: row.filters as SavedPlot['filters'],
+  untickedIds: row.untickedIds as SavedPlot['untickedIds'],
+  style: row.style as SavedPlot['style']
+});
 
 /**
  * An experiment's saved plots, oldest first.
@@ -11,85 +24,121 @@ const savedPlots: SavedPlot[] = [];
  */
 export const listSavedPlots = async (
   experimentId: string
-): Promise<SavedPlot[]> =>
-  savedPlots
-    .filter(plot => plot.experimentId === experimentId)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+): Promise<SavedPlot[]> => {
+  const db = await getDb();
+  const rows = await db
+    .select()
+    .from(savedPlots)
+    .where(eq(savedPlots.experimentId, experimentId))
+    .orderBy(savedPlots.createdAt, sql`rowid`);
+
+  return rows.map(toSavedPlot);
+};
 
 /**
- * One saved plot, only when it belongs to the experiment.
+ * One saved plot, only when it belongs to the given experiment.
  *
- * @param experimentId - The experiment the caller says owns it.
+ * @param experimentId - The experiment the URL names.
  * @param plotId - The saved plot's id.
  */
 export const getSavedPlot = async (
   experimentId: string,
   plotId: string
-): Promise<SavedPlot | undefined> =>
-  savedPlots.find(
-    plot => plot.id === plotId && plot.experimentId === experimentId
-  );
+): Promise<SavedPlot | undefined> => {
+  const db = await getDb();
+  const [row] = await db
+    .select()
+    .from(savedPlots)
+    .where(
+      and(eq(savedPlots.id, plotId), eq(savedPlots.experimentId, experimentId))
+    );
+
+  return row ? toSavedPlot(row) : undefined;
+};
 
 /**
- * Stores a new saved plot. Input must already be validated by
- * `buildSavedPlotSchema`.
+ * Stores a new saved plot. Input must already be validated.
+ *
+ * @param experimentId - Owning experiment's id.
+ * @param input - Name, settings, filters, unticked samples and style.
  */
 export const createSavedPlot = async (
   experimentId: string,
   input: SavedPlotInput
 ): Promise<SavedPlot> => {
+  const db = await getDb();
   const plot: SavedPlot = {
     id: crypto.randomUUID(),
     experimentId,
     ...input,
     createdAt: new Date()
   };
-  savedPlots.push(plot);
+  await db.insert(savedPlots).values(plot);
 
   return plot;
 };
 
-/** Replaces a saved plot's title and what it plots; null when it is not the experiment's. */
+/**
+ * Replaces what a saved plot holds.
+ *
+ * @param experimentId - Owning experiment's id.
+ * @param plotId - The saved plot to change.
+ * @param input - The new name, settings, filters, unticked samples and style.
+ * @returns The updated plot, or null when the experiment has none with that id.
+ */
 export const updateSavedPlot = async (
   experimentId: string,
   plotId: string,
   input: SavedPlotInput
 ): Promise<SavedPlot | null> => {
-  const plot = await getSavedPlot(experimentId, plotId);
-  if (!plot) return null;
+  const db = await getDb();
+  const [row] = await db
+    .update(savedPlots)
+    .set(input)
+    .where(
+      and(eq(savedPlots.id, plotId), eq(savedPlots.experimentId, experimentId))
+    )
+    .returning();
 
-  Object.assign(plot, input);
-
-  return plot;
+  return row ? toSavedPlot(row) : null;
 };
 
-/** Removes a saved plot; false when it is not the experiment's. */
+/**
+ * Removes a saved plot.
+ *
+ * @param experimentId - Owning experiment's id.
+ * @param plotId - The saved plot to remove.
+ * @returns Whether a plot was removed.
+ */
 export const deleteSavedPlot = async (
   experimentId: string,
   plotId: string
 ): Promise<boolean> => {
-  const index = savedPlots.findIndex(
-    plot => plot.id === plotId && plot.experimentId === experimentId
-  );
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(savedPlots)
+    .where(
+      and(eq(savedPlots.id, plotId), eq(savedPlots.experimentId, experimentId))
+    )
+    .returning({ id: savedPlots.id });
 
-  savedPlots.splice(index, 1);
-
-  return true;
+  return removed.length > 0;
 };
 
 /**
  * Removes every saved plot of an experiment that was deleted.
  *
  * @param experimentId - The experiment that is gone.
- * @returns How many saved plots were removed.
+ * @returns How many plots were removed.
  */
 export const deleteSavedPlotsOf = async (
   experimentId: string
 ): Promise<number> => {
-  const before = savedPlots.length;
-  const kept = savedPlots.filter(plot => plot.experimentId !== experimentId);
-  savedPlots.splice(0, savedPlots.length, ...kept);
+  const db = await getDb();
+  const removed = await db
+    .delete(savedPlots)
+    .where(eq(savedPlots.experimentId, experimentId))
+    .returning({ id: savedPlots.id });
 
-  return before - savedPlots.length;
+  return removed.length;
 };

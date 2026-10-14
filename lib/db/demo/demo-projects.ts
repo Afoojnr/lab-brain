@@ -1,6 +1,6 @@
-import type { Project } from '../types';
+import type { Project } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6. Names are the project
+// Demo data, seeded into the database. Names are the project
 // owner's own examples; the app itself never assumes a technique. Descriptions
 // are left empty where none was given, never invented.
 export const DEMO_PROJECTS: Project[] = [

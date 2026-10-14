@@ -5,8 +5,7 @@ import {
   listParameterDefinitions
 } from './parameter-definitions';
 
-// Runs against the in-memory demo data. TODO: Step 6 turns this into a test
-// against a real SQLite database, keeping the same expectations.
+// Runs against a real (in-memory) SQLite database holding the example data.
 describe('column order', () => {
   it('lists parameters first and results last, whatever order they were added in', async () => {
     await createParameterDefinition('demo-experiment-2', {

@@ -1,6 +1,6 @@
-import type { ParameterDefinition } from '../types';
+import type { ParameterDefinition } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6. The column names are the
+// Demo data, seeded into the database. The column names are the
 // owner's own examples; the app itself never assumes a technique.
 //
 // Units are left empty for the Paschen law and temperature calibration experiment

@@ -41,5 +41,6 @@
       "parameter": "Paramètre",
       "value": "Valeur"
     }
-  }
+  },
+  "demoBanner": "Ceci est une démo : ce que vous ajoutez n'est pas conservé et peut disparaître à tout moment."
 }

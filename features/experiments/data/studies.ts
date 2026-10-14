@@ -1,14 +1,13 @@
+import { and, eq, sql } from 'drizzle-orm';
+
+import { getDb } from '@/lib/db/client';
+import { studies } from '@/lib/db/schema';
+
 import type { StudyFormValues } from '../schemas/schemas';
 import type { Study } from '../types';
-import { DEMO_STUDIES } from './demo-studies';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as { __labBrainStudies?: Study[] };
-const studies: Study[] = (store.__labBrainStudies ??= [...DEMO_STUDIES]);
+const emptyToNull = (text: string): string | null =>
+  text === '' ? null : text;
 
 /**
  * An experiment's studies, oldest first.
@@ -17,31 +16,42 @@ const studies: Study[] = (store.__labBrainStudies ??= [...DEMO_STUDIES]);
  */
 export const listStudiesByExperiment = async (
   experimentId: string
-): Promise<Study[]> =>
-  studies
-    .filter(study => study.experimentId === experimentId)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+): Promise<Study[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(studies)
+    .where(eq(studies.experimentId, experimentId))
+    .orderBy(studies.createdAt, sql`rowid`);
+};
 
 /**
- * One study, but only when it belongs to the given experiment, so an
- * study can never be reached through another experiment's page.
+ * One study, only when it belongs to the given experiment.
  *
- * @param experimentId - The experiment the caller says owns the study.
- * @param id - Study id.
+ * @param experimentId - The experiment the URL names.
+ * @param id - The study id.
  */
 export const getStudyInExperiment = async (
   experimentId: string,
   id: string
-): Promise<Study | undefined> =>
-  studies.find(study => study.id === id && study.experimentId === experimentId);
+): Promise<Study | undefined> => {
+  const db = await getDb();
+  const [study] = await db
+    .select()
+    .from(studies)
+    .where(and(eq(studies.id, id), eq(studies.experimentId, experimentId)));
+
+  return study;
+};
 
 /**
- * Changes a study's name and description. Which samples belong to it is
- * untouched. Input must already be validated by `buildStudyFormSchema`.
+ * Changes a study's name and description. Input must already be validated by
+ * `studyFormSchema`.
  *
- * @param experimentId - The experiment owning the study.
+ * @param experimentId - Owning experiment's id.
  * @param id - The study to change.
- * @param values - Validated name and description.
+ * @param values - Validated form values.
  * @returns The updated study, or undefined when the experiment has none with that id.
  */
 export const updateStudy = async (
@@ -49,49 +59,47 @@ export const updateStudy = async (
   id: string,
   values: StudyFormValues
 ): Promise<Study | undefined> => {
-  const index = studies.findIndex(
-    study => study.id === id && study.experimentId === experimentId
-  );
-  const existing = studies[index];
-  if (!existing) return undefined;
+  const db = await getDb();
+  const [updated] = await db
+    .update(studies)
+    .set({
+      name: values.name,
+      description: emptyToNull(values.description)
+    })
+    .where(and(eq(studies.id, id), eq(studies.experimentId, experimentId)))
+    .returning();
 
-  const updated: Study = {
-    ...existing,
-    name: values.name,
-    description: values.description === '' ? null : values.description
-  };
-  studies[index] = updated;
   return updated;
 };
 
 /**
- * Stores a new study. Input must already be validated by
- * `buildStudyFormSchema`.
+ * Stores a new study. Input must already be validated by `studyFormSchema`.
  *
  * @param experimentId - Owning experiment's id.
- * @param values - Validated name and description.
+ * @param values - Validated form values.
  * @returns The stored study.
  */
 export const createStudy = async (
   experimentId: string,
   values: StudyFormValues
 ): Promise<Study> => {
+  const db = await getDb();
   const study: Study = {
     id: crypto.randomUUID(),
     experimentId,
     name: values.name,
-    description: values.description === '' ? null : values.description,
+    description: emptyToNull(values.description),
     createdAt: new Date()
   };
+  await db.insert(studies).values(study);
 
-  studies.push(study);
   return study;
 };
 
 /**
- * Removes a study's own record (the caller takes it off the samples).
+ * Removes a study's own record. Callers take it off the samples first.
  *
- * @param experimentId - The experiment owning the study.
+ * @param experimentId - Owning experiment's id.
  * @param id - The study to remove.
  * @returns Whether a study was removed.
  */
@@ -99,13 +107,13 @@ export const deleteStudy = async (
   experimentId: string,
   id: string
 ): Promise<boolean> => {
-  const index = studies.findIndex(
-    study => study.id === id && study.experimentId === experimentId
-  );
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(studies)
+    .where(and(eq(studies.id, id), eq(studies.experimentId, experimentId)))
+    .returning({ id: studies.id });
 
-  studies.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };
 
 /**
@@ -117,9 +125,11 @@ export const deleteStudy = async (
 export const deleteStudiesOfExperiment = async (
   experimentId: string
 ): Promise<number> => {
-  const before = studies.length;
-  const kept = studies.filter(study => study.experimentId !== experimentId);
-  studies.splice(0, studies.length, ...kept);
+  const db = await getDb();
+  const removed = await db
+    .delete(studies)
+    .where(eq(studies.experimentId, experimentId))
+    .returning({ id: studies.id });
 
-  return before - studies.length;
+  return removed.length;
 };

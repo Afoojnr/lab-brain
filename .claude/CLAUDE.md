@@ -48,8 +48,29 @@ npx drizzle-kit generate  # migrations from schema changes (once Drizzle is adde
 
 ## Storage
 
-Attached files live in `LAB_BRAIN_STORAGE_DIR` (default `./storage`, git-ignored except
-`storage/demo/`). Only `lib/storage/local-adapter.ts` touches `fs`.
+Records live in SQLite through Drizzle (`@libsql/client`): schema in `lib/db/schema/`,
+connection `getDb()` in `lib/db/client.ts` (opened and migrated on first use, one per
+server, kept on `globalThis` so Route Handlers share it). Migrations are in `drizzle/`
+(`npx drizzle-kit generate` after a schema change). Foreign keys cascade.
+
+- **Database**: `LAB_BRAIN_DATABASE_URL`, else `./data/lab-brain.db` (`LAB_BRAIN_DATA_DIR`,
+  git-ignored). Keep it on a local disk, never on a synced or network drive.
+- **Attached files** (`StorageAdapter`, `getStorage()`): `LAB_BRAIN_STORAGE_DIR`, else the
+  `files` folder of the **Data folder** chosen in Settings, else `./storage` (git-ignored).
+  The example files live with the example data in `lib/db/demo/files/` and are copied
+  into storage under `demo/` when the demo is used. Only `lib/storage/local-adapter.ts` touches
+  `fs` for them.
+- **Data folder** (self-hosted): a `Lab Brain` folder is created inside the picked folder,
+  holding `files/` and `backups/` (a picked folder that already is one is used as is,
+  never replaced). The choice and the
+  last backup's status are per computer, in `data/settings.json` (`lib/config/`), not in
+  the database. Backups are `VACUUM INTO` copies (`lib/db/backup.ts`) every 10 minutes
+  while something changed, 30 kept per computer; `lib/db/restore.ts` restores one.
+- **Example data**: a normal install starts empty and shows no example data or button. Only
+  `LAB_BRAIN_DEMO=true` (the demo also gets an Add/Remove example data button) (the public demo, set on Vercel) seeds it
+  at start, with a temporary database and files in `/tmp`, a banner, and no Data folder.
+  `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and `playwright.config.ts`; never
+  document it for users or put it in `.env`.
 
 ## Verification
 

@@ -6,6 +6,20 @@
     "title": "Welcome to Lab Brain",
     "description": "Record your experiments, import your spreadsheets, attach instrument files and let the app work out the numbers. Start with a project: it holds the experiments of one line of work.",
     "create": "Create your first project",
-    "rawFiles": "Or analyse raw files without a project:"
+    "rawFiles": "Or analyse raw files without a project:",
+    "steps": {
+      "project": {
+        "title": "Create a project",
+        "text": "One line of work, such as a paper or a thesis chapter. It holds everything below."
+      },
+      "experiment": {
+        "title": "Add an experiment",
+        "text": "One kind of sample with its own columns and codes, like one sheet of a spreadsheet."
+      },
+      "samples": {
+        "title": "Record samples",
+        "text": "One row each: values, notes and measurement files. Then plot, compare and export."
+      }
+    }
   }
 }

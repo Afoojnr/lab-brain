@@ -13,9 +13,9 @@ export const RawFilesLinks = ({ intro }: { intro: string }) => {
   const t = useTranslations('navigation');
 
   return (
-    <div className="grid justify-items-center gap-2">
+    <div className="grid gap-2">
       <p className="text-muted-foreground text-sm">{intro}</p>
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-wrap gap-2">
         {TECHNIQUES.map(technique => (
           <Link
             key={technique.kind}

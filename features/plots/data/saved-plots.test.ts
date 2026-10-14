@@ -26,36 +26,45 @@ const INPUT = {
 
 describe('saved plots', () => {
   it("lists only the experiment's own plots, oldest first", async () => {
-    const first = await createSavedPlot('exp-list', INPUT);
-    await createSavedPlot('exp-other', { ...INPUT, name: 'Other' });
-    const second = await createSavedPlot('exp-list', {
+    const first = await createSavedPlot('demo-experiment-1', INPUT);
+    await createSavedPlot('demo-experiment-2', { ...INPUT, name: 'Other' });
+    const second = await createSavedPlot('demo-experiment-1', {
       ...INPUT,
       name: 'Second'
     });
 
-    expect((await listSavedPlots('exp-list')).map(plot => plot.id)).toEqual([
-      first.id,
-      second.id
-    ]);
+    expect(
+      (await listSavedPlots('demo-experiment-1')).map(plot => plot.id)
+    ).toEqual([first.id, second.id]);
   });
 
   it('never returns, changes or deletes a plot through another experiment', async () => {
-    const plot = await createSavedPlot('exp-a', INPUT);
+    const plot = await createSavedPlot('demo-experiment-1', INPUT);
 
-    expect(await getSavedPlot('exp-b', plot.id)).toBeUndefined();
+    expect(await getSavedPlot('demo-experiment-2', plot.id)).toBeUndefined();
     expect(
-      await updateSavedPlot('exp-b', plot.id, { ...INPUT, name: 'X' })
+      await updateSavedPlot('demo-experiment-2', plot.id, {
+        ...INPUT,
+        name: 'X'
+      })
     ).toBeNull();
-    expect(await deleteSavedPlot('exp-b', plot.id)).toBe(false);
-    expect((await getSavedPlot('exp-a', plot.id))?.name).toBe('GPC at 600');
+    expect(await deleteSavedPlot('demo-experiment-2', plot.id)).toBe(false);
+    expect((await getSavedPlot('demo-experiment-1', plot.id))?.name).toBe(
+      'GPC at 600'
+    );
   });
 
   it('updates and deletes a plot of the experiment', async () => {
-    const plot = await createSavedPlot('exp-c', INPUT);
+    const plot = await createSavedPlot('demo-experiment-3', INPUT);
 
-    await updateSavedPlot('exp-c', plot.id, { ...INPUT, name: 'Renamed' });
-    expect((await getSavedPlot('exp-c', plot.id))?.name).toBe('Renamed');
-    expect(await deleteSavedPlot('exp-c', plot.id)).toBe(true);
-    expect(await listSavedPlots('exp-c')).toEqual([]);
+    await updateSavedPlot('demo-experiment-3', plot.id, {
+      ...INPUT,
+      name: 'Renamed'
+    });
+    expect((await getSavedPlot('demo-experiment-3', plot.id))?.name).toBe(
+      'Renamed'
+    );
+    expect(await deleteSavedPlot('demo-experiment-3', plot.id)).toBe(true);
+    expect(await listSavedPlots('demo-experiment-3')).toEqual([]);
   });
 });

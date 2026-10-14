@@ -10,8 +10,7 @@ import {
   updateCharacterization
 } from './characterizations';
 
-// Runs against the in-memory demo data. TODO: Step 6 turns this into a test
-// against a real SQLite database, keeping the same expectations.
+// Runs against a real (in-memory) SQLite database holding the example data.
 describe('listing characterizations', () => {
   it("lists a sample's, oldest date first, and the same technique can appear twice", async () => {
     const items = await listCharacterizationsBySample('demo-sample-3');
@@ -86,9 +85,9 @@ describe('changing characterizations', () => {
     expect(await deleteCharacterization('demo-sample-2', created.id)).toBe(
       false
     );
-    expect(await getCharacterizationOfSample('demo-sample-1', created.id)).toBe(
-      created
-    );
+    expect(
+      await getCharacterizationOfSample('demo-sample-1', created.id)
+    ).toEqual(created);
     expect(await deleteCharacterization('demo-sample-1', created.id)).toBe(
       true
     );

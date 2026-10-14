@@ -1,34 +1,36 @@
-import type { DerivedColumn, DerivedColumnInput } from '../types';
-import { DEMO_DERIVED_COLUMNS } from './demo-derived-columns';
+import { and, eq, sql } from 'drizzle-orm';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as { __labBrainDerivedColumns?: DerivedColumn[] };
-const derivedColumns: DerivedColumn[] = (store.__labBrainDerivedColumns ??= [
-  ...DEMO_DERIVED_COLUMNS
-]);
+import { getDb } from '@/lib/db/client';
+import { derivedColumns } from '@/lib/db/schema';
+
+import type { DerivedColumn, DerivedColumnInput } from '../types';
+
+const emptyToNull = (text: string): string | null =>
+  text === '' ? null : text;
 
 /**
- * An experiment's calculated columns in the order they were added.
+ * An experiment's calculated columns, in display order.
  *
  * @param experimentId - Owning experiment's id.
  */
 export const listDerivedColumns = async (
   experimentId: string
-): Promise<DerivedColumn[]> =>
-  derivedColumns
-    .filter(column => column.experimentId === experimentId)
-    .sort((a, b) => a.position - b.position);
+): Promise<DerivedColumn[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(derivedColumns)
+    .where(eq(derivedColumns.experimentId, experimentId))
+    .orderBy(derivedColumns.position, sql`rowid`);
+};
 
 /**
- * The calculated columns whose formula uses a column, so that column is not
- * deleted or turned into text from under them.
+ * The calculated columns whose formula uses a given column, so that column is
+ * not deleted or changed under them.
  *
  * @param experimentId - Owning experiment's id.
- * @param columnId - The entered column's id.
+ * @param columnId - The column being checked.
  */
 export const listDerivedColumnsUsing = async (
   experimentId: string,
@@ -39,36 +41,37 @@ export const listDerivedColumnsUsing = async (
   );
 
 /**
- * Adds a calculated column at the end. Input must already be validated by
- * `buildDerivedColumnFormSchema` (the formula parses against the experiment's columns).
+ * Adds a calculated column after the existing ones. Input must already be
+ * validated.
  *
  * @param experimentId - Owning experiment's id.
- * @param input - Validated name, unit and stored formula.
+ * @param input - Validated name, unit and formula.
  */
 export const createDerivedColumn = async (
   experimentId: string,
   input: DerivedColumnInput
 ): Promise<DerivedColumn> => {
+  const db = await getDb();
   const existing = await listDerivedColumns(experimentId);
   const column: DerivedColumn = {
     id: crypto.randomUUID(),
     experimentId,
     name: input.name,
-    unit: input.unit === '' ? null : input.unit,
+    unit: emptyToNull(input.unit),
     formula: input.formula,
     position: existing.length
   };
+  await db.insert(derivedColumns).values(column);
 
-  derivedColumns.push(column);
   return column;
 };
 
 /**
- * Changes a calculated column's name, unit and formula.
+ * Changes a calculated column's name, unit or formula.
  *
  * @param experimentId - Owning experiment's id.
  * @param id - The column to change.
- * @param input - Validated name, unit and stored formula.
+ * @param input - Validated name, unit and formula.
  * @returns The updated column, or undefined when the experiment has none with that id.
  */
 export const updateDerivedColumn = async (
@@ -76,24 +79,27 @@ export const updateDerivedColumn = async (
   id: string,
   input: DerivedColumnInput
 ): Promise<DerivedColumn | undefined> => {
-  const index = derivedColumns.findIndex(
-    column => column.id === id && column.experimentId === experimentId
-  );
-  const existing = derivedColumns[index];
-  if (!existing) return undefined;
+  const db = await getDb();
+  const [updated] = await db
+    .update(derivedColumns)
+    .set({
+      name: input.name,
+      unit: emptyToNull(input.unit),
+      formula: input.formula
+    })
+    .where(
+      and(
+        eq(derivedColumns.id, id),
+        eq(derivedColumns.experimentId, experimentId)
+      )
+    )
+    .returning();
 
-  const updated: DerivedColumn = {
-    ...existing,
-    name: input.name,
-    unit: input.unit === '' ? null : input.unit,
-    formula: input.formula
-  };
-  derivedColumns[index] = updated;
   return updated;
 };
 
 /**
- * Removes a calculated column. Nothing else depends on it.
+ * Removes a calculated column.
  *
  * @param experimentId - Owning experiment's id.
  * @param id - The column to remove.
@@ -103,29 +109,34 @@ export const deleteDerivedColumn = async (
   experimentId: string,
   id: string
 ): Promise<boolean> => {
-  const index = derivedColumns.findIndex(
-    column => column.id === id && column.experimentId === experimentId
-  );
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(derivedColumns)
+    .where(
+      and(
+        eq(derivedColumns.id, id),
+        eq(derivedColumns.experimentId, experimentId)
+      )
+    )
+    .returning({ id: derivedColumns.id });
 
-  derivedColumns.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };
 
 /**
  * Removes every calculated column of an experiment.
  *
  * @param experimentId - The experiment being removed.
- * @returns How many calculated columns were removed.
+ * @returns How many columns were removed.
  */
 export const deleteDerivedColumnsOfExperiment = async (
   experimentId: string
 ): Promise<number> => {
-  const before = derivedColumns.length;
-  const kept = derivedColumns.filter(
-    item => item.experimentId !== experimentId
-  );
-  derivedColumns.splice(0, derivedColumns.length, ...kept);
+  const db = await getDb();
+  const removed = await db
+    .delete(derivedColumns)
+    .where(eq(derivedColumns.experimentId, experimentId))
+    .returning({ id: derivedColumns.id });
 
-  return before - derivedColumns.length;
+  return removed.length;
 };

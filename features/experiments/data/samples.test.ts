@@ -16,8 +16,7 @@ import {
   updateExperiment
 } from './experiments';
 
-// Runs against the in-memory demo data. TODO: Step 6 turns this into a test
-// against a real SQLite database, keeping the same expectations.
+// Runs against a real (in-memory) SQLite database holding the example data.
 describe('sample codes across a project', () => {
   it('lists every code in the project, across all its experiment, but not other projects', async () => {
     const codes = await listSampleCodesByProject('demo-project-1');

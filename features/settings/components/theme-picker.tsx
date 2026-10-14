@@ -16,7 +16,10 @@ const THEME_OPTIONS = [
 const SELECTED_STYLES =
   'aria-pressed:bg-primary aria-pressed:text-primary-foreground aria-pressed:hover:bg-primary/90';
 
-/** Segmented control for light, dark or system theme. */
+/**
+ * Segmented control for light, dark or system theme. Icons only, so its width
+ * never changes with the language; each has its name as label and tooltip.
+ */
 export const ThemePicker = () => {
   const t = useTranslations('settings.appearance');
   const { theme, setTheme } = useTheme();
@@ -37,9 +40,14 @@ export const ThemePicker = () => {
       onValueChange={handleChange}
     >
       {THEME_OPTIONS.map(({ value, labelKey, Icon }) => (
-        <ToggleGroupItem key={value} value={value} className={SELECTED_STYLES}>
+        <ToggleGroupItem
+          key={value}
+          value={value}
+          aria-label={t(labelKey)}
+          title={t(labelKey)}
+          className={SELECTED_STYLES}
+        >
           <Icon aria-hidden />
-          {t(labelKey)}
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

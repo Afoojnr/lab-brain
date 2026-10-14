@@ -1,8 +1,19 @@
+import { and, desc, eq, inArray } from 'drizzle-orm';
+
+import { getDb } from '@/lib/db/client';
+import { analyses } from '@/lib/db/schema';
+
 import type { Analysis, AnalysisKind, AnalysisSettings } from '../types';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-const analyses: Analysis[] = [];
+type AnalysisRow = typeof analyses.$inferSelect;
+
+// The settings column holds JSON that only this module writes, always as
+// `AnalysisSettings` (validated by the action before it gets here).
+const toAnalysis = (row: AnalysisRow): Analysis => ({
+  ...row,
+  kind: row.kind as AnalysisKind,
+  settings: row.settings as AnalysisSettings
+});
 
 /**
  * The saved settings of a characterization's analysis, if any.
@@ -13,10 +24,20 @@ const analyses: Analysis[] = [];
 export const getAnalysis = async (
   characterizationId: string,
   kind: AnalysisKind
-): Promise<Analysis | undefined> =>
-  analyses.find(
-    item => item.characterizationId === characterizationId && item.kind === kind
-  );
+): Promise<Analysis | undefined> => {
+  const db = await getDb();
+  const [row] = await db
+    .select()
+    .from(analyses)
+    .where(
+      and(
+        eq(analyses.characterizationId, characterizationId),
+        eq(analyses.kind, kind)
+      )
+    );
+
+  return row ? toAnalysis(row) : undefined;
+};
 
 /**
  * Saves the settings of an analysis, replacing the earlier ones: one analysis
@@ -31,22 +52,24 @@ export const saveAnalysis = async (
   kind: AnalysisKind,
   settings: AnalysisSettings
 ): Promise<Analysis> => {
-  const existing = await getAnalysis(characterizationId, kind);
-  if (existing) {
-    existing.settings = settings;
-    existing.updatedAt = new Date();
-    return existing;
-  }
+  const db = await getDb();
+  const updatedAt = new Date();
+  const [row] = await db
+    .insert(analyses)
+    .values({
+      id: crypto.randomUUID(),
+      characterizationId,
+      kind,
+      settings,
+      updatedAt
+    })
+    .onConflictDoUpdate({
+      target: [analyses.characterizationId, analyses.kind],
+      set: { settings, updatedAt }
+    })
+    .returning();
 
-  const analysis: Analysis = {
-    id: crypto.randomUUID(),
-    characterizationId,
-    kind,
-    settings,
-    updatedAt: new Date()
-  };
-  analyses.push(analysis);
-  return analysis;
+  return toAnalysis(row as AnalysisRow);
 };
 
 /**
@@ -61,15 +84,22 @@ export const latestTargets = async (
   characterizationIds: string[],
   kind: AnalysisKind
 ): Promise<AnalysisSettings['targets']> => {
-  const latest = analyses
-    .filter(
-      item =>
-        item.kind === kind &&
-        characterizationIds.includes(item.characterizationId)
-    )
-    .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())[0];
+  if (characterizationIds.length === 0) return {};
 
-  return latest?.settings.targets ?? {};
+  const db = await getDb();
+  const [latest] = await db
+    .select()
+    .from(analyses)
+    .where(
+      and(
+        eq(analyses.kind, kind),
+        inArray(analyses.characterizationId, characterizationIds)
+      )
+    )
+    .orderBy(desc(analyses.updatedAt))
+    .limit(1);
+
+  return latest ? toAnalysis(latest).settings.targets : {};
 };
 
 /**
@@ -81,11 +111,13 @@ export const latestTargets = async (
 export const deleteAnalysesOf = async (
   characterizationIds: string[]
 ): Promise<number> => {
-  const before = analyses.length;
-  const kept = analyses.filter(
-    item => !characterizationIds.includes(item.characterizationId)
-  );
-  analyses.splice(0, analyses.length, ...kept);
+  if (characterizationIds.length === 0) return 0;
 
-  return before - analyses.length;
+  const db = await getDb();
+  const removed = await db
+    .delete(analyses)
+    .where(inArray(analyses.characterizationId, characterizationIds))
+    .returning({ id: analyses.id });
+
+  return removed.length;
 };

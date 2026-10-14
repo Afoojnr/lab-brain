@@ -1,6 +1,6 @@
-import type { DerivedColumn } from '../types';
+import type { DerivedColumn } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6.
+// Demo data, seeded into the database.
 //
 // An example calculated column on the ALD experiment: the growth per cycle in
 // Å, from the thickness (demo-parameter-15, nm) and cycles (demo-parameter-5).

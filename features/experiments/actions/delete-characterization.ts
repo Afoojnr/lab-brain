@@ -4,7 +4,10 @@ import { revalidatePath } from 'next/cache';
 
 import { getStorage } from '@/lib/storage';
 
-import { deleteCharacterization } from '../data/characterizations';
+import {
+  deleteCharacterization,
+  getCharacterizationOfSample
+} from '../data/characterizations';
 import {
   deleteDataset,
   listDatasetsByCharacterization
@@ -32,16 +35,20 @@ export const deleteCharacterizationAction = async (
     return false;
   }
 
-  const wasDeleted = await deleteCharacterization(sampleId, characterizationId);
-  if (!wasDeleted) return false;
+  if (!(await getCharacterizationOfSample(sampleId, characterizationId))) {
+    return false;
+  }
 
-  // Its files go with it: the record, then the file in storage.
+  // Its files go with it: the file in storage first, then the record (which
+  // also removes the file records).
   for (const dataset of await listDatasetsByCharacterization(
     characterizationId
   )) {
     await getStorage().delete(dataset.storagePath);
     await deleteDataset(dataset.id);
   }
+  const wasDeleted = await deleteCharacterization(sampleId, characterizationId);
+  if (!wasDeleted) return false;
 
   revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);
   revalidatePath(

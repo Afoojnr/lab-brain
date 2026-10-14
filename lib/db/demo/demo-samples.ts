@@ -1,7 +1,7 @@
-import type { Sample } from '../types';
+import type { Sample } from './types';
 import { DEMO_SWEEP_SAMPLES } from './demo-samples-sweep';
 
-// TODO: demo data, replace with Drizzle in Step 6.
+// Demo data, seeded into the database.
 //
 // EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS (thickness and B/C ratio on the
 // first samples are placeholders too): every number and text below is

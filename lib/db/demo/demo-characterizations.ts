@@ -1,6 +1,6 @@
-import type { Characterization } from '../types';
+import type { Characterization } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6. Technique names are the
+// Demo data, seeded into the database. Technique names are the
 // owner's own examples; the app itself never assumes a technique.
 //
 // EXAMPLE RECORDS ONLY, NOT REAL MEASUREMENTS: the dates and notes are

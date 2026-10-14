@@ -31,7 +31,7 @@ import { addReferenceAction } from './add-reference';
 import { deleteReferenceAction } from './delete-reference';
 import { updateReferenceAction } from './update-reference';
 
-const PROJECT = 'project-1';
+const PROJECT = 'demo-project-1';
 const TEXT =
   'The plasma pulse changes the growth per cycle of boron carbide films grown by ALD.';
 
@@ -60,7 +60,7 @@ beforeEach(async () => {
   vi.clearAllMocks();
   files.clear();
   vi.mocked(getProjectById).mockResolvedValue({ id: PROJECT } as never);
-  // The in-memory list is shared, so every test starts from an empty project.
+  // The database is shared by the tests of this file, so every test starts from an empty project.
   for (const reference of await listReferencesByProject(PROJECT)) {
     await deleteReferenceAction(PROJECT, reference.id);
   }

@@ -1,33 +1,34 @@
-import type { ParameterDefinition, ParameterInput } from '../types';
-import { DEMO_PARAMETER_DEFINITIONS } from './demo-parameters';
+import { and, eq, max, sql } from 'drizzle-orm';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as { __labBrainDefinitions?: ParameterDefinition[] };
-const definitions: ParameterDefinition[] = (store.__labBrainDefinitions ??= [
-  ...DEMO_PARAMETER_DEFINITIONS
-]);
+import { getDb } from '@/lib/db/client';
+import { parameterDefinitions } from '@/lib/db/schema';
+
+import type { ParameterDefinition, ParameterInput } from '../types';
+
+const emptyToNull = (text: string): string | null =>
+  text === '' ? null : text;
 
 /**
  * An experiment's columns in display order: parameters first, then results,
  * each in the order they were added.
  *
  * @param experimentId - Owning experiment's id.
- * @returns A copy of the list, so callers cannot mutate storage.
  */
 export const listParameterDefinitions = async (
   experimentId: string
-): Promise<ParameterDefinition[]> =>
-  definitions
-    .filter(definition => definition.experimentId === experimentId)
-    .sort(
-      (a, b) =>
-        Number(a.role === 'result') - Number(b.role === 'result') ||
-        a.position - b.position
+): Promise<ParameterDefinition[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(parameterDefinitions)
+    .where(eq(parameterDefinitions.experimentId, experimentId))
+    .orderBy(
+      sql`${parameterDefinitions.role} = 'result'`,
+      parameterDefinitions.position,
+      sql`rowid`
     );
+};
 
 /**
  * Adds a parameter at the end of an experiment's columns. Input must already be
@@ -42,22 +43,23 @@ export const createParameterDefinition = async (
   experimentId: string,
   input: ParameterInput
 ): Promise<ParameterDefinition> => {
-  const existing = await listParameterDefinitions(experimentId);
+  const db = await getDb();
+  const [last] = await db
+    .select({ position: max(parameterDefinitions.position) })
+    .from(parameterDefinitions)
+    .where(eq(parameterDefinitions.experimentId, experimentId));
   const definition: ParameterDefinition = {
     id: crypto.randomUUID(),
     experimentId,
     name: input.name,
-    unit: input.unit === '' ? null : input.unit,
+    unit: emptyToNull(input.unit),
     kind: input.kind,
     role: input.role,
     defaultValue: input.defaultValue,
-    position:
-      existing.length === 0
-        ? 0
-        : Math.max(...existing.map(item => item.position)) + 1
+    position: last?.position === null || !last ? 0 : last.position + 1
   };
+  await db.insert(parameterDefinitions).values(definition);
 
-  definitions.push(definition);
   return definition;
 };
 
@@ -74,22 +76,24 @@ export const updateParameterDefinition = async (
   id: string,
   input: ParameterInput
 ): Promise<ParameterDefinition | undefined> => {
-  const index = definitions.findIndex(
-    definition =>
-      definition.id === id && definition.experimentId === experimentId
-  );
-  const existing = definitions[index];
-  if (!existing) return undefined;
+  const db = await getDb();
+  const [updated] = await db
+    .update(parameterDefinitions)
+    .set({
+      name: input.name,
+      unit: emptyToNull(input.unit),
+      kind: input.kind,
+      role: input.role,
+      defaultValue: input.defaultValue
+    })
+    .where(
+      and(
+        eq(parameterDefinitions.id, id),
+        eq(parameterDefinitions.experimentId, experimentId)
+      )
+    )
+    .returning();
 
-  const updated: ParameterDefinition = {
-    ...existing,
-    name: input.name,
-    unit: input.unit === '' ? null : input.unit,
-    kind: input.kind,
-    role: input.role,
-    defaultValue: input.defaultValue
-  };
-  definitions[index] = updated;
   return updated;
 };
 
@@ -104,14 +108,18 @@ export const deleteParameterDefinition = async (
   experimentId: string,
   id: string
 ): Promise<boolean> => {
-  const index = definitions.findIndex(
-    definition =>
-      definition.id === id && definition.experimentId === experimentId
-  );
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(parameterDefinitions)
+    .where(
+      and(
+        eq(parameterDefinitions.id, id),
+        eq(parameterDefinitions.experimentId, experimentId)
+      )
+    )
+    .returning({ id: parameterDefinitions.id });
 
-  definitions.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };
 
 /**
@@ -123,9 +131,11 @@ export const deleteParameterDefinition = async (
 export const deleteDefinitionsOfExperiment = async (
   experimentId: string
 ): Promise<number> => {
-  const before = definitions.length;
-  const kept = definitions.filter(item => item.experimentId !== experimentId);
-  definitions.splice(0, definitions.length, ...kept);
+  const db = await getDb();
+  const removed = await db
+    .delete(parameterDefinitions)
+    .where(eq(parameterDefinitions.experimentId, experimentId))
+    .returning({ id: parameterDefinitions.id });
 
-  return before - definitions.length;
+  return removed.length;
 };

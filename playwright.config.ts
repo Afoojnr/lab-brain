@@ -1,4 +1,22 @@
+import { cpSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+
 import { defineConfig, devices } from '@playwright/test';
+
+const port = process.env.E2E_PORT ?? '3000';
+
+// Each run gets its own empty database (seeded with the example data) and its
+// own storage folder holding the example files, so test projects never pile up
+// in the developer's own data.
+const runFolder = mkdtempSync(path.join(tmpdir(), 'lab-brain-e2e-'));
+cpSync(
+  path.join(process.cwd(), 'lib', 'db', 'demo', 'files'),
+  path.join(runFolder, 'storage', 'demo'),
+  {
+    recursive: true
+  }
+);
 
 /**
  * Read environment variables from file.
@@ -32,7 +50,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://localhost:${port}`,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
@@ -71,10 +89,19 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'yarn dev',
-    url: 'http://localhost:3000',
+    // E2E_PROD=true runs a production build (`yarn build` first) and E2E_PORT
+    // picks another port, so a dev server you have open is left alone.
+    command: process.env.E2E_PROD
+      ? `yarn start -p ${port}`
+      : `yarn dev -p ${port}`,
+    url: `http://localhost:${port}`,
     // The assistant answers with a built-in stand-in, so no test needs a real key.
-    env: { LAB_BRAIN_MOCK_AI: 'true' },
+    env: {
+      LAB_BRAIN_MOCK_AI: 'true',
+      LAB_BRAIN_DATA_DIR: path.join(runFolder, 'data'),
+      LAB_BRAIN_STORAGE_DIR: path.join(runFolder, 'storage'),
+      LAB_BRAIN_SEED_DEMO: 'true'
+    },
     reuseExistingServer: !process.env.CI
   }
 });

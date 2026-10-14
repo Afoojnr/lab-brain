@@ -1,6 +1,6 @@
-import type { Experiment } from '../types';
+import type { Experiment } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6. The experiment and prefixes
+// Demo data, seeded into the database. The experiment and prefixes
 // are the owner's own examples (one sheet per kind of sample). Only the first
 // experiment has a protocol, and it is a labelled placeholder.
 export const DEMO_EXPERIMENTS: Experiment[] = [

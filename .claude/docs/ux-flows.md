@@ -500,3 +500,21 @@ Settings (key) → Project/Experiment page → floating Ask AI → side panel �
 - **Citations always say where they came from.** Your own data and external
   literature are never presented as one undifferentiated source — trust depends on
   being able to tell which is which at a glance.
+
+## Flow 5d — Data folder and backups (built)
+
+**Goal:** keep everything on the owner's computer and have it saved to their shared drive.
+
+1. **Settings → Data folder** (not on the public demo): **Choose folder** opens a folder
+   browser (click through folders, **Up one level**, **New folder**, **Select this folder**;
+   it lists folder names only). The full path can also be typed or pasted. The folder is
+   checked at once: whether it works and whether it already holds Lab Brain files or backups.
+2. A **Lab Brain** folder is created inside the picked one (shown before applying), holding
+   `files` and `backups`; one that already exists is used and nothing in it is replaced.
+   Choose what happens to the files already kept: **Copy them there** (each is checked, the
+   originals stay, nothing already there is replaced) or **Use the folder as it is**.
+   A first backup is made at once.
+3. The database stays on the local disk; a copy is saved to `<folder>/backups` every 10
+   minutes while something changed (last 30 per computer kept). **Back up now** is there too.
+4. **Restore** lists the backups of every computer using the folder, asks once, keeps a copy
+   of the current database on this computer, then restores.
