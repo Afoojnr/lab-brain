@@ -1,0 +1,25 @@
+# Render blueprint for the public demo: one always-on process, so every visit
+# sees the same data (unlike serverless hosts, which run several copies).
+#
+# The demo keeps its data in a temporary folder, so it starts empty after each
+# deploy or restart. Add example data with the button in the app.
+#
+# On the free plan the service sleeps after about 15 minutes without a request.
+# Ping /api/health every 10 minutes (a cron or uptime service) to keep it awake.
+services:
+  - type: web
+    name: lab-brain-demo
+    runtime: node
+    plan: free
+    buildCommand: yarn install --frozen-lockfile && yarn build
+    startCommand: yarn start
+    healthCheckPath: /api/health
+    envVars:
+      - key: LAB_BRAIN_DEMO
+        value: 'true'
+      # package.json asks for Node 24 or newer.
+      - key: NODE_VERSION
+        value: '24'
+      # No git hooks on the server.
+      - key: HUSKY
+        value: '0'
