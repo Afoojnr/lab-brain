@@ -1,0 +1,33 @@
+# Lab Brain on your own machine or server:
+#
+#   docker compose up --build -d
+#   open http://localhost:3000
+#
+# Your records (SQLite database) and uploaded files live in the two named
+# volumes below, so they survive updates (`docker compose up --build -d`).
+# To keep files or backups in a folder you choose (for example one your cloud
+# drive syncs), replace a named volume with a path, e.g.
+#   - /home/me/Nextcloud/Lab Brain/files:/storage
+services:
+  lab-brain:
+    build: .
+    image: lab-brain
+    ports:
+      - '3000:3000'
+    environment:
+      # The address people use to reach it (link previews). Optional.
+      LAB_BRAIN_SITE_URL: http://localhost:3000
+      # Copies of the database are written here every 10 minutes while it
+      # changed (the last 30 are kept). Mount this somewhere synced to have
+      # them saved off the machine; Settings > Backups can restore them.
+      LAB_BRAIN_BACKUP_DIR: /backups
+    volumes:
+      - lab-brain-data:/data
+      - lab-brain-files:/storage
+      - lab-brain-backups:/backups
+    restart: unless-stopped
+
+volumes:
+  lab-brain-data:
+  lab-brain-files:
+  lab-brain-backups:

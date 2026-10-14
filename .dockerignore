@@ -1,0 +1,23 @@
+# Keep the build context small, and secrets and local data out of the image.
+.git
+.github
+.husky
+.claude
+node_modules
+.next
+.vercel
+coverage
+test-results
+playwright-report
+blob-report
+e2e
+
+# Local data and keys: never baked into an image.
+data
+storage
+.env
+.env.*
+!.env.example
+
+*.log
+.DS_Store

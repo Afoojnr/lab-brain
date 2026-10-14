@@ -70,8 +70,15 @@ const parseName = (name: string): Omit<BackupFile, 'sizeBytes'> | null => {
   };
 };
 
-/** The folder backups are written to, or null when no data folder is chosen. */
+/**
+ * The folder backups are written to: `LAB_BRAIN_BACKUP_DIR` when the server's
+ * owner set one (a mounted volume in Docker, where the data folder cannot be
+ * chosen in Settings), else the chosen data folder's `backups` folder, else null
+ * (nothing is backed up).
+ */
 export const getBackupFolder = (): string | null => {
+  if (process.env.LAB_BRAIN_BACKUP_DIR) return process.env.LAB_BRAIN_BACKUP_DIR;
+
   const { dataFolder } = readLocalSettings();
 
   return dataFolder ? path.join(dataFolder, BACKUPS_FOLDER) : null;
