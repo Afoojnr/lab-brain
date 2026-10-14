@@ -20,7 +20,24 @@
     "test": "Test connection",
     "testing": "Testing…",
     "works": "It works.",
-    "privacy": "What you ask, and the notes, values and references the assistant reads to answer, are sent to the provider you choose. With Ollama they stay on this computer."
+    "privacy": "What you ask, and the notes, values and references the assistant reads to answer, are sent to the provider you choose. With Ollama they stay on this computer.",
+    "zeroRetention": "Zero data retention only",
+    "zeroRetentionHint": "Stricter than \"do not train\": only providers that promise to keep nothing. Some models have none, and then the question fails with a message saying so.",
+    "privacyHeading": "Your data and this provider",
+    "privacyBy": {
+      "anthropic": "The app cannot switch a \"do not train\" setting for Claude. Anthropic says it does not train on data sent through its API by default; check its policy.",
+      "openai": "The app cannot switch a \"do not train\" setting for OpenAI. OpenAI says data sent through its API is not used for training by default; check its policy.",
+      "openrouter": "The app always asks OpenRouter to use only providers that do not collect or train on your prompts. That is a request based on each provider's stated policy; it does not promise zero retention unless the box above is ticked.",
+      "ollama": "Ollama runs on this computer: nothing you ask or any record leaves it."
+    },
+    "policy": "Read the provider's policy",
+    "ollamaHelp": {
+      "title": "How to set up Ollama",
+      "install": "Install Ollama: download it from ollama.com/download (macOS, Windows or Linux). On macOS you can also run <code>brew install ollama</code>; on Linux, <code>curl -fsSL https://ollama.com/install.sh | sh</code>.",
+      "pull": "Download a model that can use tools, for example <code>ollama pull qwen2.5:7b</code> (a few GB to download, about 8 GB of free memory to run). Small 3B models often cannot use the assistant's lookups. More tool-capable models: ollama.com/search?c=tools.",
+      "run": "Keep it running: open the Ollama app, or run <code>ollama serve</code> in a terminal. Type the model name above and press Test connection.",
+      "smallModels": "Small local models often cannot use the lookups, so answers may not be based on your records. Try a larger model, or Claude or OpenAI."
+    }
   },
   "errors": {
     "notReady": "Enter a key and a model first (Ollama needs a model and a local address).",
@@ -31,7 +48,8 @@
     "unreachable": "The provider could not be reached. Check your internet connection (or that Ollama is running).",
     "timeout": "The provider took too long to answer. Try again.",
     "failed": "The AI could not answer. Check the settings and try again.",
-    "noCredit": "The provider says the account has no credit left. Add credit on the provider's billing page, then try again."
+    "noCredit": "The provider says the account has no credit left. Add credit on the provider's billing page, then try again.",
+    "noPrivateProvider": "No provider for this model accepts your privacy setting. Choose another model, or turn off \"Zero data retention only\"."
   },
   "chat": {
     "title": "Assistant",

@@ -19,6 +19,7 @@ import type { AnalysisIds } from '../hooks/use-analysis-run';
 import { defaultFtirSettings } from '../techniques/ftir/defaults';
 import { processSpectrum } from '../techniques/ftir/process';
 import { ftirValues } from '../techniques/ftir/values';
+import type { FtirBond } from '../techniques/ftir/types';
 import type { AnalysisSettings } from '../types';
 import { FtirWorkbench } from './ftir-workbench';
 import { ResultsPanel } from './results-panel';
@@ -31,6 +32,8 @@ type FtirAnalysisProps = {
   currentValues: Record<string, number | string>;
   /** Names exported files and titles the figure, e.g. the sample and technique. */
   exportTitle?: string;
+  /** The user's bond table, to suggest what each peak may be. */
+  bonds?: FtirBond[];
 };
 
 /**
@@ -44,7 +47,8 @@ export const FtirAnalysis = ({
   initialSettings,
   columns,
   currentValues,
-  exportTitle
+  exportTitle,
+  bonds
 }: FtirAnalysisProps) => {
   const t = useTranslations('analysis.ftir');
   const [settings, setSettings] = useState(initialSettings);
@@ -105,6 +109,7 @@ export const FtirAnalysis = ({
             }))}
             settings={ftir}
             title={exportTitle}
+            bonds={bonds}
             onChange={next =>
               setSettings(current => ({ ...current, ftir: next }))
             }

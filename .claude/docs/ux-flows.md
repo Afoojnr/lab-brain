@@ -207,8 +207,9 @@ entry possible.
    SNV); a normalised value is labelled relative, and the file is never changed.
    **Detect peaks** suggests them (sensitivity, closest spacing and search range are
    shown and adjustable); you remove the noise, add missed ones by clicking the spectrum or
-   typing a position, and write the bond or label (free text; a table to match bonds
-   automatically comes later, from a source you provide). Each peak's value is read within
+   typing a position, and write the bond or label (free text). A peak also offers, as
+   suggestions you click, the bonds of your **bond table** whose range holds it (see
+   below); nothing is applied automatically. Each peak's value is read within
    a tolerance (default ±10 cm⁻¹); a spectrum with no data there shows none, never 0.
 5. **Send to results**: tick the values (defaults: the ratio, B, N, C, O and the
    substrate for EDX; thickness and n for ellipsometry, each with its std), choose
@@ -233,6 +234,16 @@ entry possible.
      per sample), curate one list of peaks for the whole stack, choose which peak values
      go to which result columns, see what each sample would change, and apply. A sample
      with no data near a chosen peak cannot be updated.
+   - **FTIR bond table** (FTIR workspace → Bond table tab): one table for the whole app
+     of the bonds you look for: the name a peak's label becomes, the range in cm⁻¹ (a
+     single position leaves To empty), and a free-text source. The app ships none: you fill
+     it by the Add a bond form, or paste rows (from Excel or CSV text) or import a CSV or
+     Excel file. The first row names the columns (Bond, From (cm-1), To (cm-1), Source, in
+     any order; Bond and From required), numbers use a point or a comma, and a template can
+     be downloaded. A preview lists good rows and, for each unusable row, its number and
+     column (text where a number belongs, From above To, a repeat, a missing bond); bad
+     rows are never saved. Then Add (the default) or Replace the table (asks again).
+     Deleting a bond asks first and leaves labels already written on peaks as they are.
 7. **Plots** (sidebar → Plots), with two sources like the technique workspaces:
    - **Upload a table**: a CSV or Excel table that is not in any experiment. It is
      read in the browser and nothing is saved. The header row is found

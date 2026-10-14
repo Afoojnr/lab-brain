@@ -51,3 +51,23 @@ export type FtirSettings = {
   /** The peaks to measure, curated by the user. */
   peaks: FtirPeak[];
 };
+
+/**
+ * A bond the user looks for: what to call a peak, the range of wavenumbers it
+ * appears in, and where that range comes from. The app ships none: the user
+ * fills the table, so every range has a source they trust.
+ */
+export type FtirBond = {
+  id: string;
+  /** What a matching peak's label becomes, e.g. "B–C stretch". */
+  bond: string;
+  /** Lowest wavenumber (cm⁻¹) of the range. */
+  from: number;
+  /** Highest wavenumber (cm⁻¹); equal to `from` for a single position. */
+  to: number;
+  /** Where the range comes from (a paper, a book, a note); empty when not given. */
+  source: string;
+};
+
+/** A bond as typed or imported, before it gets an id. */
+export type FtirBondInput = Omit<FtirBond, 'id'>;

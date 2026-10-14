@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 import { defaultFtirSettings } from '../techniques/ftir/defaults';
 import { parseSpectrum } from '../techniques/ftir/parse';
-import type { FtirSettings } from '../techniques/ftir/types';
+import type { FtirBond, FtirSettings } from '../techniques/ftir/types';
 import { isFtirFile, readTextFiles } from '../upload/read-files';
 import { FtirWorkbench } from './ftir-workbench';
 
@@ -20,7 +20,7 @@ type Read = ReturnType<typeof parseSpectrum>;
  * them to compare, detect and curate peaks, and download the value at each peak
  * as Excel. The files are read in the browser; nothing is uploaded.
  */
-export const UploadFtir = () => {
+export const UploadFtir = ({ bonds }: { bonds?: FtirBond[] }) => {
   const t = useTranslations('analysis.workspace.upload');
   const tFtir = useTranslations('analysis.ftir');
   const [files, setFiles] = useState<{ name: string; read: Read }[] | null>(
@@ -109,6 +109,7 @@ export const UploadFtir = () => {
           settings={settings}
           onChange={setSettings}
           actions={startOver}
+          bonds={bonds}
         />
       )}
     </div>

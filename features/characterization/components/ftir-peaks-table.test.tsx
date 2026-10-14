@@ -96,3 +96,61 @@ describe('FtirPeaksTable', () => {
     ]);
   });
 });
+
+describe('FtirPeaksTable: bond suggestions', () => {
+  // Made-up rows for tests only: not real assignments.
+  const BONDS = [
+    { id: 'a', bond: 'Range A', from: 1090, to: 1110, source: 'a test note' },
+    { id: 'c', bond: 'Elsewhere', from: 2000, to: 2100, source: '' }
+  ];
+  const withBonds = (peaks: FtirPeak[], onChange = vi.fn()) => {
+    render(
+      <NextIntlClientProvider locale="en" messages={en}>
+        <FtirPeaksTable
+          peaks={peaks}
+          spectra={[SPECTRUM]}
+          tolerance={10}
+          bonds={BONDS}
+          onChange={onChange}
+        />
+      </NextIntlClientProvider>
+    );
+
+    return onChange;
+  };
+
+  it('offers the bonds whose range holds the peak, and nothing for a peak outside every range', () => {
+    withBonds([
+      { id: 'p', position: 1100, label: '' },
+      { id: 'q', position: 1500, label: '' }
+    ]);
+
+    expect(
+      screen.getAllByRole('button', { name: 'Use Range A (1090–1110)' })
+    ).toHaveLength(1);
+    expect(screen.queryByText('Elsewhere (2000–2100)')).toBeNull();
+    expect(screen.getAllByText(t.suggested)).toHaveLength(1);
+  });
+
+  it('fills the label only when the user picks a suggestion, and shows its source on hover', async () => {
+    const user = userEvent.setup();
+    const onChange = withBonds([{ id: 'p', position: 1100, label: '' }]);
+
+    const suggestion = screen.getByRole('button', {
+      name: 'Use Range A (1090–1110)'
+    });
+    expect(suggestion).toHaveAttribute('title', 'a test note');
+    expect(onChange).not.toHaveBeenCalled();
+    await user.click(suggestion);
+
+    expect(onChange).toHaveBeenCalledWith([
+      { id: 'p', position: 1100, label: 'Range A' }
+    ]);
+  });
+
+  it('does not offer a bond the peak is already labelled with', () => {
+    withBonds([{ id: 'p', position: 1100, label: 'Range A' }]);
+
+    expect(screen.queryByText(t.suggested)).toBeNull();
+  });
+});

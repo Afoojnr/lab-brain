@@ -80,3 +80,19 @@ export const batchPayloadSchema = z.object({
 });
 
 export type BatchPayload = z.infer<typeof batchPayloadSchema>;
+
+/** One bond of the user's FTIR table as sent to the server; it checks everything again. */
+export const ftirBondSchema = z
+  .object({
+    bond: z.string().trim().min(1).max(100),
+    from: z.number().finite(),
+    to: z.number().finite(),
+    source: z.string().trim().max(200)
+  })
+  .refine(item => item.from <= item.to);
+
+/** A pasted or imported table: at most 500 bonds, however it is saved. */
+export const ftirBondImportSchema = z.object({
+  mode: z.enum(['add', 'replace']),
+  bonds: z.array(ftirBondSchema).min(1).max(500)
+});

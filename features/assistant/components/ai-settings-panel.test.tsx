@@ -93,7 +93,71 @@ describe('AiSettingsPanel', () => {
     expect(screen.getByLabelText(t.settings.address)).toHaveValue(
       'http://localhost:11434/v1'
     );
-    expect(screen.getByLabelText(t.settings.model)).toHaveValue('llama3.1');
+    expect(screen.getByLabelText(t.settings.model)).toHaveValue('qwen2.5:7b');
     expect(screen.getByRole('button', { name: t.settings.test })).toBeEnabled();
+  });
+
+  const choose = async (
+    user: ReturnType<typeof renderPanel>,
+    provider: keyof typeof t.settings.providers
+  ) => {
+    await user.click(screen.getByLabelText(t.settings.provider));
+    await user.click(
+      await screen.findByRole('option', {
+        name: t.settings.providers[provider]
+      })
+    );
+  };
+
+  it("says what the app can and cannot do about data for the chosen provider, with the provider's own policy", async () => {
+    const user = renderPanel();
+
+    expect(
+      screen.getByText(/cannot switch a "do not train" setting for Claude/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: t.settings.policy })
+    ).toHaveAttribute('href', expect.stringContaining('anthropic.com'));
+
+    await choose(user, 'openrouter');
+    expect(
+      screen.getByText(
+        /always asks OpenRouter to use only providers that do not collect/
+      )
+    ).toBeInTheDocument();
+
+    await choose(user, 'ollama');
+    expect(
+      screen.getByText(/nothing you ask or any record leaves it/)
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: t.settings.policy })).toBeNull();
+  });
+
+  it('offers zero data retention only for OpenRouter, and saves the choice', async () => {
+    const user = renderPanel();
+    expect(
+      screen.queryByRole('checkbox', { name: t.settings.zeroRetention })
+    ).toBeNull();
+
+    await choose(user, 'openrouter');
+    const box = screen.getByRole('checkbox', {
+      name: t.settings.zeroRetention
+    });
+    expect(box).not.toBeChecked();
+    await user.click(box);
+
+    expect(box).toBeChecked();
+  });
+
+  it('shows how to install Ollama and which model to pull, only for Ollama', async () => {
+    const user = renderPanel();
+    expect(screen.queryByText(t.settings.ollamaHelp.title)).toBeNull();
+
+    await choose(user, 'ollama');
+    await user.click(screen.getByText(t.settings.ollamaHelp.title));
+
+    expect(screen.getByText(/ollama.com\/download/)).toBeVisible();
+    expect(screen.getByText('ollama pull qwen2.5:7b')).toBeVisible();
+    expect(screen.getByText(/Small 3B models often cannot use/)).toBeVisible();
   });
 });

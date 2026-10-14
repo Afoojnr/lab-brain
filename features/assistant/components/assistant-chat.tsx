@@ -39,6 +39,7 @@ const EXAMPLES = ['example1', 'example2', 'example3'] as const;
 export const AssistantChat = ({ scope }: { scope: ChatScope }) => {
   const t = useTranslations('assistant.chat');
   const tErrors = useTranslations('assistant.errors');
+  const tSettings = useTranslations('assistant.settings');
   const [settings] = useAiSettings();
   const [draft, setDraft] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
@@ -153,6 +154,8 @@ export const AssistantChat = ({ scope }: { scope: ChatScope }) => {
                             className="mt-0.5 size-3.5 shrink-0"
                           />
                           {t('noRecords')}
+                          {settings.provider === 'ollama' &&
+                            ` ${tSettings('ollamaHelp.smallModels')}`}
                         </p>
                       )}
                       {sources.length > 0 && (

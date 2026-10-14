@@ -17,8 +17,9 @@ import {
 
 import { formatValue } from '../analysis/results';
 import type { ProcessedSpectrum } from '../techniques/ftir/process';
+import { bondLabel, matchBonds } from '../techniques/ftir/bonds';
 import { strongestNear } from '../techniques/ftir/transform';
-import type { FtirPeak } from '../techniques/ftir/types';
+import type { FtirBond, FtirPeak } from '../techniques/ftir/types';
 import { ftirUnit } from '../techniques/ftir/values';
 import { FtirNumberField } from './ftir-number-field';
 
@@ -27,6 +28,8 @@ type FtirPeaksTableProps = {
   /** Each spectrum, processed as chosen, to read a value at every peak. */
   spectra: { id: string; label: string; processed: ProcessedSpectrum }[];
   tolerance: number;
+  /** The user's bond table, to suggest what a peak may be; empty offers nothing. */
+  bonds?: FtirBond[];
   onChange: (peaks: FtirPeak[]) => void;
 };
 
@@ -39,6 +42,7 @@ export const FtirPeaksTable = ({
   peaks,
   spectra,
   tolerance,
+  bonds = [],
   onChange
 }: FtirPeaksTableProps) => {
   const t = useTranslations('analysis.ftir.peaks');
@@ -73,6 +77,10 @@ export const FtirPeaksTable = ({
           <TableBody>
             {sorted.map(peak => {
               const shown = String(Number(peak.position.toFixed(1)));
+              // Offered, never applied: the user picks. A bond already used as the label is not offered again.
+              const suggestions = matchBonds(peak.position, bonds, tolerance)
+                .filter(item => item.bond !== peak.label)
+                .slice(0, 3);
 
               return (
                 <TableRow key={peak.id}>
@@ -87,15 +95,39 @@ export const FtirPeaksTable = ({
                     />
                   </TableCell>
                   <TableCell>
-                    <Input
-                      aria-label={t('bondFor', { position: shown })}
-                      placeholder={t('bondPlaceholder')}
-                      maxLength={100}
-                      value={peak.label}
-                      onChange={event =>
-                        change(peak.id, { label: event.target.value })
-                      }
-                    />
+                    <div className="grid gap-1.5">
+                      <Input
+                        aria-label={t('bondFor', { position: shown })}
+                        placeholder={t('bondPlaceholder')}
+                        maxLength={100}
+                        value={peak.label}
+                        onChange={event =>
+                          change(peak.id, { label: event.target.value })
+                        }
+                      />
+                      {suggestions.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-1 text-xs">
+                          <span className="text-muted-foreground">
+                            {t('suggested')}
+                          </span>
+                          {suggestions.map(item => (
+                            <Button
+                              key={item.id}
+                              type="button"
+                              variant="outline"
+                              size="xs"
+                              title={item.source || undefined}
+                              aria-label={t('use', { bond: bondLabel(item) })}
+                              onClick={() =>
+                                change(peak.id, { label: item.bond })
+                              }
+                            >
+                              {bondLabel(item)}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </TableCell>
                   {spectra.map(spectrum => {
                     const point = strongestNear(

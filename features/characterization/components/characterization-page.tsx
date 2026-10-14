@@ -16,6 +16,7 @@ import {
 } from '@/features/experiments/server';
 
 import { getAnalysis, latestTargets } from '../data/analyses';
+import { listBonds } from '../data/ftir-bonds';
 import { defaultSettings, suggestKind } from '../analysis/defaults';
 import { loadEdxSpots, loadFtirSpectra, loadSeqfits } from '../analysis/load';
 import { analysisKindSchema } from '../schemas';
@@ -134,6 +135,7 @@ export const CharacterizationPage = async ({
           columns={columns}
           currentValues={sample.values}
           exportTitle={`${sample.code} · ${characterization.technique}`}
+          bonds={await listBonds()}
         />
       );
     }

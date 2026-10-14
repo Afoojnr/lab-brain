@@ -182,3 +182,68 @@ test('compares the FTIR measurements of an experiment and sends peak values to a
       .getByRole('columnheader', { name: /^11\d\d cm⁻¹/ })
   ).toBeVisible();
 });
+
+test('keeps a bond table you fill by hand or paste, and offers its bonds for detected peaks', async ({
+  page
+}) => {
+  // The table is shared by the whole app, so every name here is unique to this run.
+  const unique = Date.now().toString().slice(-6);
+  const typed = `Typed ${unique}`;
+  const pasted = `Pasted ${unique}`;
+
+  await page.goto('/characterization/ftir?source=bonds');
+  await expect(
+    page.getByRole('heading', { name: 'Bond table', exact: true })
+  ).toBeVisible();
+
+  // By hand: a range with its source.
+  await page.getByRole('button', { name: 'Add a bond' }).first().click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByLabel('Bond or label').fill(typed);
+  await dialog.getByLabel('From (cm⁻¹)').fill('1050');
+  await dialog.getByLabel('To (cm⁻¹)').fill('1150');
+  await dialog.getByLabel('Source').fill('my own note');
+  await dialog.getByRole('button', { name: 'Save bond' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(
+    page.getByRole('cell', { name: typed, exact: true })
+  ).toBeVisible();
+
+  // By pasting (tab-separated, as copied from Excel): one good row, one bad.
+  await page
+    .getByLabel('Paste rows')
+    .fill(
+      `Bond\tFrom (cm-1)\tTo (cm-1)\tSource\n${pasted}\t1380\t\tfrom a book\nBad row\tabout 5\t\t`
+    );
+  await page.getByRole('button', { name: 'Read the table' }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'cannot be used' })
+  ).toContainText('Row 3, From: “about 5” is not a number.');
+  await page.getByRole('button', { name: 'Add 1 bond' }).click();
+  await expect(
+    page.getByRole('cell', { name: pasted, exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByRole('cell', { name: 'Bad row', exact: true })
+  ).toHaveCount(0);
+
+  // A peak near 1100 is offered the typed bond; picking it labels the peak.
+  await page.goto('/characterization/ftir?source=upload');
+  await page
+    .getByLabel('Fit files to analyse')
+    .setInputFiles(file('FAKE-a.csv', 40));
+  await page.getByRole('button', { name: 'Detect peaks' }).click();
+  await expect.poll(() => peakPositions(page)).toHaveLength(2);
+  await page
+    .getByRole('button', { name: new RegExp(`^Use ${typed} \\(1050–1150\\)`) })
+    .click();
+  await expect(page.getByLabel(/Label for the peak at 11/)).toHaveValue(typed);
+
+  // Remove the typed bond: the table drops it, the peak keeps its label.
+  await page.goto('/characterization/ftir?source=bonds');
+  await page.getByRole('button', { name: `Delete ${typed}` }).click();
+  await page.getByRole('button', { name: 'Delete bond' }).click();
+  await expect(
+    page.getByRole('cell', { name: typed, exact: true })
+  ).toHaveCount(0);
+});

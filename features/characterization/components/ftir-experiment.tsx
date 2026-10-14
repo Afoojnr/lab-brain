@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { listParameterDefinitions } from '@/features/experiments/server';
 
 import { getAnalysis, latestTargets } from '../data/analyses';
+import { listBonds } from '../data/ftir-bonds';
 import { loadFtirBatchRows } from '../batch/load-ftir-batch';
 import { defaultFtirSettings } from '../techniques/ftir/defaults';
 import { FtirBatch } from './ftir-batch';
@@ -60,6 +61,7 @@ export const FtirExperiment = async ({
       projectId={projectId}
       experimentId={experimentId}
       exportTitle={`${experimentName} · FTIR`}
+      bonds={await listBonds()}
       rows={rows}
       columns={columns}
       initialSettings={saved?.settings.ftir ?? defaultFtirSettings()}

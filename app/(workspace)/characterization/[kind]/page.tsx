@@ -16,7 +16,7 @@ const TechniquePage = async (props: PageProps<'/characterization/[kind]'>) => {
   return (
     <TechniqueWorkspace
       kind={kind}
-      source={source === 'experiment' ? 'experiment' : 'upload'}
+      source={source === 'experiment' || source === 'bonds' ? source : 'upload'}
       projectId={typeof project === 'string' ? project : undefined}
       experimentId={typeof experiment === 'string' ? experiment : undefined}
     />

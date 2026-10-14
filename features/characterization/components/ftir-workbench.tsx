@@ -15,7 +15,11 @@ import {
 } from '../techniques/ftir/peaks';
 import { processSpectrum } from '../techniques/ftir/process';
 import { guessReading } from '../techniques/ftir/reading';
-import type { FtirSettings, SpectrumPoint } from '../techniques/ftir/types';
+import type {
+  FtirBond,
+  FtirSettings,
+  SpectrumPoint
+} from '../techniques/ftir/types';
 import { ftirSummary } from '../upload/summary-rows';
 import { FtirChart } from './ftir-chart';
 import { FtirControls } from './ftir-controls';
@@ -36,6 +40,8 @@ type FtirWorkbenchProps = {
   title?: string;
   /** Buttons for the page that uses it (like Start over), shown beside Export. */
   actions?: ReactNode;
+  /** The user's bond table, to suggest what each peak may be. */
+  bonds?: FtirBond[];
 };
 
 /**
@@ -49,7 +55,8 @@ export const FtirWorkbench = ({
   settings,
   onChange,
   title,
-  actions
+  actions,
+  bonds
 }: FtirWorkbenchProps) => {
   const t = useTranslations('analysis.ftir');
   const tErrors = useTranslations('errors');
@@ -190,6 +197,7 @@ export const FtirWorkbench = ({
         peaks={settings.peaks}
         spectra={processed}
         tolerance={settings.tolerance}
+        bonds={bonds}
         onChange={peaks => onChange({ ...settings, peaks })}
       />
     </div>

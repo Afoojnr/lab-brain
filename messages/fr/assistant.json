@@ -20,7 +20,24 @@
     "test": "Tester la connexion",
     "testing": "Test…",
     "works": "Ça fonctionne.",
-    "privacy": "Ce que vous demandez, ainsi que les notes, valeurs et références que l'assistant lit pour répondre, sont envoyés au fournisseur que vous choisissez. Avec Ollama, ils restent sur cet ordinateur."
+    "privacy": "Ce que vous demandez, ainsi que les notes, valeurs et références que l'assistant lit pour répondre, sont envoyés au fournisseur que vous choisissez. Avec Ollama, ils restent sur cet ordinateur.",
+    "zeroRetention": "Rétention zéro uniquement",
+    "zeroRetentionHint": "Plus strict que « ne pas entraîner » : seulement des fournisseurs qui promettent de ne rien conserver. Certains modèles n'en ont aucun ; la question échoue alors avec un message qui le dit.",
+    "privacyHeading": "Vos données et ce fournisseur",
+    "privacyBy": {
+      "anthropic": "L'application ne peut pas activer un réglage « ne pas entraîner » pour Claude. Anthropic indique ne pas entraîner ses modèles sur les données envoyées par son API par défaut ; consultez sa politique.",
+      "openai": "L'application ne peut pas activer un réglage « ne pas entraîner » pour OpenAI. OpenAI indique que les données envoyées par son API ne servent pas à l'entraînement par défaut ; consultez sa politique.",
+      "openrouter": "L'application demande toujours à OpenRouter de n'utiliser que des fournisseurs qui ne collectent pas vos requêtes et ne s'en servent pas pour entraîner. C'est une demande fondée sur la politique déclarée de chaque fournisseur ; elle ne promet pas de rétention zéro sauf si la case ci-dessus est cochée.",
+      "ollama": "Ollama fonctionne sur cet ordinateur : rien de ce que vous demandez ni aucun enregistrement n'en sort."
+    },
+    "policy": "Lire la politique du fournisseur",
+    "ollamaHelp": {
+      "title": "Comment installer Ollama",
+      "install": "Installez Ollama : téléchargez-le sur ollama.com/download (macOS, Windows ou Linux). Sur macOS, vous pouvez aussi lancer <code>brew install ollama</code> ; sur Linux, <code>curl -fsSL https://ollama.com/install.sh | sh</code>.",
+      "pull": "Téléchargez un modèle capable d'utiliser des outils, par exemple <code>ollama pull qwen2.5:7b</code> (quelques Go à télécharger, environ 8 Go de mémoire libre pour l'exécuter). Les petits modèles de 3 milliards de paramètres ne savent souvent pas utiliser les recherches de l'assistant. Autres modèles compatibles : ollama.com/search?c=tools.",
+      "run": "Laissez-le tourner : ouvrez l'application Ollama, ou lancez <code>ollama serve</code> dans un terminal. Saisissez le nom du modèle ci-dessus et appuyez sur Tester la connexion.",
+      "smallModels": "Les petits modèles locaux ne savent souvent pas utiliser les recherches : les réponses peuvent ne pas reposer sur vos enregistrements. Essayez un modèle plus grand, ou Claude ou OpenAI."
+    }
   },
   "errors": {
     "notReady": "Saisissez d'abord une clé et un modèle (Ollama demande un modèle et une adresse locale).",
@@ -31,7 +48,8 @@
     "unreachable": "Le fournisseur est injoignable. Vérifiez votre connexion internet (ou qu'Ollama est lancé).",
     "timeout": "Le fournisseur a mis trop de temps à répondre. Réessayez.",
     "failed": "L'IA n'a pas pu répondre. Vérifiez les réglages et réessayez.",
-    "noCredit": "Le fournisseur indique que le compte n'a plus de crédit. Ajoutez du crédit sur sa page de facturation, puis réessayez."
+    "noCredit": "Le fournisseur indique que le compte n'a plus de crédit. Ajoutez du crédit sur sa page de facturation, puis réessayez.",
+    "noPrivateProvider": "Aucun fournisseur de ce modèle n'accepte votre réglage de confidentialité. Choisissez un autre modèle, ou désactivez « Rétention zéro uniquement »."
   },
   "chat": {
     "title": "Assistant",

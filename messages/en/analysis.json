@@ -80,7 +80,8 @@
     "description": "Analyse raw files from the instrument, or the samples of an experiment.",
     "tabs": {
       "upload": "Upload files",
-      "experiment": "From an experiment"
+      "experiment": "From an experiment",
+      "bonds": "Bond table"
     },
     "upload": {
       "edxDescription": "Drop a sample's folder from the microscope, or several. Nothing is uploaded or saved: the files are read in your browser.",
@@ -231,7 +232,9 @@
       "addPosition": "Position of the new peak (cm⁻¹)",
       "add": "Add peak",
       "noValue": "No data near this peak",
-      "valueIn": "Value in {spectrum}"
+      "valueIn": "Value in {spectrum}",
+      "suggested": "Possible bonds:",
+      "use": "Use {bond}"
     },
     "export": {
       "button": "Export",
@@ -250,6 +253,69 @@
       "convertedLine": "Absorbance, converted from percent transmittance (A = 2 − log10 %T)",
       "normalisedLine": "Normalised: {method} (relative values, not absolute amounts)",
       "stackedLine": "Spectra are shifted vertically to compare them; the vertical axis is not to scale."
+    },
+    "bonds": {
+      "title": "Bond table",
+      "description": "The bonds you look for, with the wavenumber range you trust and where it comes from. A detected peak offers the bonds whose range it falls in; you decide what to keep. The app has no built-in list.",
+      "empty": "No bonds yet. Add the ones you look for, or paste or import a table.",
+      "bond": "Bond or label",
+      "from": "From (cm⁻¹)",
+      "to": "To (cm⁻¹)",
+      "source": "Source",
+      "sourcePlaceholder": "A paper, a book, a note",
+      "toHint": "Leave empty for a single position (matched within the tolerance).",
+      "add": "Add a bond",
+      "addTitle": "Add a bond",
+      "editTitle": "Edit bond",
+      "edit": "Edit {bond}",
+      "delete": "Delete {bond}",
+      "deleteTitle": "Delete this bond?",
+      "deleteDescription": "Peaks you already labelled keep their labels.",
+      "confirmDelete": "Delete bond",
+      "cancel": "Cancel",
+      "save": "Save bond",
+      "saved": "Bond saved",
+      "deleted": "Bond deleted",
+      "errors": {
+        "missingBond": "Write what the bond is called.",
+        "missingFrom": "Give the wavenumber.",
+        "notNumber": "This is not a number.",
+        "rangeOrder": "From must not be higher than To.",
+        "duplicate": "This bond and range are already in the table.",
+        "alreadyThere": "This bond and range are already in the table.",
+        "tooMany": "The table is full: it holds at most {max} bonds.",
+        "failed": "The bond could not be saved."
+      },
+      "import": {
+        "title": "Paste or import a table",
+        "format": "The first row names the columns: Bond, From (cm-1), To (cm-1) and Source, in any order. Bond and From are required. Leave To empty for a single position. Source is optional. Numbers may use a point or a comma for decimals. Copy rows from Excel and paste them, or import a CSV or Excel file.",
+        "template": "Download the template",
+        "paste": "Paste rows",
+        "pastePlaceholder": "Bond\tFrom (cm-1)\tTo (cm-1)\tSource",
+        "read": "Read the table",
+        "dropTitle": "Or import a CSV or Excel file",
+        "browse": "Click to choose a file",
+        "fileLabel": "Bond table file",
+        "fileFailed": "This file could not be read as a table.",
+        "ready": "{count, plural, one {# bond is} other {# bonds are}} ready to add.",
+        "problemsTitle": "These rows cannot be used and are left out:",
+        "problems": {
+          "noHeader": "Row {row}: the first row must name the columns; Bond and From are required.",
+          "missingBond": "Row {row}: the bond is empty.",
+          "missingFrom": "Row {row}: From is empty.",
+          "notNumber": "Row {row}, {column}: “{value}” is not a number.",
+          "rangeOrder": "Row {row}: From is higher than To.",
+          "duplicate": "Row {row}: the same bond and range appear twice.",
+          "alreadyThere": "Row {row}: this bond and range are already in the table."
+        },
+        "addButton": "Add {count, plural, one {# bond} other {# bonds}}",
+        "replaceButton": "Replace the table with {count, plural, one {# bond} other {# bonds}}",
+        "confirmReplace": "This removes the {existing, plural, one {# bond} other {# bonds}} now in the table. Replace it?",
+        "confirmYes": "Yes, replace",
+        "added": "{count, plural, one {# bond} other {# bonds}} added",
+        "replaced": "The table now has {count, plural, one {# bond} other {# bonds}}",
+        "failed": "The table could not be saved. Check that no row repeats one already there."
+      }
     }
   }
 }
