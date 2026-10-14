@@ -17,6 +17,9 @@ services:
     envVars:
       - key: LAB_BRAIN_DEMO
         value: 'true'
+      # Absolute address for link previews (Open Graph and Twitter cards).
+      - key: LAB_BRAIN_SITE_URL
+        value: https://lab-brain-demo.onrender.com
       # package.json asks for Node 24 or newer.
       - key: NODE_VERSION
         value: '24'
