@@ -209,10 +209,11 @@ describe('deleteCharacterizationAction', () => {
 
   it('removes no file when the record was not found', async () => {
     withStoredRecords();
-    vi.mocked(deleteCharacterization).mockResolvedValueOnce(false);
+    vi.mocked(getCharacterizationOfSample).mockResolvedValueOnce(undefined);
 
     expect(await run()).toBe(false);
     expect(listDatasetsByCharacterization).not.toHaveBeenCalled();
+    expect(deleteCharacterization).not.toHaveBeenCalled();
   });
 
   it('refreshes nothing when there was no such record', async () => {

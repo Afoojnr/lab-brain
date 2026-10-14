@@ -8,15 +8,21 @@ import {
 
 describe('deleteSavedPlotsOf', () => {
   it("removes an experiment's saved plots and no other experiment's", async () => {
-    const input = { title: 'T' } as never;
-    await createSavedPlot('gone', input);
-    await createSavedPlot('gone', input);
-    await createSavedPlot('kept', input);
+    const input = {
+      name: 'T',
+      settings: {},
+      filters: [],
+      untickedIds: [],
+      style: {}
+    } as never;
+    await createSavedPlot('demo-experiment-1', input);
+    await createSavedPlot('demo-experiment-1', input);
+    await createSavedPlot('demo-experiment-2', input);
 
-    expect(await deleteSavedPlotsOf('gone')).toBe(2);
+    expect(await deleteSavedPlotsOf('demo-experiment-1')).toBe(2);
 
-    expect(await listSavedPlots('gone')).toEqual([]);
-    expect(await listSavedPlots('kept')).toHaveLength(1);
-    expect(await deleteSavedPlotsOf('gone')).toBe(0);
+    expect(await listSavedPlots('demo-experiment-1')).toEqual([]);
+    expect(await listSavedPlots('demo-experiment-2')).toHaveLength(1);
+    expect(await deleteSavedPlotsOf('demo-experiment-1')).toBe(0);
   });
 });

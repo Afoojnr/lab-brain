@@ -90,3 +90,85 @@ export const createLocalStorage = (root: string): StorageAdapter => ({
     return true;
   }
 });
+
+/**
+ * Whether a path on this computer is an existing folder. Used to check a folder
+ * the user typed before the app starts keeping files in it.
+ *
+ * @param folder - An absolute path.
+ */
+export const folderExists = async (folder: string): Promise<boolean> =>
+  stat(folder)
+    .then(info => info.isDirectory())
+    .catch(() => false);
+
+export type FolderEntry = { name: string; path: string };
+
+/**
+ * The folders directly inside a folder, for a folder picker: names only, never
+ * file contents. Hidden folders (starting with a dot) are left out. Null when
+ * the folder cannot be read.
+ *
+ * @param folder - An absolute path.
+ */
+export const listFolders = async (
+  folder: string
+): Promise<FolderEntry[] | null> => {
+  const entries = await readdir(folder, { withFileTypes: true }).catch(
+    () => null
+  );
+  if (!entries) return null;
+
+  const found: FolderEntry[] = [];
+  for (const entry of entries) {
+    if (entry.name.startsWith('.')) continue;
+
+    const full = path.join(folder, entry.name);
+    // A link to a folder counts as a folder.
+    const isFolder =
+      entry.isDirectory() ||
+      (entry.isSymbolicLink() && (await folderExists(full)));
+    if (isFolder) found.push({ name: entry.name, path: full });
+  }
+
+  return found.sort((a, b) => a.name.localeCompare(b.name));
+};
+
+export type CreateFolderResult =
+  | { isOk: true; path: string }
+  | { isOk: false; reason: 'invalidName' | 'exists' | 'cannotCreate' };
+
+/**
+ * Creates one new folder inside an existing one. The name must be a single
+ * folder name: no separators and no `.` or `..`.
+ *
+ * @param parent - An existing absolute folder.
+ * @param name - The new folder's name.
+ */
+export const createFolder = async (
+  parent: string,
+  name: string
+): Promise<CreateFolderResult> => {
+  const trimmed = name.trim();
+  const isInvalid =
+    trimmed === '' ||
+    trimmed === '.' ||
+    trimmed === '..' ||
+    trimmed.length > 200 ||
+    /[\\/\0]/.test(trimmed);
+  if (isInvalid) return { isOk: false, reason: 'invalidName' };
+
+  const target = path.join(parent, trimmed);
+  try {
+    await mkdir(target);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+
+    return {
+      isOk: false,
+      reason: code === 'EEXIST' ? 'exists' : 'cannotCreate'
+    };
+  }
+
+  return { isOk: true, path: target };
+};

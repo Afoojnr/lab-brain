@@ -85,6 +85,9 @@ export const deleteProjectAction = async (
   const project = await getProjectById(projectId);
   if (!project || typedName.trim() !== project.name) return false;
 
+  // References first: their files are found through the records, which the
+  // project's removal takes with it.
+  await deleteReferencesOf(projectId);
   const removed = await removeProject(projectId);
   if (!removed) return false;
 
@@ -92,7 +95,6 @@ export const deleteProjectAction = async (
   for (const experimentId of removed.experimentIds) {
     await deleteSavedPlotsOf(experimentId);
   }
-  await deleteReferencesOf(projectId);
   revalidatePath('/');
   revalidateNavigation();
 

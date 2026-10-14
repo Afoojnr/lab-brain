@@ -1,11 +1,11 @@
-import type { Dataset } from '../types';
+import type { Dataset } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6.
+// Demo data, seeded into the database.
 //
-// PLACEHOLDER FILES ONLY, NOT MEASUREMENTS: the two files are checked into
-// `storage/demo/` to show how attached files appear. One is on the first EDX
-// record of ALD003 and one is an image on ALD001's SEM record. They only exist
-// when the storage folder is the default `./storage`.
+// PLACEHOLDER FILES ONLY, NOT MEASUREMENTS: the two files are in `./files/` next
+// to this one, to show how attached files appear. One is on the first EDX
+// record of ALD003 and one is an image on ALD001's SEM record. They are copied
+// into storage under `demo/` when the example data is used (`copyDemoFiles`).
 export const DEMO_DATASETS: Dataset[] = [
   {
     id: 'demo-dataset-1',

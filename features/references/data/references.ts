@@ -1,13 +1,9 @@
-import type { Reference } from '../types';
+import { and, eq, sql } from 'drizzle-orm';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so the list resets when the dev server restarts; the
-// files and the text read from them stay in storage.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as { __labBrainReferences?: Reference[] };
-const references: Reference[] = (store.__labBrainReferences ??= []);
+import { getDb } from '@/lib/db/client';
+import { references } from '@/lib/db/schema';
+
+import type { Reference } from '../types';
 
 /**
  * A project's references, oldest first.
@@ -16,10 +12,15 @@ const references: Reference[] = (store.__labBrainReferences ??= []);
  */
 export const listReferencesByProject = async (
   projectId: string
-): Promise<Reference[]> =>
-  references
-    .filter(reference => reference.projectId === projectId)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+): Promise<Reference[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(references)
+    .where(eq(references.projectId, projectId))
+    .orderBy(references.createdAt, sql`rowid`);
+};
 
 /**
  * One reference, only when it belongs to the project.
@@ -30,22 +31,35 @@ export const listReferencesByProject = async (
 export const getReference = async (
   projectId: string,
   id: string
-): Promise<Reference | undefined> =>
-  references.find(
-    reference => reference.id === id && reference.projectId === projectId
-  );
+): Promise<Reference | undefined> => {
+  const db = await getDb();
+  const [reference] = await db
+    .select()
+    .from(references)
+    .where(and(eq(references.id, id), eq(references.projectId, projectId)));
+
+  return reference;
+};
 
 /** Any reference by id, for serving its file; the caller checks the project. */
 export const getReferenceById = async (
   id: string
-): Promise<Reference | undefined> =>
-  references.find(reference => reference.id === id);
+): Promise<Reference | undefined> => {
+  const db = await getDb();
+  const [reference] = await db
+    .select()
+    .from(references)
+    .where(eq(references.id, id));
+
+  return reference;
+};
 
 /** Stores a new reference; the input is already validated and its files written. */
 export const createReference = async (
   reference: Reference
 ): Promise<Reference> => {
-  references.push(reference);
+  const db = await getDb();
+  await db.insert(references).values(reference);
 
   return reference;
 };
@@ -64,12 +78,16 @@ export const updateReference = async (
   id: string,
   changes: ReferenceChanges
 ): Promise<Reference | undefined> => {
-  const reference = await getReference(projectId, id);
-  if (!reference) return undefined;
+  if (Object.keys(changes).length === 0) return getReference(projectId, id);
 
-  Object.assign(reference, changes);
+  const db = await getDb();
+  const [updated] = await db
+    .update(references)
+    .set(changes)
+    .where(and(eq(references.id, id), eq(references.projectId, projectId)))
+    .returning();
 
-  return reference;
+  return updated;
 };
 
 /**
@@ -81,10 +99,11 @@ export const deleteReference = async (
   projectId: string,
   id: string
 ): Promise<Reference | undefined> => {
-  const index = references.findIndex(
-    reference => reference.id === id && reference.projectId === projectId
-  );
-  if (index === -1) return undefined;
+  const db = await getDb();
+  const [removed] = await db
+    .delete(references)
+    .where(and(eq(references.id, id), eq(references.projectId, projectId)))
+    .returning();
 
-  return references.splice(index, 1)[0];
+  return removed;
 };

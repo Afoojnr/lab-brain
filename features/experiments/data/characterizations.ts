@@ -1,28 +1,22 @@
+import { and, eq, sql } from 'drizzle-orm';
+
+import { getDb } from '@/lib/db/client';
+import { characterizations, samples } from '@/lib/db/schema';
+
 import type { CharacterizationFormValues } from '../schemas/schemas';
 import type { Characterization } from '../types';
-import { DEMO_CHARACTERIZATIONS } from './demo-characterizations';
 import { listExperimentsByProject } from './experiments';
-import { listSamplesByExperiment } from './samples';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as {
-  __labBrainCharacterizations?: Characterization[];
-};
-const characterizations: Characterization[] =
-  (store.__labBrainCharacterizations ??= [...DEMO_CHARACTERIZATIONS]);
+const emptyToNull = (text: string): string | null =>
+  text === '' ? null : text;
 
-const byDateThenCreation = (a: Characterization, b: Characterization) => {
-  if (a.measuredOn !== b.measuredOn) {
-    if (a.measuredOn === null) return 1;
-    if (b.measuredOn === null) return -1;
-    return a.measuredOn < b.measuredOn ? -1 : 1;
-  }
-  return a.createdAt.getTime() - b.createdAt.getTime();
-};
+/** Oldest date first, ones without a date last, then in the order they were made. */
+const byDateThenCreation = [
+  sql`${characterizations.measuredOn} is null`,
+  characterizations.measuredOn,
+  characterizations.createdAt,
+  sql`${characterizations}.rowid`
+];
 
 /**
  * A sample's characterizations, oldest date first; ones without a date last.
@@ -31,10 +25,15 @@ const byDateThenCreation = (a: Characterization, b: Characterization) => {
  */
 export const listCharacterizationsBySample = async (
   sampleId: string
-): Promise<Characterization[]> =>
-  characterizations
-    .filter(item => item.sampleId === sampleId)
-    .sort(byDateThenCreation);
+): Promise<Characterization[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(characterizations)
+    .where(eq(characterizations.sampleId, sampleId))
+    .orderBy(...byDateThenCreation);
+};
 
 /**
  * Every characterization of an experiment's samples, for its samples table.
@@ -44,13 +43,15 @@ export const listCharacterizationsBySample = async (
 export const listCharacterizationsByExperiment = async (
   experimentId: string
 ): Promise<Characterization[]> => {
-  const sampleIds = new Set(
-    (await listSamplesByExperiment(experimentId)).map(sample => sample.id)
-  );
+  const db = await getDb();
+  const rows = await db
+    .select({ characterization: characterizations })
+    .from(characterizations)
+    .innerJoin(samples, eq(characterizations.sampleId, samples.id))
+    .where(eq(samples.experimentId, experimentId))
+    .orderBy(...byDateThenCreation);
 
-  return characterizations
-    .filter(item => sampleIds.has(item.sampleId))
-    .sort(byDateThenCreation);
+  return rows.map(row => row.characterization);
 };
 
 /**
@@ -83,8 +84,20 @@ export const listTechniquesByProject = async (
 export const getCharacterizationOfSample = async (
   sampleId: string,
   id: string
-): Promise<Characterization | undefined> =>
-  characterizations.find(item => item.id === id && item.sampleId === sampleId);
+): Promise<Characterization | undefined> => {
+  const db = await getDb();
+  const [item] = await db
+    .select()
+    .from(characterizations)
+    .where(
+      and(
+        eq(characterizations.id, id),
+        eq(characterizations.sampleId, sampleId)
+      )
+    );
+
+  return item;
+};
 
 /**
  * Stores a new characterization. Input must already be validated by
@@ -98,16 +111,17 @@ export const createCharacterization = async (
   sampleId: string,
   values: CharacterizationFormValues
 ): Promise<Characterization> => {
+  const db = await getDb();
   const item: Characterization = {
     id: crypto.randomUUID(),
     sampleId,
     technique: values.technique,
-    measuredOn: values.measuredOn === '' ? null : values.measuredOn,
-    note: values.note === '' ? null : values.note,
+    measuredOn: emptyToNull(values.measuredOn),
+    note: emptyToNull(values.note),
     createdAt: new Date()
   };
+  await db.insert(characterizations).values(item);
 
-  characterizations.push(item);
   return item;
 };
 
@@ -124,19 +138,22 @@ export const updateCharacterization = async (
   id: string,
   values: CharacterizationFormValues
 ): Promise<Characterization | undefined> => {
-  const index = characterizations.findIndex(
-    item => item.id === id && item.sampleId === sampleId
-  );
-  const existing = characterizations[index];
-  if (!existing) return undefined;
+  const db = await getDb();
+  const [updated] = await db
+    .update(characterizations)
+    .set({
+      technique: values.technique,
+      measuredOn: emptyToNull(values.measuredOn),
+      note: emptyToNull(values.note)
+    })
+    .where(
+      and(
+        eq(characterizations.id, id),
+        eq(characterizations.sampleId, sampleId)
+      )
+    )
+    .returning();
 
-  const updated: Characterization = {
-    ...existing,
-    technique: values.technique,
-    measuredOn: values.measuredOn === '' ? null : values.measuredOn,
-    note: values.note === '' ? null : values.note
-  };
-  characterizations[index] = updated;
   return updated;
 };
 
@@ -151,13 +168,18 @@ export const deleteCharacterization = async (
   sampleId: string,
   id: string
 ): Promise<boolean> => {
-  const index = characterizations.findIndex(
-    item => item.id === id && item.sampleId === sampleId
-  );
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(characterizations)
+    .where(
+      and(
+        eq(characterizations.id, id),
+        eq(characterizations.sampleId, sampleId)
+      )
+    )
+    .returning({ id: characterizations.id });
 
-  characterizations.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };
 
 /**
@@ -169,9 +191,10 @@ export const deleteCharacterization = async (
 export const deleteCharacterizationsOfSample = async (
   sampleId: string
 ): Promise<Characterization[]> => {
-  const removed = characterizations.filter(item => item.sampleId === sampleId);
-  const kept = characterizations.filter(item => item.sampleId !== sampleId);
-  characterizations.splice(0, characterizations.length, ...kept);
+  const db = await getDb();
 
-  return removed;
+  return db
+    .delete(characterizations)
+    .where(eq(characterizations.sampleId, sampleId))
+    .returning();
 };

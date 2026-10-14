@@ -1,6 +1,6 @@
 {
   "title": "Paramètres",
-  "description": "Apparence et langue de cet espace de travail.",
+  "description": "Apparence, langue et lieu de stockage de vos fichiers.",
   "appearance": {
     "title": "Apparence",
     "description": "Choisissez l'apparence de Lab Brain. Système suit votre appareil.",
@@ -11,5 +11,102 @@
   "language": {
     "title": "Langue",
     "description": "La langue utilisée pour les menus, les libellés et les messages."
+  },
+  "dataFolder": {
+    "title": "Dossier de données",
+    "description": "L'endroit où sont gardés vos fichiers joints et les sauvegardes de la base. Choisissez un dossier synchronisé par votre cloud pour que tout y soit enregistré.",
+    "none": "Aucun dossier choisi pour l'instant. Les fichiers restent dans le dossier de stockage de l'application et rien n'est sauvegardé.",
+    "managed": "Le propriétaire du serveur a fixé le dossier de stockage : il ne peut pas être changé ici.",
+    "pathLabel": "Dossier",
+    "pathPlaceholder": "/Users/vous/Nextcloud/Lab Brain",
+    "pathHelp": "Changez-le avec le bouton, ou saisissez ou collez le chemin complet d'un dossier existant.",
+    "check": "Vérifier le dossier",
+    "checkOk": "Le dossier convient.",
+    "hasFiles": "Il contient déjà des fichiers.",
+    "hasBackups": "Il contient aussi des sauvegardes : après l'avoir utilisé, vous pouvez en restaurer une ci-dessous.",
+    "chooseTitle": "Que faire des fichiers que vous avez maintenant ?",
+    "modeMove": "Les copier dans ce dossier",
+    "modeMoveHint": "Les fichiers utilisés par vos enregistrements sont copiés puis vérifiés. Les originaux restent jusqu'à ce que vous les supprimiez.",
+    "modeUse": "Utiliser le dossier tel quel",
+    "modeUseHint": "Les fichiers déjà joints ne s'ouvrent que si le dossier les contient.",
+    "apply": "Utiliser ce dossier",
+    "applied": "Dossier de données défini",
+    "errors": {
+      "empty": "Saisissez le chemin d'un dossier.",
+      "notAbsolute": "Saisissez le chemin complet, à partir de la racine du disque.",
+      "notFound": "Aucun dossier n'existe à ce chemin.",
+      "notWritable": "Lab Brain ne peut pas écrire dans ce dossier.",
+      "collision": "{path} est déjà dans ce dossier : rien n'a été modifié.",
+      "unverified": "{path} n'a pas pu être copié correctement : rien n'a été modifié.",
+      "unavailable": "Le dossier de données ne peut pas être changé ici.",
+      "backupFailed": "La sauvegarde a échoué. Vérifiez que le dossier est toujours accessible.",
+      "restoreFailed": "La sauvegarde n'a pas pu être restaurée."
+    },
+    "backups": {
+      "title": "Sauvegardes",
+      "description": "Une copie de la base est enregistrée dans le dossier toutes les 10 minutes si quelque chose a changé. Les 30 dernières de chaque ordinateur sont gardées.",
+      "never": "Aucune sauvegarde pour l'instant.",
+      "last": "Dernière sauvegarde : {date}",
+      "failed": "La dernière sauvegarde a échoué : {error}",
+      "backUpNow": "Sauvegarder maintenant",
+      "backedUp": "Sauvegarde enregistrée",
+      "empty": "Aucune sauvegarde dans ce dossier pour l'instant.",
+      "needsFolder": "Choisissez un dossier de données pour commencer les sauvegardes.",
+      "from": "{computer}, {date}",
+      "restore": "Restaurer",
+      "restoreTitle": "Restaurer cette sauvegarde ?",
+      "restoreText": "Vos données actuelles sont remplacées par la sauvegarde du {date} ({computer}). Une copie de ce que vous avez maintenant est d'abord gardée sur cet ordinateur.",
+      "restoreConfirm": "Restaurer",
+      "restored": "Sauvegarde restaurée",
+      "cancel": "Annuler"
+    },
+    "picker": {
+      "choose": "Choisir un dossier",
+      "title": "Choisir un dossier",
+      "description": "Parcourez vos dossiers et sélectionnez celui où garder vos fichiers et vos sauvegardes. Seuls les noms de dossiers sont affichés.",
+      "up": "Dossier parent",
+      "location": "Emplacement actuel",
+      "folders": "Dossiers",
+      "empty": "Aucun dossier ici.",
+      "newFolderName": "Nom du nouveau dossier",
+      "create": "Nouveau dossier",
+      "select": "Sélectionner ce dossier",
+      "cancel": "Annuler",
+      "errors": {
+        "unavailable": "Les dossiers ne peuvent pas être parcourus ici.",
+        "notAbsolute": "Ce n'est pas un chemin complet.",
+        "cannotRead": "Ce dossier ne peut pas être ouvert.",
+        "invalidName": "Ce nom ne peut pas être utilisé pour un dossier.",
+        "exists": "Un dossier portant ce nom existe déjà.",
+        "cannotCreate": "Le dossier n'a pas pu être créé."
+      },
+      "change": "Changer de dossier"
+    },
+    "recommended": "(recommandé)",
+    "moreInfo": {
+      "trigger": "Plus d'informations",
+      "files": "Vos fichiers joints (spectres, images, PDF) sont enregistrés dans un dossier nommé Lab Brain, créé dans le dossier que vous choisissez, dans un sous-dossier nommé files.",
+      "backups": "Une copie de vos enregistrements (projets, échantillons, valeurs) est enregistrée dans Lab Brain, dans un sous-dossier nommé backups, toutes les 10 minutes si quelque chose a changé. Les 30 dernières sont gardées.",
+      "database": "La base en cours d'utilisation reste sur cet ordinateur, pas dans le dossier. Un cloud peut abîmer une base ouverte : seules ses sauvegardes vont dans le dossier.",
+      "restore": "Sur un nouvel ordinateur, choisissez le même dossier et restaurez une sauvegarde pour retrouver vos enregistrements.",
+      "oneComputer": "Utilisez le dossier depuis un seul ordinateur à la fois.",
+      "privacy": "Toute personne qui peut ouvrir le dossier peut lire vos fichiers et vos sauvegardes."
+    },
+    "willUse": "Les fichiers et les sauvegardes iront dans :",
+    "willCreate": "(un nouveau dossier, créé pour vous)",
+    "alreadyThere": "Un dossier Lab Brain existe déjà et rien de ce qu'il contient n'est remplacé."
+  },
+  "exampleData": {
+    "title": "Données d'exemple",
+    "description": "Le projet d'exemple de la démo, avec expériences, échantillons et mesures. Le retirer ne supprime que les projets d'exemple, et vous pouvez le rajouter.",
+    "add": "Ajouter les données d'exemple",
+    "remove": "Retirer les données d'exemple",
+    "added": "Données d'exemple ajoutées",
+    "alreadyThere": "Les données d'exemple sont déjà là",
+    "removed": "Données d'exemple retirées",
+    "removeTitle": "Retirer les données d'exemple ?",
+    "removeText": "Les projets d'exemple sont supprimés avec tout leur contenu. Vos propres projets ne sont pas touchés.",
+    "removeConfirm": "Retirer",
+    "cancel": "Annuler"
   }
 }

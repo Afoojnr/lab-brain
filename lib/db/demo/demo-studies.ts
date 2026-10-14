@@ -1,6 +1,6 @@
-import type { Study } from '../types';
+import type { Study } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6. Studies are optional
+// Demo data, seeded into the database. Studies are optional
 // named studies inside one experiment; a sample can belong to several.
 export const DEMO_STUDIES: Study[] = [
   {

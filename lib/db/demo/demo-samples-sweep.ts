@@ -1,6 +1,6 @@
-import type { Sample } from '../types';
+import type { Sample } from './types';
 
-// TODO: demo data, replace with Drizzle in Step 6.
+// Demo data, seeded into the database.
 //
 // EXAMPLE VALUES ONLY, NOT REAL MEASUREMENTS: a made-up sweep of the ALD
 // experiment (temperature x cycles x plasma pulse) so plots, filters and

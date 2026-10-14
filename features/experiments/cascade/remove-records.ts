@@ -1,6 +1,9 @@
 import { getStorage } from '@/lib/storage';
 
-import { deleteCharacterizationsOfSample } from '../data/characterizations';
+import {
+  deleteCharacterizationsOfSample,
+  listCharacterizationsBySample
+} from '../data/characterizations';
 import { deleteDerivedColumnsOfExperiment } from '../data/derived-columns';
 import { deleteDatasetsOfCharacterization } from '../data/datasets';
 import {
@@ -44,7 +47,11 @@ const removeFilesOf = async (
   let count = 0;
   for (const id of characterizationIds) {
     for (const dataset of await deleteDatasetsOfCharacterization(id)) {
-      await getStorage().delete(dataset.storagePath);
+      // The example files are shared by every copy of the example data (and
+      // checked into the app), so they stay when an example record goes.
+      if (!dataset.storagePath.startsWith('demo/')) {
+        await getStorage().delete(dataset.storagePath);
+      }
       count += 1;
     }
   }
@@ -68,9 +75,12 @@ export const removeSample = async (
     return null;
   }
 
-  const characterizations = await deleteCharacterizationsOfSample(sampleId);
-  const characterizationIds = characterizations.map(item => item.id);
+  // Files first: removing a measurement also removes its file records.
+  const characterizationIds = (
+    await listCharacterizationsBySample(sampleId)
+  ).map(item => item.id);
   const fileCount = await removeFilesOf(characterizationIds);
+  await deleteCharacterizationsOfSample(sampleId);
   await deleteSample(experimentId, sampleId);
 
   return { ...EMPTY, characterizationIds, sampleCount: 1, fileCount };

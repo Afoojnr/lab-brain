@@ -1,28 +1,30 @@
+import { and, asc, eq, sql } from 'drizzle-orm';
+
+import { getDb } from '@/lib/db/client';
+import { experiments } from '@/lib/db/schema';
+
 import type { ExperimentFormValues } from '../schemas/schemas';
 import type { Experiment } from '../types';
-import { DEMO_EXPERIMENTS } from './demo-experiments';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts.
-// On `globalThis` because a Route Handler (the assistant) is bundled apart from
-// the pages and actions: a plain module-level list would be a separate copy
-// there and would not see what was just created. A database has no such problem.
-const store = globalThis as { __labBrainExperiments?: Experiment[] };
-const experimentList: Experiment[] = (store.__labBrainExperiments ??= [
-  ...DEMO_EXPERIMENTS
-]);
+const emptyToNull = (text: string): string | null =>
+  text === '' ? null : text;
 
 /**
- * A project's experiment, oldest first (like the sheets of a spreadsheet).
+ * A project's experiments, oldest first, like the sheets of a workbook.
  *
  * @param projectId - Owning project's id.
  */
 export const listExperimentsByProject = async (
   projectId: string
-): Promise<Experiment[]> =>
-  experimentList
-    .filter(experiment => experiment.projectId === projectId)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+): Promise<Experiment[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(experiments)
+    .where(eq(experiments.projectId, projectId))
+    .orderBy(asc(experiments.createdAt), sql`rowid`);
+};
 
 /**
  * One experiment by id.
@@ -32,87 +34,106 @@ export const listExperimentsByProject = async (
  */
 export const getExperimentById = async (
   id: string
-): Promise<Experiment | undefined> =>
-  experimentList.find(experiment => experiment.id === id);
+): Promise<Experiment | undefined> => {
+  const db = await getDb();
+  const [experiment] = await db
+    .select()
+    .from(experiments)
+    .where(eq(experiments.id, id));
+
+  return experiment;
+};
 
 /**
- * One experiment, but only when it belongs to the given project. Actions use this
- * so an experiment id can never be reached through a different project's URL.
+ * One experiment, only when it belongs to the given project, so a URL cannot
+ * reach an experiment through the wrong project.
  *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - Experiment id.
+ * @param projectId - The project the URL names.
+ * @param experimentId - The experiment the URL names.
  */
 export const getExperimentInProject = async (
   projectId: string,
   experimentId: string
 ): Promise<Experiment | undefined> => {
-  const experiment = await getExperimentById(experimentId);
-  return experiment?.projectId === projectId ? experiment : undefined;
+  const db = await getDb();
+  const [experiment] = await db
+    .select()
+    .from(experiments)
+    .where(
+      and(
+        eq(experiments.id, experimentId),
+        eq(experiments.projectId, projectId)
+      )
+    );
+
+  return experiment;
 };
 
 /**
  * Stores a new experiment. Input must already be validated by
- * `buildExperimentFormSchema`.
+ * `experimentFormSchema`.
  *
  * @param projectId - Owning project's id.
- * @param values - Validated name and prefix.
+ * @param values - Validated form values.
  * @returns The stored experiment.
  */
 export const createExperiment = async (
   projectId: string,
   values: ExperimentFormValues
 ): Promise<Experiment> => {
+  const db = await getDb();
   const experiment: Experiment = {
     id: crypto.randomUUID(),
     projectId,
     name: values.name,
     codePrefix: values.codePrefix,
-    protocol: values.protocol === '' ? null : values.protocol,
+    protocol: emptyToNull(values.protocol),
     createdAt: new Date()
   };
+  await db.insert(experiments).values(experiment);
 
-  experimentList.push(experiment);
   return experiment;
 };
 
 /**
- * Changes an experiment's name, prefix and protocol. Its columns, samples and
- * existing sample codes are untouched. Input must already be validated by
- * `buildExperimentFormSchema`.
+ * Changes an experiment's name, code prefix and protocol. Its samples keep
+ * their codes.
  *
  * @param id - The experiment to change.
- * @param values - Validated name, prefix and protocol.
+ * @param values - Validated form values.
  * @returns The updated experiment, or undefined when no experiment has that id.
  */
 export const updateExperiment = async (
   id: string,
   values: ExperimentFormValues
 ): Promise<Experiment | undefined> => {
-  const index = experimentList.findIndex(experiment => experiment.id === id);
-  const existing = experimentList[index];
-  if (!existing) return undefined;
+  const db = await getDb();
+  const [updated] = await db
+    .update(experiments)
+    .set({
+      name: values.name,
+      codePrefix: values.codePrefix,
+      protocol: emptyToNull(values.protocol)
+    })
+    .where(eq(experiments.id, id))
+    .returning();
 
-  const updated: Experiment = {
-    ...existing,
-    name: values.name,
-    codePrefix: values.codePrefix,
-    protocol: values.protocol === '' ? null : values.protocol
-  };
-  experimentList[index] = updated;
   return updated;
 };
 
 /**
- * Removes an experiment's own record. Its samples, columns and studies are
- * removed by the caller first.
+ * Removes an experiment's own record. Everything that belongs to it is removed
+ * by the caller first.
  *
  * @param id - The experiment to remove.
  * @returns Whether an experiment was removed.
  */
 export const deleteExperiment = async (id: string): Promise<boolean> => {
-  const index = experimentList.findIndex(experiment => experiment.id === id);
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(experiments)
+    .where(eq(experiments.id, id))
+    .returning({ id: experiments.id });
 
-  experimentList.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };

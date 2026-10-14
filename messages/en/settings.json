@@ -1,6 +1,6 @@
 {
   "title": "Settings",
-  "description": "Appearance and language for this workspace.",
+  "description": "Appearance, language and where your files are kept.",
   "appearance": {
     "title": "Appearance",
     "description": "Choose how Lab Brain looks. System follows your device.",
@@ -11,5 +11,102 @@
   "language": {
     "title": "Language",
     "description": "The language used for menus, labels and messages."
+  },
+  "dataFolder": {
+    "title": "Data folder",
+    "description": "Where your attached files and database backups are kept. Choose a folder your cloud drive syncs, to have everything saved there.",
+    "none": "No folder chosen yet. Files stay in the app's own storage folder and nothing is backed up.",
+    "managed": "The server's owner fixed the storage folder, so it cannot be changed here.",
+    "pathLabel": "Folder",
+    "pathPlaceholder": "/Users/you/Nextcloud/Lab Brain",
+    "pathHelp": "Change it with the button, or type or paste the full path of an existing folder.",
+    "check": "Check folder",
+    "checkOk": "The folder works.",
+    "hasFiles": "It already holds files.",
+    "hasBackups": "It also holds backups: after using it you can restore one below.",
+    "chooseTitle": "What should happen to the files you have now?",
+    "modeMove": "Copy them there",
+    "modeMoveHint": "The files your records use are copied and checked. The originals stay until you delete them.",
+    "modeUse": "Use the folder as it is",
+    "modeUseHint": "Files already attached open only if the folder holds them.",
+    "apply": "Use this folder",
+    "applied": "Data folder set",
+    "errors": {
+      "empty": "Type the path of a folder.",
+      "notAbsolute": "Type the full path, starting from the root of the drive.",
+      "notFound": "No folder exists at that path.",
+      "notWritable": "Lab Brain cannot write to that folder.",
+      "collision": "{path} is already in that folder, so nothing was changed.",
+      "unverified": "{path} could not be copied correctly, so nothing was changed.",
+      "unavailable": "The data folder cannot be changed here.",
+      "backupFailed": "The backup failed. Check that the folder is still reachable.",
+      "restoreFailed": "The backup could not be restored."
+    },
+    "backups": {
+      "title": "Backups",
+      "description": "A copy of the database is saved in the folder every 10 minutes while something changed. The last 30 of each computer are kept.",
+      "never": "No backup yet.",
+      "last": "Last backup: {date}",
+      "failed": "The last backup failed: {error}",
+      "backUpNow": "Back up now",
+      "backedUp": "Backup saved",
+      "empty": "No backups in this folder yet.",
+      "needsFolder": "Choose a data folder to start backing up.",
+      "from": "{computer}, {date}",
+      "restore": "Restore",
+      "restoreTitle": "Restore this backup?",
+      "restoreText": "Your current data is replaced by the backup from {date} ({computer}). A copy of what you have now is kept on this computer first.",
+      "restoreConfirm": "Restore",
+      "restored": "Backup restored",
+      "cancel": "Cancel"
+    },
+    "picker": {
+      "choose": "Choose folder",
+      "title": "Choose a folder",
+      "description": "Click through your folders and select the one to keep your files and backups in. Only folder names are listed.",
+      "up": "Up one level",
+      "location": "Current location",
+      "folders": "Folders",
+      "empty": "No folders here.",
+      "newFolderName": "New folder name",
+      "create": "New folder",
+      "select": "Select this folder",
+      "cancel": "Cancel",
+      "errors": {
+        "unavailable": "Folders cannot be browsed here.",
+        "notAbsolute": "That is not a full path.",
+        "cannotRead": "That folder cannot be opened.",
+        "invalidName": "That name cannot be used for a folder.",
+        "exists": "A folder with that name already exists.",
+        "cannotCreate": "The folder could not be created."
+      },
+      "change": "Change folder"
+    },
+    "recommended": "(recommended)",
+    "moreInfo": {
+      "trigger": "More info",
+      "files": "Your attached files (spectra, images, PDFs) are saved in a folder named Lab Brain, created inside the folder you choose, in a subfolder named files.",
+      "backups": "A copy of your records (projects, samples, values) is saved in Lab Brain, in a subfolder named backups, every 10 minutes while something changed. The last 30 are kept.",
+      "database": "The live database stays on this computer, not in the folder. A cloud drive can damage a database that is open, so only backups of it go in the folder.",
+      "restore": "On a new computer, choose the same folder and restore a backup to get your records back.",
+      "oneComputer": "Use the folder from one computer at a time.",
+      "privacy": "Everyone who can open the folder can read your files and backups."
+    },
+    "willUse": "Files and backups will go in:",
+    "willCreate": "(a new folder, created for you)",
+    "alreadyThere": "A Lab Brain folder is already there, and nothing in it is replaced."
+  },
+  "exampleData": {
+    "title": "Example data",
+    "description": "The demo's example project, with experiments, samples and measurements. Removing it deletes only the example projects, and you can add it back.",
+    "add": "Add example data",
+    "remove": "Remove example data",
+    "added": "Example data added",
+    "alreadyThere": "The example data is already there",
+    "removed": "Example data removed",
+    "removeTitle": "Remove the example data?",
+    "removeText": "The example projects are deleted with everything in them. Your own projects are not touched.",
+    "removeConfirm": "Remove",
+    "cancel": "Cancel"
   }
 }

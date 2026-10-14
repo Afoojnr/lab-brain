@@ -6,6 +6,20 @@
     "title": "Bienvenue dans Lab Brain",
     "description": "Enregistrez vos expériences, importez vos tableurs, joignez les fichiers des instruments et laissez l'application calculer les valeurs. Commencez par un projet : il regroupe les expériences d'une même ligne de travail.",
     "create": "Créer votre premier projet",
-    "rawFiles": "Ou analysez des fichiers bruts sans projet :"
+    "rawFiles": "Ou analysez des fichiers bruts sans projet :",
+    "steps": {
+      "project": {
+        "title": "Créez un projet",
+        "text": "Une ligne de travail, comme un article ou un chapitre de thèse. Il contient tout le reste."
+      },
+      "experiment": {
+        "title": "Ajoutez une expérience",
+        "text": "Un type d'échantillon avec ses propres colonnes et codes, comme une feuille de tableur."
+      },
+      "samples": {
+        "title": "Enregistrez des échantillons",
+        "text": "Une ligne chacun : valeurs, notes et fichiers de mesure. Puis tracez, comparez et exportez."
+      }
+    }
   }
 }

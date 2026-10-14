@@ -1,15 +1,11 @@
-import type { Dataset } from '../types';
-import { listCharacterizationsBySample } from './characterizations';
-import { DEMO_DATASETS } from './demo-datasets';
+import { asc, eq, sql } from 'drizzle-orm';
 
-// TODO: Step 6 replaces this in-memory list with Drizzle queries. It lives in
-// the server process, so it resets when the dev server restarts. Unlike the
-// other lists it sits on `globalThis`: the file route (a Route Handler) is
-// bundled apart from the pages and actions, so a plain module-level list would
-// be a separate copy there and a just-attached file would 404. A database has
-// no such problem.
-const store = globalThis as { __labBrainDatasets?: Dataset[] };
-const datasets: Dataset[] = (store.__labBrainDatasets ??= [...DEMO_DATASETS]);
+import { getDb } from '@/lib/db/client';
+import { characterizations, datasets } from '@/lib/db/schema';
+
+import type { Dataset } from '../types';
+
+const oldestFirst = [asc(datasets.uploadedAt), sql`${datasets}.rowid`];
 
 /**
  * A characterization's files, oldest first.
@@ -18,10 +14,15 @@ const datasets: Dataset[] = (store.__labBrainDatasets ??= [...DEMO_DATASETS]);
  */
 export const listDatasetsByCharacterization = async (
   characterizationId: string
-): Promise<Dataset[]> =>
-  datasets
-    .filter(item => item.characterizationId === characterizationId)
-    .sort((a, b) => a.uploadedAt.getTime() - b.uploadedAt.getTime());
+): Promise<Dataset[]> => {
+  const db = await getDb();
+
+  return db
+    .select()
+    .from(datasets)
+    .where(eq(datasets.characterizationId, characterizationId))
+    .orderBy(...oldestFirst);
+};
 
 /**
  * Every file attached to any of a sample's characterizations.
@@ -31,13 +32,18 @@ export const listDatasetsByCharacterization = async (
 export const listDatasetsBySample = async (
   sampleId: string
 ): Promise<Dataset[]> => {
-  const ids = new Set(
-    (await listCharacterizationsBySample(sampleId)).map(item => item.id)
-  );
+  const db = await getDb();
+  const rows = await db
+    .select({ dataset: datasets })
+    .from(datasets)
+    .innerJoin(
+      characterizations,
+      eq(datasets.characterizationId, characterizations.id)
+    )
+    .where(eq(characterizations.sampleId, sampleId))
+    .orderBy(...oldestFirst);
 
-  return datasets
-    .filter(item => ids.has(item.characterizationId))
-    .sort((a, b) => a.uploadedAt.getTime() - b.uploadedAt.getTime());
+  return rows.map(row => row.dataset);
 };
 
 /**
@@ -47,7 +53,12 @@ export const listDatasetsBySample = async (
  */
 export const getDatasetById = async (
   id: string
-): Promise<Dataset | undefined> => datasets.find(item => item.id === id);
+): Promise<Dataset | undefined> => {
+  const db = await getDb();
+  const [dataset] = await db.select().from(datasets).where(eq(datasets.id, id));
+
+  return dataset;
+};
 
 /**
  * Records a file already written to storage.
@@ -68,14 +79,15 @@ export const createDataset = async (
     | 'sizeBytes'
   >
 ): Promise<Dataset> => {
+  const db = await getDb();
   const dataset: Dataset = {
     id: crypto.randomUUID(),
     characterizationId,
     ...file,
     uploadedAt: new Date()
   };
+  await db.insert(datasets).values(dataset);
 
-  datasets.push(dataset);
   return dataset;
 };
 
@@ -86,11 +98,13 @@ export const createDataset = async (
  * @returns Whether a record was removed.
  */
 export const deleteDataset = async (id: string): Promise<boolean> => {
-  const index = datasets.findIndex(item => item.id === id);
-  if (index === -1) return false;
+  const db = await getDb();
+  const removed = await db
+    .delete(datasets)
+    .where(eq(datasets.id, id))
+    .returning({ id: datasets.id });
 
-  datasets.splice(index, 1);
-  return true;
+  return removed.length > 0;
 };
 
 /**
@@ -102,13 +116,10 @@ export const deleteDataset = async (id: string): Promise<boolean> => {
 export const deleteDatasetsOfCharacterization = async (
   characterizationId: string
 ): Promise<Dataset[]> => {
-  const removed = datasets.filter(
-    item => item.characterizationId === characterizationId
-  );
-  const kept = datasets.filter(
-    item => item.characterizationId !== characterizationId
-  );
-  datasets.splice(0, datasets.length, ...kept);
+  const db = await getDb();
 
-  return removed;
+  return db
+    .delete(datasets)
+    .where(eq(datasets.characterizationId, characterizationId))
+    .returning();
 };

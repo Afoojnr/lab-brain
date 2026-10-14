@@ -38,18 +38,18 @@ const add = async (projectId: string, id: string, hasPdf: boolean) => {
 
 describe('deleteReferencesOf', () => {
   it("removes a project's references with their files from storage, and no other project's", async () => {
-    await add('gone', 'a', true);
-    await add('gone', 'b', false);
-    await add('kept', 'c', true);
+    await add('demo-project-1', 'a', true);
+    await add('demo-project-1', 'b', false);
+    await add('demo-project-2', 'c', true);
 
-    expect(await deleteReferencesOf('gone')).toBe(2);
+    expect(await deleteReferencesOf('demo-project-1')).toBe(2);
 
-    expect(await listReferencesByProject('gone')).toEqual([]);
-    expect(await listReferencesByProject('kept')).toHaveLength(1);
+    expect(await listReferencesByProject('demo-project-1')).toEqual([]);
+    expect(await listReferencesByProject('demo-project-2')).toHaveLength(1);
     expect([...files].sort()).toEqual([
-      'references/kept/c/original.pdf',
-      'references/kept/c/text.txt'
+      'references/demo-project-2/c/original.pdf',
+      'references/demo-project-2/c/text.txt'
     ]);
-    expect(await deleteReferencesOf('gone')).toBe(0);
+    expect(await deleteReferencesOf('demo-project-1')).toBe(0);
   });
 });

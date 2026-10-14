@@ -75,7 +75,8 @@ const loadContext = async (
  * preview (a code taken in the meantime, for example) or anything is invalid,
  * it writes nothing and returns the fresh report.
  *
- * TODO(Step 6): run the writes in one database transaction.
+ * TODO: run the writes in one database transaction (the data functions each
+ * open their own statement, so a failure midway can leave a partial import).
  *
  * @param projectId - Owning project's id.
  * @param input - The import (see `importPayloadSchema`).

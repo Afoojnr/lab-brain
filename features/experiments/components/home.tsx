@@ -12,11 +12,18 @@ import { ProjectsEmpty } from './projects-empty';
 
 /**
  * The home page: every project as a card with its experiment count, or, on a
- * first run, a welcome with the way to create the first one. `emptyExtra` is
- * extra content for that welcome (the app puts links to the raw-files
- * workspaces there, because this feature cannot import another).
+ * first run, a welcome with the way to create the first one (the welcome is
+ * the page's only heading). `emptyActions` sits next to the create button and
+ * `emptyExtra` under the welcome (the app puts the raw-files links there,
+ * because this feature cannot import another).
  */
-export const Home = async ({ emptyExtra }: { emptyExtra?: ReactNode }) => {
+export const Home = async ({
+  emptyActions,
+  emptyExtra
+}: {
+  emptyActions?: ReactNode;
+  emptyExtra?: ReactNode;
+}) => {
   const [t, projects] = await Promise.all([
     getTranslations('home'),
     listProjects()
@@ -31,18 +38,20 @@ export const Home = async ({ emptyExtra }: { emptyExtra?: ReactNode }) => {
 
   return (
     <FadeIn>
-      <PageHeader
-        title={t('title')}
-        description={t('description')}
-        actions={hasProjects ? <NewProjectDialog /> : undefined}
-      />
-      <div className="mt-8">
-        {hasProjects ? (
-          <ProjectGrid projects={projectsWithCounts} />
-        ) : (
-          <ProjectsEmpty>{emptyExtra}</ProjectsEmpty>
-        )}
-      </div>
+      {hasProjects ? (
+        <>
+          <PageHeader
+            title={t('title')}
+            description={t('description')}
+            actions={<NewProjectDialog />}
+          />
+          <div className="mt-8">
+            <ProjectGrid projects={projectsWithCounts} />
+          </div>
+        </>
+      ) : (
+        <ProjectsEmpty actions={emptyActions}>{emptyExtra}</ProjectsEmpty>
+      )}
     </FadeIn>
   );
 };
