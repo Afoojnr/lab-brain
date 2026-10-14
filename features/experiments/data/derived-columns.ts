@@ -111,3 +111,21 @@ export const deleteDerivedColumn = async (
   derivedColumns.splice(index, 1);
   return true;
 };
+
+/**
+ * Removes every calculated column of an experiment.
+ *
+ * @param experimentId - The experiment being removed.
+ * @returns How many calculated columns were removed.
+ */
+export const deleteDerivedColumnsOfExperiment = async (
+  experimentId: string
+): Promise<number> => {
+  const before = derivedColumns.length;
+  const kept = derivedColumns.filter(
+    item => item.experimentId !== experimentId
+  );
+  derivedColumns.splice(0, derivedColumns.length, ...kept);
+
+  return before - derivedColumns.length;
+};

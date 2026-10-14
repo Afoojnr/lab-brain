@@ -71,3 +71,21 @@ export const latestTargets = async (
 
   return latest?.settings.targets ?? {};
 };
+
+/**
+ * Removes the saved analyses of characterizations that were deleted.
+ *
+ * @param characterizationIds - The characterizations that are gone.
+ * @returns How many saved analyses were removed.
+ */
+export const deleteAnalysesOf = async (
+  characterizationIds: string[]
+): Promise<number> => {
+  const before = analyses.length;
+  const kept = analyses.filter(
+    item => !characterizationIds.includes(item.characterizationId)
+  );
+  analyses.splice(0, analyses.length, ...kept);
+
+  return before - analyses.length;
+};

@@ -3,6 +3,7 @@
 import { getStorage } from '@/lib/storage';
 
 import {
+  deleteReference,
   getReference,
   getReferenceById,
   listReferencesByProject,
@@ -32,4 +33,28 @@ export const readReferenceText = async (
   const bytes = await getStorage().download(reference.textPath);
 
   return bytes ? new TextDecoder().decode(bytes) : null;
+};
+
+/**
+ * Removes every reference of a project that was deleted: the records, and each
+ * one's PDF and extracted text from storage.
+ *
+ * @param projectId - The project that is gone.
+ * @returns How many references were removed.
+ */
+export const deleteReferencesOf = async (
+  projectId: string
+): Promise<number> => {
+  const storage = getStorage();
+  const references = await listReferencesByProject(projectId);
+  for (const reference of references) {
+    await deleteReference(projectId, reference.id);
+    await Promise.all(
+      [reference.textPath, reference.filePath]
+        .filter((path): path is string => path !== null)
+        .map(path => storage.delete(path).catch(() => false))
+    );
+  }
+
+  return references.length;
 };

@@ -24,7 +24,9 @@ export const EditExperimentDialog = ({
   otherPrefixes,
   label,
   variant = 'outline',
-  size
+  size,
+  isOpen: controlledOpen,
+  onOpenChange
 }: {
   projectId: string;
   experiment: Pick<Experiment, 'id' | 'name' | 'codePrefix' | 'protocol'>;
@@ -34,17 +36,25 @@ export const EditExperimentDialog = ({
   label?: string;
   variant?: 'outline' | 'ghost';
   size?: 'default' | 'sm';
+  /** Controlled by a menu item: the dialog then has no button of its own. */
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }) => {
   const t = useTranslations('experiments.form');
-  const [isOpen, setIsOpen] = useState(false);
+  const [ownOpen, setOwnOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = controlledOpen ?? ownOpen;
+  const setIsOpen = onOpenChange ?? setOwnOpen;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger render={<Button variant={variant} size={size} />}>
-        <PencilIcon aria-hidden />
-        {label ?? t('editTrigger')}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-3xl">
+      {!isControlled && (
+        <DialogTrigger render={<Button variant={variant} size={size} />}>
+          <PencilIcon aria-hidden />
+          {label ?? t('editTrigger')}
+        </DialogTrigger>
+      )}
+      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{t('editTitle', { name: experiment.name })}</DialogTitle>
           <DialogDescription>{t('editDescription')}</DialogDescription>

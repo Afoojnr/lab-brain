@@ -113,3 +113,19 @@ export const deleteParameterDefinition = async (
   definitions.splice(index, 1);
   return true;
 };
+
+/**
+ * Removes every column of an experiment.
+ *
+ * @param experimentId - The experiment being removed.
+ * @returns How many columns were removed.
+ */
+export const deleteDefinitionsOfExperiment = async (
+  experimentId: string
+): Promise<number> => {
+  const before = definitions.length;
+  const kept = definitions.filter(item => item.experimentId !== experimentId);
+  definitions.splice(0, definitions.length, ...kept);
+
+  return before - definitions.length;
+};

@@ -17,6 +17,7 @@ import type { ViewerKind } from '@/components/file-viewer/kinds';
 import { formatFileSize } from '../datasets/datasets';
 import type { Dataset } from '../types';
 import { DeleteDatasetDialog } from './delete-dataset-dialog';
+import { DeleteDatasetFolderDialog } from './delete-dataset-folder-dialog';
 
 type DatasetListProps = {
   projectId: string;
@@ -159,20 +160,30 @@ export const DatasetList = async ({ datasets, ...ids }: DatasetListProps) => {
           </ul>
         )}
         {[...folders.entries()].map(([name, files]) => (
-          <details key={name} className="rounded-lg border">
-            <summary className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm font-medium">
-              <FolderIcon
-                aria-hidden
-                className="text-muted-foreground size-4"
+          <div key={name} className="relative">
+            <details className="rounded-lg border">
+              <summary className="flex cursor-pointer items-center gap-2 py-2 pr-12 pl-3 text-sm font-medium">
+                <FolderIcon
+                  aria-hidden
+                  className="text-muted-foreground size-4"
+                />
+                {t('folderSummary', { name, count: files.length })}
+              </summary>
+              <ul className="grid gap-3 border-t p-3">
+                {files.map(dataset => (
+                  <DatasetItem key={dataset.id} dataset={dataset} ids={ids} />
+                ))}
+              </ul>
+            </details>
+            {/* Outside the summary, so pressing it never opens or closes the folder. */}
+            <div className="absolute top-1.5 right-2">
+              <DeleteDatasetFolderDialog
+                {...ids}
+                folder={name}
+                fileCount={files.length}
               />
-              {t('folderSummary', { name, count: files.length })}
-            </summary>
-            <ul className="grid gap-3 border-t p-3">
-              {files.map(dataset => (
-                <DatasetItem key={dataset.id} dataset={dataset} ids={ids} />
-              ))}
-            </ul>
-          </details>
+            </div>
+          </div>
         ))}
       </div>
     </FileViewer>

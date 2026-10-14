@@ -18,6 +18,7 @@ import {
   EmptyTitle
 } from '@/components/ui/empty';
 
+import { countProject } from '../cascade/count-records';
 import { listParameterDefinitions } from '../data/parameter-definitions';
 import { getProjectById } from '../data/projects';
 import { listSamplesByExperiment } from '../data/samples';
@@ -25,7 +26,7 @@ import { listExperimentsByProject } from '../data/experiments';
 import { DEFAULT_PROJECT_TAB } from '../navigation/project-tabs';
 import type { ProjectTab } from '../navigation/project-tabs';
 import { EditBackgroundDialog } from './edit-background-dialog';
-import { EditProjectDialog } from './edit-project-dialog';
+import { ProjectMenu } from './project-menu';
 import { NewExperimentDialog } from './new-experiment-dialog';
 import { ExperimentCard } from './experiment-card';
 
@@ -37,6 +38,8 @@ type ProjectDetailProps = {
   references?: ReactNode;
   /** How many references there are, for the tab's count. */
   referenceCount?: number;
+  /** Deletes the project (and what is in it); composed by the page, since other features hold data about it. */
+  deleteProject?: (typedName: string) => Promise<boolean>;
 };
 
 /**
@@ -48,7 +51,8 @@ export const ProjectDetail = async ({
   projectId,
   tab = DEFAULT_PROJECT_TAB,
   references,
-  referenceCount = 0
+  referenceCount = 0,
+  deleteProject
 }: ProjectDetailProps) => {
   const [t, tImport, tTabs, tBackground, project] = await Promise.all([
     getTranslations('experiments.project'),
@@ -90,7 +94,6 @@ export const ProjectDetail = async ({
         ]}
         actions={
           <>
-            <EditProjectDialog project={project} />
             <Link
               href={`/projects/${project.id}/import`}
               className={buttonVariants({ variant: 'outline' })}
@@ -104,6 +107,25 @@ export const ProjectDetail = async ({
                 otherPrefixes={otherPrefixes}
               />
             )}
+            <ProjectMenu
+              project={project}
+              details={
+                deleteProject
+                  ? {
+                      kind: 'project',
+                      counts: {
+                        ...(await countProject(project.id)),
+                        references: referenceCount
+                      },
+                      hasSavedData: true,
+                      hasBackground: Boolean(project.background),
+                      confirmName: project.name,
+                      onDelete: deleteProject,
+                      afterHref: '/'
+                    }
+                  : undefined
+              }
+            />
           </>
         }
       />

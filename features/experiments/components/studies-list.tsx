@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { ExpandableText } from '@/components/expandable-text';
 
 import type { Study } from '../types';
+import { DeleteStudyButton } from './delete-study-button';
 import { EditStudyDialog } from './edit-study-dialog';
 
 type StudiesListProps = {
@@ -52,6 +53,12 @@ export const StudiesList = async ({
               otherNames={studies
                 .filter(other => other.id !== study.id)
                 .map(other => other.name)}
+            />
+            <DeleteStudyButton
+              projectId={projectId}
+              experimentId={experimentId}
+              study={study}
+              sampleCount={sampleCounts[study.id] ?? 0}
             />
           </div>
           {study.description && (

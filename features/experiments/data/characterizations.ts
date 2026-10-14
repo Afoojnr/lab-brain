@@ -159,3 +159,19 @@ export const deleteCharacterization = async (
   characterizations.splice(index, 1);
   return true;
 };
+
+/**
+ * Removes every characterization of a sample.
+ *
+ * @param sampleId - The sample being removed.
+ * @returns The removed records, so their files and analyses can be removed too.
+ */
+export const deleteCharacterizationsOfSample = async (
+  sampleId: string
+): Promise<Characterization[]> => {
+  const removed = characterizations.filter(item => item.sampleId === sampleId);
+  const kept = characterizations.filter(item => item.sampleId !== sampleId);
+  characterizations.splice(0, characterizations.length, ...kept);
+
+  return removed;
+};

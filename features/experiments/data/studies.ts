@@ -87,3 +87,39 @@ export const createStudy = async (
   studies.push(study);
   return study;
 };
+
+/**
+ * Removes a study's own record (the caller takes it off the samples).
+ *
+ * @param experimentId - The experiment owning the study.
+ * @param id - The study to remove.
+ * @returns Whether a study was removed.
+ */
+export const deleteStudy = async (
+  experimentId: string,
+  id: string
+): Promise<boolean> => {
+  const index = studies.findIndex(
+    study => study.id === id && study.experimentId === experimentId
+  );
+  if (index === -1) return false;
+
+  studies.splice(index, 1);
+  return true;
+};
+
+/**
+ * Removes every study of an experiment.
+ *
+ * @param experimentId - The experiment being removed.
+ * @returns How many studies were removed.
+ */
+export const deleteStudiesOfExperiment = async (
+  experimentId: string
+): Promise<number> => {
+  const before = studies.length;
+  const kept = studies.filter(study => study.experimentId !== experimentId);
+  studies.splice(0, studies.length, ...kept);
+
+  return before - studies.length;
+};

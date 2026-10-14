@@ -8,6 +8,7 @@ import { Markdown } from '@/components/markdown';
 import { RecordDetail } from '@/components/record-detail';
 import { buttonVariants } from '@/components/ui/button';
 
+import { countExperiment } from '../cascade/count-records';
 import { listCharacterizationsByExperiment } from '../data/characterizations';
 import { listStudiesByExperiment } from '../data/studies';
 import { listDerivedColumns } from '../data/derived-columns';
@@ -23,6 +24,7 @@ import { filterSamples } from '../samples/sample-filter';
 import { defaultSectionTab } from '../navigation/sections';
 import type { SectionTab } from '../navigation/sections';
 import { EditExperimentDialog } from './edit-experiment-dialog';
+import { ExperimentMenu } from './experiment-menu';
 import { ExperimentChecklist } from './experiment-checklist';
 import { StudiesList } from './studies-list';
 import { NewStudyDialog } from './new-study-dialog';
@@ -48,6 +50,8 @@ type ExperimentDetailProps = {
   savedPlotCount?: number;
   /** From the URL: show only samples matching this text. */
   query?: string;
+  /** Deletes the experiment (and what is in it); composed by the page, since other features hold data about it. */
+  deleteExperiment?: (typedName: string) => Promise<boolean>;
 };
 
 /**
@@ -61,7 +65,8 @@ export const ExperimentDetail = async ({
   tab,
   savedPlots,
   savedPlotCount = 0,
-  query
+  query,
+  deleteExperiment
 }: ExperimentDetailProps) => {
   const [
     t,
@@ -339,11 +344,6 @@ export const ExperimentDetail = async ({
         ]}
         actions={
           <>
-            <EditExperimentDialog
-              projectId={project.id}
-              experiment={experiment}
-              otherPrefixes={otherPrefixes}
-            />
             <Link
               href={`/report/projects/${project.id}/experiments/${experiment.id}`}
               className={buttonVariants({ variant: 'outline' })}
@@ -365,6 +365,23 @@ export const ExperimentDetail = async ({
               <PlusIcon aria-hidden />
               {tSamples('list.add')}
             </Link>
+            <ExperimentMenu
+              projectId={project.id}
+              experiment={experiment}
+              otherPrefixes={otherPrefixes}
+              details={
+                deleteExperiment
+                  ? {
+                      kind: 'experiment',
+                      counts: await countExperiment(experiment.id),
+                      hasSavedData: true,
+                      confirmName: experiment.name,
+                      onDelete: deleteExperiment,
+                      afterHref: `/projects/${project.id}`
+                    }
+                  : undefined
+              }
+            />
           </>
         }
         tabs={

@@ -153,3 +153,48 @@ export const assignSamplesToStudy = async (
 
   return tagged;
 };
+
+/**
+ * Removes a sample's own record. Its measurements and files are removed by the
+ * caller first.
+ *
+ * @param experimentId - The experiment owning the sample.
+ * @param id - The sample to remove.
+ * @returns Whether a sample was removed.
+ */
+export const deleteSample = async (
+  experimentId: string,
+  id: string
+): Promise<boolean> => {
+  const index = samples.findIndex(
+    sample => sample.id === id && sample.experimentId === experimentId
+  );
+  if (index === -1) return false;
+
+  samples.splice(index, 1);
+  return true;
+};
+
+/**
+ * Takes a study off every sample of the experiment that has it; the samples and
+ * their data stay.
+ *
+ * @param experimentId - The experiment owning the study.
+ * @param studyId - The study being removed.
+ * @returns How many samples had it.
+ */
+export const removeStudyFromSamples = async (
+  experimentId: string,
+  studyId: string
+): Promise<number> => {
+  let count = 0;
+  for (const sample of samples) {
+    if (sample.experimentId !== experimentId) continue;
+    if (!sample.studyIds.includes(studyId)) continue;
+
+    sample.studyIds = sample.studyIds.filter(id => id !== studyId);
+    count += 1;
+  }
+
+  return count;
+};

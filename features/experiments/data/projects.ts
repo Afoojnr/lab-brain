@@ -99,3 +99,18 @@ export const updateProject = async (
   projects[index] = updated;
   return updated;
 };
+
+/**
+ * Removes a project's own record. Everything that belongs to it (experiments,
+ * samples, files, ...) is removed by the caller first.
+ *
+ * @param id - The project to remove.
+ * @returns Whether a project was removed.
+ */
+export const deleteProject = async (id: string): Promise<boolean> => {
+  const index = projects.findIndex(project => project.id === id);
+  if (index === -1) return false;
+
+  projects.splice(index, 1);
+  return true;
+};

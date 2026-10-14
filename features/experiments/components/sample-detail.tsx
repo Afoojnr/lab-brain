@@ -1,4 +1,6 @@
-import { CopyIcon, FileTextIcon, PencilIcon } from 'lucide-react';
+import { countSample } from '../cascade/count-records';
+import { RecordMenu } from './record-menu';
+import { CopyIcon, FileTextIcon } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getFormatter, getTranslations } from 'next-intl/server';
@@ -29,6 +31,8 @@ type SampleDetailProps = {
   projectId: string;
   experimentId: string;
   sampleId: string;
+  /** Deletes the sample (and its measurements and files); composed by the page, since other features hold data about it. */
+  deleteSample?: () => Promise<boolean>;
 };
 
 /**
@@ -40,7 +44,8 @@ type SampleDetailProps = {
 export const SampleDetail = async ({
   projectId,
   experimentId,
-  sampleId
+  sampleId,
+  deleteSample
 }: SampleDetailProps) => {
   const [
     t,
@@ -161,10 +166,20 @@ export const SampleDetail = async ({
             <CopyIcon aria-hidden />
             {t('detail.duplicate')}
           </Link>
-          <Link href={`${samplePath}/edit`} className={buttonVariants()}>
-            <PencilIcon aria-hidden />
-            {t('detail.edit')}
-          </Link>
+          <RecordMenu
+            edit={{ label: t('detail.edit'), href: `${samplePath}/edit` }}
+            details={
+              deleteSample
+                ? {
+                    kind: 'sample',
+                    counts: await countSample(sample.id),
+                    hasSavedData: true,
+                    onDelete: deleteSample,
+                    afterHref: experimentPath
+                  }
+                : undefined
+            }
+          />
         </>
       }
       primary={[

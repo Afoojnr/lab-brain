@@ -92,3 +92,23 @@ export const deleteDataset = async (id: string): Promise<boolean> => {
   datasets.splice(index, 1);
   return true;
 };
+
+/**
+ * Removes every file record of a characterization.
+ *
+ * @param characterizationId - The characterization being removed.
+ * @returns The removed records, so their files can be removed from storage.
+ */
+export const deleteDatasetsOfCharacterization = async (
+  characterizationId: string
+): Promise<Dataset[]> => {
+  const removed = datasets.filter(
+    item => item.characterizationId === characterizationId
+  );
+  const kept = datasets.filter(
+    item => item.characterizationId !== characterizationId
+  );
+  datasets.splice(0, datasets.length, ...kept);
+
+  return removed;
+};

@@ -6,7 +6,8 @@
     "samples": "{count, plural, one {# sample} other {# samples}}",
     "show": "Show samples of {name}",
     "add": "New study",
-    "edit": "Edit {name}"
+    "edit": "Edit {name}",
+    "delete": "Delete {name}"
   },
   "form": {
     "title": "New study",

@@ -77,6 +77,11 @@
     "dropFolderTitle": "Déposez un dossier ici",
     "dropFolderHint": "Tout le dossier de l'échantillon, avec ses sous-dossiers. Chaque fichier jusqu'à 50 Mo",
     "folderInputLabel": "Dossier à joindre",
-    "folderSummary": "{name} · {count, plural, one {# fichier} other {# fichiers}}"
+    "folderSummary": "{name} · {count, plural, one {# fichier} other {# fichiers}}",
+    "removeFolder": "Supprimer le dossier {name}",
+    "removeFolderTitle": "Supprimer {name} et {count, plural, one {son # fichier} other {ses # fichiers}} ?",
+    "removeFolderDescription": "Les fichiers sont supprimés du stockage. Les valeurs déjà envoyées aux colonnes de résultats restent.",
+    "removeFolderConfirm": "Supprimer le dossier",
+    "folderRemoved": "{name} supprimé ({count, plural, one {# fichier} other {# fichiers}})"
   }
 }

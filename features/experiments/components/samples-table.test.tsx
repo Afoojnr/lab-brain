@@ -93,6 +93,47 @@ describe('SamplesTable', () => {
     ).toBeInTheDocument();
   });
 
+  it('keeps the tick box and the code pinned to the left when the table scrolls sideways', () => {
+    renderTable({
+      samples: [{ ...sample('ALD001'), note: 'noted' }, sample('ALD002')]
+    });
+
+    const pinned = (element: HTMLElement) => {
+      expect(element).toHaveClass('sticky', 'z-10');
+      // Opaque: the card colour, or (for a noted row) the tint laid on it.
+      expect(element.className).toMatch(/bg-card|color-mix/);
+    };
+    // The header row of columns, then every body row.
+    const header = screen.getByRole('columnheader', { name: 'Code' });
+    pinned(header);
+    expect(header).toHaveClass('left-8');
+    pinned(
+      screen.getByRole('checkbox', { name: assign.selectAll }).closest('th')!
+    );
+
+    for (const code of ['ALD001', 'ALD002']) {
+      const row = screen.getByRole('row', { name: new RegExp(code) });
+      const [tick, codeCell, tags] = within(row).getAllByRole('cell');
+      pinned(tick);
+      expect(tick).toHaveClass('left-0');
+      pinned(codeCell);
+      expect(codeCell).toHaveClass('left-8');
+      // The columns after them scroll.
+      expect(tags).not.toHaveClass('sticky');
+    }
+  });
+
+  it('keeps a noted row pinned and opaque, tinted on the background', () => {
+    renderTable({ samples: [{ ...sample('ALD001'), note: 'noted' }] });
+
+    const row = screen.getByRole('row', { name: /ALD001/ });
+    const [, codeCell] = within(row).getAllByRole('cell');
+
+    expect(codeCell.className).toContain(
+      'color-mix(in_srgb,var(--destructive)_10%,var(--card))'
+    );
+  });
+
   describe('calculated columns', () => {
     const GPC: DerivedColumn = {
       id: 'gpc',

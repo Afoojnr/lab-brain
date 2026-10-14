@@ -101,3 +101,18 @@ export const updateExperiment = async (
   experimentList[index] = updated;
   return updated;
 };
+
+/**
+ * Removes an experiment's own record. Its samples, columns and studies are
+ * removed by the caller first.
+ *
+ * @param id - The experiment to remove.
+ * @returns Whether an experiment was removed.
+ */
+export const deleteExperiment = async (id: string): Promise<boolean> => {
+  const index = experimentList.findIndex(experiment => experiment.id === id);
+  if (index === -1) return false;
+
+  experimentList.splice(index, 1);
+  return true;
+};

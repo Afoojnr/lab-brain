@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab } from './helpers';
+import { chooseFromMenu, openTab } from './helpers';
 
 // Creates its own project so the demo data's next sample code stays untouched.
 test('places a sample in several studies from the form and changes them on edit', async ({
@@ -69,7 +69,7 @@ test('places a sample in several studies from the form and changes them on edit'
   await expect(page.getByText('TEB dose study', { exact: true })).toBeVisible();
 
   // Edit: remove one study with its chip's remove button.
-  await page.getByRole('link', { name: 'Edit', exact: true }).click();
+  await chooseFromMenu(page, 'Edit');
   await page
     .locator('[data-slot="combobox-chip"]', { hasText: 'TEB dose study' })
     .getByRole('button')

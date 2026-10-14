@@ -56,6 +56,20 @@ type SamplesTableProps = {
 };
 
 /**
+ * The tick box and the code stay at the left while the table scrolls sideways.
+ * They are opaque and take the card's colour (the table sits in a card, which in
+ * dark mode is lighter than the page), so the columns passing under them never
+ * show through and the pinned part looks like the rest of the row; the code
+ * column is 2rem from the left, the width of the tick box column.
+ */
+const PINNED = 'sticky z-10 bg-card';
+// Exactly 2rem wide, so the code column can stick right after it with no gap.
+const PINNED_TICK = `${PINNED} left-0 w-8 min-w-8 max-w-8`;
+const PINNED_CODE = `${PINNED} left-8 border-r`;
+/** A noted row's tint laid over the background (mixed in sRGB, as a see-through tint is drawn) so a pinned cell stays opaque and matches the row. */
+const NOTED = 'bg-[color-mix(in_srgb,var(--destructive)_10%,var(--card))]';
+
+/**
  * An experiment's samples like the rows of a spreadsheet: code, studies, date,
  * one column per parameter, then implementation and observation. An empty
  * cell means "not recorded", for example on samples made before a column was
@@ -155,7 +169,8 @@ export const SamplesTable = ({
         <TableHeader>
           {(results.length > 0 || derivedColumns.length > 0) && (
             <TableRow>
-              <TableHead colSpan={4} />
+              <TableHead colSpan={2} className={`${PINNED_TICK} border-r`} />
+              <TableHead colSpan={2} />
               <TableHead
                 colSpan={parameters.length}
                 className="border-l font-semibold"
@@ -182,7 +197,7 @@ export const SamplesTable = ({
             </TableRow>
           )}
           <TableRow>
-            <TableHead className="w-8">
+            <TableHead className={PINNED_TICK}>
               <Checkbox
                 aria-label={tAssign('selectAll')}
                 checked={isAllSelected}
@@ -194,7 +209,7 @@ export const SamplesTable = ({
                 }
               />
             </TableHead>
-            <TableHead>{t('columns.code')}</TableHead>
+            <TableHead className={PINNED_CODE}>{t('columns.code')}</TableHead>
             <TableHead>{tAssign('tags')}</TableHead>
             <TableHead>{t('columns.date')}</TableHead>
             {definitions.map(definition => (
@@ -222,9 +237,11 @@ export const SamplesTable = ({
           {samples.map(sample => (
             <TableRow
               key={sample.id}
-              className={sample.note ? 'bg-destructive/10' : undefined}
+              className={`group/row ${sample.note ? 'bg-destructive/10' : ''}`}
             >
-              <TableCell>
+              <TableCell
+                className={`${PINNED_TICK} group-hover/row:bg-[color-mix(in_srgb,var(--muted)_50%,var(--card))] ${sample.note ? NOTED : ''}`}
+              >
                 <Checkbox
                   aria-label={tAssign('selectRow', { code: sample.code })}
                   checked={visibleSelectedIds.includes(sample.id)}
@@ -233,7 +250,9 @@ export const SamplesTable = ({
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell
+                className={`${PINNED_CODE} group-hover/row:bg-[color-mix(in_srgb,var(--muted)_50%,var(--card))] ${sample.note ? NOTED : ''}`}
+              >
                 <RecordLink
                   href={`/projects/${projectId}/experiments/${experimentId}/samples/${sample.id}`}
                 >

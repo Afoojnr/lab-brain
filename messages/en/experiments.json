@@ -80,5 +80,54 @@
     "plots": "Plots",
     "protocol": "Protocol",
     "setup": "Setup"
+  },
+  "delete": {
+    "typeName": "Type <strong>{name}</strong> to confirm.",
+    "nameLabel": "Name",
+    "cancel": "Cancel",
+    "failed": "It could not be deleted.",
+    "removes": "This removes:",
+    "irreversible": "This cannot be undone.",
+    "counts": {
+      "experiments": "{count, plural, one {# experiment} other {# experiments}}",
+      "samples": "{count, plural, one {# sample} other {# samples}}",
+      "characterizations": "{count, plural, one {# measurement} other {# measurements}}",
+      "files": "{count, plural, one {# attached file (also removed from storage)} other {# attached files (also removed from storage)}}",
+      "columns": "{count, plural, one {# column} other {# columns}}",
+      "studies": "{count, plural, one {# study} other {# studies}}",
+      "references": "{count, plural, one {# reference with its stored PDF and text} other {# references with their stored PDFs and text}}",
+      "savedPlots": "saved plots and saved analyses of it",
+      "background": "the project background"
+    },
+    "study": {
+      "button": "Delete this study",
+      "confirm": "Delete study",
+      "keeps": "{count, plural, =0 {No sample has this study.} one {# sample keeps all its data and only loses the tag.} other {# samples keep all their data and only lose the tag.}}",
+      "done": "Study deleted",
+      "title": "Delete this study?",
+      "menuItem": "Delete study"
+    },
+    "sample": {
+      "button": "Delete this sample",
+      "confirm": "Delete sample",
+      "done": "Sample deleted",
+      "title": "Delete this sample?",
+      "menuItem": "Delete sample"
+    },
+    "experiment": {
+      "button": "Delete this experiment",
+      "confirm": "Delete experiment",
+      "done": "Experiment deleted",
+      "title": "Delete this experiment?",
+      "menuItem": "Delete experiment"
+    },
+    "project": {
+      "button": "Delete this project",
+      "confirm": "Delete project",
+      "done": "Project deleted",
+      "title": "Delete this project?",
+      "menuItem": "Delete project"
+    },
+    "moreActions": "More actions"
   }
 }

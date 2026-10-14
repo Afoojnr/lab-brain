@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { openTab } from './helpers';
+import { chooseFromMenu, openTab } from './helpers';
 
 // Flows 0 and 1 end to end: a project with an experiment, its columns, and samples
 // added, duplicated and edited. Creates its own project, so it never depends
@@ -120,7 +120,7 @@ test('builds an experiment with columns and records, duplicates and edits sample
   ).toBeVisible();
 
   // Edit: record an observation.
-  await page.getByRole('link', { name: 'Edit', exact: true }).click();
+  await chooseFromMenu(page, 'Edit');
   await page.getByLabel('Observation').fill('Looks uniform.');
   await page.getByRole('button', { name: 'Save sample' }).click();
   await expect(page.getByText('Looks uniform.', { exact: true })).toBeVisible();

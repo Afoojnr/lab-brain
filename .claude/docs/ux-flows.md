@@ -369,6 +369,34 @@ Project page → References tab → Add a reference → card → Summarise (opti
 
 ---
 
+## Flow 5c — Delete a record (built)
+
+**Goal:** remove a mistake safely, knowing exactly what goes with it.
+
+1. Delete is where you see the thing:
+   - **Study:** a bin next to its pencil in the Studies list (Setup tab).
+   - **Sample, experiment, project:** the **⋯ (More actions)** button at the end of the
+     page's header buttons, which holds **Edit** and **Delete**.
+   - **Uploaded folder:** a bin on the folder row.
+     Each opens one confirmation dialog that lists what goes with the record, with counts.
+     Nothing is deleted until its red button.
+2. What goes with each:
+   - **Study:** only the study; its samples keep all their data and lose the tag.
+   - **Sample:** its measurements, their attached files (also removed from storage) and
+     their saved analyses.
+   - **Experiment:** all its samples as above, its columns (entered and calculated), its
+     studies and its saved plots.
+   - **Project:** all its experiments as above, its references (with the stored PDFs and
+     text) and its background.
+3. An **experiment** or **project** also asks for its exact name to be typed (the server
+   checks it again). After a delete you land on the parent page and the sidebar updates.
+4. A whole **uploaded folder** (e.g. "ABC130 · 47 files") has its own bin button: one
+   confirmation removes the folder and all its files. Values already sent to result
+   columns stay.
+5. A column that a calculated column uses still cannot be deleted. There is no undo.
+
+---
+
 ## Flow 6 — Export for a future reader (built)
 
 **Goal:** get something useful out of the app, as the right kind of file.

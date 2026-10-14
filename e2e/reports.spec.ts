@@ -8,9 +8,14 @@ test('opens a sample report from the sample page and shows what was and was not 
   await page.goto(
     '/projects/demo-project-1/experiments/demo-experiment-1/samples/demo-sample-1'
   );
-  await page.getByRole('link', { name: 'Report', exact: true }).click();
-
-  await expect(page).toHaveURL(/\/report\/projects\/demo-project-1/);
+  // The dev server hydrates the page while the suite runs other tests, and a
+  // click before that is lost: press again until the link takes effect.
+  await expect(async () => {
+    await page.getByRole('link', { name: 'Report', exact: true }).click();
+    await expect(page).toHaveURL(/\/report\/projects\/demo-project-1/, {
+      timeout: 3000
+    });
+  }).toPass();
   await expect(
     page.getByRole('heading', { name: 'ALD001', level: 1 })
   ).toBeVisible();
