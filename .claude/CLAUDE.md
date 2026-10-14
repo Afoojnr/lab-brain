@@ -117,7 +117,7 @@ hooks/  lib/ (db/, storage/)  types/  utils/     shared code
   next to the file it tests.
 - Features: `experiments` (projects, experiments, studies, samples, attached files),
   `import`, `characterization` (analyses per technique under `techniques/`: EDX,
-  ellipsometry), `plots` (X/Y scatter of an uploaded table or an experiment's
+  ellipsometry, FTIR), `plots` (X/Y scatter of an uploaded table or an experiment's
   samples, with saved plots and export; file builders are in `lib/export/`),
   `reports` (a printable sample report and experiment summary), `references` (a
   project's papers: PDF, link or pasted text, read once and kept), `assistant` (the

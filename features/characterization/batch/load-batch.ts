@@ -8,7 +8,7 @@ import type { BatchRow } from './batch-types';
 import { getAnalysis } from '../data/analyses';
 import { suggestKind } from '../analysis/defaults';
 import { loadEdxSpots, loadSeqfits } from '../analysis/load';
-import type { AnalysisKind } from '../types';
+import type { TableAnalysisKind } from '../types';
 
 /**
  * The rows of a batch: an experiment's characterizations whose technique is
@@ -19,7 +19,7 @@ import type { AnalysisKind } from '../types';
  * @param experimentId - The experiment to list.
  */
 export const loadBatchRows = async (
-  kind: AnalysisKind,
+  kind: TableAnalysisKind,
   experimentId: string
 ): Promise<BatchRow[]> => {
   const [characterizations, samples] = await Promise.all([

@@ -3,7 +3,14 @@ import { describe, expect, it } from 'vitest';
 
 import type { EdxItem } from '../techniques/edx/from-files';
 import { readSeqfitItems } from '../techniques/ellipsometry/from-files';
-import { buildWorkbook, edxSummary, ellipsometrySummary } from './summary-rows';
+import { defaultFtirSettings } from '../techniques/ftir/defaults';
+import { syntheticSpectrum } from '../techniques/ftir/synthetic';
+import {
+  buildWorkbook,
+  edxSummary,
+  ellipsometrySummary,
+  ftirSummary
+} from './summary-rows';
 
 const spot = (id: string, atomic: Record<string, number>) => ({
   id,
@@ -116,5 +123,39 @@ describe('buildWorkbook', () => {
       ['ID', 'B/N'],
       ['ABC130', 1.5]
     ]);
+  });
+});
+
+describe('ftirSummary', () => {
+  const spectra = [
+    {
+      id: 'a.csv',
+      points: syntheticSpectrum({
+        bands: [{ at: 1100, depth: 40, width: 25 }],
+        noise: 0
+      })
+    },
+    {
+      id: 'b.csv',
+      points: syntheticSpectrum({
+        bands: [{ at: 1100, depth: 20, width: 25 }],
+        from: 1500,
+        to: 4000,
+        noise: 0
+      })
+    }
+  ];
+
+  it('has one row per spectrum with the value at each peak, empty where there is no data', () => {
+    const table = ftirSummary(spectra, {
+      ...defaultFtirSettings(),
+      peaks: [{ id: 'p', position: 1100, label: 'B–C' }]
+    });
+
+    expect(table.headers).toEqual(['ID', '1100 cm⁻¹ — B–C (%)']);
+    expect(table.rows[0][0]).toBe('a.csv');
+    expect(table.rows[0][1]).toBeCloseTo(40, 0);
+    // The second spectrum starts at 1500: nothing was measured near 1100.
+    expect(table.rows[1]).toEqual(['b.csv', '']);
   });
 });

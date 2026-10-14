@@ -26,3 +26,7 @@ export const isEdxFile = (fileName: string): boolean =>
 /** The files the ellipsometry analysis reads: fit exports are CSV. */
 export const isCsvFile = (fileName: string): boolean =>
   fileName.toLowerCase().endsWith('.csv');
+
+/** The files the FTIR analysis reads: a two-column text export. */
+export const isFtirFile = (fileName: string): boolean =>
+  /\.(csv|txt|dpt|dat)$/i.test(fileName);

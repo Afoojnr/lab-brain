@@ -14,6 +14,7 @@ import { defaultSettings } from '../analysis/defaults';
 import { loadBatchRows } from '../batch/load-batch';
 import type { AnalysisKind } from '../types';
 import { ExperimentBatch } from './experiment-batch';
+import { FtirExperiment } from './ftir-experiment';
 
 type ExperimentSourceProps = {
   kind: AnalysisKind;
@@ -71,6 +72,19 @@ export const ExperimentSource = async ({
               ? t('noExperiments')
               : t('pickHint')}
         </p>
+      </div>
+    );
+  }
+
+  if (kind === 'ftir') {
+    return (
+      <div className="grid min-w-0 gap-8">
+        {picker}
+        <FtirExperiment
+          projectId={project.id}
+          experimentId={experiment.id}
+          experimentName={experiment.name}
+        />
       </div>
     );
   }

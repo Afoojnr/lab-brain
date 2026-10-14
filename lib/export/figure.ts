@@ -1,4 +1,6 @@
-import type { SeriesShape } from '../style/series-style';
+/** The marker drawn beside a legend entry. */
+export type FigureMarkerShape =
+  'circle' | 'square' | 'triangle' | 'diamond' | 'star';
 
 /** What the CSS variables of the chart are on paper: always the light theme, whatever the screen shows. */
 const PAPER_COLORS: Record<string, string> = {
@@ -50,13 +52,16 @@ export const wrapText = (text: string, maxCharacters: number): string[] => {
 };
 
 const markerMarkup = (
-  shape: SeriesShape,
+  shape: FigureMarkerShape | undefined,
   x: number,
   y: number,
   color: string
 ) => {
   const r = 5;
   switch (shape) {
+    // No shape: a short line, as a line chart's legend draws it.
+    case undefined:
+      return `<line x1="${x - 6}" y1="${y}" x2="${x + 8}" y2="${y}" stroke="${color}" stroke-width="2"/>`;
     case 'square':
       return `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" fill="${color}"/>`;
     case 'triangle':
@@ -79,7 +84,8 @@ const markerMarkup = (
 export type FigureLegendItem = {
   label: string;
   color: string;
-  shape: SeriesShape;
+  /** Left out for a line (a spectrum), given for a scatter group. */
+  shape?: FigureMarkerShape;
 };
 
 type FigureInput = {

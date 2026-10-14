@@ -1,131 +1,30 @@
-import {
-  CSV_TYPE,
-  downloadBytes,
-  fileNameFor,
-  PDF_TYPE,
-  PNG_TYPE,
-  PPTX_TYPE,
-  XLSX_TYPE
-} from '@/lib/download-file';
-import { buildPdf } from '@/lib/export/pdf';
-import { buildPptx } from '@/lib/export/pptx';
-import { svgToPng } from '@/lib/export/svg-image';
+import { exportFigureFile } from '@/lib/export/figure-file';
+import type { FigureFileInput } from '@/lib/export/figure-file';
+import { exportTableFile } from '@/lib/export/table-file';
 import type { ExportTable } from '@/lib/export/types';
-
-import { composeFigure } from './export-figure';
-import type { FigureLegendItem } from './export-figure';
 
 export type ExportFormat = 'png' | 'pdf' | 'pptx' | 'xlsx' | 'csv';
 
-export type ExportInput = {
-  /** The element holding the drawn chart. */
-  chartElement: HTMLElement;
-  title: string;
-  /** Caption lines: source, filters, counts. */
-  lines: string[];
-  legend: FigureLegendItem[];
-  /** What the legend's entries are (the column coloured by); omitted when not grouped. */
-  legendTitle?: string;
-  /** Scales the title, caption and legend text (1 is normal). */
-  textScale: number;
+export type ExportInput = FigureFileInput & {
   /** The plotted values, for the Excel and CSV formats. */
   table: ExportTable;
 };
 
-/** The bytes of a `data:` URL written in base64. */
-export const dataUrlToBytes = (dataUrl: string): Uint8Array => {
-  const binary = atob(dataUrl.slice(dataUrl.indexOf(',') + 1));
-
-  return Uint8Array.from(binary, character => character.charCodeAt(0));
-};
-
-/** The chart's SVG as markup with its size, or null when it is not drawn yet. */
-export const readChartSvg = (container: HTMLElement) => {
-  const chart = container.querySelector('svg.recharts-surface');
-  if (!chart) return null;
-
-  const box = chart.getBoundingClientRect();
-  const width =
-    box.width || Number.parseFloat(chart.getAttribute('width') ?? '');
-  const height =
-    box.height || Number.parseFloat(chart.getAttribute('height') ?? '');
-  if (!Number.isFinite(width) || !Number.isFinite(height)) return null;
-
-  const copy = chart.cloneNode(true) as SVGElement;
-  copy.setAttribute('width', String(width));
-  copy.setAttribute('height', String(height));
-  copy.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  copy.removeAttribute('style');
-  copy.removeAttribute('class');
-  copy.setAttribute('class', 'recharts-surface');
-
-  return { svg: new XMLSerializer().serializeToString(copy), width, height };
-};
-
 /**
- * Saves the plot as a file in the chosen format. The picture formats (PNG, PDF, PowerPoint) use the light theme with the caption and legend, so a
- * figure explains itself; Excel and CSV hold the plotted values.
+ * Saves the plot as a file in the chosen format. The picture formats (PNG, PDF,
+ * PowerPoint) use the light theme with the caption and legend, so a figure
+ * explains itself; Excel and CSV hold the plotted values.
  *
  * @throws When the chart is not drawn, or the picture cannot be made.
  */
 export const exportPlot = async (
   format: ExportFormat,
-  {
-    chartElement,
-    title,
-    lines,
-    legend,
-    legendTitle,
-    textScale,
-    table
-  }: ExportInput
+  { table, ...figure }: ExportInput
 ) => {
   if (format === 'xlsx' || format === 'csv') {
-    // The spreadsheet library is large, so it is only downloaded when someone exports.
-    const { tableToCsv, tableToWorkbook } =
-      await import('@/lib/export/tabular');
-    if (format === 'csv') {
-      downloadBytes(fileNameFor(title, 'csv'), tableToCsv(table), CSV_TYPE);
-      return;
-    }
-
-    downloadBytes(
-      fileNameFor(title, 'xlsx'),
-      tableToWorkbook(table, title),
-      XLSX_TYPE
-    );
+    await exportTableFile(format, figure.title, table);
     return;
   }
 
-  const chart = readChartSvg(chartElement);
-  if (!chart) throw new Error('The chart is not drawn.');
-
-  // A PDF page or a slide carries the title and the caption itself.
-  const isDocument = format === 'pdf' || format === 'pptx';
-  const figure = composeFigure({
-    chart,
-    title: isDocument ? undefined : title,
-    lines: isDocument ? [] : lines,
-    legend,
-    legendTitle,
-    textScale
-  });
-
-  const image = await svgToPng(figure.svg, figure.width, figure.height);
-  if (format === 'png') {
-    downloadBytes(
-      fileNameFor(title, 'png'),
-      dataUrlToBytes(image.dataUrl),
-      PNG_TYPE
-    );
-    return;
-  }
-
-  const pages = [{ title, image, lines }];
-  if (format === 'pdf') {
-    downloadBytes(fileNameFor(title, 'pdf'), await buildPdf(pages), PDF_TYPE);
-    return;
-  }
-
-  downloadBytes(fileNameFor(title, 'pptx'), await buildPptx(pages), PPTX_TYPE);
+  await exportFigureFile(format, figure);
 };

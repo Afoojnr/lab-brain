@@ -1,7 +1,7 @@
 import type { BatchRow } from './batch-types';
 import { edxValues } from '../techniques/edx/stats';
 import { ellipsometryValues } from '../techniques/ellipsometry/parse';
-import type { AnalysisKind, AnalysisValue } from '../types';
+import type { AnalysisValue, TableAnalysisKind } from '../types';
 
 /** What applying a value would do to a sample's cell: fill it, leave it, or replace a different value. */
 export type CellChange = 'fill' | 'same' | 'replace';
@@ -39,7 +39,7 @@ export const isAppliedByDefault = (changes: CellChange[]): boolean =>
  * @param ratio - The EDX ratio pair.
  */
 export const valueDefinitions = (
-  kind: AnalysisKind,
+  kind: TableAnalysisKind,
   ratio: { numerator: string; denominator: string }
 ): AnalysisValue[] =>
   kind === 'edx'

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { composeFigure, resolveCssVariables, wrapText } from './export-figure';
+import { composeFigure, resolveCssVariables, wrapText } from './figure';
 
 const CHART = {
   svg: '<svg class="recharts-surface" width="600" height="300"><circle fill="var(--plot-1)" stroke="var(--background)"/><text fill="var(--muted-foreground)">x</text></svg>',
@@ -113,5 +113,25 @@ describe('composeFigure', () => {
     expect(
       composeFigure({ chart: CHART, legend: [legend[0]], legendTitle: 'X' }).svg
     ).not.toContain('>X</text>');
+  });
+});
+
+describe('composeFigure: a legend of lines', () => {
+  it('draws a short line, not a marker, for an entry with no shape', () => {
+    const { svg } = composeFigure({
+      chart: {
+        svg: '<svg width="100" height="50"></svg>',
+        width: 100,
+        height: 50
+      },
+      legend: [
+        { label: 'A.csv', color: '#2563eb' },
+        { label: 'B.csv', color: '#dc2626' }
+      ]
+    });
+
+    expect(svg).toContain('stroke="#2563eb"');
+    expect(svg).toContain('A.csv');
+    expect(svg).not.toContain('<circle');
   });
 });

@@ -32,6 +32,7 @@ vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 import { toast } from 'sonner';
 
 import { applyAnalysisBatchAction } from '../actions/apply-analysis-batch';
+import { batchPayloadSchema } from '../schemas';
 import type { BatchRow } from '../batch/batch-types';
 import { ExperimentBatch } from './experiment-batch';
 
@@ -155,6 +156,23 @@ describe('ExperimentBatch', () => {
       rows: [{ characterizationId: 'c1', excludedSpots: ['s2'] }]
     });
     expect(toast.success).toHaveBeenCalledWith('1 sample updated');
+  });
+
+  it('sends a payload the server accepts', async () => {
+    vi.mocked(applyAnalysisBatchAction).mockResolvedValue(1);
+    const user = renderBatch();
+    await user.click(
+      screen.getByRole('checkbox', { name: 'Select ALD001 · 2026-09-18' })
+    );
+    await user.click(screen.getByRole('button', { name: 'Apply to 1 sample' }));
+
+    await waitFor(() => expect(applyAnalysisBatchAction).toHaveBeenCalled());
+    const sent = vi.mocked(applyAnalysisBatchAction).mock.calls[0]?.[3];
+    // The action ignores a payload that does not pass this, silently.
+    const parsed = batchPayloadSchema.safeParse(sent);
+    expect(
+      parsed.success ? null : JSON.stringify(parsed.error.issues)
+    ).toBeNull();
   });
 
   it('lets the user choose to update a sample that would replace a value', async () => {

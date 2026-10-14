@@ -1,4 +1,5 @@
 import { DEFAULT_EDX_VALUE_IDS } from '../techniques/edx/stats';
+import { defaultFtirSettings } from '../techniques/ftir/defaults';
 import { DEFAULT_ELLIPSOMETRY_VALUE_IDS } from '../techniques/ellipsometry/parse';
 import type { AnalysisKind, AnalysisSettings } from '../types';
 
@@ -7,6 +8,12 @@ export const suggestKind = (technique: string): AnalysisKind | null => {
   const name = technique.trim().toLowerCase();
   if (name.includes('edx') || name.includes('eds')) return 'edx';
   if (name.includes('ellips')) return 'ellipsometry';
+  if (
+    name.includes('ftir') ||
+    name.includes('ft-ir') ||
+    name.includes('infrared')
+  )
+    return 'ftir';
 
   return null;
 };
@@ -17,7 +24,12 @@ export const defaultSettings = (kind: AnalysisKind): AnalysisSettings => ({
   denominator: 'N',
   excludedSpots: [],
   datasetId: null,
-  selectedValueIds:
-    kind === 'edx' ? DEFAULT_EDX_VALUE_IDS : DEFAULT_ELLIPSOMETRY_VALUE_IDS,
+  ftir: kind === 'ftir' ? defaultFtirSettings() : null,
+  selectedValueIds: {
+    edx: DEFAULT_EDX_VALUE_IDS,
+    ellipsometry: DEFAULT_ELLIPSOMETRY_VALUE_IDS,
+    // The peaks do not exist until the user keeps some.
+    ftir: []
+  }[kind],
   targets: {}
 });
