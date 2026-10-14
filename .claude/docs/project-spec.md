@@ -153,10 +153,14 @@ parse the raw export format, compute a derived value, and hand off to a chart.
 - **EDX**: read per-point element concentrations from the exported file(s), compute
   ratios (e.g. average B/C ratio across points), plot ratio vs. a chosen parameter
   (temperature, cycles, plasma time, etc.).
-- **FTIR**: parse the CSV, plot the spectrum, and check intensity at a pre-defined set
-  of known peak positions (peak _assignment_ against a list you already have — not
-  full peak _fitting/deconvolution_, which is the one case that would actually need a
-  numerical library; not required for this workflow).
+- **FTIR** (built): parse the two-column export (guessing transmittance or
+  absorbance from the values, switchable), plot and stack spectra to compare, suggest
+  peaks that the user curates (remove, add, label with the bond as free text), and read
+  the intensity at each kept peak within a tolerance. Optional absorbance
+  (A = 2 − log10 %T) and normalisation (min–max, reference peak, vector, SNV), always
+  labelled relative; baseline correction and an automatic bond-assignment table (from a
+  source the user provides) come later. Still peak _finding_ and annotation, not
+  _fitting/deconvolution_, which would need a numerical library.
 - **Ellipsometry**: thickness ÷ cycles = growth-per-cycle (GPC); plot GPC (or
   thickness) vs. a chosen parameter across samples.
 - All of this is arithmetic + array operations + charting (Recharts/Chart.js) — well

@@ -67,6 +67,7 @@ const settings = (
   denominator: 'N',
   excludedSpots: [],
   datasetId: null,
+  ftir: null,
   selectedValueIds: ['ratio', 'el:B'],
   targets: {
     ratio: { type: 'column', columnId: 'ratio' },

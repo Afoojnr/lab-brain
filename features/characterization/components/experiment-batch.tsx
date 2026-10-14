@@ -31,7 +31,7 @@ import {
 } from '../analysis/results';
 import type { ResultColumn } from '../analysis/results';
 import { DEFAULT_ELEMENTS } from '../techniques/edx/stats';
-import type { AnalysisKind, ColumnTarget } from '../types';
+import type { ColumnTarget, TableAnalysisKind } from '../types';
 import { EdxRatioSelects } from './edx-ratio-selects';
 import { EdxSpotsView } from './edx-spots-view';
 import { EllipsometrySummaryView } from './ellipsometry-summary-view';
@@ -40,7 +40,7 @@ import { TargetSelect } from './target-select';
 type ExperimentBatchProps = {
   projectId: string;
   experimentId: string;
-  kind: AnalysisKind;
+  kind: TableAnalysisKind;
   rows: BatchRow[];
   /** The experiment's number result columns. */
   columns: ResultColumn[];
@@ -168,6 +168,7 @@ export const ExperimentBatch = ({
               denominator: ratio.denominator,
               excludedSpots: [],
               datasetId: null,
+              ftir: null,
               selectedValueIds: chosen.map(({ value }) => value.id),
               targets: Object.fromEntries(
                 chosen.map(({ value, target }) => [value.id, target])

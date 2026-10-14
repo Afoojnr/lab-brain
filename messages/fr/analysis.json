@@ -16,7 +16,8 @@
     "title": "De quel type de mesure s'agit-il ?",
     "description": "L'analyse est choisie d'après le nom de la technique. Choisissez-en une si le nom ne le dit pas.",
     "edx": "EDX / EDS",
-    "ellipsometry": "Ellipsométrie"
+    "ellipsometry": "Ellipsométrie",
+    "ftir": "FTIR"
   },
   "edx": {
     "ratioTitle": "Rapport",
@@ -107,7 +108,10 @@
         "notSeqfit": "pas un export d'ajustement d'ellipsomètre",
         "invalidNumber": "un nombre du résumé est manquant"
       },
-      "count": "{count, plural, one {# échantillon} other {# échantillons}}"
+      "count": "{count, plural, one {# échantillon} other {# échantillons}}",
+      "ftirDescription": "Déposez un ou plusieurs exports FTIR (.csv ou .txt). Rien n'est envoyé ni enregistré : les fichiers sont lus dans votre navigateur.",
+      "dropHintFtir": "Deux colonnes : nombre d'onde et valeur, avec ou sans en-tête",
+      "noFtirFiles": "Aucun spectre lisible dans ce que vous avez déposé."
     },
     "experiment": {
       "projectLabel": "Projet",
@@ -143,7 +147,109 @@
         "noFile": "aucun fichier d'ajustement joint",
         "notSeqfit": "pas un export d'ajustement d'ellipsomètre"
       },
-      "orUpload": "Ou téléverser des fichiers"
+      "orUpload": "Ou téléverser des fichiers",
+      "ftirRowsDescription": "Cochez les échantillons à comparer : leurs spectres sont empilés ci-dessous, lus et traités de la même façon, avec une seule liste de pics.",
+      "ftirValuesDescription": "Choisissez quelles valeurs de pics vont dans quelles colonnes de résultat. Cela s'applique à chaque échantillon coché. Un échantillon sans données près d'un pic choisi ne peut pas être mis à jour.",
+      "ftirNoPeaks": "Gardez d'abord quelques pics : détectez-les ou cliquez sur le spectre.",
+      "ftirNoData": "aucune donnée près de ce pic",
+      "noSpectrum": "aucun spectre lisible joint"
+    }
+  },
+  "ftir": {
+    "noFile": "Joignez un export FTIR (.csv ou .txt) à cette caractérisation pour l'analyser.",
+    "valuesFrom": "Envoyer les valeurs de",
+    "unreadableTitle": "Ces fichiers n'ont pas pu être lus :",
+    "reasons": {
+      "empty": "le fichier est vide ou manquant",
+      "invalidLine": "la ligne {line} n'est pas un nombre d'onde et une valeur",
+      "tooFewPoints": "il a trop peu de points pour être un spectre"
+    },
+    "dropped": "{count, plural, one {# point à 0 % ou moins n'a} other {# points à 0 % ou moins n'ont}} pas d'absorbance et {count, plural, one {est ignoré} other {sont ignorés}}.",
+    "controls": {
+      "processingTitle": "Lecture et traitement",
+      "readAs": "Les valeurs sont",
+      "readAuto": "Automatique (on dirait {guess})",
+      "reading": {
+        "transmittance": "Transmittance (%)",
+        "absorbance": "Absorbance"
+      },
+      "guess": {
+        "percentTransmittance": "Les valeurs montent jusqu'à environ 100 et restent élevées, comme une transmittance en pourcentage.",
+        "absorbanceRange": "Les valeurs sont petites, comme une absorbance.",
+        "ambiguous": "Les valeurs sont entre 0 et 1 : ce peut être une absorbance ou une fraction de transmittance. Choisissez la bonne.",
+        "unclear": "Les valeurs ne correspondent bien à aucune. Choisissez ce qu'elles sont."
+      },
+      "convert": "Afficher en absorbance",
+      "convertHint": "A = 2 − log10(%T). L'absorbance suit la loi de Beer–Lambert : les hauteurs de pics se comparent mieux. Pour un film mince sur un substrat, les interférences peuvent encore fausser les valeurs absolues.",
+      "normalisation": "Normaliser",
+      "methods": {
+        "none": "Aucune",
+        "minmax": "Min–max (0 à 1) sur une plage",
+        "peak": "Pic de référence = 1",
+        "vector": "Vectorielle (longueur 1)",
+        "snv": "Variable normale standard (SNV)"
+      },
+      "rangeFrom": "De (cm⁻¹)",
+      "rangeTo": "À (cm⁻¹)",
+      "referencePosition": "Pic de référence (cm⁻¹)",
+      "normaliseNote": "Les valeurs normalisées sont relatives, pas des quantités absolues, et le fichier d'origine n'est jamais modifié.",
+      "problems": {
+        "flat": "Ce spectre (ou cette plage) est plat : impossible de le mettre à l'échelle.",
+        "noReference": "Aucune donnée près du pic de référence : le spectre est montré non normalisé.",
+        "zeroReference": "La valeur au pic de référence est 0 : elle ne peut pas servir."
+      },
+      "peaksTitle": "Détection des pics",
+      "sensitivity": "Sensibilité (% de la hauteur du spectre)",
+      "minSpacing": "Deux pics les plus proches (cm⁻¹)",
+      "searchFrom": "Chercher de (cm⁻¹)",
+      "searchTo": "Chercher jusqu'à (cm⁻¹)",
+      "searchHint": "Laissez vide pour chercher sur tout le spectre.",
+      "tolerance": "Lire chaque pic à ± (cm⁻¹)",
+      "offset": "Écart entre spectres empilés (%)",
+      "reverse": "Grands nombres d'onde à gauche",
+      "detect": "Détecter les pics",
+      "detectNote": "Ce sont des suggestions : retirez ceux qui sont du bruit et ajoutez ceux qui manquent. Les pics que vous avez nommés restent tels quels."
+    },
+    "chart": {
+      "axisX": "Nombre d'onde (cm⁻¹)",
+      "clickHint": "Cliquez sur le spectre pour ajouter un pic à ce nombre d'onde.",
+      "yTransmittance": "Transmittance (%)",
+      "yAbsorbance": "Absorbance",
+      "yNormalised": "Normalisé (relatif)",
+      "tooltipWavenumber": "{position} cm⁻¹",
+      "tooltipAt": "(à {position} cm⁻¹)"
+    },
+    "peaks": {
+      "title": "Pics",
+      "empty": "Aucun pic pour l'instant. Détectez-les, cliquez sur le spectre, ou ajoutez-en un par sa position.",
+      "position": "Position (cm⁻¹)",
+      "bond": "Liaison ou nom",
+      "bondPlaceholder": "Par exemple élongation B–C",
+      "bondFor": "Nom du pic à {position}",
+      "positionFor": "Position du pic à {position}",
+      "remove": "Retirer le pic à {position}",
+      "addPosition": "Position du nouveau pic (cm⁻¹)",
+      "add": "Ajouter un pic",
+      "noValue": "Aucune donnée près de ce pic",
+      "valueIn": "Valeur dans {spectrum}"
+    },
+    "export": {
+      "button": "Exporter",
+      "figure": "Figure",
+      "numbers": "Valeurs des pics",
+      "png": "Image (PNG)",
+      "pdf": "PDF",
+      "pptx": "PowerPoint",
+      "xlsx": "Tableau Excel",
+      "csv": "Tableau CSV",
+      "defaultTitle": "Spectres FTIR",
+      "readingLine": {
+        "transmittance": "Transmittance (%)",
+        "absorbance": "Absorbance"
+      },
+      "convertedLine": "Absorbance, convertie depuis la transmittance en pourcentage (A = 2 − log10 %T)",
+      "normalisedLine": "Normalisé : {method} (valeurs relatives, pas des quantités absolues)",
+      "stackedLine": "Les spectres sont décalés verticalement pour les comparer ; l'axe vertical n'est pas à l'échelle."
     }
   }
 }

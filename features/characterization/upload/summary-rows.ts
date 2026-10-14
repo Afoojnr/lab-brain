@@ -4,6 +4,10 @@ import type { EdxItem } from '../techniques/edx/from-files';
 import { DEFAULT_EDX_VALUE_IDS, edxValues } from '../techniques/edx/stats';
 import type { SeqfitItem } from '../techniques/ellipsometry/from-files';
 import { ellipsometryValues } from '../techniques/ellipsometry/parse';
+import { processSpectrum } from '../techniques/ftir/process';
+import { strongestNear } from '../techniques/ftir/transform';
+import type { FtirSettings, SpectrumPoint } from '../techniques/ftir/types';
+import { ftirUnit, peakLabel } from '../techniques/ftir/values';
 
 export type SummaryTable = { headers: string[]; rows: (string | number)[][] };
 
@@ -81,6 +85,49 @@ export const ellipsometrySummary = (items: SeqfitItem[]): SummaryTable => ({
       : []
   )
 });
+
+/**
+ * The FTIR summary: one row per spectrum with the value at each of the user's
+ * peaks, read as processed (so a normalised table is relative). A peak with no
+ * data near it is an empty cell, never 0.
+ *
+ * @param spectra - The spectra, as read from the files.
+ * @param settings - The user's processing, peaks and tolerance.
+ */
+export const ftirSummary = (
+  spectra: { id: string; points: SpectrumPoint[] }[],
+  settings: FtirSettings
+): SummaryTable => {
+  const processed = spectra.map(spectrum => ({
+    id: spectrum.id,
+    spectrum: processSpectrum(spectrum.points, settings)
+  }));
+  const first = processed[0]?.spectrum;
+
+  return {
+    headers: [
+      'ID',
+      ...settings.peaks.map(peak => {
+        const label = first ? peakLabel(peak, first) : String(peak.position);
+        const unit = first ? ftirUnit(first) : null;
+
+        return unit ? `${label} (${unit})` : label;
+      })
+    ],
+    rows: processed.map(({ id, spectrum }) => [
+      id,
+      ...settings.peaks.map(
+        peak =>
+          strongestNear(
+            spectrum.points,
+            peak.position,
+            settings.tolerance,
+            spectrum.orientation
+          )?.y ?? ''
+      )
+    ])
+  };
+};
 
 /**
  * An Excel workbook (one sheet, headers then rows) as bytes, ready to download.

@@ -16,7 +16,8 @@
     "title": "What kind of measurement is this?",
     "description": "The analysis is chosen from the technique name. Pick one if the name does not say.",
     "edx": "EDX / EDS",
-    "ellipsometry": "Ellipsometry"
+    "ellipsometry": "Ellipsometry",
+    "ftir": "FTIR"
   },
   "edx": {
     "ratioTitle": "Ratio",
@@ -107,7 +108,10 @@
         "notSeqfit": "not an ellipsometer fit export",
         "invalidNumber": "a number in the summary is missing"
       },
-      "count": "{count, plural, one {# sample} other {# samples}}"
+      "count": "{count, plural, one {# sample} other {# samples}}",
+      "ftirDescription": "Drop one or more FTIR exports (.csv or .txt). Nothing is uploaded or saved: the files are read in your browser.",
+      "dropHintFtir": "Two columns: wavenumber and value, with or without a header",
+      "noFtirFiles": "No readable spectrum was found in what you dropped."
     },
     "experiment": {
       "projectLabel": "Project",
@@ -143,7 +147,109 @@
         "noFile": "no fit file attached",
         "notSeqfit": "not an ellipsometer fit export"
       },
-      "orUpload": "Or upload files"
+      "orUpload": "Or upload files",
+      "ftirRowsDescription": "Tick the samples to compare: their spectra are stacked below, read and processed the same way, with one list of peaks.",
+      "ftirValuesDescription": "Choose which peak values go to which result columns. It applies to every sample you tick. A sample with no data near a chosen peak cannot be updated.",
+      "ftirNoPeaks": "Keep some peaks first: detect them or click the spectrum.",
+      "ftirNoData": "no data near this peak",
+      "noSpectrum": "no readable spectrum attached"
+    }
+  },
+  "ftir": {
+    "noFile": "Attach an FTIR export (.csv or .txt) to this characterization to analyse it.",
+    "valuesFrom": "Send values from",
+    "unreadableTitle": "These files could not be read:",
+    "reasons": {
+      "empty": "the file is empty or missing",
+      "invalidLine": "line {line} is not a wavenumber and a value",
+      "tooFewPoints": "it has too few points to be a spectrum"
+    },
+    "dropped": "{count, plural, one {# point at 0 % or below has} other {# points at 0 % or below have}} no absorbance and {count, plural, one {is} other {are}} left out.",
+    "controls": {
+      "processingTitle": "Reading and processing",
+      "readAs": "The values are",
+      "readAuto": "Automatic (it looks like {guess})",
+      "reading": {
+        "transmittance": "Transmittance (%)",
+        "absorbance": "Absorbance"
+      },
+      "guess": {
+        "percentTransmittance": "The values run up to about 100 and stay high, like percent transmittance.",
+        "absorbanceRange": "The values are small, like absorbance.",
+        "ambiguous": "The values are between 0 and 1: they could be absorbance or a transmittance fraction. Choose the right one.",
+        "unclear": "The values fit neither well. Choose what they are."
+      },
+      "convert": "Show as absorbance",
+      "convertHint": "A = 2 − log10(%T). Absorbance is the scale that follows Beer–Lambert, so peak heights compare better. For a thin film on a substrate, interference can still distort absolute values.",
+      "normalisation": "Normalise",
+      "methods": {
+        "none": "None",
+        "minmax": "Min–max (0 to 1) over a range",
+        "peak": "Reference peak = 1",
+        "vector": "Vector (unit length)",
+        "snv": "Standard normal variate (SNV)"
+      },
+      "rangeFrom": "From (cm⁻¹)",
+      "rangeTo": "To (cm⁻¹)",
+      "referencePosition": "Reference peak (cm⁻¹)",
+      "normaliseNote": "Normalised values are relative, not absolute amounts, and the original file is never changed.",
+      "problems": {
+        "flat": "This spectrum (or range) is flat, so it cannot be scaled.",
+        "noReference": "No data was found near the reference peak, so the spectrum is shown unnormalised.",
+        "zeroReference": "The value at the reference peak is 0, so it cannot be used."
+      },
+      "peaksTitle": "Peak detection",
+      "sensitivity": "Sensitivity (% of the spectrum's height)",
+      "minSpacing": "Closest two peaks (cm⁻¹)",
+      "searchFrom": "Look from (cm⁻¹)",
+      "searchTo": "Look to (cm⁻¹)",
+      "searchHint": "Leave empty to look across the whole spectrum.",
+      "tolerance": "Read each peak within ± (cm⁻¹)",
+      "offset": "Gap between stacked spectra (%)",
+      "reverse": "High wavenumbers on the left",
+      "detect": "Detect peaks",
+      "detectNote": "These are suggestions: remove the ones that are noise and add any that were missed. Peaks you have labelled stay as they are."
+    },
+    "chart": {
+      "axisX": "Wavenumber (cm⁻¹)",
+      "clickHint": "Click the spectrum to add a peak at that wavenumber.",
+      "yTransmittance": "Transmittance (%)",
+      "yAbsorbance": "Absorbance",
+      "yNormalised": "Normalised (relative)",
+      "tooltipWavenumber": "{position} cm⁻¹",
+      "tooltipAt": "(at {position} cm⁻¹)"
+    },
+    "peaks": {
+      "title": "Peaks",
+      "empty": "No peaks yet. Detect them, click the spectrum, or add one by its position.",
+      "position": "Position (cm⁻¹)",
+      "bond": "Bond or label",
+      "bondPlaceholder": "For example B–C stretch",
+      "bondFor": "Label for the peak at {position}",
+      "positionFor": "Position of the peak at {position}",
+      "remove": "Remove the peak at {position}",
+      "addPosition": "Position of the new peak (cm⁻¹)",
+      "add": "Add peak",
+      "noValue": "No data near this peak",
+      "valueIn": "Value in {spectrum}"
+    },
+    "export": {
+      "button": "Export",
+      "figure": "Figure",
+      "numbers": "Peak values",
+      "png": "Picture (PNG)",
+      "pdf": "PDF",
+      "pptx": "PowerPoint",
+      "xlsx": "Excel table",
+      "csv": "CSV table",
+      "defaultTitle": "FTIR spectra",
+      "readingLine": {
+        "transmittance": "Transmittance (%)",
+        "absorbance": "Absorbance"
+      },
+      "convertedLine": "Absorbance, converted from percent transmittance (A = 2 − log10 %T)",
+      "normalisedLine": "Normalised: {method} (relative values, not absolute amounts)",
+      "stackedLine": "Spectra are shifted vertically to compare them; the vertical axis is not to scale."
     }
   }
 }

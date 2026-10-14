@@ -7,7 +7,8 @@ import type { AnalysisKind } from '../types';
  */
 export const TECHNIQUES = [
   { kind: 'edx' },
-  { kind: 'ellipsometry' }
+  { kind: 'ellipsometry' },
+  { kind: 'ftir' }
 ] as const satisfies readonly { kind: AnalysisKind }[];
 
 /**

@@ -17,11 +17,12 @@ import {
 
 import { getAnalysis, latestTargets } from '../data/analyses';
 import { defaultSettings, suggestKind } from '../analysis/defaults';
-import { loadEdxSpots, loadSeqfits } from '../analysis/load';
+import { loadEdxSpots, loadFtirSpectra, loadSeqfits } from '../analysis/load';
 import { analysisKindSchema } from '../schemas';
 import type { AnalysisKind, AnalysisSettings } from '../types';
 import { EdxAnalysis } from './edx-analysis';
 import { EllipsometryAnalysis } from './ellipsometry-analysis';
+import { FtirAnalysis } from './ftir-analysis';
 
 type CharacterizationPageProps = {
   projectId: string;
@@ -124,6 +125,19 @@ export const CharacterizationPage = async ({
       );
     }
 
+    if (kind === 'ftir') {
+      return (
+        <FtirAnalysis
+          ids={ids}
+          files={await loadFtirSpectra(datasets)}
+          initialSettings={await initialSettings('ftir')}
+          columns={columns}
+          currentValues={sample.values}
+          exportTitle={`${sample.code} · ${characterization.technique}`}
+        />
+      );
+    }
+
     return (
       <div className="grid gap-3">
         <p className="font-medium">{t('chooser.title')}</p>
@@ -131,7 +145,7 @@ export const CharacterizationPage = async ({
           {t('chooser.description')}
         </p>
         <div className="flex flex-wrap gap-2">
-          {(['edx', 'ellipsometry'] as const).map(option => (
+          {(['edx', 'ellipsometry', 'ftir'] as const).map(option => (
             <Link
               key={option}
               href={`${base}/samples/${sample.id}/characterizations/${characterization.id}?analysis=${option}`}

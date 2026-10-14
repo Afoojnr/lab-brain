@@ -1,5 +1,10 @@
+import type { FtirSettings } from './techniques/ftir/types';
+
 /** The kinds of analysis the app can run on a characterization's files. */
-export type AnalysisKind = 'edx' | 'ellipsometry';
+export type AnalysisKind = 'edx' | 'ellipsometry' | 'ftir';
+
+/** The analyses compared in the per-sample table; FTIR has its own comparison. */
+export type TableAnalysisKind = Exclude<AnalysisKind, 'ftir'>;
 
 /**
  * One number an analysis produces, ready to be sent to a result column. It is
@@ -24,6 +29,8 @@ export type AnalysisSettings = {
   excludedSpots: string[];
   /** Ellipsometry: which attached CSV to read. */
   datasetId: string | null;
+  /** FTIR: how the spectra are read, processed and measured; null for other analyses. */
+  ftir: FtirSettings | null;
   /** The values to send to the result columns. */
   selectedValueIds: string[];
   /** Where each value goes: an existing result column's id, or a new column. */

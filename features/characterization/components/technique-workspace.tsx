@@ -9,6 +9,7 @@ import type { AnalysisKind } from '../types';
 import { ExperimentSource } from './experiment-source';
 import { UploadEdx } from './upload-edx';
 import { UploadEllipsometry } from './upload-ellipsometry';
+import { UploadFtir } from './upload-ftir';
 
 export type WorkspaceSource = 'upload' | 'experiment';
 
@@ -64,11 +65,11 @@ export const TechniqueWorkspace = async ({
       </nav>
       <div className="mt-6 min-w-0 rounded-xl border p-4 sm:p-6">
         {source === 'upload' ? (
-          kind === 'edx' ? (
-            <UploadEdx />
-          ) : (
-            <UploadEllipsometry />
-          )
+          {
+            edx: <UploadEdx />,
+            ellipsometry: <UploadEllipsometry />,
+            ftir: <UploadFtir />
+          }[kind]
         ) : (
           <ExperimentSource
             kind={kind}

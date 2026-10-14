@@ -180,7 +180,7 @@ Sample page → Add characterization → technique + date + note → listed on t
 
 ---
 
-## Flow 3 — Turn a measurement into results (EDX and ellipsometry built, per sample)
+## Flow 3 — Turn a measurement into results (EDX, ellipsometry and FTIR built, per sample)
 
 **Goal:** stop copying numbers by hand from instrument files, while keeping hand
 entry possible.
@@ -189,7 +189,7 @@ entry possible.
    its files (attach a single file, several, or a whole folder with its subfolders)
    and its analysis. Images, CSV/Excel tables and text open in a viewer in the page;
    TIFF images are shown through a PNG copy. The analysis is chosen from the
-   technique name (EDX/EDS, ellipsometry) or picked by hand.
+   technique name (EDX/EDS, ellipsometry, FTIR) or picked by hand.
 2. **EDX**: every `quantification.csv` is one spot. Untick bad spots (their files are
    never changed); the composition is averaged over the rest, with error bars, and
    the spectra are overlaid. An element missing from a spot counts as 0 and the
@@ -197,13 +197,26 @@ entry possible.
    B/C, C/O, any two elements).
 3. **Ellipsometry**: the thickness and n, each with its standard deviation, are read
    from the `Average` and `StdDeviation` rows of the attached fit export.
-4. **Send to results**: tick the values (defaults: the ratio, B, N, C, O and the
+4. **FTIR**: every attached `.csv`/`.txt` export is one spectrum (two columns,
+   wavenumber and value; with or without a header; `;`, tab, comma or space between
+   columns; decimal point or comma). A line that is not two numbers is an error with
+   its line number. The app guesses from the values whether they are transmittance or
+   absorbance, says why, and lets you switch. The spectra are stacked (with an adjustable
+   gap) to compare, high wavenumbers on the left. Optionally show absorbance
+   (A = 2 − log10 %T) and normalise (min–max over a range, reference peak = 1, vector,
+   SNV); a normalised value is labelled relative, and the file is never changed.
+   **Detect peaks** suggests them (sensitivity, closest spacing and search range are
+   shown and adjustable); you remove the noise, add missed ones by clicking the spectrum or
+   typing a position, and write the bond or label (free text; a table to match bonds
+   automatically comes later, from a source you provide). Each peak's value is read within
+   a tolerance (default ±10 cm⁻¹); a spectrum with no data there shows none, never 0.
+5. **Send to results**: tick the values (defaults: the ratio, B, N, C, O and the
    substrate for EDX; thickness and n for ellipsometry, each with its std), choose
    for each an existing result column or a new one, and see the value it replaces.
    Nothing is written until the button is pressed. A ratio that cannot be computed
    (no denominator element) is 0 and says so. The server recomputes every number
    from the stored files; only the chosen columns change.
-5. **Technique workspace** (sidebar → Characterizations → EDX or Ellipsometry), with
+6. **Technique workspace** (sidebar → Characterizations → EDX, Ellipsometry or FTIR), with
    two ways in:
    - **Upload files**: drop raw files or folders that are not in any experiment (one or
      more sample folders, or a day's folder holding them; or several fit exports). They
@@ -216,7 +229,11 @@ entry possible.
      per sample what it would change. A sample that would replace a different value is
      skipped unless you tick Update. The server recomputes every number from the stored
      files and writes nothing if anything is not allowed.
-6. **Plots** (sidebar → Plots), with two sources like the technique workspaces:
+   - **FTIR comparison** (From an experiment): tick the samples to stack (one measurement
+     per sample), curate one list of peaks for the whole stack, choose which peak values
+     go to which result columns, see what each sample would change, and apply. A sample
+     with no data near a chosen peak cannot be updated.
+7. **Plots** (sidebar → Plots), with two sources like the technique workspaces:
    - **Upload a table**: a CSV or Excel table that is not in any experiment. It is
      read in the browser and nothing is saved. The header row is found
      automatically (and can be changed); a column is a number column only when

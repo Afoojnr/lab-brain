@@ -29,7 +29,7 @@ import { cn } from '@/lib/utils';
 export const NavTechniques = ({
   techniques
 }: {
-  techniques: readonly { kind: 'edx' | 'ellipsometry' }[];
+  techniques: readonly { kind: 'edx' | 'ellipsometry' | 'ftir' }[];
 }) => {
   const t = useTranslations('navigation');
   const pathname = usePathname();

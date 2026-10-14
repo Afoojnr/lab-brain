@@ -8,5 +8,6 @@
   "ellipsometry": "Ellipsometry",
   "toggle": "Show or hide {name}",
   "plots": "Plots",
-  "askAi": "Ask AI"
+  "askAi": "Ask AI",
+  "ftir": "FTIR"
 }

@@ -66,7 +66,7 @@ export const AppSidebar = ({
 }: {
   navigation: NavigationData;
   /** The techniques the app can analyse. */
-  techniques: readonly { kind: 'edx' | 'ellipsometry' }[];
+  techniques: readonly { kind: 'edx' | 'ellipsometry' | 'ftir' }[];
 }) => {
   const t = useTranslations('common');
   const { setOpenMobile } = useSidebar();

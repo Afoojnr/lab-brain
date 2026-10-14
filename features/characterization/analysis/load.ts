@@ -9,6 +9,10 @@ import {
   parseSeqfit
 } from '../techniques/ellipsometry/parse';
 import type { SeqfitFile } from '../techniques/ellipsometry/parse';
+import { parseSpectrum } from '../techniques/ftir/parse';
+import { processSpectrum } from '../techniques/ftir/process';
+import type { SpectrumPoint } from '../techniques/ftir/types';
+import { ftirValues } from '../techniques/ftir/values';
 import type { AnalysisKind, AnalysisSettings, AnalysisValue } from '../types';
 
 const decode = (bytes: Uint8Array) => new TextDecoder().decode(bytes);
@@ -119,6 +123,69 @@ export const loadSeqfits = async (
   );
 };
 
+/** An attached file read as an FTIR spectrum, or why it could not be (and the line, when one is to blame). */
+export type FtirFile = {
+  datasetId: string;
+  label: string;
+  points: SpectrumPoint[] | null;
+  reason: 'empty' | 'invalidLine' | 'tooFewPoints' | null;
+  line: number | null;
+};
+
+/** Whether an attached file could be an FTIR export (not an EDX or ellipsometry file). */
+const isFtirDataset = (dataset: Dataset): boolean => {
+  const name = dataset.fileName.toLowerCase();
+
+  return (
+    /\.(csv|txt|dpt|dat)$/.test(name) &&
+    name !== 'quantification.csv' &&
+    name !== 'spectrum.emsa'
+  );
+};
+
+/**
+ * Reads the attached files that could be FTIR spectra. A file that cannot be
+ * read is kept with its reason (and line), never skipped silently.
+ *
+ * @param datasets - The characterization's attached files.
+ */
+export const loadFtirSpectra = async (
+  datasets: Dataset[]
+): Promise<FtirFile[]> =>
+  Promise.all(
+    datasets.filter(isFtirDataset).map(async (dataset): Promise<FtirFile> => {
+      const file = await datasetBytes(dataset.id);
+      const label = dataset.relativePath ?? dataset.fileName;
+      if (!file) {
+        return {
+          datasetId: dataset.id,
+          label,
+          points: null,
+          reason: 'empty',
+          line: null
+        };
+      }
+
+      const parsed = parseSpectrum(decode(file.bytes));
+
+      return parsed.isOk
+        ? {
+            datasetId: dataset.id,
+            label,
+            points: parsed.points,
+            reason: null,
+            line: null
+          }
+        : {
+            datasetId: dataset.id,
+            label,
+            points: null,
+            reason: parsed.reason,
+            line: parsed.line ?? null
+          };
+    })
+  );
+
 /**
  * Every number an analysis produces, computed from the raw files and the
  * settings. The server uses this to decide what to write, never numbers sent
@@ -143,6 +210,22 @@ export const computeAnalysisValues = async (
     return included.length === 0
       ? null
       : edxValues(included, settings.numerator, settings.denominator);
+  }
+
+  if (kind === 'ftir') {
+    if (!settings.ftir) return null;
+    const spectra = (await loadFtirSpectra(datasets)).filter(
+      file => file.points
+    );
+    const spectrum =
+      spectra.find(file => file.datasetId === settings.datasetId) ?? spectra[0];
+
+    return spectrum?.points
+      ? ftirValues(
+          processSpectrum(spectrum.points, settings.ftir),
+          settings.ftir
+        )
+      : null;
   }
 
   const files = await loadSeqfits(datasets);
