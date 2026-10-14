@@ -16,6 +16,7 @@ import reports from './reports.json';
 import samples from './samples.json';
 import settings from './settings.json';
 import studies from './studies.json';
+import tour from './tour.json';
 
 /** Shared namespaces: common, navigation, errors. Everything else belongs to one feature. */
 export const en = {
@@ -36,5 +37,6 @@ export const en = {
   reports,
   samples,
   settings,
-  studies
+  studies,
+  tour
 };

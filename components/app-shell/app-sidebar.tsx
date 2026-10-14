@@ -43,7 +43,7 @@ const NavLink = ({ item }: { item: NavItem }) => {
   const label = t(item.labelKey);
 
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem data-tour={item.tourId}>
       <SidebarMenuButton
         isActive={isActive}
         tooltip={label}

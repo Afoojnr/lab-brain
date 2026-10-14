@@ -96,6 +96,7 @@ export const ProjectDetail = async ({
           <>
             <Link
               href={`/projects/${project.id}/import`}
+              data-tour="import"
               className={buttonVariants({ variant: 'outline' })}
             >
               <DownloadIcon aria-hidden />
@@ -132,6 +133,7 @@ export const ProjectDetail = async ({
       <PageTabs
         label={tTabs('label')}
         active={activeTab}
+        tourId="project-tabs"
         tabs={[
           {
             value: 'background',

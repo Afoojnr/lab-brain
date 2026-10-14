@@ -52,6 +52,23 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: `http://localhost:${port}`,
 
+    // The guided tours are off for every test (their card would sit over the
+    // page); e2e/tour.spec.ts turns them back on for itself.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: `http://localhost:${port}`,
+          localStorage: [
+            {
+              name: 'lab-brain:tours',
+              value: JSON.stringify({ seen: [], isOff: true })
+            }
+          ]
+        }
+      ]
+    },
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },

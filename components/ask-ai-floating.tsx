@@ -25,6 +25,7 @@ export const AskAiFloating = () => {
       type="button"
       onClick={open}
       aria-label={t('askAi')}
+      data-tour="ask-ai"
       className="fixed right-6 bottom-20 z-40 h-11 rounded-full bg-violet-600 px-4 text-white shadow-lg hover:bg-violet-700 focus-visible:ring-violet-500/40 max-sm:w-11 max-sm:px-0"
     >
       <SparklesIcon aria-hidden className="size-5" />

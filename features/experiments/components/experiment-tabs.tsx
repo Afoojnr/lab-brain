@@ -21,7 +21,11 @@ export const ExperimentTabs = async ({
   const t = await getTranslations('experiments.tabs');
 
   return (
-    <nav aria-label={t('label')} className="mb-6 flex flex-wrap gap-1">
+    <nav
+      aria-label={t('label')}
+      data-tour="experiment-tabs"
+      className="mb-6 flex flex-wrap gap-1"
+    >
       {experiments.map(item => {
         const isCurrent = item.id === currentExperimentId;
 

@@ -127,7 +127,14 @@ export const ExportSamplesMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button type="button" variant="outline" size="sm" />}
+        render={
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            data-tour="export-samples"
+          />
+        }
       >
         <UploadIcon aria-hidden />
         {t('button')}

@@ -29,7 +29,7 @@ export const NewExperimentDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger render={<Button />}>
+      <DialogTrigger render={<Button data-tour="new-experiment" />}>
         <PlusIcon aria-hidden />
         {t('title')}
       </DialogTrigger>

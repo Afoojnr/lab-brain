@@ -1,0 +1,124 @@
+{
+  "prompt": {
+    "title": "Nouveau ici ?",
+    "text": "Faites un tour d'une minute de cette page.",
+    "start": "Commencer le tour",
+    "later": "Plus tard",
+    "never": "Plus de tours"
+  },
+  "controls": {
+    "next": "Suivant",
+    "previous": "Retour",
+    "done": "Terminé",
+    "progress": "{current} sur {total}"
+  },
+  "help": {
+    "label": "Tour de cette page"
+  },
+  "steps": {
+    "home": {
+      "menu": {
+        "title": "Ouvrez le menu",
+        "text": "Vos projets, les outils de caractérisation et les graphiques sont dans le menu."
+      },
+      "projects": {
+        "title": "Vos projets",
+        "text": "Chaque projet que vous créez est listé ici. Ouvrez-en un pour voir ses expériences."
+      },
+      "newProject": {
+        "title": "Commencez par un projet",
+        "text": "Un projet regroupe une ligne de travail, comme un article. Créez le premier ici."
+      },
+      "techniques": {
+        "title": "Caractérisations",
+        "text": "Analysez des fichiers bruts d'instrument (EDX, ellipsométrie, FTIR), avec ou sans projet."
+      },
+      "plots": {
+        "title": "Graphiques",
+        "text": "Tracez un tableau importé, ou les échantillons d'une expérience, et enregistrez le graphique."
+      },
+      "settings": {
+        "title": "Paramètres",
+        "text": "Langue, apparence, lieu de stockage de vos fichiers et clé IA."
+      },
+      "help": {
+        "title": "Besoin de le revoir ?",
+        "text": "Appuyez ici sur n'importe quelle page pour rejouer sa visite."
+      }
+    },
+    "project": {
+      "tabs": {
+        "title": "Sections",
+        "text": "Passez des expériences du projet à son contexte et à ses références."
+      },
+      "newExperiment": {
+        "title": "Ajoutez une expérience",
+        "text": "Une expérience est un type d'échantillon avec ses propres colonnes, comme une feuille de tableur."
+      },
+      "import": {
+        "title": "Importez un tableur",
+        "text": "Reprenez des échantillons déjà saisis dans Excel ou un fichier CSV. Rien n'est enregistré avant votre confirmation de l'aperçu."
+      },
+      "more": {
+        "title": "Plus d'actions",
+        "text": "Modifiez le projet ou supprimez-le."
+      },
+      "askAi": {
+        "title": "Demander à l'IA",
+        "text": "Posez des questions sur les expériences de ce projet, avec votre propre clé."
+      }
+    },
+    "experiment": {
+      "experiments": {
+        "title": "Expériences",
+        "text": "Passez d'une expérience à l'autre dans ce projet."
+      },
+      "sections": {
+        "title": "Sections",
+        "text": "Protocole, configuration (colonnes et études), échantillons et graphiques enregistrés."
+      },
+      "addSample": {
+        "title": "Ajoutez un échantillon",
+        "text": "Enregistrez un nouvel échantillon. Les valeurs sont préremplies à partir du précédent."
+      },
+      "import": {
+        "title": "Importez des échantillons",
+        "text": "Ajoutez ou mettez à jour des échantillons depuis un tableur."
+      },
+      "report": {
+        "title": "Rapport",
+        "text": "Un résumé imprimable de cette expérience."
+      },
+      "export": {
+        "title": "Exporter",
+        "text": "Téléchargez le tableau des échantillons en Excel ou CSV."
+      },
+      "more": {
+        "title": "Plus d'actions",
+        "text": "Modifiez l'expérience ou supprimez-la."
+      }
+    },
+    "sample": {
+      "characterizations": {
+        "title": "Caractérisations",
+        "text": "Enregistrez les mesures faites sur cet échantillon, comme MEB ou EDX, et joignez leurs fichiers."
+      },
+      "add": {
+        "title": "Ajoutez une caractérisation",
+        "text": "Une technique, une date et une note. Joignez ensuite les fichiers bruts."
+      },
+      "duplicate": {
+        "title": "Dupliquer",
+        "text": "Créez un nouvel échantillon à partir de celui-ci et ne changez que ce qui diffère."
+      },
+      "report": {
+        "title": "Rapport",
+        "text": "Un résumé imprimable de cet échantillon."
+      },
+      "more": {
+        "title": "Plus d'actions",
+        "text": "Modifiez cet échantillon ou supprimez-le."
+      }
+    }
+  }
+}

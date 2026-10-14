@@ -26,7 +26,7 @@ export const NewProjectDialog = ({ label }: { label?: string }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger render={<Button />}>
+      <DialogTrigger render={<Button data-tour="new-project" />}>
         <PlusIcon aria-hidden />
         {label ?? t('title')}
       </DialogTrigger>

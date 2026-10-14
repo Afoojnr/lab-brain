@@ -55,6 +55,8 @@ test('tags samples with a new study, filters by it and searches the table', asyn
   await expect(page.getByText('No samples match these filters.')).toBeVisible();
 
   await page.getByRole('link', { name: 'Clear filters' }).click();
+  // Wait for the navigation to land, or it would wipe what is typed next.
+  await expect(page).not.toHaveURL(/study=/);
   await page
     .getByRole('searchbox', { name: 'Search samples' })
     .fill('annealing');
