@@ -1,7 +1,20 @@
-import { EditSample } from '@/features/experiments';
+import { getTranslations } from 'next-intl/server';
 
-// TODO: a descriptive tab title waits for the data layer (Step 6).
-export const metadata = { title: 'Edit sample' };
+import { EditSample } from '@/features/experiments';
+import { getSampleById } from '@/features/experiments/server';
+
+export const generateMetadata = async (
+  props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]/edit'>
+) => {
+  const { experimentId, sampleId } = await props.params;
+  const [sample, t] = await Promise.all([
+    getSampleById(sampleId),
+    getTranslations('samples.edit')
+  ]);
+  const code = sample?.experimentId === experimentId ? sample.code : '';
+
+  return { title: t('title', { code }).trim() };
+};
 
 const EditSamplePage = async (
   props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]/edit'>

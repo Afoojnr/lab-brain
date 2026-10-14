@@ -135,5 +135,8 @@
       "number": "Nombre",
       "text": "Texte"
     }
+  },
+  "page": {
+    "fallbackTitle": "Échantillon"
   }
 }

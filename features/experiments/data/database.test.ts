@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { runInTransaction } from '@/lib/db/client';
+
 import { createCharacterization } from './characterizations';
 import { createDataset, listDatasetsBySample } from './datasets';
 import { createExperiment, listExperimentsByProject } from './experiments';
@@ -173,6 +175,49 @@ describe('removing a project', () => {
     expect(await listExperimentsByProject(project.id)).toEqual([]);
     expect(await getSampleById(sample.id)).toBeUndefined();
     expect(await listDatasetsBySample(sample.id)).toEqual([]);
+    expect(await listProjects()).toHaveLength(before);
+  });
+});
+
+describe('writing several records as one', () => {
+  it('keeps all of them when the work succeeds', async () => {
+    const project = await runInTransaction(async () => {
+      const created = await createProject(PROJECT);
+      await createExperiment(created.id, EXPERIMENT);
+
+      return created;
+    });
+
+    expect(await listExperimentsByProject(project.id)).toHaveLength(1);
+  });
+
+  it('keeps none of them when a later write fails', async () => {
+    const before = (await listProjects()).length;
+    let projectId = '';
+
+    await expect(
+      runInTransaction(async () => {
+        const created = await createProject(PROJECT);
+        projectId = created.id;
+        await createExperiment(created.id, EXPERIMENT);
+        throw new Error('the third write failed');
+      })
+    ).rejects.toThrow('the third write failed');
+
+    expect(await listProjects()).toHaveLength(before);
+    expect(await listExperimentsByProject(projectId)).toEqual([]);
+  });
+
+  it('lets a nested transaction join the outer one', async () => {
+    const before = (await listProjects()).length;
+
+    await expect(
+      runInTransaction(async () => {
+        await runInTransaction(() => createProject(PROJECT));
+        throw new Error('outer failed');
+      })
+    ).rejects.toThrow('outer failed');
+
     expect(await listProjects()).toHaveLength(before);
   });
 });

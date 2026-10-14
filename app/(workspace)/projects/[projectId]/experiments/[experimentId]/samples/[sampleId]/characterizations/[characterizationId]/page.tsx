@@ -1,7 +1,19 @@
-import { CharacterizationPage } from '@/features/characterization';
+import { getTranslations } from 'next-intl/server';
 
-// TODO: a descriptive tab title waits for the data layer (Step 6).
-export const metadata = { title: 'Characterization' };
+import { CharacterizationPage } from '@/features/characterization';
+import { getCharacterizationOfSample } from '@/features/experiments/server';
+
+export const generateMetadata = async (
+  props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]/characterizations/[characterizationId]'>
+) => {
+  const { sampleId, characterizationId } = await props.params;
+  const [record, t] = await Promise.all([
+    getCharacterizationOfSample(sampleId, characterizationId),
+    getTranslations('navigation')
+  ]);
+
+  return { title: record?.technique ?? t('characterizations') };
+};
 
 const CharacterizationRoutePage = async (
   props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]/characterizations/[characterizationId]'>

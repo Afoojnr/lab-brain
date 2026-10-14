@@ -100,7 +100,10 @@ export default defineConfig({
       LAB_BRAIN_MOCK_AI: 'true',
       LAB_BRAIN_DATA_DIR: path.join(runFolder, 'data'),
       LAB_BRAIN_STORAGE_DIR: path.join(runFolder, 'storage'),
-      LAB_BRAIN_SEED_DEMO: 'true'
+      LAB_BRAIN_SEED_DEMO: 'true',
+      // Never the public demo, even when .env switches it on for a trial: that
+      // would put test projects into the shared demo database in /tmp.
+      LAB_BRAIN_DEMO: 'false'
     },
     reuseExistingServer: !process.env.CI
   }

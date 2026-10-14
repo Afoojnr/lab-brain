@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { runInTransaction } from '@/lib/db/client';
+
 import {
   createExperiment,
   createParameterDefinition,
@@ -75,8 +77,8 @@ const loadContext = async (
  * preview (a code taken in the meantime, for example) or anything is invalid,
  * it writes nothing and returns the fresh report.
  *
- * TODO: run the writes in one database transaction (the data functions each
- * open their own statement, so a failure midway can leave a partial import).
+ * The writes run as one database transaction: if any of them fails, nothing
+ * from the import is kept.
  *
  * @param projectId - Owning project's id.
  * @param input - The import (see `importPayloadSchema`).
@@ -98,74 +100,79 @@ export const commitImportAction = async (
   const report = validateImport(payload, context);
   if (!report.isReady) return { isOk: false, report };
 
-  const experimentId =
-    payload.target.type === 'existing'
-      ? payload.target.experimentId
-      : (
-          await createExperiment(projectId, {
-            name: payload.target.name.trim(),
-            codePrefix: payload.target.codePrefix.trim(),
-            protocol: payload.target.protocol.trim()
-          })
-        ).id;
+  const written = await runInTransaction(async () => {
+    const experimentId =
+      payload.target.type === 'existing'
+        ? payload.target.experimentId
+        : (
+            await createExperiment(projectId, {
+              name: payload.target.name.trim(),
+              codePrefix: payload.target.codePrefix.trim(),
+              protocol: payload.target.protocol.trim()
+            })
+          ).id;
 
-  const columnIds = new Map<string, string>();
-  for (const column of report.newColumns) {
-    const stored = await createParameterDefinition(experimentId, {
-      name: column.name,
-      unit: column.unit ?? '',
-      kind: column.kind,
-      role: column.role,
-      defaultValue: null
-    });
-    columnIds.set(column.id, stored.id);
-  }
-
-  const studyIds = new Map(
-    context.studies.map(study => [study.name.toLowerCase(), study.id])
-  );
-  for (const name of report.newStudyNames) {
-    const stored = await createStudy(experimentId, { name, description: '' });
-    studyIds.set(name.toLowerCase(), stored.id);
-  }
-
-  let created = 0;
-  let updated = 0;
-  for (const planned of report.planned) {
-    const existing = context.experimentSamples.find(
-      sample => sample.id === planned.existingId
-    );
-    const input = {
-      code: planned.code,
-      performedOn: planned.performedOn,
-      values: Object.fromEntries(
-        Object.entries(planned.values).map(([key, value]) => [
-          columnIds.get(key) ?? key,
-          value
-        ])
-      ),
-      studyIds: [
-        ...new Set([
-          ...(existing?.studyIds ?? []),
-          ...planned.studyNames.flatMap(name => {
-            const id = studyIds.get(name.toLowerCase());
-            return id ? [id] : [];
-          })
-        ])
-      ],
-      implementation: planned.implementation,
-      observation: planned.observation,
-      note: planned.note
-    };
-
-    if (existing) {
-      await updateSample(experimentId, existing.id, input);
-      updated += 1;
-    } else {
-      await createSample(experimentId, input);
-      created += 1;
+    const columnIds = new Map<string, string>();
+    for (const column of report.newColumns) {
+      const stored = await createParameterDefinition(experimentId, {
+        name: column.name,
+        unit: column.unit ?? '',
+        kind: column.kind,
+        role: column.role,
+        defaultValue: null
+      });
+      columnIds.set(column.id, stored.id);
     }
-  }
+
+    const studyIds = new Map(
+      context.studies.map(study => [study.name.toLowerCase(), study.id])
+    );
+    for (const name of report.newStudyNames) {
+      const stored = await createStudy(experimentId, { name, description: '' });
+      studyIds.set(name.toLowerCase(), stored.id);
+    }
+
+    let created = 0;
+    let updated = 0;
+    for (const planned of report.planned) {
+      const existing = context.experimentSamples.find(
+        sample => sample.id === planned.existingId
+      );
+      const input = {
+        code: planned.code,
+        performedOn: planned.performedOn,
+        values: Object.fromEntries(
+          Object.entries(planned.values).map(([key, value]) => [
+            columnIds.get(key) ?? key,
+            value
+          ])
+        ),
+        studyIds: [
+          ...new Set([
+            ...(existing?.studyIds ?? []),
+            ...planned.studyNames.flatMap(name => {
+              const id = studyIds.get(name.toLowerCase());
+              return id ? [id] : [];
+            })
+          ])
+        ],
+        implementation: planned.implementation,
+        observation: planned.observation,
+        note: planned.note
+      };
+
+      if (existing) {
+        await updateSample(experimentId, existing.id, input);
+        updated += 1;
+      } else {
+        await createSample(experimentId, input);
+        created += 1;
+      }
+    }
+
+    return { experimentId, created, updated };
+  });
+  const { experimentId, created, updated } = written;
 
   revalidatePath(`/projects/${projectId}`);
   revalidatePath(`/projects/${projectId}/experiments/${experimentId}`);

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 import {
@@ -5,8 +6,16 @@ import {
   TechniqueWorkspace
 } from '@/features/characterization';
 
-// TODO: a descriptive tab title waits for the data layer (Step 6).
-export const metadata = { title: 'Characterization' };
+export const generateMetadata = async (
+  props: PageProps<'/characterization/[kind]'>
+) => {
+  const { kind } = await props.params;
+  const t = await getTranslations('navigation');
+
+  return {
+    title: isTechniqueKind(kind) ? t(kind) : t('characterizations')
+  };
+};
 
 const TechniquePage = async (props: PageProps<'/characterization/[kind]'>) => {
   const { kind } = await props.params;

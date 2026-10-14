@@ -77,6 +77,8 @@ test('shows the recorded values of a demo sample with their units', async ({
   await expect(
     page.getByRole('row').filter({ hasText: 'Plasma pulse' })
   ).toContainText('15 s');
+  // The tab names the sample, not just its kind of page.
+  await expect(page).toHaveTitle(/ALD003 \| Lab Brain/);
 });
 
 test('does not show an experiment under a project it does not belong to', async ({

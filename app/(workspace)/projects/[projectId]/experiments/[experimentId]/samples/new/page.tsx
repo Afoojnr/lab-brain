@@ -1,7 +1,12 @@
+import { getTranslations } from 'next-intl/server';
+
 import { NewSample } from '@/features/experiments';
 
-// TODO: a descriptive tab title waits for the data layer (Step 6).
-export const metadata = { title: 'Add sample' };
+export const generateMetadata = async () => {
+  const t = await getTranslations('samples.new');
+
+  return { title: t('title') };
+};
 
 const NewSamplePage = async (
   props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/new'>

@@ -44,7 +44,7 @@
     },
     "backups": {
       "title": "Backups",
-      "description": "A copy of the database is saved in the folder every 10 minutes while something changed. The last 30 of each computer are kept.",
+      "description": "Copies of your records, made for you. Restore one if something goes wrong.",
       "never": "No backup yet.",
       "last": "Last backup: {date}",
       "failed": "The last backup failed: {error}",

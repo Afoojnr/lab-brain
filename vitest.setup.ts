@@ -8,6 +8,7 @@ import { afterEach } from 'vitest';
 // first use.
 process.env.LAB_BRAIN_DATABASE_URL = ':memory:';
 process.env.LAB_BRAIN_SEED_DEMO = 'true';
+process.env.LAB_BRAIN_DEMO = 'false';
 
 // Testing Library only cleans up on its own when test globals are enabled.
 // Without this, every render stays on the page for the next test.

@@ -135,5 +135,8 @@
       "number": "Number",
       "text": "Text"
     }
+  },
+  "page": {
+    "fallbackTitle": "Sample"
   }
 }
