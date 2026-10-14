@@ -7,11 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 import { TourHelpButton } from '@/components/tour/help-button';
 
-/**
- * Translucent bar that stays put while content scrolls underneath it. Holds the
- * sidebar toggle (the generated shadcn trigger hardcodes an English label) and the
- * help button that replays a page's tour.
- */
+/** Translucent bar that stays put while content scrolls underneath it. */
 export const AppTopbar = () => {
   const t = useTranslations('navigation');
   const { toggleSidebar } = useSidebar();

@@ -6,15 +6,7 @@ import { getExperimentInProject } from '@/features/experiments/server';
 
 import { deleteSavedPlot } from '../data/saved-plots';
 
-/**
- * Removes a saved plot. Only the plot is deleted; the experiment's samples are
- * untouched.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the plot belongs to.
- * @param plotId - The saved plot to remove.
- * @returns Whether a plot was removed.
- */
+/** Removes a saved plot. */
 export const deleteSavedPlotAction = async (
   projectId: string,
   experimentId: string,

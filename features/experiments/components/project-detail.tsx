@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
-import { Markdown } from '@/components/markdown';
+import { Markdown } from '@/components/markdown/markdown';
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
-import { PageTabs } from '@/components/page-tabs';
+import { PageHeader } from '@/components/page/page-header';
+import { PageTabs } from '@/components/page/page-tabs';
 import { buttonVariants } from '@/components/ui/button';
 import {
   Empty,

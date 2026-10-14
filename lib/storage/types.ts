@@ -1,7 +1,6 @@
 /**
  * The only way the app reads and writes files. Paths are relative, use `/`, and
- * never leave the storage root. A Nextcloud/WebDAV adapter can replace the
- * local one without any other change.
+ * never leave the storage root.
  */
 export type StorageAdapter = {
   /** Writes a file, replacing one at the same path. */

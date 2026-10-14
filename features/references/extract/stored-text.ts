@@ -3,14 +3,7 @@ import { MAX_TEXT_CHARS } from '../config/limits';
 const CUT_NOTE =
   '\n\n[The rest of this text was left out: the length limit was reached.]';
 
-/**
- * The text kept for a reference. A PDF's pages are separated by `[Page N]`
- * lines, so a passage can be cited with its page; pasted text and web pages
- * (one "page") get no marks. Text over the limit is cut and says so.
- *
- * @param pages - The text of each page, or one entry for text without pages.
- * @param hasPages - Whether to mark the pages.
- */
+/** The text kept for a reference. */
 export const buildStoredText = (
   pages: string[],
   hasPages: boolean
@@ -26,13 +19,7 @@ export const buildStoredText = (
   };
 };
 
-/**
- * A slice of a stored text, for reading part of a reference.
- *
- * @param text - The stored text.
- * @param from - The first character (0-based).
- * @param length - How many characters at most.
- */
+/** A slice of a stored text, for reading part of a reference. */
 export const readSlice = (text: string, from: number, length: number) => ({
   text: text.slice(Math.max(from, 0), Math.max(from, 0) + length),
   from: Math.max(from, 0),

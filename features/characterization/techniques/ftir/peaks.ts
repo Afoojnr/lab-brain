@@ -56,14 +56,8 @@ const prominenceOf = (values: number[], index: number): number => {
 
 /**
  * Suggests the peaks of a spectrum: the dips of a transmittance spectrum or the
- * tips of an absorbance one. The spectrum is lightly smoothed to find them; each
- * peak is reported at the raw data point nearest the top, with the raw value. A
- * peak is kept when it stands out by at least `sensitivity` × the spectrum's
- * span. The first and last points cannot be peaks, so the noisy edge of a scan is
- * never one. These are suggestions for the user to curate, not assignments.
- *
- * @param points - The spectrum, wavenumber ascending.
- * @param options - Orientation, interval, sensitivity and spacing.
+ * tips of an absorbance one. The first and last points cannot be peaks, so the
+ * noisy edge of a scan is never one.
  */
 export const detectPeaks = (
   points: SpectrumPoint[],
@@ -115,9 +109,6 @@ export const detectPeaks = (
  * Peaks to offer for several spectra at once: every spectrum's detected peaks,
  * with ones closer than `minSpacing` counted once (the first stays), in
  * wavenumber order.
- *
- * @param lists - The detected peaks of each spectrum.
- * @param minSpacing - Positions closer than this (cm⁻¹) are the same peak.
  */
 export const unionOfPeaks = (
   lists: DetectedPeak[][],
@@ -140,11 +131,6 @@ export const unionOfPeaks = (
  * peak that already has a label stays exactly as it is; every other earlier
  * suggestion is replaced; and a new position is added only if it is not within
  * `minSpacing` of one that stays.
- *
- * @param peaks - The peaks the user has now.
- * @param suggested - The suggested positions.
- * @param minSpacing - Positions closer than this (cm⁻¹) are the same peak.
- * @param newId - Makes an id for a new peak.
  */
 export const mergeSuggestions = (
   peaks: FtirPeak[],

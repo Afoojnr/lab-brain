@@ -1,11 +1,6 @@
 import type { PlotColumn, PlotSettings } from '../types';
 
-/**
- * Starting axes. For an experiment, the first result (or calculated) column on
- * Y, since that is usually what is plotted, and the first parameter on X; for
- * an uploaded table (no roles), its first two columns of numbers. Null when
- * there are fewer than two columns of numbers (nothing to plot).
- */
+/** Starting axes. */
 export const defaultSettings = (columns: PlotColumn[]): PlotSettings | null => {
   const numbers = columns.filter(column => column.kind === 'number');
   if (numbers.length < 2) return null;

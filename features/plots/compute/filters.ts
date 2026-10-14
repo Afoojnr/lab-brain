@@ -1,4 +1,4 @@
-import { parseDecimal } from '@/lib/numbers';
+import { parseDecimal } from '@/lib/numbers/numbers';
 
 import type { PlotColumn, PlotFilter, PlotRow } from '../types';
 
@@ -23,9 +23,6 @@ const passes = (row: PlotRow, filter: PlotFilter): boolean => {
 
 /**
  * Keeps the rows that pass every active filter ("and"), and counts the rest.
- *
- * @param rows - The rows to filter.
- * @param filters - The filters; one that restricts nothing yet is ignored.
  */
 export const applyFilters = (
   rows: PlotRow[],
@@ -38,7 +35,7 @@ export const applyFilters = (
 
 /**
  * The distinct values a column holds, numbers ascending and text A to Z, for a
- * filter to offer. Empty text is not a value.
+ * filter to offer.
  */
 export const distinctValues = (
   rows: PlotRow[],
@@ -59,8 +56,7 @@ export const distinctValues = (
 
 /**
  * The active filters as short lines for a caption: `Cycles: 600, 800`,
- * `Temperature (°C): 150 – 250` (or `≥ 150`, `≤ 250` for one bound). No
- * words, so it reads the same in any language.
+ * `Temperature (°C): 150 – 250` (or `≥ 150`, `≤ 250` for one bound).
  */
 export const describeFilters = (
   filters: PlotFilter[],

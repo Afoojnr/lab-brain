@@ -16,7 +16,7 @@ const SHAPES: readonly SeriesShape[] = [
 /**
  * How many groups can each have their own look: every group gets one of the
  * three colours and one of four shapes, and because 3 and 4 share no factor, no
- * two of the first twelve groups share both. Past that, groups are folded.
+ * two of the first twelve groups share both.
  */
 export const MAX_STYLED_GROUPS = COLORS.length * SHAPES.length;
 
@@ -31,10 +31,6 @@ const MUTED = 'var(--muted-foreground)';
  * The colour and marker shape of a series. A named group keeps the slot it
  * has among all the groups of the table (`colorOrder`), so filtering or
  * unticking never repaints it; the rows without a group are grey.
- *
- * @param series - The series.
- * @param index - Its position among the shown series, used when it has no slot.
- * @param colorOrder - Group keys of the whole table.
  */
 export const seriesStyle = (
   series: PlotSeries,

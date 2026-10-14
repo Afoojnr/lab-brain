@@ -1,8 +1,4 @@
-/**
- * A top-level container, e.g. "ALD of BxC". It holds experiment; each experiment has
- * its own columns and its own sample numbering. Shape mirrors the planned
- * database table so swapping demo data for Drizzle keeps this type.
- */
+/** A top-level container, e.g. "ALD of BxC". */
 export type Project = {
   id: string;
   name: string;
@@ -10,7 +6,7 @@ export type Project = {
   description: string | null;
   /**
    * The long version of what the project is about, as Markdown: goals, what is
-   * known, open questions. The AI assistant reads it; null when not written.
+   * known, open questions.
    */
   background: string | null;
   createdAt: Date;
@@ -18,8 +14,7 @@ export type Project = {
 
 /**
  * One kind of sample inside a project, like one sheet of a lab spreadsheet:
- * "Deposition" (prefix ALD) or "Paschen law" (prefix PSL). It owns its
- * columns (parameters) and its sample numbering (ALD001, ALD002, ...).
+ * "Deposition" (prefix ALD) or "Paschen law" (prefix PSL).
  */
 export type Experiment = {
   id: string;
@@ -36,15 +31,13 @@ export type ParameterKind = 'number' | 'text';
 
 /**
  * Whether a column is something you set (a `parameter`, e.g. a temperature) or
- * something you measured afterwards (a `result`, e.g. a thickness). Only the
- * grouping and prefill differ; both hold raw values with a unit.
+ * something you measured afterwards (a `result`, e.g. a thickness).
  */
 export type ParameterRole = 'parameter' | 'result';
 
 /**
- * One column of an experiment (e.g. a temperature in °C). Columns can be added at
- * any time; samples recorded before it simply have no value for it. The unit
- * lives here, never inside a stored value.
+ * One column of an experiment (e.g. a temperature in °C). The unit lives here,
+ * never inside a stored value.
  */
 export type ParameterDefinition = {
   id: string;
@@ -114,9 +107,7 @@ export type Sample = {
 
 /**
  * A measurement done on a sample (SEM, EDX, ellipsometry, ...), tracked by
- * technique and date. It only records that the measurement happened; the raw
- * files and results attach to it later. A technique can be recorded many times
- * on one sample.
+ * technique and date.
  */
 export type Characterization = {
   id: string;
@@ -154,8 +145,7 @@ export type Dataset = {
  * A column calculated for each sample from its other columns, for example GPC
  * (Å/cycle) = Thickness (nm) × 10 ÷ Cycles. It is never typed and never stored
  * per sample: the value is computed whenever it is shown, so it follows the
- * columns it uses. Only entered number columns can be used (no derived column
- * of a derived column).
+ * columns it uses.
  */
 export type DerivedColumn = {
   id: string;

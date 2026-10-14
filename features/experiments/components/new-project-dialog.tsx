@@ -17,8 +17,8 @@ import {
 import { ProjectForm } from './project-form';
 
 /**
- * Button that opens the New project form in a dialog. Closes itself once the
- * project is created. `label` replaces the default "New project" text.
+ * Button that opens the New project form in a dialog. `label` replaces the
+ * default "New project" text.
  */
 export const NewProjectDialog = ({ label }: { label?: string }) => {
   const t = useTranslations('projects.form');

@@ -10,10 +10,6 @@ import { projectFormSchema } from '../schemas/schemas';
 /**
  * Changes a project from the Edit project form, then refreshes the pages that
  * show it. Invalid input only comes from a direct call, so it is ignored.
- *
- * @param projectId - The project to change.
- * @param input - Raw form values.
- * @returns True when the project was changed, false when ignored or not found.
  */
 export const updateProjectAction = async (
   projectId: string,

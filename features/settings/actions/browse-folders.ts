@@ -39,10 +39,7 @@ const isAvailable = () => !isDemoMode() && !process.env.LAB_BRAIN_STORAGE_DIR;
 
 /**
  * The folders inside a folder, so the user can pick the data folder by clicking
- * instead of typing a path. Names only, never file contents. Starts at the
- * current data folder, or at the user's home folder.
- *
- * @param requested - An absolute folder, or null to start at the default.
+ * instead of typing a path. Names only, never file contents.
  */
 export const browseFoldersAction = async (
   requested: string | null
@@ -68,12 +65,7 @@ export const browseFoldersAction = async (
   };
 };
 
-/**
- * Creates a new folder inside the one being browsed.
- *
- * @param parent - The folder being shown.
- * @param name - The new folder's name.
- */
+/** Creates a new folder inside the one being browsed. */
 export const createFolderAction = async (
   parent: string,
   name: string

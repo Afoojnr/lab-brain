@@ -15,7 +15,7 @@ import {
 import type { ReactNode } from 'react';
 
 import { useSidebar } from '@/components/ui/sidebar';
-import { useTourState } from '@/hooks/use-tour-state';
+import { useTourState } from '@/components/tour/use-tour-state';
 
 import { buildSteps, TOURS, tourIdForPath } from './tours';
 import type { TourId } from './tours';
@@ -42,11 +42,7 @@ type StepCopy = Record<string, Record<string, { title: string; text: string }>>;
 /** How long a collapsed sidebar needs to open before its items can be spotlighted. */
 const SIDEBAR_OPENING_MS = 250;
 
-/**
- * Runs the guided tour of the page being shown. The tour library is loaded only
- * when a tour starts. Mount it inside the sidebar provider: on a phone the
- * sidebar steps are replaced by one pointing at the menu button.
- */
+/** Runs the guided tour of the page being shown. */
 export const TourProvider = ({ children }: { children: ReactNode }) => {
   const t = useTranslations('tour');
   const messages = useMessages();

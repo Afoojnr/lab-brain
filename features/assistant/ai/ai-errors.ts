@@ -21,10 +21,7 @@ type ErrorLike = {
 
 /**
  * Which problem an error from the AI provider is, without ever repeating its
- * message (a message can contain part of the key). Looks only at the error's
- * status and code.
- *
- * @param error - Whatever was thrown.
+ * message (a message can contain part of the key).
  */
 export const aiErrorKey = (error: unknown): AiErrorKey => {
   const { name, statusCode, code, cause, responseBody } = (error ??

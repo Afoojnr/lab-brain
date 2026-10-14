@@ -18,21 +18,8 @@ import { computeAnalysisValues } from '../analysis/load';
 import { analysisKindSchema, analysisSettingsSchema } from '../schemas';
 
 /**
- * Sends the chosen analysis values to the sample's result columns. Nothing the
- * browser says about the numbers is used: the values are computed again here
- * from the stored files and the settings, and every target is checked against
- * the experiment's own columns (an existing number result column, or a new
- * result column with a valid, unused name). Only the chosen columns change;
- * every other value of the sample is kept. Invalid input only comes from a
- * direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample to update.
- * @param characterizationId - The characterization analysed.
- * @param kind - Which analysis.
- * @param input - The settings: which values go to which columns.
- * @returns How many values were written, or null when ignored.
+ * Sends the chosen analysis values to the sample's result columns. Invalid
+ * input only comes from a direct call, so it is ignored.
  */
 export const applyAnalysisAction = async (
   projectId: string,

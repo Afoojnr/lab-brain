@@ -54,7 +54,6 @@ const rangeOf = (
 
 /**
  * How the spectra are read and processed, and how peaks are found and measured.
- * Each choice is shown, nothing is hidden, and none changes the file.
  */
 export const FtirControls = ({
   settings,

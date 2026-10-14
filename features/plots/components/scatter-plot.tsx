@@ -100,8 +100,8 @@ const Chart = ({
 
 /**
  * A scatter plot with one colour and marker shape per group (the shape keeps
- * groups apart without colour), optional error bars, and a legend whenever there
- * are two or more groups. Clicking a point opens its sample.
+ * groups apart without colour), optional error bars, and a legend whenever
+ * there are two or more groups.
  */
 export const ScatterPlot = ({
   series,

@@ -19,8 +19,6 @@ const MAX_UNTICKED = 5000;
 /**
  * The title asked for when saving a plot. The title must be unique within the
  * experiment, ignoring case.
- *
- * @param otherNames - Titles of the experiment's other saved plots.
  */
 export const buildSavedPlotFormSchema = (otherNames: string[]) =>
   z.object({
@@ -87,14 +85,7 @@ const FILTER_SCHEMA = z.discriminatedUnion('type', [
   })
 ]);
 
-/**
- * The payload of the save action: the title plus what to plot. Rebuilt on the
- * server from the experiment's stored columns, so a saved plot can only point
- * at columns the experiment has.
- *
- * @param columns - The experiment's plottable columns.
- * @param otherNames - Titles of the experiment's other saved plots.
- */
+/** The payload of the save action: the title plus what to plot. */
 export const buildSavedPlotSchema = (
   columns: Pick<PlotColumn, 'key' | 'kind'>[],
   otherNames: string[]

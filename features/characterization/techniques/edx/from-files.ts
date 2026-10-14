@@ -17,8 +17,6 @@ const isHidden = (segment: string) => segment.startsWith('.');
 /**
  * Whether a folder is named like a date (`2026-05-22`, `20260522`): the lab
  * keeps a day's sample folders inside one, so the samples are one level down.
- *
- * @param name - The dropped folder's name.
  */
 export const looksLikeDateFolder = (name: string): boolean =>
   /^\d{4}-\d{2}-\d{2}/.test(name) || /^\d{8}$/.test(name);
@@ -28,13 +26,8 @@ const directoryOf = (segments: string[]) => segments.slice(0, -1).join('/');
 /**
  * Groups dropped files into samples the way the lab notebook does: a
  * `quantification.csv` is one spot, with its `spectrum.emsa` beside it, and a
- * sample is the folder holding its spots. With `level` 0 the sample is the
- * folder that was dropped; with `level` 1 the dropped folder is a day's folder
- * and each folder inside it is a sample. A file that cannot be read is
+ * sample is the folder holding its spots. A file that cannot be read is
  * reported, never skipped silently.
- *
- * @param files - The `quantification.csv` and `spectrum.emsa` files, as text.
- * @param level - How many folders to go down to reach a sample folder.
  */
 export const groupEdxItems = (files: TextFile[], level: 0 | 1): EdxItem[] => {
   const usable = files

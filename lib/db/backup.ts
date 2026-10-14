@@ -86,8 +86,6 @@ export const getBackupFolder = (): string | null => {
 
 /**
  * The backups in a backups folder, newest first, from all computers using it.
- *
- * @param folder - A `backups` folder.
  */
 export const listBackupsIn = async (folder: string): Promise<BackupFile[]> => {
   const names = await readdir(folder).catch(() => [] as string[]);
@@ -103,9 +101,7 @@ export const listBackupsIn = async (folder: string): Promise<BackupFile[]> => {
   return backups.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 };
 
-/**
- * Every backup in the chosen data folder, newest first.
- */
+/** Every backup in the chosen data folder, newest first. */
 export const listBackups = async (): Promise<BackupFile[]> => {
   const folder = getBackupFolder();
 
@@ -126,9 +122,6 @@ const pruneBackups = async (folder: string) => {
  * Writes a consistent copy of the database into the data folder's `backups`
  * folder (`VACUUM INTO`, safe while the app is in use) and keeps the last
  * {@link BACKUPS_KEPT} of this computer.
- *
- * @returns The new backup's file name.
- * @throws When no data folder is chosen or the copy cannot be written.
  */
 export const backUpNow = async (): Promise<string> => {
   const folder = getBackupFolder();
@@ -160,8 +153,6 @@ export const backUpNow = async (): Promise<string> => {
 /**
  * Backs up when something changed since the last backup (the database file is
  * newer), and does nothing otherwise or without a data folder.
- *
- * @returns Whether a backup was made.
  */
 export const backUpIfChanged = async (): Promise<boolean> => {
   const file = getDatabaseFile();

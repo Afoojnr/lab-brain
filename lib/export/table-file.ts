@@ -3,20 +3,15 @@ import {
   downloadBytes,
   fileNameFor,
   XLSX_TYPE
-} from '@/lib/download-file';
+} from '@/lib/export/download-file';
 
 import type { ExportTable } from './types';
 
 export type TableFormat = 'xlsx' | 'csv';
 
 /**
- * Saves a table as an Excel or CSV file named after the title. A `null` cell
- * is left empty, never 0. The spreadsheet library is large, so it is only
- * downloaded when someone exports.
- *
- * @param format - Excel or CSV.
- * @param title - What the file is about; names the file and the sheet.
- * @param table - Headers and rows.
+ * Saves a table as an Excel or CSV file named after the title. A `null` cell is
+ * left empty, never 0.
  */
 export const exportTableFile = async (
   format: TableFormat,

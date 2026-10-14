@@ -23,8 +23,6 @@ export type NormaliseResult =
  * Percent transmittance as absorbance: A = 2 − log₁₀(%T). A point at 0 % or
  * below has no absorbance (it would be infinite), so it is left out and counted,
  * never turned into a number.
- *
- * @param points - The spectrum in percent transmittance.
  */
 export const toAbsorbance = (
   points: SpectrumPoint[]
@@ -68,17 +66,13 @@ const scale = (
 });
 
 /**
- * Scales a spectrum so spectra of different amounts of material can be
- * compared. It never changes the file; the result is relative, not absolute.
+ * Scales a spectrum so samples with different amounts of material can be
+ * compared. The file is never changed.
  *
- * - `minmax`: lowest → 0 and highest → 1, over the chosen interval.
+ * - `minmax`: lowest → 0, highest → 1, over the chosen interval.
  * - `peak`: the value at the reference peak → 1.
  * - `vector`: the whole spectrum scaled to length 1.
  * - `snv`: each value minus the mean, over the standard deviation.
- *
- * @param points - The spectrum.
- * @param method - How to scale it.
- * @param options - Interval, reference peak and orientation.
  */
 export const normalise = (
   points: SpectrumPoint[],

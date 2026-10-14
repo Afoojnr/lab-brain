@@ -23,10 +23,7 @@ type FileDropZoneProps = {
   hint: string;
 };
 
-/**
- * A dashed area to drop files on or click to browse. Only hands the files to
- * `onFiles`; what to do with them (and which are acceptable) is up to the caller.
- */
+/** A dashed area to drop files on or click to browse. */
 export const FileDropZone = ({
   onFiles,
   accept,

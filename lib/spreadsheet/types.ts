@@ -1,8 +1,4 @@
-/**
- * One spreadsheet cell as it was read. Nothing is converted silently: a number
- * stays a number, a date stays a calendar date, and anything else stays the
- * text it was.
- */
+/** One spreadsheet cell as it was read. */
 export type RawCell =
   | { kind: 'empty' }
   | { kind: 'text'; value: string }

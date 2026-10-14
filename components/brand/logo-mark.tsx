@@ -3,8 +3,7 @@ type LogoMarkProps = {
   size?: number;
   /**
    * `full` is the flask in a hexagon with a small network in the liquid; use it
-   * from about 32 px up. `compact` leaves the network out so it stays clean at
-   * favicon sizes.
+   * from about 32 px up.
    */
   variant?: 'full' | 'compact';
   /** The square behind the mark (any CSS colour, or a `var(--token)`). */
@@ -24,8 +23,7 @@ export const BRAND_FOREGROUND = '#f0f9ff';
 
 /**
  * The Lab Brain mark: a flask inside a hexagon (a lab, and the lattice of a
- * material) with a small network in the liquid (the brain). Plain SVG with no
- * hooks, so it also renders inside generated images (the preview card, icons).
+ * material) with a small network in the liquid (the brain).
  */
 export const LogoMark = ({
   size = 32,

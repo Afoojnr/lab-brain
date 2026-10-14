@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import { PageTabs } from '@/components/page-tabs';
+import { PageTabs } from '@/components/page/page-tabs';
 
 import type { SectionTab } from '../navigation/sections';
 
@@ -15,10 +15,8 @@ type SectionTabsProps = {
 
 /**
  * The sections of one experiment as an underlined tab bar: Protocol, Setup
- * (columns, calculated columns and studies), Samples (the daily work) and Plots.
- * An experiment opens on its samples, or on Setup while it has none. It switches the view within one experiment, which is why it
- * looks different from the experiment pills above it. The chosen tab is in the
- * URL, so Back and links work, and the bar scrolls sideways on a phone.
+ * (columns, calculated columns and studies), Samples (the daily work) and
+ * Plots.
  */
 export const SectionTabs = async ({
   experimentPath,

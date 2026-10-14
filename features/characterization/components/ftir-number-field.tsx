@@ -27,8 +27,8 @@ const parse = (text: string, factor: number): number | null => {
 };
 
 /**
- * A number box that lets you type freely (a minus sign, a decimal point, nothing
- * at all) and only reports a value when what is typed is a number. Empty reports null.
+ * A number box that lets you type freely (a minus sign, a decimal point,
+ * nothing at all) and only reports a value when what is typed is a number.
  */
 export const FtirNumberField = ({
   id,

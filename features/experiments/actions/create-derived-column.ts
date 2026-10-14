@@ -15,16 +15,9 @@ import {
 } from '../schemas/schemas';
 
 /**
- * Adds a calculated column from the Add calculated column form, then
- * refreshes the experiment page. The schema is rebuilt here from the stored
- * columns, never from anything the browser sends, so a formula that names a
- * missing or text column is refused. Invalid input only comes from a direct
- * call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment to add the column to.
- * @param input - Raw form values.
- * @returns Whether a column was added.
+ * Adds a calculated column. The schema is rebuilt from the stored columns, so a
+ * formula that names a missing or text column is refused. Invalid input is
+ * ignored.
  */
 export const createDerivedColumnAction = async (
   projectId: string,

@@ -60,7 +60,7 @@ const MoreInfo = () => {
 
 /**
  * The data folder: its path (shown in the field), a button to change it, and
- * what to do with the files kept so far. A folder is checked before it is used.
+ * what to do with the files kept so far.
  */
 export const FolderForm = ({
   currentFolder,

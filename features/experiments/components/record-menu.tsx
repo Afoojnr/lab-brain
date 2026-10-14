@@ -23,11 +23,7 @@ type RecordMenuProps = {
   details?: DeleteDetails;
 };
 
-/**
- * The "More actions" (⋯) button at the end of a page's header buttons. It holds
- * Edit and Delete; Delete opens its confirmation dialog and nothing is deleted
- * until its red button.
- */
+/** The "More actions" (⋯) button at the end of a page's header buttons. */
 export const RecordMenu = ({ edit, details }: RecordMenuProps) => {
   const t = useTranslations('experiments.delete');
   const [isDeleting, setIsDeleting] = useState(false);

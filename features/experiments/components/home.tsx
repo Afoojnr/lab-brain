@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 
 import { listProjects } from '../data/projects';
 import { listExperimentsByProject } from '../data/experiments';
@@ -11,11 +11,9 @@ import { ProjectGrid } from './project-grid';
 import { ProjectsEmpty } from './projects-empty';
 
 /**
- * The home page: every project as a card with its experiment count, or, on a
- * first run, a welcome with the way to create the first one (the welcome is
- * the page's only heading). `emptyActions` sits next to the create button and
- * `emptyExtra` under the welcome (the app puts the raw-files links there,
- * because this feature cannot import another).
+ * The home page: a card per project, or a welcome on first run. `emptyActions`
+ * sits next to the create button and `emptyExtra` under the welcome (the app
+ * puts the raw-files links there, as this feature cannot import another).
  */
 export const Home = async ({
   emptyActions,

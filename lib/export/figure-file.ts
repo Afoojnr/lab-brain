@@ -4,7 +4,7 @@ import {
   PDF_TYPE,
   PNG_TYPE,
   PPTX_TYPE
-} from '@/lib/download-file';
+} from '@/lib/export/download-file';
 
 import { composeFigure } from './figure';
 import type { FigureLegendItem } from './figure';
@@ -65,13 +65,7 @@ export const readChartSvg = (container: HTMLElement) => {
   return { svg: new XMLSerializer().serializeToString(copy), width, height };
 };
 
-/**
- * Saves a drawn chart as a picture (PNG), a PDF or a PowerPoint slide. They use
- * the light theme with the caption and legend, so a figure explains itself; a
- * PDF page or a slide carries the title and caption itself.
- *
- * @throws When the chart is not drawn, or the picture cannot be made.
- */
+/** Saves a drawn chart as a picture (PNG), a PDF or a PowerPoint slide. */
 export const exportFigureFile = async (
   format: FigureFormat,
   {

@@ -15,16 +15,8 @@ import {
 } from '../schemas/schemas';
 
 /**
- * Changes a calculated column from the Edit form, then refreshes the
- * experiment page. The schema is rebuilt from the stored columns; the column's
- * own name does not count as a duplicate. Invalid input only comes from a
- * direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the column belongs to.
- * @param columnId - The calculated column to change.
- * @param input - Raw form values.
- * @returns Whether it was changed.
+ * Changes a calculated column from the Edit form, then refreshes the experiment
+ * page. Invalid input only comes from a direct call, so it is ignored.
  */
 export const updateDerivedColumnAction = async (
   projectId: string,

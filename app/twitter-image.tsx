@@ -1,4 +1,4 @@
-import { previewImage } from '@/lib/brand-image';
+import { previewImage } from '@/lib/site/brand-image';
 
 export const alt = 'Lab Brain';
 export const size = { width: 1200, height: 630 };

@@ -51,13 +51,7 @@ const filterSchema = z.object({
   value: z.union([z.string(), z.number()]).optional()
 });
 
-/**
- * The read-only tools the assistant may call. Each returns small, exact
- * results (capped rows, units, null for anything not recorded) and links to the
- * records it read, so an answer can cite them. None of them changes data.
- *
- * @param scope - The project (and optional experiment) the chat is about.
- */
+/** The read-only tools the assistant may call. */
 export const createAssistantTools = (scope: ProjectScope) => ({
   listExperiments: tool({
     description:

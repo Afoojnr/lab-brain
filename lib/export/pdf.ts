@@ -4,10 +4,7 @@ const MARGIN = 36;
 
 /**
  * A PDF with one landscape A4 page per entry: the title, the picture scaled to
- * fit, then the lines of text under it. Loaded on demand, so the PDF library
- * is only downloaded when someone exports.
- *
- * @param pages - The pages, in order. At least one.
+ * fit, then the lines of text under it.
  */
 export const buildPdf = async (pages: ExportPage[]): Promise<Uint8Array> => {
   const { jsPDF } = await import('jspdf');

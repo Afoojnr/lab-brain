@@ -58,12 +58,9 @@ const withUnit = (name: string, unit: string | null) =>
   unit ? `${name} (${unit})` : name;
 
 /**
- * The tables of an experiment export, one per sheet. The samples sheet is the
- * spreadsheet the experiment came from: one row per sample, a column per
- * parameter and result (parameters first, as in the app), then the calculated
- * columns and the notes. Numbers stay numbers and a value that was not
- * recorded is an empty cell, never 0, so the sheet can be calculated on in
- * Excel and imported again.
+ * The tables of an experiment export, one per sheet. Numbers stay numbers and a
+ * value that was not recorded is an empty cell, never 0, so the sheet can be
+ * calculated on in Excel and imported again.
  */
 export const buildExperimentSheets = ({
   definitions,

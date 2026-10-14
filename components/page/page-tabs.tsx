@@ -20,12 +20,7 @@ type PageTabsProps = {
   tourId?: string;
 };
 
-/**
- * An underlined tab bar that switches between the sections of one page. Each
- * tab is a link, so the chosen section is in the URL and Back, reload and shared
- * links work; the bar scrolls sideways on a phone. Used by the experiment page
- * and the project page.
- */
+/** An underlined tab bar that switches between the sections of one page. */
 export const PageTabs = ({ label, tabs, active, tourId }: PageTabsProps) => (
   <div className="mt-6 border-b">
     {/* The tabs sit on the line by the nav's own -mb-px, never by the tabs, so nothing

@@ -40,9 +40,6 @@ const insertAll = async <Row>(
  * Adds the example project, experiments, samples and measurements. It does
  * nothing for example projects that are already there, and never touches the
  * user's own records.
- *
- * @param database - The open database.
- * @returns Whether anything was added.
  */
 export const seedDemo = async (database: Database): Promise<boolean> => {
   const existing = await database
@@ -91,8 +88,6 @@ export const seedDemo = async (database: Database): Promise<boolean> => {
 /**
  * Seeds the examples into a database with no projects at all (a fresh demo or a
  * test database), so a user's own data is never mixed with them unasked.
- *
- * @param database - The open database.
  */
 export const seedDemoIfEmpty = async (database: Database): Promise<void> => {
   const [first] = await database

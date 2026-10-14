@@ -11,7 +11,7 @@ type FadeInProps = {
 
 /**
  * Eases page content in on navigation, so a route change reads as arriving
- * somewhere new. Critically damped spring: no overshoot, safe to interrupt.
+ * somewhere new.
  */
 export const FadeIn = ({
   children,

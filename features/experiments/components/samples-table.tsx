@@ -56,11 +56,9 @@ type SamplesTableProps = {
 };
 
 /**
- * The tick box and the code stay at the left while the table scrolls sideways.
- * They are opaque and take the card's colour (the table sits in a card, which in
- * dark mode is lighter than the page), so the columns passing under them never
- * show through and the pinned part looks like the rest of the row; the code
- * column is 2rem from the left, the width of the tick box column.
+ * The tick box and code stay at the left while the table scrolls sideways. They
+ * are opaque and use the card colour so scrolled columns never show through; the
+ * code column starts 2rem in, the width of the tick column.
  */
 const PINNED = 'sticky z-10 bg-card';
 // Exactly 2rem wide, so the code column can stick right after it with no gap.
@@ -71,9 +69,7 @@ const NOTED = 'bg-[color-mix(in_srgb,var(--destructive)_10%,var(--card))]';
 
 /**
  * An experiment's samples like the rows of a spreadsheet: code, studies, date,
- * one column per parameter, then implementation and observation. An empty
- * cell means "not recorded", for example on samples made before a column was
- * added. Rows can be selected to tag them with a study in one step.
+ * one column per parameter, then implementation and observation.
  */
 export const SamplesTable = ({
   projectId,

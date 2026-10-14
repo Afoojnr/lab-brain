@@ -167,16 +167,7 @@ const isResult = (
 
 /**
  * Adds a reference to a project from a PDF, a link (or DOI) or pasted text.
- * It reads the text once, here, and keeps it in storage, so no question later
- * has to read the file again. It checks that the project exists, that the
- * project is under its limit, and every size and page limit; a link is fetched
- * only through the guarded fetcher. Invalid input only comes from a direct
- * call, so it is ignored.
- *
- * @param projectId - The project to add it to.
- * @param formData - `kind` (`pdf`, `link` or `text`), `title`, `authors`,
- *   `year`, `url`, `note`, and the `file` or `text` the kind needs.
- * @returns The new reference's id, or the reason it was not added.
+ * Invalid input only comes from a direct call, so it is ignored.
  */
 export const addReferenceAction = async (
   projectId: string,

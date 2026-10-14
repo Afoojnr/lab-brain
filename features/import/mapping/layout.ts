@@ -19,12 +19,7 @@ const SINGLE_TARGETS: { type: ColumnTarget['type']; words: string[] }[] = [
 /**
  * Suggests what each source column becomes, from its header: the well-known
  * fields by name, an existing column with the same name (ignoring case and
- * unit), and anything else as a new parameter column. Each single-use field
- * (code, date, ...) is suggested for the first matching column only.
- *
- * @param headers - The header texts, one per column.
- * @param columns - The target experiment's columns (empty for a new one).
- * @param sampleCells - For each source column, its cells below the header.
+ * unit), and anything else as a new parameter column.
  */
 export const suggestMapping = (
   headers: string[],
@@ -63,9 +58,7 @@ export const suggestMapping = (
 
 /**
  * The letters most sample codes start with ("ALD" for ALD001, ALD002), as a
- * suggested prefix. Empty when no clear prefix of 2 to 6 letters exists.
- *
- * @param codes - The sample codes in the sheet.
+ * suggested prefix.
  */
 export const suggestPrefix = (codes: string[]): string => {
   const counts = new Map<string, number>();

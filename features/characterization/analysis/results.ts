@@ -6,10 +6,6 @@ export type ResultColumn = { id: string; name: string; unit: string | null };
  * Where a value goes: what the user chose if that column still exists,
  * otherwise a result column with the same name as the value, otherwise a new
  * column named after the value.
- *
- * @param value - The analysis value.
- * @param saved - The user's earlier choice for it, if any.
- * @param columns - The experiment's number result columns.
  */
 export const resolveTarget = (
   value: AnalysisValue,
@@ -38,9 +34,7 @@ export type SelectionProblem = 'none' | 'columnTaken' | 'nameMissing';
 
 /**
  * Whether the chosen values can be sent: at least one, no two into the same
- * column, and every new column named. The server checks all of this again.
- *
- * @param selected - The chosen values with where each goes.
+ * column, and every new column named.
  */
 export const checkSelection = (
   selected: { value: AnalysisValue; target: ColumnTarget }[]

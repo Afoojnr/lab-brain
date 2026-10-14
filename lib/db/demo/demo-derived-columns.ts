@@ -2,11 +2,9 @@ import type { DerivedColumn } from './types';
 
 // Demo data, seeded into the database.
 //
-// An example calculated column on the ALD experiment: the growth per cycle in
-// Å, from the thickness (demo-parameter-15, nm) and cycles (demo-parameter-5).
-// The factor 10 turns nm into Å; the app never converts units itself. The second
-// column is built on the first (a calculated column can use another one): GPC
-// in nm per cycle, so the factor 10 turns Å back into nm.
+// Growth per cycle on the ALD experiment in Å (thickness in nm x 10 / cycles),
+// and a second column built on the first, back in nm. The app never converts
+// units itself, so the factor is in the formula.
 export const DEMO_DERIVED_COLUMNS: DerivedColumn[] = [
   {
     id: 'demo-derived-1',

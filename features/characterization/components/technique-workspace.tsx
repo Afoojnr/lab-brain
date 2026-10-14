@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 import { buttonVariants } from '@/components/ui/button';
 
 import { listBonds } from '../data/ftir-bonds';

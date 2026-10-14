@@ -54,8 +54,7 @@ export type FtirSettings = {
 
 /**
  * A bond the user looks for: what to call a peak, the range of wavenumbers it
- * appears in, and where that range comes from. The app ships none: the user
- * fills the table, so every range has a source they trust.
+ * appears in, and where that range comes from.
  */
 export type FtirBond = {
   id: string;

@@ -20,11 +20,7 @@ import { deleteReferencesOf } from '@/features/references/server';
 
 /**
  * Deletes a sample with its measurements and files, and the analyses saved for
- * them. Other samples are untouched.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample to delete.
+ * them.
  */
 export const deleteSampleAction = async (
   projectId: string,
@@ -46,10 +42,6 @@ export const deleteSampleAction = async (
  * Deletes an experiment: its samples (with measurements and files), columns and
  * studies, and its saved plots and analyses. The caller must type its exact
  * name, which is checked here again.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment to delete.
- * @param typedName - What the user typed to confirm.
  */
 export const deleteExperimentAction = async (
   projectId: string,
@@ -74,9 +66,6 @@ export const deleteExperimentAction = async (
  * Deletes a project: every experiment as above, its references (with their
  * stored files) and its background. The caller must type its exact name, which
  * is checked here again.
- *
- * @param projectId - The project to delete.
- * @param typedName - What the user typed to confirm.
  */
 export const deleteProjectAction = async (
   projectId: string,

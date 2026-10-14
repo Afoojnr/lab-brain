@@ -25,12 +25,12 @@ vi.mock('recharts', () => {
     YAxis: Passthrough
   };
 });
-vi.mock('@/lib/download-file', () => ({
+vi.mock('@/lib/export/download-file', () => ({
   downloadBytes: vi.fn(),
   XLSX_TYPE: 'xlsx'
 }));
 
-import { downloadBytes } from '@/lib/download-file';
+import { downloadBytes } from '@/lib/export/download-file';
 import { UploadEdx } from './upload-edx';
 import { UploadEllipsometry } from './upload-ellipsometry';
 

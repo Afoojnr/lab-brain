@@ -9,8 +9,6 @@ export const SUMMARY_SYSTEM_PROMPT =
 /**
  * What the summary covered, written by the app (not the model) so it is always
  * true: the pages for a PDF, otherwise how many characters.
- *
- * @param text - The stored text of the reference.
  */
 export const coverageNote = (text: string): string => {
   const read = text.slice(0, SUMMARY_SOURCE_CHARS);

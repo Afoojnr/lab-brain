@@ -16,8 +16,6 @@ const KEYS: AiErrorKey[] = [
 /**
  * Which problem a chat error is. The server answers with a key only (in a JSON
  * body, or as the stream's error text), never the provider's own message.
- *
- * @param error - The error `useChat` reports.
  */
 export const chatErrorKey = (error: Error | undefined): AiErrorKey => {
   const message = error?.message ?? '';

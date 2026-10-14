@@ -6,9 +6,6 @@ import type { ImportParser, ParsedSheet, RawCell } from '../types';
  * Reads a CSV file held as text. The delimiter (comma, semicolon, tab) is
  * detected, and every cell stays text: "1,5" is not turned into a number here,
  * because only the column it is mapped to knows whether it should be one.
- *
- * @param text - The file contents.
- * @param name - The sheet name to give it, normally the file name.
  */
 export const parseCsvText = (text: string, name: string): ParsedSheet => {
   const content = text.replace(/^\uFEFF/, '');

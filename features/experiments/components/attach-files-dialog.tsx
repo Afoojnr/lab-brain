@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { FileDropZone } from '@/components/file-drop-zone';
-import type { PickedFile } from '@/components/read-dropped-entries';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
+import type { PickedFile } from '@/components/file-drop/read-dropped-entries';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

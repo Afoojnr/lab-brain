@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-import { ExperimentPicker } from '@/components/experiment-picker';
+import { ExperimentPicker } from '@/components/controls/experiment-picker';
 import {
   getExperimentInProject,
   listExperimentsByProject,

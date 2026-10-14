@@ -33,8 +33,8 @@ type TestResult = { ok: true } | { ok: false; error: AiErrorKey } | null;
 /**
  * Where the user chooses the AI that answers their questions: Claude, OpenAI or
  * Ollama (on their own computer), with their own key. Everything is kept in
- * this browser only, sent with each question, and never stored or logged by
- * the server. A Test button checks that it works.
+ * this browser only, sent with each question, and never stored or logged by the
+ * server.
  */
 export const AiSettingsPanel = () => {
   const t = useTranslations('assistant.settings');

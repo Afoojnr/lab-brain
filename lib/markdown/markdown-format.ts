@@ -88,14 +88,7 @@ const wrap = (
 /**
  * Applies a formatting button to the text, like a word processor: it wraps the
  * selected words, or marks each selected line, and returns the new text and
- * where the selection should be. Pressing a list or heading button again on
- * lines that already have the mark takes it off. When nothing is selected a
- * placeholder is written and selected, so the user types over it.
- *
- * @param text - The whole text.
- * @param selection - The selected range (start equals end for a caret).
- * @param kind - Which button was pressed.
- * @param words - The placeholder words, translated.
+ * where the selection should be.
  */
 export const applyFormat = (
   text: string,

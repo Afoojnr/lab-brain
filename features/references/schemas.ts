@@ -57,11 +57,7 @@ const details = {
     })
 };
 
-/**
- * What is typed when adding a reference. The title may be left empty, and is
- * then taken from the file or page; the link or the pasted text is checked by
- * the action that reads it.
- */
+/** What is typed when adding a reference. */
 export const addReferenceSchema = z.object({
   kind: z.enum(['pdf', 'link', 'text']),
   title: z

@@ -6,12 +6,7 @@ const EXCEL_EXTENSIONS = ['.xlsx', '.xlsm', '.xls'];
 
 const pad = (value: number) => String(value).padStart(2, '0');
 
-/**
- * Reads one worksheet cell. Dates are recognised by their number format and
- * turned into calendar dates from the Excel serial number directly, so no time
- * zone can shift them by a day. Formulas come back as the value Excel last
- * calculated; nothing is evaluated here.
- */
+/** Reads one worksheet cell. */
 const readCell = (cell: XLSX.CellObject | undefined): RawCell => {
   if (!cell || cell.v === undefined || cell.v === null) {
     return { kind: 'empty' };
@@ -36,11 +31,7 @@ const readCell = (cell: XLSX.CellObject | undefined): RawCell => {
   return text === '' ? { kind: 'empty' } : { kind: 'text', value: text };
 };
 
-/**
- * Reads every sheet of a workbook held in memory.
- *
- * @param data - The bytes of an .xlsx or .xls file.
- */
+/** Reads every sheet of a workbook held in memory. */
 export const parseExcelBuffer = (data: ArrayBuffer): ParsedSheet[] => {
   const header = new Uint8Array(data.slice(0, 4));
   const isZip = header[0] === 0x50 && header[1] === 0x4b;

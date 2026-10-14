@@ -9,8 +9,6 @@ const PARSERS: ImportParser[] = [excelParser, csvParser];
  * Reads a chosen file with the parser for its format. Files that are too big,
  * have too many rows, or cannot be read come back as a reason, never as a
  * thrown error, so the wizard can show a translated message.
- *
- * @param file - The file the user picked.
  */
 export const parseSpreadsheet = async (file: File): Promise<ParseResult> => {
   const parser = PARSERS.find(candidate => candidate.accepts(file));

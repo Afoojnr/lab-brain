@@ -5,11 +5,11 @@ import { useTranslations } from 'next-intl';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
-import { FileDropZone } from '@/components/file-drop-zone';
+import { FileDropZone } from '@/components/file-drop/file-drop-zone';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
-import { CSV_TYPE, downloadBytes } from '@/lib/download-file';
+import { CSV_TYPE, downloadBytes } from '@/lib/export/download-file';
 import { cellToText } from '@/lib/spreadsheet/cells';
 import { parseCsvText } from '@/lib/spreadsheet/parsers/csv-parser';
 import { parseSpreadsheet } from '@/lib/spreadsheet/parsers';
@@ -22,8 +22,7 @@ import type { FtirBond } from '../techniques/ftir/types';
 /**
  * Paste a table (from Excel, or CSV text) or import a CSV or Excel file, see
  * what would be added and which rows cannot be used and why, then add them to
- * the table or replace it. Replacing asks again, and nothing is changed until
- * a button is pressed. The files are read in the browser.
+ * the table or replace it.
  */
 export const FtirBondImport = ({ bonds }: { bonds: FtirBond[] }) => {
   const t = useTranslations('analysis.ftir.bonds.import');

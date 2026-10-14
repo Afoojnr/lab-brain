@@ -17,10 +17,8 @@ import { FtirBondDialog } from './ftir-bond-dialog';
 import { FtirBondImport } from './ftir-bond-import';
 
 /**
- * The user's one table of FTIR bonds: what to call a peak, the range it
- * appears in, and where that comes from. Add or change a bond with the form,
- * remove one after a confirmation, or paste or import a table. The app ships
- * none: an empty table says how to start.
+ * The user's one table of FTIR bonds: what to call a peak, the range it appears
+ * in, and where that comes from.
  */
 export const FtirBondTable = ({ bonds }: { bonds: FtirBond[] }) => {
   const t = useTranslations('analysis.ftir.bonds');

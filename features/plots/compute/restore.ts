@@ -6,10 +6,6 @@ import type { PlotColumn, SavedPlot, SavedPlotInput } from '../types';
  * column that has been removed since saving falls back to the default axes (or
  * no grouping or error bars), and a filter on a removed column is dropped, so
  * a saved plot always opens instead of failing.
- *
- * @param columns - The experiment's columns now.
- * @param saved - The saved plot.
- * @returns Null when the experiment no longer has two columns of numbers.
  */
 export const restoreSaved = (
   columns: PlotColumn[],

@@ -8,11 +8,7 @@ import type { DerivedColumn, DerivedColumnInput } from '../types';
 const emptyToNull = (text: string): string | null =>
   text === '' ? null : text;
 
-/**
- * An experiment's calculated columns, in display order.
- *
- * @param experimentId - Owning experiment's id.
- */
+/** An experiment's calculated columns, in display order. */
 export const listDerivedColumns = async (
   experimentId: string
 ): Promise<DerivedColumn[]> => {
@@ -28,9 +24,6 @@ export const listDerivedColumns = async (
 /**
  * The calculated columns whose formula uses a given column, so that column is
  * not deleted or changed under them.
- *
- * @param experimentId - Owning experiment's id.
- * @param columnId - The column being checked.
  */
 export const listDerivedColumnsUsing = async (
   experimentId: string,
@@ -43,9 +36,6 @@ export const listDerivedColumnsUsing = async (
 /**
  * Adds a calculated column after the existing ones. Input must already be
  * validated.
- *
- * @param experimentId - Owning experiment's id.
- * @param input - Validated name, unit and formula.
  */
 export const createDerivedColumn = async (
   experimentId: string,
@@ -66,14 +56,7 @@ export const createDerivedColumn = async (
   return column;
 };
 
-/**
- * Changes a calculated column's name, unit or formula.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The column to change.
- * @param input - Validated name, unit and formula.
- * @returns The updated column, or undefined when the experiment has none with that id.
- */
+/** Changes a calculated column's name, unit or formula. */
 export const updateDerivedColumn = async (
   experimentId: string,
   id: string,
@@ -98,13 +81,7 @@ export const updateDerivedColumn = async (
   return updated;
 };
 
-/**
- * Removes a calculated column.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The column to remove.
- * @returns Whether a column was removed.
- */
+/** Removes a calculated column. */
 export const deleteDerivedColumn = async (
   experimentId: string,
   id: string
@@ -123,12 +100,7 @@ export const deleteDerivedColumn = async (
   return removed.length > 0;
 };
 
-/**
- * Removes every calculated column of an experiment.
- *
- * @param experimentId - The experiment being removed.
- * @returns How many columns were removed.
- */
+/** Removes every calculated column of an experiment. */
 export const deleteDerivedColumnsOfExperiment = async (
   experimentId: string
 ): Promise<number> => {

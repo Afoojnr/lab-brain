@@ -27,10 +27,6 @@ const clean = (value: unknown): string | null =>
 /**
  * Reads the text of a PDF once, page by page, with its title and authors when
  * the file has them.
- *
- * @param bytes - The PDF file.
- * @throws {PdfRefusal} When it cannot be read, has too many pages, or has no text
- *   (a scan).
  */
 export const extractPdf = async (bytes: Uint8Array): Promise<PdfExtraction> => {
   try {

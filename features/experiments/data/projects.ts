@@ -12,21 +12,14 @@ import type { Project } from '../types';
 const emptyToNull = (text: string): string | null =>
   text === '' ? null : text;
 
-/**
- * All projects, newest first, for the projects page and the sidebar.
- */
+/** All projects, newest first, for the projects page and the sidebar. */
 export const listProjects = async (): Promise<Project[]> => {
   const db = await getDb();
 
   return db.select().from(projects).orderBy(desc(projects.createdAt));
 };
 
-/**
- * One project by id, for the project page.
- *
- * @param id - Project id.
- * @returns The project, or undefined when no project has that id.
- */
+/** One project by id, for the project page. */
 export const getProjectById = async (
   id: string
 ): Promise<Project | undefined> => {
@@ -38,9 +31,6 @@ export const getProjectById = async (
 
 /**
  * Stores a new project. Input must already be validated by `projectFormSchema`.
- *
- * @param values - Validated form values.
- * @returns The stored project.
  */
 export const createProject = async (
   values: ProjectFormValues
@@ -61,10 +51,6 @@ export const createProject = async (
 /**
  * Sets a project's background text (empty clears it). Input must already be
  * validated by `projectBackgroundSchema`.
- *
- * @param id - The project to change.
- * @param values - Validated form values.
- * @returns The updated project, or undefined when no project has that id.
  */
 export const updateProjectBackground = async (
   id: string,
@@ -81,12 +67,8 @@ export const updateProjectBackground = async (
 };
 
 /**
- * Changes a project's name and description. Its experiments are untouched.
- * Input must already be validated by `projectFormSchema`.
- *
- * @param id - The project to change.
- * @param values - Validated form values.
- * @returns The updated project, or undefined when no project has that id.
+ * Changes a project's name and description. Input must already be validated by
+ * `projectFormSchema`.
  */
 export const updateProject = async (
   id: string,
@@ -108,9 +90,6 @@ export const updateProject = async (
 /**
  * Removes a project's own record. Everything that belongs to it (experiments,
  * samples, files, ...) is removed by the caller first.
- *
- * @param id - The project to remove.
- * @returns Whether a project was removed.
  */
 export const deleteProject = async (id: string): Promise<boolean> => {
   const db = await getDb();

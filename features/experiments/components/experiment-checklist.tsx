@@ -13,8 +13,7 @@ type ExperimentChecklistProps = {
 
 /**
  * Shown on an experiment with no samples: the two steps to start recording
- * (columns, then samples), with the first ticked once there are columns. It
- * goes away by itself when the first sample exists.
+ * (columns, then samples), with the first ticked once there are columns.
  */
 export const ExperimentChecklist = ({
   projectId,

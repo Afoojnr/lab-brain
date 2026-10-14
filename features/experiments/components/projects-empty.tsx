@@ -8,8 +8,7 @@ const STEPS = ['project', 'experiment', 'samples'] as const;
 /**
  * Shown on a first run, when there are no projects: a welcome with the create
  * button (and `actions` beside it), how the records fit together in three short
- * steps, and whatever the app adds under it (children). Its title is the page's
- * only heading.
+ * steps, and whatever the app adds under it (children).
  */
 export const ProjectsEmpty = ({
   actions,

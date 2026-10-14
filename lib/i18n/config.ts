@@ -12,11 +12,6 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   fr: 'Français'
 };
 
-/**
- * Narrows an unknown string (e.g. a cookie value) to a supported locale.
- *
- * @param value - Raw value to check.
- * @returns True when `value` is one of {@link LOCALES}.
- */
+/** Narrows an unknown string (e.g. a cookie value) to a supported locale. */
 export const isLocale = (value: string | undefined): value is Locale =>
   LOCALES.some(locale => locale === value);

@@ -27,12 +27,9 @@ const toNumber = (cell: string | undefined): number =>
   clean(cell) === '' ? Number.NaN : Number(cell);
 
 /**
- * Reads an ellipsometer fit export (`*_seqfit.csv`): the thickness and n
- * from the `Average` and `StdDeviation` rows of its first summary block, found
- * by the column headers `d(nm)` and `n`, never by position. The numbers are the
- * file's own (rounded as the instrument software wrote them).
- *
- * @param text - The file's contents.
+ * Reads an ellipsometer fit export (`*_seqfit.csv`): the thickness and n from
+ * the `Average` and `StdDeviation` rows of its first summary block, found by
+ * the column headers `d(nm)` and `n`, never by position.
  */
 export const parseSeqfit = (text: string): SeqfitResult => {
   const rows = Papa.parse<string[]>(text.replace(/^\uFEFF/, ''), {

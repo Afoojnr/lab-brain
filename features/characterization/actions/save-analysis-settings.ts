@@ -12,18 +12,9 @@ import { saveAnalysis } from '../data/analyses';
 import { analysisKindSchema, analysisSettingsSchema } from '../schemas';
 
 /**
- * Saves what the user chose in an analysis (spots left out, the ratio pair,
- * the values and where they go), so it is there next time. Nothing is
- * written to the sample. Invalid input only comes from a direct call, so it is
- * ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the characterization belongs to.
- * @param characterizationId - The characterization analysed.
- * @param kind - Which analysis.
- * @param input - The settings.
- * @returns Whether they were saved.
+ * Saves what the user chose in an analysis (spots left out, the ratio pair, the
+ * values and where they go), so it is there next time. Invalid input only comes
+ * from a direct call, so it is ignored.
  */
 export const saveAnalysisSettingsAction = async (
   projectId: string,

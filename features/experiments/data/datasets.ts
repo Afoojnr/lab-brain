@@ -7,11 +7,7 @@ import type { Dataset } from '../types';
 
 const oldestFirst = [asc(datasets.uploadedAt), sql`${datasets}.rowid`];
 
-/**
- * A characterization's files, oldest first.
- *
- * @param characterizationId - Owning characterization's id.
- */
+/** A characterization's files, oldest first. */
 export const listDatasetsByCharacterization = async (
   characterizationId: string
 ): Promise<Dataset[]> => {
@@ -24,11 +20,7 @@ export const listDatasetsByCharacterization = async (
     .orderBy(...oldestFirst);
 };
 
-/**
- * Every file attached to any of a sample's characterizations.
- *
- * @param sampleId - Owning sample's id.
- */
+/** Every file attached to any of a sample's characterizations. */
 export const listDatasetsBySample = async (
   sampleId: string
 ): Promise<Dataset[]> => {
@@ -46,11 +38,7 @@ export const listDatasetsBySample = async (
   return rows.map(row => row.dataset);
 };
 
-/**
- * One file record by id.
- *
- * @param id - Dataset id.
- */
+/** One file record by id. */
 export const getDatasetById = async (
   id: string
 ): Promise<Dataset | undefined> => {
@@ -60,13 +48,7 @@ export const getDatasetById = async (
   return dataset;
 };
 
-/**
- * Records a file already written to storage.
- *
- * @param characterizationId - Owning characterization's id.
- * @param file - Where it was stored, and what it is.
- * @returns The stored record.
- */
+/** Records a file already written to storage. */
 export const createDataset = async (
   characterizationId: string,
   file: Pick<
@@ -91,12 +73,7 @@ export const createDataset = async (
   return dataset;
 };
 
-/**
- * Removes a file record (the caller removes the file from storage).
- *
- * @param id - The record to remove.
- * @returns Whether a record was removed.
- */
+/** Removes a file record (the caller removes the file from storage). */
 export const deleteDataset = async (id: string): Promise<boolean> => {
   const db = await getDb();
   const removed = await db
@@ -107,12 +84,7 @@ export const deleteDataset = async (id: string): Promise<boolean> => {
   return removed.length > 0;
 };
 
-/**
- * Removes every file record of a characterization.
- *
- * @param characterizationId - The characterization being removed.
- * @returns The removed records, so their files can be removed from storage.
- */
+/** Removes every file record of a characterization. */
 export const deleteDatasetsOfCharacterization = async (
   characterizationId: string
 ): Promise<Dataset[]> => {

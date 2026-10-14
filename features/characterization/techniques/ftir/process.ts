@@ -23,11 +23,7 @@ export type ProcessedSpectrum = {
 /**
  * The spectrum as the user chose to see and measure it: what the values are
  * (their choice, else what the numbers suggest), optionally converted to
- * absorbance, then optionally normalised. The raw file is never changed. A
- * normalisation that cannot be applied leaves the spectrum as it was and says why.
- *
- * @param raw - The spectrum as read from the file.
- * @param settings - The user's choices.
+ * absorbance, then optionally normalised. The raw file is never changed.
  */
 export const processSpectrum = (
   raw: SpectrumPoint[],

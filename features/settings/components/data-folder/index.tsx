@@ -4,10 +4,7 @@ import { getDataFolderState } from '../../data-folder/state';
 import { BackupsList } from './backups-list';
 import { FolderForm } from './folder-form';
 
-/**
- * Where the files and backups are kept, and the backups themselves. Not shown
- * on the demo, which keeps nothing.
- */
+/** Where the files and backups are kept, and the backups themselves. */
 export const DataFolderSection = async () => {
   const [t, state] = await Promise.all([
     getTranslations('settings.dataFolder'),

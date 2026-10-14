@@ -19,8 +19,7 @@ type SavedPlotCardsProps = {
 
 /**
  * An experiment's saved plots as cards on its page: a small live preview, the
- * title, what is plotted and the filters. Opening one goes to the Plots page
- * with it loaded; deleting asks first.
+ * title, what is plotted and the filters.
  */
 export const SavedPlotCards = async ({
   projectId,

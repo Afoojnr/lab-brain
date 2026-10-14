@@ -13,15 +13,8 @@ import { buildParameterFormSchema, toParameterInput } from '../schemas/schemas';
 
 /**
  * Changes a parameter from the Edit parameter form, then refreshes the
- * experiment page. Its kind is locked once any sample holds a value for it,
- * since a stored number cannot silently become text. Invalid input only comes
- * from a direct call, so it is ignored.
- *
- * @param projectId - Owning project's id.
- * @param experimentId - The experiment that owns the parameter.
- * @param definitionId - The parameter to change.
- * @param input - Raw form values.
- * @returns Whether the parameter was changed.
+ * experiment page. Invalid input only comes from a direct call, so it is
+ * ignored.
  */
 export const updateParameterDefinitionAction = async (
   projectId: string,

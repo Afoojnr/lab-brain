@@ -44,8 +44,7 @@ type ResultsPanelProps = {
 
 /**
  * The values an analysis produced, each with a tick, the result column it goes
- * to (an existing one, or a new one) and the value it would replace. Nothing is
- * written until the button is pressed.
+ * to (an existing one, or a new one) and the value it would replace.
  */
 export const ResultsPanel = ({
   values,

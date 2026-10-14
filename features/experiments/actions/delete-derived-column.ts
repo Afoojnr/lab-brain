@@ -13,11 +13,6 @@ import { getExperimentInProject } from '../data/experiments';
  * is lost: its values were never stored, only its formula. A column that
  * another calculated column's formula uses is kept, so that formula is never
  * left pointing at nothing.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the column belongs to.
- * @param columnId - The calculated column to remove.
- * @returns Whether it was removed.
  */
 export const deleteDerivedColumnAction = async (
   projectId: string,

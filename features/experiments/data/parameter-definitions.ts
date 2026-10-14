@@ -11,8 +11,6 @@ const emptyToNull = (text: string): string | null =>
 /**
  * An experiment's columns in display order: parameters first, then results,
  * each in the order they were added.
- *
- * @param experimentId - Owning experiment's id.
  */
 export const listParameterDefinitions = async (
   experimentId: string
@@ -32,12 +30,7 @@ export const listParameterDefinitions = async (
 
 /**
  * Adds a parameter at the end of an experiment's columns. Input must already be
- * validated by `buildParameterFormSchema`. Samples recorded before it simply
- * have no value for it.
- *
- * @param experimentId - Owning experiment's id.
- * @param input - Validated name, unit, kind and default.
- * @returns The stored parameter.
+ * validated by `buildParameterFormSchema`.
  */
 export const createParameterDefinition = async (
   experimentId: string,
@@ -63,14 +56,7 @@ export const createParameterDefinition = async (
   return definition;
 };
 
-/**
- * Changes a parameter's name, unit, kind, role or default value.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The parameter to change.
- * @param input - Validated parameter.
- * @returns The updated parameter, or undefined when the experiment has none with that id.
- */
+/** Changes a parameter's name, unit, kind, role or default value. */
 export const updateParameterDefinition = async (
   experimentId: string,
   id: string,
@@ -97,13 +83,7 @@ export const updateParameterDefinition = async (
   return updated;
 };
 
-/**
- * Removes a parameter. Callers must first make sure no sample uses it.
- *
- * @param experimentId - Owning experiment's id.
- * @param id - The parameter to remove.
- * @returns Whether a parameter was removed.
- */
+/** Removes a parameter. Callers must first make sure no sample uses it. */
 export const deleteParameterDefinition = async (
   experimentId: string,
   id: string
@@ -122,12 +102,7 @@ export const deleteParameterDefinition = async (
   return removed.length > 0;
 };
 
-/**
- * Removes every column of an experiment.
- *
- * @param experimentId - The experiment being removed.
- * @returns How many columns were removed.
- */
+/** Removes every column of an experiment. */
 export const deleteDefinitionsOfExperiment = async (
   experimentId: string
 ): Promise<number> => {

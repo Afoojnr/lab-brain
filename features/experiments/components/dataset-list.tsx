@@ -115,12 +115,7 @@ const DatasetItem = async ({
   );
 };
 
-/**
- * The files attached to one characterization. Loose files come first; a
- * folder that was uploaded is one collapsed row ("ABC130 · 47 files") that
- * opens to its files, each named by its path inside the folder. Images,
- * tables and text open in a viewer instead of a new window.
- */
+/** The files attached to one characterization. */
 export const DatasetList = async ({ datasets, ...ids }: DatasetListProps) => {
   const t = await getTranslations('characterizations.files');
   // `!folder`, not `=== null`: a record made before folders existed has none at all.

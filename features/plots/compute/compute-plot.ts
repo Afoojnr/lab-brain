@@ -26,14 +26,9 @@ export type ComputedPlot = {
 };
 
 /**
- * Everything a plot shows, worked out from a table and what to plot: the
- * filters keep some samples, unticked samples are taken off, samples with no
- * number are left out and counted, and groups beyond what can be styled are
- * folded. The plot page, the saved-plot cards and the reports all use this, so
- * the same plot always shows the same points.
- *
- * @param table - The columns and rows.
- * @param options - What to plot, the filters and the unticked sample ids.
+ * Everything a plot shows, worked out from a table and the plot settings. The
+ * plot page, saved-plot cards and reports all use it, so the same plot always
+ * shows the same points.
  */
 export const computePlot = (
   table: PlotTable,

@@ -27,10 +27,6 @@ const TIMEOUT_MS = 60_000;
  * it (they can edit it). Costs tokens only when the button is pressed. The
  * settings are used for this call only and never stored or logged; a failure
  * is a reason, never the provider's message.
- *
- * @param projectId - The project the caller says owns the reference.
- * @param referenceId - The reference to summarise.
- * @param settings - The user's AI settings, as sent from the browser.
  */
 export const summariseReferenceAction = async (
   projectId: string,

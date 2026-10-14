@@ -14,8 +14,6 @@ export type FtirExportInput = Omit<FigureFileInput, 'textScale'> & {
  * Saves the FTIR chart as a picture, a PDF or a PowerPoint slide (light theme,
  * with the title, a caption of how the spectra were read and processed, and the
  * legend), or the value at each peak as Excel or CSV.
- *
- * @throws When the chart is not drawn, or the picture cannot be made.
  */
 export const exportFtir = async (
   format: FtirExportFormat,

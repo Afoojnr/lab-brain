@@ -9,9 +9,7 @@ export type QuantificationResult =
 
 /**
  * Reads one spot's `quantification.csv`: the element symbol and its atomic
- * concentration (a fraction). Nothing else is used, as in the lab notebook.
- *
- * @param text - The file's contents.
+ * concentration (a fraction).
  */
 export const parseQuantification = (text: string): QuantificationResult => {
   const { data, meta } = Papa.parse<Record<string, string>>(
@@ -39,9 +37,6 @@ export const parseQuantification = (text: string): QuantificationResult => {
 /**
  * Reads an EMSA spectrum (`spectrum.emsa`): counts per channel, with the
  * energy of each channel from the header (`OFFSET + channel × XPERCHAN`, in eV).
- *
- * @param text - The file's contents.
- * @returns The spectrum in keV, or null when the header or data is missing.
  */
 export const parseEmsa = (
   text: string

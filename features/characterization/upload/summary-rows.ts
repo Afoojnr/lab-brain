@@ -19,14 +19,10 @@ export type EdxSummarySettings = {
 };
 
 /**
- * The EDX summary as the lab notebook's `EDS_summary.xlsx`: one row per
- * sample with the ratio, B, N, C, O and the substrate, each with its std. A
- * sample whose spots are all left out has empty cells, never zeros (the
- * ratio of an element that is not there is 0, as in the notebook, because it
- * is then plotted).
- *
- * @param items - The samples.
- * @param settings - The ratio pair and the spots left out.
+ * The EDX summary as the lab notebook's `EDS_summary.xlsx`: one row per sample
+ * with the ratio, B, N, C, O and the substrate, each with its std. A sample
+ * whose spots are all left out has empty cells, never zeros. (The ratio of an
+ * element that is not there is 0, as in the notebook.)
  */
 export const edxSummary = (
   items: EdxItem[],
@@ -69,8 +65,6 @@ export const edxSummary = (
 /**
  * The ellipsometry summary: one row per readable fit export with the thickness
  * and n, each with its std, as the file's summary rows give them.
- *
- * @param items - The dropped fit exports.
  */
 export const ellipsometrySummary = (items: SeqfitItem[]): SummaryTable => ({
   headers: ['ID', 'Thickness (nm)', 'Thickness std (nm)', 'n', 'n std'],
@@ -90,9 +84,6 @@ export const ellipsometrySummary = (items: SeqfitItem[]): SummaryTable => ({
  * The FTIR summary: one row per spectrum with the value at each of the user's
  * peaks, read as processed (so a normalised table is relative). A peak with no
  * data near it is an empty cell, never 0.
- *
- * @param spectra - The spectra, as read from the files.
- * @param settings - The user's processing, peaks and tolerance.
  */
 export const ftirSummary = (
   spectra: { id: string; points: SpectrumPoint[] }[],
@@ -131,9 +122,6 @@ export const ftirSummary = (
 
 /**
  * An Excel workbook (one sheet, headers then rows) as bytes, ready to download.
- *
- * @param table - The summary.
- * @param sheetName - The sheet's name.
  */
 export const buildWorkbook = (
   table: SummaryTable,

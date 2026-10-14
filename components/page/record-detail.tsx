@@ -1,8 +1,8 @@
 import type { ComponentProps, ReactNode } from 'react';
 
-import { ExpandableText } from '@/components/expandable-text';
+import { ExpandableText } from '@/components/page/expandable-text';
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 import {
   Card,
   CardAction,
@@ -93,9 +93,8 @@ const SecondarySection = ({
 
 /**
  * The one shape every record page shares: a header (code, lead sentence, key
- * facts and actions), a main column of raised panels, and a quiet rail of
- * flat sections. It only lays things out; each record type decides what is
- * primary and supplies its own text, already translated.
+ * facts and actions), a main column of raised panels, and a quiet rail of flat
+ * sections.
  */
 export const RecordDetail = ({
   breadcrumbs,

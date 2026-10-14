@@ -16,8 +16,6 @@ export type ProjectScope = { projectId: string; experimentId?: string };
 /**
  * Everything one experiment holds, with its calculated values worked out the
  * same way the tables and reports do.
- *
- * @param experiment - The experiment.
  */
 export const loadExperimentData = async (
   experiment: ExperimentData['experiment']
@@ -47,10 +45,6 @@ const normalize = (text: string) => text.trim().toLowerCase();
 /**
  * The experiment a question means: by name or code prefix, else the one the
  * chat is scoped to, else the only one in the project.
- *
- * @param scope - The chat's project and optional experiment.
- * @param name - What the model asked for, if anything.
- * @returns The experiment's data, or an error that lists the choices.
  */
 export const resolveExperiment = async (
   scope: ProjectScope,

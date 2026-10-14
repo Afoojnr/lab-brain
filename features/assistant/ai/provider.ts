@@ -8,14 +8,7 @@ import type { AiSettings } from './settings';
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1';
 
-/**
- * The model to talk to, from the user's settings. The one place a provider is
- * added: Claude and OpenAI through their own packages, Ollama through its
- * OpenAI-compatible address. The key is used to build this model for one request
- * and goes nowhere else.
- *
- * @param settings - What the user chose.
- */
+/** The model to talk to, from the user's settings. */
 export const createModel = (settings: AiSettings): LanguageModel => {
   // For the end-to-end tests only; never available in production.
   if (

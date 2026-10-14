@@ -18,7 +18,7 @@ import {
   downloadBytes,
   fileNameFor,
   XLSX_TYPE
-} from '@/lib/download-file';
+} from '@/lib/export/download-file';
 
 import { buildExperimentSheets } from '../export/export-workbook';
 import type { ExportLabels } from '../export/export-workbook';

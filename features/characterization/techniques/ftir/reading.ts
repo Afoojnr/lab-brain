@@ -17,15 +17,9 @@ const median = (values: number[]): number => {
 
 /**
  * What a spectrum's values most likely are, from the numbers alone (the file
- * does not say). The user can always overrule it.
- *
- * - Between 0 and about 110 with a typical value above 5: percent transmittance
- *   (absorbance is normally under about 3).
- * - A maximum of 5 or less: absorbance. Between 0 and 1.2 it could also be a
- *   transmittance fraction, so it is flagged ambiguous (absorbance by default).
- * - Anything else cannot be told; absorbance by default.
- *
- * @param points - The spectrum.
+ * does not say). The user can always overrule it. - Between 0 and about 110
+ * with a typical value above 5: percent transmittance (absorbance is normally
+ * under about 3). - A maximum of 5 or less: absorbance.
  */
 export const guessReading = (points: SpectrumPoint[]): ReadingGuess => {
   const values = points.map(point => point.y);

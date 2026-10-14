@@ -10,11 +10,6 @@ import { editReferenceSchema, yearOf } from '../schemas';
  * Saves changes to a reference's details and summary, then refreshes the
  * project page. A link is only checked to be a web address or DOI, never
  * fetched. Invalid input only comes from a direct call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the reference.
- * @param referenceId - The reference to change.
- * @param input - Raw form values.
- * @returns Whether it was changed.
  */
 export const updateReferenceAction = async (
   projectId: string,

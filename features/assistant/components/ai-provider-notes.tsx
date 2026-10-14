@@ -14,8 +14,7 @@ const POLICY_LINKS: Record<AiProvider, string | null> = {
 
 /**
  * What the app can and cannot do about the user's data for the chosen provider,
- * with a link to that provider's own policy. For Ollama, also how to install it
- * and which kind of model to pick.
+ * with a link to that provider's own policy.
  */
 export const AiProviderNotes = ({ provider }: { provider: AiProvider }) => {
   const t = useTranslations('assistant.settings');

@@ -17,11 +17,7 @@ const toSavedPlot = (row: SavedPlotRow): SavedPlot => ({
   style: row.style as SavedPlot['style']
 });
 
-/**
- * An experiment's saved plots, oldest first.
- *
- * @param experimentId - Owning experiment's id.
- */
+/** An experiment's saved plots, oldest first. */
 export const listSavedPlots = async (
   experimentId: string
 ): Promise<SavedPlot[]> => {
@@ -35,12 +31,7 @@ export const listSavedPlots = async (
   return rows.map(toSavedPlot);
 };
 
-/**
- * One saved plot, only when it belongs to the given experiment.
- *
- * @param experimentId - The experiment the URL names.
- * @param plotId - The saved plot's id.
- */
+/** One saved plot, only when it belongs to the given experiment. */
 export const getSavedPlot = async (
   experimentId: string,
   plotId: string
@@ -56,12 +47,7 @@ export const getSavedPlot = async (
   return row ? toSavedPlot(row) : undefined;
 };
 
-/**
- * Stores a new saved plot. Input must already be validated.
- *
- * @param experimentId - Owning experiment's id.
- * @param input - Name, settings, filters, unticked samples and style.
- */
+/** Stores a new saved plot. Input must already be validated. */
 export const createSavedPlot = async (
   experimentId: string,
   input: SavedPlotInput
@@ -78,14 +64,7 @@ export const createSavedPlot = async (
   return plot;
 };
 
-/**
- * Replaces what a saved plot holds.
- *
- * @param experimentId - Owning experiment's id.
- * @param plotId - The saved plot to change.
- * @param input - The new name, settings, filters, unticked samples and style.
- * @returns The updated plot, or null when the experiment has none with that id.
- */
+/** Replaces what a saved plot holds. */
 export const updateSavedPlot = async (
   experimentId: string,
   plotId: string,
@@ -103,13 +82,7 @@ export const updateSavedPlot = async (
   return row ? toSavedPlot(row) : null;
 };
 
-/**
- * Removes a saved plot.
- *
- * @param experimentId - Owning experiment's id.
- * @param plotId - The saved plot to remove.
- * @returns Whether a plot was removed.
- */
+/** Removes a saved plot. */
 export const deleteSavedPlot = async (
   experimentId: string,
   plotId: string
@@ -125,12 +98,7 @@ export const deleteSavedPlot = async (
   return removed.length > 0;
 };
 
-/**
- * Removes every saved plot of an experiment that was deleted.
- *
- * @param experimentId - The experiment that is gone.
- * @returns How many plots were removed.
- */
+/** Removes every saved plot of an experiment that was deleted. */
 export const deleteSavedPlotsOf = async (
   experimentId: string
 ): Promise<number> => {

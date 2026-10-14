@@ -4,9 +4,6 @@ import type { SpectrumPoint } from './types';
  * Thins a spectrum for drawing while keeping its narrow peaks: each stretch of
  * the spectrum keeps its lowest and its highest point, so a one-point dip never
  * disappears the way it would if every nth point were kept.
- *
- * @param points - The spectrum, wavenumber ascending.
- * @param maxPoints - About how many points to keep at most.
  */
 export const forChart = (
   points: SpectrumPoint[],
@@ -30,9 +27,6 @@ export const forChart = (
  * The point of a spectrum closest to a wavenumber, so hovering reads every
  * stacked spectrum at the same wavenumber even when their points are not at the
  * same positions.
- *
- * @param points - The spectrum, wavenumber ascending.
- * @param x - The wavenumber to look at.
  */
 export const nearestPoint = (
   points: SpectrumPoint[],

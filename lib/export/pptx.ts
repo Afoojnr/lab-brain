@@ -6,9 +6,7 @@ const MARGIN = 0.5;
 
 /**
  * A PowerPoint file with one 16:9 slide per entry: the title, the picture
- * scaled to fit, then the lines of text under it. Loaded on demand.
- *
- * @param pages - The slides, in order. At least one.
+ * scaled to fit, then the lines of text under it.
  */
 export const buildPptx = async (pages: ExportPage[]): Promise<Uint8Array> => {
   const { default: PptxGenJS } = await import('pptxgenjs');

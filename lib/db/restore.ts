@@ -13,14 +13,7 @@ export type RestoreResult =
       reason: 'noFolder' | 'invalidName' | 'notFound' | 'notLocal';
     };
 
-/**
- * Replaces the database with one of the backups in the data folder. The
- * database in use is first kept as a `before-restore` copy in the local data
- * directory, so nothing is lost if it was the wrong backup. The connection is
- * closed; the next use opens the restored file and brings it up to date.
- *
- * @param name - A backup's file name as listed by `listBackups`.
- */
+/** Replaces the database with one of the backups in the data folder. */
 export const restoreBackup = async (name: string): Promise<RestoreResult> => {
   const folder = getBackupFolder();
   const database = getDatabaseFile();

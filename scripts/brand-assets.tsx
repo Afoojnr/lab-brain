@@ -1,12 +1,6 @@
 /**
  * Writes the icon files from the one logo component, so they never drift from
- * the mark in the app. Run from the repo root with `npx tsx scripts/brand-assets.tsx` after the
- * logo changes, and commit the results.
- *
- *   app/icon.svg          the favicon (compact mark)
- *   app/favicon.ico       16, 32 and 48 px (compact mark)
- *   app/apple-icon.png    180 px, square corners (the phone rounds it)
- *   public/icons/*.png    192 and 512 px for the web app manifest
+ * the mark in the app.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

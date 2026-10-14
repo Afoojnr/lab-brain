@@ -26,8 +26,6 @@ const refresh = () => {
 
 /**
  * Adds the example projects next to the visitor's own, without touching them.
- *
- * @returns Whether anything was added (false when they are already there or this is not the demo).
  */
 export const addExampleDataAction = async (): Promise<boolean> => {
   if (!isDemoMode()) return false;
@@ -39,11 +37,7 @@ export const addExampleDataAction = async (): Promise<boolean> => {
   return added;
 };
 
-/**
- * Removes the example projects and everything in them, and nothing else.
- *
- * @returns How many example projects were removed.
- */
+/** Removes the example projects and everything in them, and nothing else. */
 export const removeExampleDataAction = async (): Promise<number> => {
   if (!isDemoMode()) return 0;
 

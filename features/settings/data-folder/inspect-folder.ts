@@ -58,11 +58,7 @@ const canWriteIn = async (folder: string): Promise<boolean> => {
 
 /**
  * Checks a folder the user picked before anything is moved: it must be an
- * absolute path to an existing folder the app can write to. Nothing is created
- * here; the result says which `Lab Brain` folder will be used and whether it is
- * new.
- *
- * @param typed - The path as picked or typed.
+ * absolute path to an existing folder the app can write to.
  */
 export const inspectFolder = async (typed: string): Promise<FolderCheck> => {
   const trimmed = typed.trim();

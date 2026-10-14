@@ -25,9 +25,7 @@ export const getStorageRoot = (): string => {
   return path.join(process.cwd(), 'storage');
 };
 
-/**
- * The storage the app uses, on the server only.
- */
+/** The storage the app uses, on the server only. */
 export const getStorage = (): StorageAdapter =>
   createLocalStorage(getStorageRoot());
 

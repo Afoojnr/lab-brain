@@ -13,17 +13,9 @@ import { loadExperimentTable } from '../compute/load-experiment';
 import { buildSavedPlotSchema } from '../schemas/schemas';
 
 /**
- * Saves the plot on screen for an experiment, or replaces a saved plot when
- * `plotId` is given. The schema is rebuilt here from the experiment's stored
- * columns and saved plots, so a plot can only point at columns the experiment
- * has and a title can never be reused; invalid input only comes from a direct
- * call, so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment being plotted.
- * @param input - The title and what to plot.
- * @param plotId - The saved plot to replace; omit to save a new one.
- * @returns The saved plot's id, or null when ignored.
+ * Saves the plot on screen, or replaces a saved one when `plotId` is given. The
+ * schema is rebuilt from stored data, so a plot can only point at columns the
+ * experiment has and a title is never reused.
  */
 export const savePlotAction = async (
   projectId: string,

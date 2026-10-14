@@ -25,12 +25,7 @@ const firstDataRow = (layout: SheetLayout) =>
 
 const width = (sheet: ParsedSheet) => sheet.rows[0]?.length ?? 0;
 
-/**
- * The header text of each column, trimmed.
- *
- * @param sheet - The chosen sheet.
- * @param layout - Where the headers are.
- */
+/** The header text of each column, trimmed. */
 export const headersOf = (sheet: ParsedSheet, layout: SheetLayout): string[] =>
   Array.from({ length: width(sheet) }, (_unused, column) =>
     cellToText(sheet.rows[layout.headerRow]?.[column])
@@ -51,14 +46,7 @@ export const dataCells = (
   column: number
 ) => columnCells(sheet.rows.slice(firstDataRow(layout)), -1, column);
 
-/**
- * The first suggestion for what each column becomes. A unit under the header
- * (units row) wins over one written in the header, like "Power (W)".
- *
- * @param sheet - The chosen sheet.
- * @param layout - Where the headers are.
- * @param columns - The target experiment's columns (empty for a new one).
- */
+/** The first suggestion for what each column becomes. */
 export const initialMapping = (
   sheet: ParsedSheet,
   layout: SheetLayout,
@@ -131,9 +119,6 @@ export const buildPayload = ({
 
 /**
  * Name and unit to prefill a new column with, from its header ("Power (W)").
- *
- * @param header - The header text.
- * @param unit - A unit from the units row, which wins when present.
  */
 export const newColumnFromHeader = (header: string, unit = '') => {
   const split = splitHeaderUnit(header);

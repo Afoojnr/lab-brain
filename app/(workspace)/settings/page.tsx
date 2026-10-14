@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 import { AiSettingsPanel } from '@/features/assistant';
 import {
   DataFolderSection,

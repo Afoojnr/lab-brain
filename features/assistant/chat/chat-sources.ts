@@ -14,11 +14,7 @@ const isAppPath = (path: string) =>
 
 /**
  * The records an answer is based on: the ones its tools returned that the
- * answer names (by label) or links to. A lookup returns every row it found, so
- * listing them all would bury the few the answer actually used. No repeats, in
- * the order they were read.
- *
- * @param parts - The parts of one assistant message.
+ * answer names (by label) or links to.
  */
 export const collectSources = (parts: UIMessage['parts']): ChatSource[] => {
   const answer = parts
@@ -45,8 +41,6 @@ export const collectSources = (parts: UIMessage['parts']): ChatSource[] => {
 /**
  * Whether an answer was written without reading any record: no lookup was
  * made, so nothing in it comes from the user's data.
- *
- * @param parts - The parts of one assistant message.
  */
 export const isWithoutRecords = (parts: UIMessage['parts']): boolean =>
   parts.some(part => part.type === 'text' && part.text.trim() !== '') &&

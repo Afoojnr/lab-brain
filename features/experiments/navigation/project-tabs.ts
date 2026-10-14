@@ -13,8 +13,6 @@ export const DEFAULT_PROJECT_TAB: ProjectTab = 'experiments';
 /**
  * The tab named in the URL, or the default when it is missing or not one of the
  * three, so a wrong link still opens the project.
- *
- * @param value - The `tab` search parameter.
  */
 export const parseProjectTab = (value: unknown): ProjectTab =>
   PROJECT_TABS.find(tab => tab === value) ?? DEFAULT_PROJECT_TAB;

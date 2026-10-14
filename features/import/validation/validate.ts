@@ -288,18 +288,14 @@ const countChanges = (planned: PlannedSample, existing: Sample | undefined) => {
 };
 
 /**
- * Checks a whole import without writing anything, and returns what would
- * happen to each row. The preview and the server both call this, so what the
- * user confirms is exactly what is checked again on the server.
+ * Checks a whole import without writing anything and says what would happen to
+ * each row. The preview and the server both call it.
  *
- * - A row's problems are reported on its exact cell.
- * - A code that already exists is a conflict: skipped unless the user chooses to update it
- *   (only inside the same experiment) or add it as new under another code.
- * - An update never erases: an empty cell leaves the stored value as it is.
+ * - Problems are reported on the exact cell.
+ * - An existing code is skipped unless the user chooses to update it (same
+ *   experiment only) or add it under another code.
+ * - An update never erases: an empty cell keeps the stored value.
  * - Cell comments become note lines `"<header>: <comment>"`.
- *
- * @param payload - The import.
- * @param context - The project's stored data.
  */
 export const validateImport = (
   payload: ImportPayload,

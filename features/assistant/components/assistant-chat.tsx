@@ -14,7 +14,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Markdown } from '@/components/markdown';
+import { Markdown } from '@/components/markdown/markdown';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -32,9 +32,9 @@ const EXAMPLES = ['example1', 'example2', 'example3'] as const;
 
 /**
  * The conversation: questions in, streamed answers out, with the records each
- * answer names and the tokens it cost. It lasts while the page is open. The
- * scope (which project or experiment) and the user's AI settings are sent with
- * each question, so changing page or scope never restarts the chat.
+ * answer names and the tokens it cost. The scope (which project or experiment)
+ * and the user's AI settings are sent with each question, so changing page or
+ * scope never restarts the chat.
  */
 export const AssistantChat = ({ scope }: { scope: ChatScope }) => {
   const t = useTranslations('assistant.chat');

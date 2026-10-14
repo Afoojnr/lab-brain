@@ -47,8 +47,7 @@ type FtirWorkbenchProps = {
 /**
  * Everything to work on one or several spectra: the stacked chart, how they are
  * read and processed, the peaks (suggested, then curated by the user) and the
- * value read at each. Controlled, so a page, the upload workspace and the
- * experiment comparison all use it the same way.
+ * value read at each.
  */
 export const FtirWorkbench = ({
   spectra,

@@ -20,8 +20,6 @@ const byDateThenCreation = [
 
 /**
  * A sample's characterizations, oldest date first; ones without a date last.
- *
- * @param sampleId - Owning sample's id.
  */
 export const listCharacterizationsBySample = async (
   sampleId: string
@@ -35,11 +33,7 @@ export const listCharacterizationsBySample = async (
     .orderBy(...byDateThenCreation);
 };
 
-/**
- * Every characterization of an experiment's samples, for its samples table.
- *
- * @param experimentId - Owning experiment's id.
- */
+/** Every characterization of an experiment's samples, for its samples table. */
 export const listCharacterizationsByExperiment = async (
   experimentId: string
 ): Promise<Characterization[]> => {
@@ -57,8 +51,6 @@ export const listCharacterizationsByExperiment = async (
 /**
  * The techniques already used anywhere in a project, spelled as first typed,
  * so a new record can reuse them instead of creating near-duplicates.
- *
- * @param projectId - Owning project's id.
  */
 export const listTechniquesByProject = async (
   projectId: string
@@ -77,9 +69,6 @@ export const listTechniquesByProject = async (
 /**
  * One characterization, but only when it belongs to the given sample, so a
  * record can never be reached through another sample's page.
- *
- * @param sampleId - The sample the caller says owns the record.
- * @param id - Characterization id.
  */
 export const getCharacterizationOfSample = async (
   sampleId: string,
@@ -102,10 +91,6 @@ export const getCharacterizationOfSample = async (
 /**
  * Stores a new characterization. Input must already be validated by
  * `characterizationFormSchema`, with the technique spelled by `matchTechnique`.
- *
- * @param sampleId - Owning sample's id.
- * @param values - Validated technique, date and note.
- * @returns The stored characterization.
  */
 export const createCharacterization = async (
   sampleId: string,
@@ -125,14 +110,7 @@ export const createCharacterization = async (
   return item;
 };
 
-/**
- * Changes a characterization's technique, date and note.
- *
- * @param sampleId - The sample owning the record.
- * @param id - The record to change.
- * @param values - Validated technique, date and note.
- * @returns The updated record, or undefined when the sample has none with that id.
- */
+/** Changes a characterization's technique, date and note. */
 export const updateCharacterization = async (
   sampleId: string,
   id: string,
@@ -157,13 +135,7 @@ export const updateCharacterization = async (
   return updated;
 };
 
-/**
- * Removes a characterization.
- *
- * @param sampleId - The sample owning the record.
- * @param id - The record to remove.
- * @returns Whether a record was removed.
- */
+/** Removes a characterization. */
 export const deleteCharacterization = async (
   sampleId: string,
   id: string
@@ -182,12 +154,7 @@ export const deleteCharacterization = async (
   return removed.length > 0;
 };
 
-/**
- * Removes every characterization of a sample.
- *
- * @param sampleId - The sample being removed.
- * @returns The removed records, so their files and analyses can be removed too.
- */
+/** Removes every characterization of a sample. */
 export const deleteCharacterizationsOfSample = async (
   sampleId: string
 ): Promise<Characterization[]> => {

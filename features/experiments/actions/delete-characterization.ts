@@ -17,12 +17,6 @@ import { getSampleById } from '../data/samples';
 
 /**
  * Removes a characterization and the files attached to it, then refreshes the sample and experiment pages.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the record belongs to.
- * @param characterizationId - The record to remove.
- * @returns Whether a record was removed.
  */
 export const deleteCharacterizationAction = async (
   projectId: string,

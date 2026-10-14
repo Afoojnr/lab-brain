@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-import { ExpandableText } from '@/components/expandable-text';
+import { ExpandableText } from '@/components/page/expandable-text';
 
 import type { Study } from '../types';
 import { DeleteStudyButton } from './delete-study-button';

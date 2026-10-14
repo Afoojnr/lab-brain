@@ -23,10 +23,7 @@ const extensionOf = (fileName: string): string => {
 
 /**
  * The content type of a file from its extension, never from what the browser
- * claimed. Only common images can be shown inline; everything else is a plain
- * download.
- *
- * @param fileName - The file's name.
+ * claimed.
  */
 export const contentTypeFor = (fileName: string): string => {
   const extension = extensionOf(fileName);
@@ -37,28 +34,18 @@ export const contentTypeFor = (fileName: string): string => {
   );
 };
 
-/**
- * Whether a browser can show this content type inline as an image.
- *
- * @param contentType - A type from {@link contentTypeFor}.
- */
+/** Whether a browser can show this content type inline as an image. */
 export const isInlineImage = (contentType: string): boolean =>
   Object.values(INLINE_IMAGE_TYPES).includes(contentType);
 
 /**
  * Whether this is a TIFF: browsers cannot show it, so the app serves a PNG
  * copy for display and keeps the original for download.
- *
- * @param contentType - A type from {@link contentTypeFor}.
  */
 export const isTiff = (contentType: string): boolean =>
   contentType === 'image/tiff';
 
-/**
- * A file size for people: "3 KB", "1.4 MB".
- *
- * @param bytes - The size in bytes.
- */
+/** A file size for people: "3 KB", "1.4 MB". */
 export const formatFileSize = (bytes: number): string => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;

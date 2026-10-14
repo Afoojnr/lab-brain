@@ -5,12 +5,7 @@ export const MAX_BONDS = 500;
 
 /**
  * The bonds a peak may be, for the user to accept: a range matches when the
- * peak lies inside it, and a single position matches within the tolerance. The
- * closest to a range's middle come first. Nothing is applied automatically.
- *
- * @param position - The peak's wavenumber (cm⁻¹).
- * @param bonds - The user's bond table.
- * @param tolerance - How close a single position must be (cm⁻¹).
+ * peak lies inside it, and a single position matches within the tolerance.
  */
 export const matchBonds = (
   position: number,
@@ -86,11 +81,7 @@ const key = (item: FtirBondInput) =>
 /**
  * Reads a pasted or imported table into bonds, with a header row that names the
  * columns in any order: Bond and From are required; To is empty for a single
- * position; Source is optional. Nothing is coerced: text in a number column is
- * a problem naming its row and column. A row with a problem is not used.
- *
- * @param table - The cells as text, header first.
- * @param existing - The bonds already in the table, so a repeat is reported.
+ * position; Source is optional.
  */
 export const parseBondRows = (
   table: string[][],

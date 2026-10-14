@@ -40,9 +40,6 @@ export type SpotProblem = { file: string; reason: string };
  * Reads a characterization's EDX spots: every `quantification.csv` is one spot,
  * with the `spectrum.emsa` next to it when there is one. A file that cannot be
  * read is reported, not skipped silently.
- *
- * @param datasets - The characterization's attached files.
- * @param options - `withSpectra: false` skips the spectra, to keep a list of many samples light.
  */
 export const loadEdxSpots = async (
   datasets: Dataset[],
@@ -95,11 +92,7 @@ export const loadEdxSpots = async (
   };
 };
 
-/**
- * Reads the attached CSV files that could be an ellipsometer fit export.
- *
- * @param datasets - The characterization's attached files.
- */
+/** Reads the attached CSV files that could be an ellipsometer fit export. */
 export const loadSeqfits = async (
   datasets: Dataset[]
 ): Promise<SeqfitFile[]> => {
@@ -146,8 +139,6 @@ const isFtirDataset = (dataset: Dataset): boolean => {
 /**
  * Reads the attached files that could be FTIR spectra. A file that cannot be
  * read is kept with its reason (and line), never skipped silently.
- *
- * @param datasets - The characterization's attached files.
  */
 export const loadFtirSpectra = async (
   datasets: Dataset[]
@@ -190,11 +181,6 @@ export const loadFtirSpectra = async (
  * Every number an analysis produces, computed from the raw files and the
  * settings. The server uses this to decide what to write, never numbers sent
  * by the browser.
- *
- * @param kind - Which analysis.
- * @param datasets - The characterization's attached files.
- * @param settings - The user's choices.
- * @returns The values, or null when there is nothing to compute them from.
  */
 export const computeAnalysisValues = async (
   kind: AnalysisKind,

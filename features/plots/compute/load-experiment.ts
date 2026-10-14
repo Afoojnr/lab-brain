@@ -16,10 +16,6 @@ const DERIVED_PREFIX = 'derived:';
  * and calculated) and of text, one row per sample with the studies it is in.
  * A value that is not recorded, or a calculated one that cannot be worked out,
  * is absent from the row, never 0.
- *
- * @param projectId - For each point's link to its sample.
- * @param experimentId - The experiment to read.
- * @param sampleIds - Keep only these samples; omit for all of them.
  */
 export const loadExperimentTable = async (
   projectId: string,

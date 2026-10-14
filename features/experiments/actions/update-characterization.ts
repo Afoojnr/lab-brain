@@ -17,13 +17,6 @@ import { characterizationFormSchema } from '../schemas/schemas';
  * refreshes the sample and experiment pages. The technique is respelled to the
  * project's existing spelling; invalid input only comes from a direct call,
  * so it is ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment the caller says owns the sample.
- * @param sampleId - The sample the record belongs to.
- * @param characterizationId - The record to change.
- * @param input - Raw form values.
- * @returns Whether the characterization was changed.
  */
 export const updateCharacterizationAction = async (
   projectId: string,

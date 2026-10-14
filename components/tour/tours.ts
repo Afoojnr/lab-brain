@@ -71,9 +71,7 @@ export const TOURS: Record<TourId, TourStep[]> = {
 
 /**
  * Which tour belongs to a page: the home page, a project, an experiment or a
- * sample. Forms and other pages have none.
- *
- * @param pathname - The page's path.
+ * sample.
  */
 export const tourIdForPath = (pathname: string): TourId | null => {
   if (pathname === '/') return 'home';
@@ -97,10 +95,6 @@ export const tourIdForPath = (pathname: string): TourId | null => {
 /**
  * The steps to show now: those for this kind of screen whose element is on the
  * page (a button can be missing in an empty state or before data exists).
- *
- * @param steps - A tour's steps.
- * @param options.isMobile - A phone, where the sidebar is a hidden menu.
- * @param options.exists - Whether an element matching the selector is on the page.
  */
 export const buildSteps = (
   steps: TourStep[],

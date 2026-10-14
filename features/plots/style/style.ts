@@ -1,4 +1,4 @@
-import { parseDecimal } from '@/lib/numbers';
+import { parseDecimal } from '@/lib/numbers/numbers';
 
 export type Size = 'small' | 'medium' | 'large';
 
@@ -63,10 +63,6 @@ export const MARKER_AREAS: Record<Size, number> = {
  * number stays automatic; on a logarithmic axis a bound of 0 or less cannot be
  * drawn, so it stays automatic too; a range whose minimum is not below its
  * maximum is ignored.
- *
- * @param min - The typed minimum.
- * @param max - The typed maximum.
- * @param isLog - Whether the axis is logarithmic.
  */
 export const axisDomain = (
   min: string,

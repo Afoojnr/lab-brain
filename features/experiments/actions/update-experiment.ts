@@ -10,16 +10,9 @@ import {
 import { buildExperimentFormSchema } from '../schemas/schemas';
 
 /**
- * Changes an experiment from the Edit experiment form, then refreshes the pages that
- * show it. The schema is rebuilt here from the project's other stored experiment,
- * so a prefix still can never be shared; the experiment's own prefix does not count
- * as a duplicate. Invalid input only comes from a direct call, so it is
- * ignored.
- *
- * @param projectId - The project the caller says owns the experiment.
- * @param experimentId - The experiment to change.
- * @param input - Raw form values.
- * @returns True when the experiment was changed, false when ignored.
+ * Changes an experiment from the Edit experiment form. The schema is rebuilt
+ * from the project's stored experiments, so a prefix is never shared (its own
+ * prefix does not count as a duplicate). Invalid input is ignored.
  */
 export const updateExperimentAction = async (
   projectId: string,

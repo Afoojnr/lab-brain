@@ -11,8 +11,6 @@ import { projectFormSchema } from '../schemas/schemas';
  * Creates a project from the New project form, then refreshes the projects page and the sidebar.
  * The form validates first; invalid input here only comes from a direct call,
  * so it is ignored.
- *
- * @param input - Raw form values.
  */
 export const createProjectAction = async (input: unknown): Promise<void> => {
   const parsed = projectFormSchema.safeParse(input);

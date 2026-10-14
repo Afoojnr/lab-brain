@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
-import { Markdown } from '@/components/markdown';
-import { RecordDetail } from '@/components/record-detail';
+import { Markdown } from '@/components/markdown/markdown';
+import { RecordDetail } from '@/components/page/record-detail';
 import { buttonVariants } from '@/components/ui/button';
 
 import { countExperiment } from '../cascade/count-records';
@@ -56,7 +56,7 @@ type ExperimentDetailProps = {
 
 /**
  * One experiment: its samples as a spreadsheet-like table, then its columns and
- * studies. Tabs above switch between the project's experiments.
+ * studies.
  */
 export const ExperimentDetail = async ({
   projectId,

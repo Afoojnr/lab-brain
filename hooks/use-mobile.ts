@@ -17,8 +17,6 @@ const getServerSnapshot = () => false;
 /**
  * Whether the viewport is below the mobile breakpoint. Subscribes to the media
  * query instead of setting state in an effect, so it never causes a cascading render.
- *
- * @returns True on viewports narrower than 768px.
  */
 export const useIsMobile = () =>
   useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

@@ -13,10 +13,7 @@ import type { TableAnalysisKind } from '../types';
 /**
  * The rows of a batch: an experiment's characterizations whose technique is
  * this kind of analysis, each with what its files say and what its sample holds
- * now. A repeat is its own row. EDX spectra are left out to keep it light.
- *
- * @param kind - Which analysis.
- * @param experimentId - The experiment to list.
+ * now.
  */
 export const loadBatchRows = async (
   kind: TableAnalysisKind,

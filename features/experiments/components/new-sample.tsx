@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { FadeIn } from '@/components/motion/fade-in';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/page/page-header';
 
 import { listStudiesByExperiment } from '../data/studies';
 import { listParameterDefinitions } from '../data/parameter-definitions';
@@ -27,10 +27,9 @@ type NewSampleProps = {
 };
 
 /**
- * The Add sample page. The code is suggested from the experiment prefix and values
- * are prefilled from the column defaults, else the previous sample. Duplicating
- * copies the values, date, studies and implementation of an existing sample under a new
- * code, but not its observation, which belongs to that sample.
+ * The Add sample page. Duplicating copies the values, date, studies and
+ * implementation of an existing sample under a new code, but not its
+ * observation, which belongs to that sample.
  */
 export const NewSample = async ({
   projectId,

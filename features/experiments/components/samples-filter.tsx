@@ -14,11 +14,7 @@ type SamplesFilterProps = {
   query?: string;
 };
 
-/**
- * Search box and study chips above the sample table. It is a plain GET
- * form and plain links, so the chosen filter lives in the URL: it can be
- * bookmarked, shared and reloaded.
- */
+/** Search box and study chips above the sample table. */
 export const SamplesFilter = async ({
   experimentPath,
   studies,

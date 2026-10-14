@@ -13,7 +13,7 @@ import {
   calculateForSamples,
   summarizeExperiment
 } from '@/features/experiments/shared';
-import { Markdown } from '@/components/markdown';
+import { Markdown } from '@/components/markdown/markdown';
 import { SavedPlotsReport } from '@/features/plots';
 
 import { calculatedText, valueText } from '../formatting/format';
@@ -28,8 +28,7 @@ const unitSuffix = (unit: string | null) => (unit ? ` (${unit})` : '');
 /**
  * One page that says what an experiment is about instead of repeating its
  * table: what varied between samples and over what, what stayed the same, how
- * each result came out, the studies, the protocol and the saved plots. The
- * full table leaves the app as Excel, from the samples table.
+ * each result came out, the studies, the protocol and the saved plots.
  */
 export const ExperimentSummary = async ({
   projectId,

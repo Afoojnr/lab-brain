@@ -30,11 +30,7 @@ type PlotFiltersProps = {
   onChange: (filters: PlotFilter[]) => void;
 };
 
-/**
- * Rules that keep only some samples, such as "Cycles is 600". A column with a
- * few distinct values is filtered by ticking the values to keep; any other
- * number column by a minimum and a maximum. Filters combine with "and".
- */
+/** Rules that keep only some samples, such as "Cycles is 600". */
 export const PlotFilters = ({
   columns,
   rows,

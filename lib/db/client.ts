@@ -109,12 +109,9 @@ const getConnection = (): Promise<Database> => {
 };
 
 /**
- * The one database connection of this server, opened (and migrated) on first
- * use. If the configured database changed since (the demo switched on or off,
- * a new `LAB_BRAIN_DATABASE_URL`) or its file was removed, the old connection
- * is closed and the database is opened again (a removed file becomes a new,
- * empty one), so a running server never keeps using a stale file.
- * Inside `runInTransaction` it is the open transaction.
+ * The one database connection, opened and migrated on first use. It is opened
+ * again if the configured database changed or its file was removed, so a running
+ * server never keeps using a stale file.
  */
 export const getDb = (): Promise<Database> => {
   const transaction = transactionStore.getStore();
@@ -125,10 +122,7 @@ export const getDb = (): Promise<Database> => {
 /**
  * Runs several writes as one: either all of them are kept or, if any throws,
  * none. Every data function called inside `work` takes part, because `getDb()`
- * returns the transaction there. Nested calls join the outer transaction.
- *
- * @param work - The writes, as an async function.
- * @returns What `work` returned.
+ * returns the transaction there.
  */
 export const runInTransaction = async <Result>(
   work: () => Promise<Result>

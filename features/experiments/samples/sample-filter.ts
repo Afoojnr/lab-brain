@@ -7,15 +7,7 @@ export type SampleFilter = {
   query?: string;
 };
 
-/**
- * The samples an experiment page shows for its study tag and search box. The
- * search looks in the code, implementation, observation and note, so a
- * remembered reason ("after reactor service") finds its sample.
- *
- * @param samples - The experiment's samples.
- * @param filter - The chosen tag and search text; both optional.
- * @returns The matching samples in their original order.
- */
+/** The samples an experiment page shows for its study tag and search box. */
 export const filterSamples = (
   samples: Sample[],
   { studyId, query }: SampleFilter

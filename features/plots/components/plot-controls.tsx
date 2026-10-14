@@ -95,11 +95,7 @@ const ROLE_ORDER = {
   y: ['result', 'calculated', 'parameter']
 } as const;
 
-/**
- * What goes on each axis, the error bars, the grouping and the log axes. Only
- * columns of numbers are offered for the axes and the error bars; text columns,
- * number columns (one colour per value) and, for samples, the study for grouping.
- */
+/** What goes on each axis, the error bars, the grouping and the log axes. */
 export const PlotControls = ({
   columns,
   canGroupByStudy,

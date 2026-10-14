@@ -9,11 +9,7 @@ import type { Experiment } from '../types';
 const emptyToNull = (text: string): string | null =>
   text === '' ? null : text;
 
-/**
- * A project's experiments, oldest first, like the sheets of a workbook.
- *
- * @param projectId - Owning project's id.
- */
+/** A project's experiments, oldest first, like the sheets of a workbook. */
 export const listExperimentsByProject = async (
   projectId: string
 ): Promise<Experiment[]> => {
@@ -26,12 +22,7 @@ export const listExperimentsByProject = async (
     .orderBy(asc(experiments.createdAt), sql`rowid`);
 };
 
-/**
- * One experiment by id.
- *
- * @param id - Experiment id.
- * @returns The experiment, or undefined when no experiment has that id.
- */
+/** One experiment by id. */
 export const getExperimentById = async (
   id: string
 ): Promise<Experiment | undefined> => {
@@ -47,9 +38,6 @@ export const getExperimentById = async (
 /**
  * One experiment, only when it belongs to the given project, so a URL cannot
  * reach an experiment through the wrong project.
- *
- * @param projectId - The project the URL names.
- * @param experimentId - The experiment the URL names.
  */
 export const getExperimentInProject = async (
   projectId: string,
@@ -72,10 +60,6 @@ export const getExperimentInProject = async (
 /**
  * Stores a new experiment. Input must already be validated by
  * `experimentFormSchema`.
- *
- * @param projectId - Owning project's id.
- * @param values - Validated form values.
- * @returns The stored experiment.
  */
 export const createExperiment = async (
   projectId: string,
@@ -95,14 +79,7 @@ export const createExperiment = async (
   return experiment;
 };
 
-/**
- * Changes an experiment's name, code prefix and protocol. Its samples keep
- * their codes.
- *
- * @param id - The experiment to change.
- * @param values - Validated form values.
- * @returns The updated experiment, or undefined when no experiment has that id.
- */
+/** Changes an experiment's name, code prefix and protocol. */
 export const updateExperiment = async (
   id: string,
   values: ExperimentFormValues
@@ -124,9 +101,6 @@ export const updateExperiment = async (
 /**
  * Removes an experiment's own record. Everything that belongs to it is removed
  * by the caller first.
- *
- * @param id - The experiment to remove.
- * @returns Whether an experiment was removed.
  */
 export const deleteExperiment = async (id: string): Promise<boolean> => {
   const db = await getDb();

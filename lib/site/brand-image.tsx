@@ -5,8 +5,7 @@ import { en } from '@/messages/en';
 
 /**
  * The card shown when a link is shared: the mark, the name and what the app
- * does, on a dark blue. Built from code, so there is no picture to keep in step
- * with the product.
+ * does, on a dark blue.
  */
 export const previewImage = () =>
   new ImageResponse(
