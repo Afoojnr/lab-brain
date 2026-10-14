@@ -1,10 +1,22 @@
+import { getTranslations } from 'next-intl/server';
+
 import { ExperimentDetail, parseSectionTab } from '@/features/experiments';
+import { getExperimentInProject } from '@/features/experiments/server';
 import { SavedPlotCards } from '@/features/plots';
 import { listSavedPlots } from '@/features/plots/server';
 import { deleteExperimentAction } from '@/app/(workspace)/_actions/delete-records';
 
-// TODO: a descriptive tab title waits for the data layer (Step 6).
-export const metadata = { title: 'Experiment' };
+export const generateMetadata = async (
+  props: PageProps<'/projects/[projectId]/experiments/[experimentId]'>
+) => {
+  const { projectId, experimentId } = await props.params;
+  const [experiment, t] = await Promise.all([
+    getExperimentInProject(projectId, experimentId),
+    getTranslations('navigation')
+  ]);
+
+  return { title: experiment?.name ?? t('projects') };
+};
 
 const ExperimentPage = async (
   props: PageProps<'/projects/[projectId]/experiments/[experimentId]'>

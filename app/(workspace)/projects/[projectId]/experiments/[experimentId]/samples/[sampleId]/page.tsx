@@ -1,8 +1,23 @@
 import { deleteSampleAction } from '@/app/(workspace)/_actions/delete-records';
-import { SampleDetail } from '@/features/experiments';
+import { getTranslations } from 'next-intl/server';
 
-// TODO: show the sample's code in the tab title once the data layer allows it (Step 6).
-export const metadata = { title: 'Sample' };
+import { SampleDetail } from '@/features/experiments';
+import { getSampleById } from '@/features/experiments/server';
+
+export const generateMetadata = async (
+  props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]'>
+) => {
+  const { experimentId, sampleId } = await props.params;
+  const [sample, t] = await Promise.all([
+    getSampleById(sampleId),
+    getTranslations('samples.page')
+  ]);
+
+  return {
+    title:
+      sample?.experimentId === experimentId ? sample.code : t('fallbackTitle')
+  };
+};
 
 const SamplePage = async (
   props: PageProps<'/projects/[projectId]/experiments/[experimentId]/samples/[sampleId]'>

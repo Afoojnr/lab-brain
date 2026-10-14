@@ -44,7 +44,7 @@
     },
     "backups": {
       "title": "Sauvegardes",
-      "description": "Une copie de la base est enregistrée dans le dossier toutes les 10 minutes si quelque chose a changé. Les 30 dernières de chaque ordinateur sont gardées.",
+      "description": "Des copies de vos enregistrements, faites pour vous. Restaurez-en une si quelque chose tourne mal.",
       "never": "Aucune sauvegarde pour l'instant.",
       "last": "Dernière sauvegarde : {date}",
       "failed": "La dernière sauvegarde a échoué : {error}",

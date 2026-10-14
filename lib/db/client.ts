@@ -1,4 +1,5 @@
-import { mkdirSync } from 'node:fs';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { existsSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 
 import { createClient } from '@libsql/client';
@@ -7,7 +8,6 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';
 
 import { getDataDirectory, isDemoMode } from '@/lib/config/local-settings';
-import { copyDemoFiles } from '@/lib/storage/demo-files';
 
 import * as schema from './schema';
 import { startAutomaticBackups } from './backup';
@@ -19,6 +19,8 @@ type Connection = {
   url: string;
   client: Client;
   database: Promise<Database>;
+  /** Opened and migrated, so a missing file is a real loss, not a start-up. */
+  isReady: boolean;
 };
 
 /**
@@ -44,10 +46,11 @@ const open = async (url: string, client: Client): Promise<Database> => {
   // after the migrations: the migrator's transaction gives the client a fresh
   // connection, which would lose the setting.
   await client.execute('PRAGMA foreign_keys = ON');
-  if (process.env.LAB_BRAIN_SEED_DEMO === 'true' || isDemoMode()) {
+  // Tests and e2e start with the example data; the public demo does not (a
+  // visitor adds it with the button).
+  if (process.env.LAB_BRAIN_SEED_DEMO === 'true') {
     await seedDemoIfEmpty(database);
   }
-  if (isDemoMode()) await copyDemoFiles();
   if (url.startsWith('file:') && !isDemoMode()) startAutomaticBackups();
 
   return database;
@@ -60,7 +63,20 @@ const connect = (): Connection => {
   }
   const client = createClient({ url });
 
-  return { url, client, database: open(url, client) };
+  const connection: Connection = {
+    url,
+    client,
+    database: open(url, client),
+    isReady: false
+  };
+  connection.database.then(
+    () => {
+      connection.isReady = true;
+    },
+    () => undefined
+  );
+
+  return connection;
 };
 
 // On `globalThis` because a Route Handler (the assistant, the file route) is
@@ -68,15 +84,20 @@ const connect = (): Connection => {
 // a separate copy there (and a separate `:memory:` database in tests).
 const store = globalThis as { __labBrainConnection?: Connection };
 
-/**
- * The one database connection of this server, opened (and migrated) on first
- * use. If the configured database changed since (the demo switched on or off,
- * a new `LAB_BRAIN_DATABASE_URL`), the old connection is closed and the new
- * database is opened, so a running server never keeps using a stale file.
- */
-export const getDb = (): Promise<Database> => {
+// While `runInTransaction` runs, every `getDb()` call inside it (including the
+// ones made by the data functions) returns the open transaction.
+const transactionStore = new AsyncLocalStorage<Database>();
+
+/** A database file that was there when opened and has been removed since. */
+const isFileGone = (connection: Connection): boolean =>
+  connection.isReady &&
+  connection.url.startsWith('file:') &&
+  !connection.url.includes(':memory:') &&
+  !existsSync(connection.url.slice('file:'.length));
+
+const getConnection = (): Promise<Database> => {
   const current = store.__labBrainConnection;
-  if (current && current.url !== getDatabaseUrl()) {
+  if (current && (current.url !== getDatabaseUrl() || isFileGone(current))) {
     store.__labBrainConnection = undefined;
     current.database.then(
       () => current.client.close(),
@@ -85,6 +106,41 @@ export const getDb = (): Promise<Database> => {
   }
 
   return (store.__labBrainConnection ??= connect()).database;
+};
+
+/**
+ * The one database connection of this server, opened (and migrated) on first
+ * use. If the configured database changed since (the demo switched on or off,
+ * a new `LAB_BRAIN_DATABASE_URL`) or its file was removed, the old connection
+ * is closed and the database is opened again (a removed file becomes a new,
+ * empty one), so a running server never keeps using a stale file.
+ * Inside `runInTransaction` it is the open transaction.
+ */
+export const getDb = (): Promise<Database> => {
+  const transaction = transactionStore.getStore();
+
+  return transaction ? Promise.resolve(transaction) : getConnection();
+};
+
+/**
+ * Runs several writes as one: either all of them are kept or, if any throws,
+ * none. Every data function called inside `work` takes part, because `getDb()`
+ * returns the transaction there. Nested calls join the outer transaction.
+ *
+ * @param work - The writes, as an async function.
+ * @returns What `work` returned.
+ */
+export const runInTransaction = async <Result>(
+  work: () => Promise<Result>
+): Promise<Result> => {
+  if (transactionStore.getStore()) return work();
+
+  const database = await getConnection();
+
+  return database.transaction(async transaction =>
+    // A transaction offers the same queries as the database it came from.
+    transactionStore.run(transaction as unknown as Database, work)
+  );
 };
 
 /**

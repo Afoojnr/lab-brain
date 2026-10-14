@@ -66,11 +66,11 @@ server, kept on `globalThis` so Route Handlers share it). Migrations are in `dri
   last backup's status are per computer, in `data/settings.json` (`lib/config/`), not in
   the database. Backups are `VACUUM INTO` copies (`lib/db/backup.ts`) every 10 minutes
   while something changed, 30 kept per computer; `lib/db/restore.ts` restores one.
-- **Example data**: a normal install starts empty and shows no example data or button. Only
-  `LAB_BRAIN_DEMO=true` (the demo also gets an Add/Remove example data button) (the public demo, set on Vercel) seeds it
-  at start, with a temporary database and files in `/tmp`, a banner, and no Data folder.
-  `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and `playwright.config.ts`; never
-  document it for users or put it in `.env`.
+- **Example data**: a normal install starts empty and shows no example data or button.
+  `LAB_BRAIN_DEMO=true` (the public demo) also starts empty but shows an Add/Remove example
+  data button, uses a temporary database and files in `/tmp`, shows a banner, and has no
+  Data folder. `LAB_BRAIN_SEED_DEMO` is set only by `vitest.setup.ts` and
+  `playwright.config.ts`; never document it for users or put it in `.env`.
 
 ## Verification
 

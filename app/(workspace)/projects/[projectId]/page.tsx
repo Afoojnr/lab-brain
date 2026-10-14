@@ -1,12 +1,23 @@
+import { getTranslations } from 'next-intl/server';
+
 import { parseProjectTab, ProjectDetail } from '@/features/experiments';
+import { getProjectById } from '@/features/experiments/server';
 import { deleteProjectAction } from '@/app/(workspace)/_actions/delete-records';
 import { SummariseButton } from '@/features/assistant';
 import { ReferencesTab } from '@/features/references';
 import { listReferencesByProject } from '@/features/references/server';
 
-// TODO: show the project's name in the tab title. That needs a server-only
-// data read in this file, which waits for the data layer (Step 4).
-export const metadata = { title: 'Project' };
+export const generateMetadata = async (
+  props: PageProps<'/projects/[projectId]'>
+) => {
+  const { projectId } = await props.params;
+  const [project, t] = await Promise.all([
+    getProjectById(projectId),
+    getTranslations('home')
+  ]);
+
+  return { title: project?.name ?? t('title') };
+};
 
 const ProjectPage = async (props: PageProps<'/projects/[projectId]'>) => {
   const { projectId } = await props.params;
